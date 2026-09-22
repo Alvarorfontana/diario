@@ -1,0 +1,21 @@
+---
+interface Props {
+	date: Date;
+	format?: 'fecha' | 'hora' | 'corta';
+}
+
+const { date, format = 'fecha' } = Astro.props;
+
+const texto =
+	format === 'hora'
+		? new Intl.DateTimeFormat('es-ES', { hour: '2-digit', minute: '2-digit' }).format(date)
+		: format === 'corta'
+			? new Intl.DateTimeFormat('es-ES', { day: 'numeric', month: 'short' }).format(date)
+			: new Intl.DateTimeFormat('es-ES', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}).format(date);
+---
+
+<time datetime={date.toISOString()}>{texto}</time>

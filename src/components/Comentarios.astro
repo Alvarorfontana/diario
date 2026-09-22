@@ -1,0 +1,132 @@
+---
+interface Props {
+	identifier: string;
+	title: string;
+}
+
+const { identifier, title } = Astro.props;
+---
+
+<section class="mx-auto mt-16 max-w-3xl border-t border-neutral-200 pt-8">
+	<h2 class="font-serif text-2xl font-bold">Comentarios</h2>
+	<p class="mt-1 text-sm text-neutral-500">
+		Opiná sobre este artículo. Sé respetuoso.
+	</p>
+
+	<form id="comment-form" class="mt-6 space-y-3">
+		<input type="hidden" name="articleId" value={identifier} />
+		<div>
+			<input
+				type="text"
+				name="author"
+				required
+				placeholder="Tu nombre"
+				maxlength="50"
+				class="w-full rounded-sm border border-neutral-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+			/>
+		</div>
+		<div>
+			<textarea
+				name="text"
+				required
+				placeholder="Escribí tu comentario..."
+				rows={3}
+				maxlength="1000"
+				class="w-full rounded-sm border border-neutral-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-1 focus:ring-brand"
+			/>
+		</div>
+		<div class="flex items-center gap-3">
+			<button
+				type="submit"
+				id="comment-btn"
+				class="rounded-sm bg-brand px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
+			>
+				Publicar comentario
+			</button>
+			<span id="comment-status" class="text-sm hidden"></span>
+		</div>
+	</form>
+
+	<div id="comments-list" class="mt-8 space-y-4">
+		<p class="text-sm text-neutral-400">Cargando comentarios...</p>
+	</div>
+</section>
+
+<script is:inline define:vars={{ articleId: identifier }}>
+	async function loadComments() {
+		const el = document.getElementById('comments-list');
+		try {
+			const res = await fetch('/api/comments?articleId=' + encodeURIComponent(articleId));
+			const comments = await res.json();
+
+			if (!comments.length) {
+				el.innerHTML = '<p class="text-sm text-neutral-400">No hay comentarios todavía. ¡Sé el primero!</p>';
+				return;
+			}
+
+			el.innerHTML = comments.map(c => {
+				const d = new Date(c.date);
+				const fecha = d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+				const initials = c.author.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+				return `
+					<div class="flex gap-3 rounded-sm border border-neutral-100 bg-neutral-50 p-4">
+						<div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-xs font-bold text-neutral-600">
+							${initials}
+						</div>
+						<div class="min-w-0 flex-1">
+							<div class="flex items-baseline gap-2">
+								<span class="text-sm font-semibold text-neutral-900">${c.author}</span>
+								<span class="text-xs text-neutral-400">${fecha}</span>
+							</div>
+							<p class="mt-1 text-sm leading-relaxed text-neutral-700 whitespace-pre-line">${c.text}</p>
+						</div>
+					</div>
+				`;
+			}).join('');
+		} catch {
+			el.innerHTML = '<p class="text-sm text-neutral-400">No se pudieron cargar los comentarios.</p>';
+		}
+	}
+
+	document.getElementById('comment-form')?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const btn = document.getElementById('comment-btn');
+		const status = document.getElementById('comment-status');
+		const form = e.target;
+		const author = form.querySelector('input[name="author"]').value;
+		const text = form.querySelector('textarea[name="text"]').value;
+
+		btn.disabled = true;
+		btn.textContent = 'Enviando...';
+		status.className = 'text-sm hidden';
+
+		try {
+			const res = await fetch('/api/comments', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ articleId, author, text }),
+			});
+			const data = await res.json();
+
+			status.className = 'text-sm';
+			if (data.ok) {
+				status.textContent = '¡Comentario publicado!';
+				status.style.color = '#16a34a';
+				form.querySelector('textarea[name="text"]').value = '';
+				setTimeout(loadComments, 1000);
+			} else {
+				status.textContent = data.error || 'Error al publicar.';
+				status.style.color = '#dc2626';
+			}
+		} catch {
+			status.className = 'text-sm';
+			status.textContent = 'Error de conexión.';
+			status.style.color = '#dc2626';
+		}
+
+		btn.disabled = false;
+		btn.textContent = 'Publicar comentario';
+	});
+
+	loadComments();
+</script>

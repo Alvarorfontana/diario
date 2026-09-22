@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510">
+  <defs>
+    <linearGradient id="sala" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#312e81"/>
+      <stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <radialGradient id="foco" cx="0.5" cy="0" r="1">
+      <stop offset="0" stop-color="#fef9c3" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#fef9c3" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="atril" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#475569"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Fondo: sala de prensa -->
+  <rect width="1020" height="510" fill="url(#sala)"/>
+
+  <!-- Haces de luz -->
+  <ellipse cx="510" cy="40" rx="420" ry="330" fill="url(#foco)"/>
+  <ellipse cx="150" cy="30" rx="260" ry="300" fill="url(#foco)" opacity="0.6"/>
+  <ellipse cx="880" cy="30" rx="260" ry="300" fill="url(#foco)" opacity="0.6"/>
+
+  <!-- Pared con paneles -->
+  <g fill="#3730a3" opacity="0.5">
+    <rect x="40" y="60" width="180" height="240" rx="6"/>
+    <rect x="800" y="60" width="180" height="240" rx="6"/>
+  </g>
+
+  <!-- Atril -->
+  <path d="M450 250 h120 l14 130 h-148 z" fill="url(#atril)"/>
+  <rect x="444" y="242" width="132" height="16" rx="4" fill="#64748b"/>
+
+  <!-- Micrófonos del atril -->
+  <g stroke="#0f172a" stroke-width="5" stroke-linecap="round" fill="none">
+    <path d="M495 242 v-34 q0 -12 14 -14"/>
+    <path d="M525 242 v-34 q0 -12 -14 -14"/>
+  </g>
+  <circle cx="509" cy="192" r="7" fill="#0f172a"/>
+  <circle cx="511" cy="192" r="7" fill="#0f172a"/>
+
+  <!-- Bandera argentina -->
+  <g>
+    <line x1="330" y1="90" x2="330" y2="380" stroke="#94a3b8" stroke-width="6"/>
+    <path d="M333 96 q80 10 160 0 v100 q-80 12 -160 0 z" fill="#74acdf"/>
+    <rect x="333" y="126" width="160" height="42" fill="#ffffff"/>
+    <circle cx="413" cy="147" r="13" fill="#f6b40e"/>
+  </g>
+
+  <!-- Bandera genérica secundaria -->
+  <g>
+    <line x1="690" y1="110" x2="690" y2="380" stroke="#94a3b8" stroke-width="6"/>
+    <path d="M693 116 q80 10 160 0 v100 q-80 12 -160 0 z" fill="#dc2626"/>
+    <rect x="693" y="146" width="160" height="40" fill="#f8fafc" opacity="0.9"/>
+  </g>
+
+  <!-- Siluetas de periodistas -->
+  <g fill="#0f172a" opacity="0.85">
+    <circle cx="120" cy="430" r="26"/>
+    <path d="M70 510 q0 -55 50 -55 q50 0 50 55 z"/>
+    <circle cx="255" cy="445" r="22"/>
+    <path d="M215 510 q0 -48 40 -48 q40 0 40 48 z"/>
+    <circle cx="895" cy="435" r="25"/>
+    <path d="M850 510 q0 -52 45 -52 q45 0 45 52 z"/>
+    <circle cx="775" cy="450" r="20"/>
+    <path d="M738 510 q0 -45 37 -45 q37 0 37 45 z"/>
+  </g>
+
+  <!-- Cámaras -->
+  <g fill="#334155">
+    <rect x="205" y="400" width="46" height="28" rx="5"/>
+    <rect x="248" y="406" width="18" height="14" rx="3"/>
+  </g>
+
+  <!-- Suelo -->
+  <rect y="480" width="1020" height="30" fill="#000000" opacity="0.25"/>
+</svg>

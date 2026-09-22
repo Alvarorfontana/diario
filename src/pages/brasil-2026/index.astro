@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+const hitos = [
+	{ fecha: '4 de octubre de 2026', titulo: 'Primera vuelta', desc: 'Si un candidato supera el 50% de los votos válidos, gana en primera. Si no, habrá balotaje.' , hoy: false},
+	{ fecha: '25 de octubre de 2026', titulo: 'Segunda vuelta', desc: 'Se enfrentan los dos más votados de la primera vuelta. Gana quien obtenga más votos.', hoy: false },
+	{ fecha: '1 de enero de 2027', titulo: 'Asunción presidencial', desc: 'El presidente y vice electos toman posesión en Brasilia.', hoy: false },
+];
+---
+
+<BaseLayout title={`Brasil decide 2026 | ${SITE_TITLE}`} description="Cobertura especial: elecciones en Brasil 2026, resultados en vivo y minuto a minuto.">
+	<div class="mx-auto max-w-3xl">
+		<p class="um-banner mt-4"><span class="um-luz"></span>Cobertura especial</p>
+		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+			Brasil decide 2026
+		</h1>
+		<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">
+			La primera economía de Sudamérica elige presidente en medio de la discusión por el medioambiente, la economía y el rol de Brasil en el mundo. Seguí el proceso con enviados, datos y resultados en vivo.
+		</p>
+
+		<div class="mt-8 grid gap-4 sm:grid-cols-3">
+			<a href="/brasil-2026/resultados/" class="group border border-neutral-300 p-6 transition-colors hover:border-brand">
+				<p class="text-[11px] font-bold tracking-[0.2em] text-brand uppercase">Resultados en vivo</p>
+				<p class="mt-2 font-serif text-2xl font-extrabold group-hover:text-brand">Escrutinio minuto a minuto →</p>
+				<p class="mt-2 text-sm text-neutral-500">Datos oficiales del TSE, actualizados automáticamente.</p>
+			</a>
+			<a href="/brasil-2026/minuto-a-minuto/" class="group border border-neutral-300 p-6 transition-colors hover:border-brand">
+				<p class="text-[11px] font-bold tracking-[0.2em] text-brand uppercase">Minuto a minuto</p>
+				<p class="mt-2 font-serif text-2xl font-extrabold group-hover:text-brand">La jornada en vivo →</p>
+				<p class="mt-2 text-sm text-neutral-500">Cronología completa de la jornada electoral, actualización automática.</p>
+			</a>
+			<a href="/brasil-2026/candidatos/" class="group border border-neutral-300 p-6 transition-colors hover:border-brand">
+				<p class="text-[11px] font-bold tracking-[0.2em] text-brand uppercase">Quiénes compiten</p>
+				<p class="mt-2 font-serif text-2xl font-extrabold group-hover:text-brand">Los candidatos →</p>
+				<p class="mt-2 text-sm text-neutral-500">Perfiles, alianzas y propuestas principales.</p>
+			</a>
+		</div>
+
+		<h2 class="mt-12 border-t-2 border-neutral-900 pt-6 font-serif text-2xl font-extrabold">Cómo funciona el proceso</h2>
+		<div class="mt-2 ml-1.5 border-l-[3px] border-neutral-900">
+			{hitos.map((h) => (
+				<div class="relative py-5 pl-6">
+					<span class="absolute top-7 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px] border-neutral-900 bg-[#f6efdf]"></span>
+					<p class="text-xs font-bold tracking-[0.15em] text-brand uppercase">{h.fecha}</p>
+					<p class="mt-1 font-serif text-xl font-extrabold">{h.titulo}</p>
+					<p class="mt-1 text-sm leading-relaxed text-neutral-600">{h.desc}</p>
+				</div>
+			))}
+		</div>
+
+		<div class="mt-10 border border-neutral-300 bg-neutral-50 p-6">
+			<p class="font-serif text-lg font-extrabold">¿Por qué importa para Argentina?</p>
+			<p class="mt-2 text-sm leading-relaxed text-neutral-600">
+				Brasil es el principal socio comercial de Argentina: el comercio bilateral supera los US$ 30.000 millones anuales. El resultado define el futuro del Mercosur, las negociaciones con la UE y la relación bilateral en energía y infraestructura.
+			</p>
+		</div>
+	</div>
+</BaseLayout>

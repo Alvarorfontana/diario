@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<BaseLayout title={`Búsqueda | ${SITE_TITLE}`} description="Busca noticias en el archivo del diario.">
+	<h1 class="font-serif text-3xl font-bold sm:text-4xl">Búsqueda</h1>
+	<div class="mt-6">
+		<input
+			id="q"
+			type="search"
+			placeholder="Buscar noticias..."
+			autocomplete="off"
+			class="w-full rounded-sm border border-neutral-300 px-4 py-3 text-base focus:border-brand focus:outline-none"
+		/>
+	</div>
+	<p id="estado" class="mt-4 text-sm text-neutral-500"></p>
+	<div id="resultados" class="mt-4 divide-y divide-neutral-200"></div>
+</BaseLayout>
+
+<script>
+	const $input = document.getElementById('q') as HTMLInputElement;
+	const $estado = document.getElementById('estado') as HTMLParagraphElement;
+	const $resultados = document.getElementById('resultados') as HTMLDivElement;
+
+	const URL_PAGEFIND = '/pagefind/pagefind.js';
+	let pagefind: any = null;
+	let temporizador: ReturnType<typeof setTimeout> | undefined;
+
+	async function cargarPagefind() {
+		if (!pagefind) {
+			pagefind = await import(/* @vite-ignore */ URL_PAGEFIND);
+		}
+		return pagefind;
+	}
+
+	function escapar(texto: string): string {
+		const div = document.createElement('div');
+		div.textContent = texto;
+		return div.innerHTML;
+	}
+
+	async function buscar() {
+		const consulta = $input.value.trim();
+
+		if (consulta.length < 2) {
+			$resultados.innerHTML = '';
+			$estado.textContent = '';
+			return;
+		}
+
+		try {
+			const pf = await cargarPagefind();
+			const busqueda = await pf.search(consulta);
+			const datos = await Promise.all(
+				busqueda.results.slice(0, 20).map((r: any) => r.data())
+			);
+
+			if (datos.length === 0) {
+				$resultados.innerHTML = '';
+				$estado.textContent = `Sin resultados para «${consulta}».`;
+				return;
+			}
+
+			$estado.textContent = `${busqueda.results.length} resultado(s) para «${consulta}»`;
+			$resultados.innerHTML = datos
+				.map(
+					(d: any) => `
+					<article class="py-5">
+						<a href="${d.url}" class="group block">
+							<h2 class="font-serif text-xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">${escapar(d.title)}</h2>
+							<p class="mt-1 text-sm leading-relaxed text-neutral-600">${d.excerpt}</p>
+						</a>
+					</article>`
+				)
+				.join('');
+		} catch {
+			$estado.textContent =
+				'El buscador no está disponible en este momento (se genera al publicar el sitio).';
+		}
+	}
+
+	$input.addEventListener('input', () => {
+		clearTimeout(temporizador);
+		temporizador = setTimeout(buscar, 250);
+	});
+</script>

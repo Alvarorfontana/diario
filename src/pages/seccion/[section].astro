@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SECCIONES, SITE_TITLE } from '../../consts';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	return SECCIONES.map((seccion) => ({
+		params: { section: seccion.id },
+		props: { nombre: seccion.nombre },
+	}));
+}
+
+interface Props {
+	nombre: string;
+}
+
+const { nombre } = Astro.props;
+const { section } = Astro.params;
+
+const articulos: CollectionEntry<'articulos'>[] = (
+	await getCollection('articulos', (articulo) => articulo.data.section === section)
+).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const [primero, ...resto] = articulos;
+---
+
+<BaseLayout title={`${nombre} | ${SITE_TITLE}`} description={`Todas las noticias de ${nombre} en ${SITE_TITLE}.`} image={primero?.data.heroImage}>
+	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
+		{nombre}
+	</h1>
+
+	{
+		articulos.length === 0 ? (
+			<p class="py-12 text-center text-neutral-500">Todavía no hay noticias en esta sección.</p>
+		) : (
+			<>
+				{primero && (
+					<div class="mx-auto max-w-3xl py-10">
+						<ArticleCard article={primero} variant="lead" />
+					</div>
+				)}
+				{resto.length > 0 && (
+					<div class="divide-y divide-neutral-200 border-t border-neutral-200">
+						{resto.map((articulo) => (
+							<article class="grid gap-4 py-8 sm:grid-cols-[auto_1fr] sm:items-start">
+							{articulo.data.heroImage && (
+								<a href={`/articulo/${articulo.id}/`} class="sm:w-48 shrink-0">
+									<img
+										src={typeof articulo.data.heroImage === 'string' ? articulo.data.heroImage : articulo.data.heroImage.src}
+										alt=""
+										width={192}
+										height={108}
+										class="aspect-video w-full object-cover"
+									/>
+								</a>
+							)}
+								<div>
+									<a href={`/articulo/${articulo.id}/`} class="group block">
+										<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
+											{articulo.data.title}
+										</h2>
+										<p class="mt-2 text-sm leading-relaxed text-neutral-600">
+											{articulo.data.description}
+										</p>
+										<p class="mt-2 text-xs text-neutral-400">
+											<FormattedDate date={articulo.data.pubDate} /> · {articulo.data.author}
+										</p>
+									</a>
+								</div>
+							</article>
+						))}
+					</div>
+				)}
+			</>
+		)
+	}
+</BaseLayout>

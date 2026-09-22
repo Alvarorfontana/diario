@@ -1,0 +1,41 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import AdBanner from '../components/AdBanner.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+	title: string;
+	description: string;
+	image?: ImageMetadata | string;
+	publishedTime?: Date;
+	author?: string;
+	section?: string;
+}
+
+const { title, description, image, publishedTime, author, section } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead
+			title={title}
+			description={description}
+			image={image}
+			publishedTime={publishedTime}
+			author={author}
+			section={section}
+		/>
+	</head>
+	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased" style="background-color:#e3d3b3;">
+		<Header />
+		<AdBanner position="header" maxAds={1} />
+		<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8" style="background-color:#f6efdf; box-shadow:0 0 44px rgba(90,70,35,0.16);">
+			<slot />
+		</main>
+		<AdBanner position="footer" maxAds={2} />
+		<Footer />
+	</body>
+</html>

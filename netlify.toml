@@ -1,0 +1,9 @@
+[build]
+  command = "npx astro build --config astro.config.netlify.mjs"
+  publish = "dist/client"
+  functions = "dist/server"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200

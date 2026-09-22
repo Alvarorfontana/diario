@@ -1,0 +1,35 @@
+{
+  "name": "default-project",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "postbuild": "node -e \"const fs=require('fs'); const path=require('path'); const site=path.join('dist','client'); if (!fs.existsSync(site)) { console.log('Pagefind skipped: no dist/client folder found for this SSR build.'); process.exit(0); } const html = fs.existsSync(path.join(site,'index.html')) || fs.readdirSync(site).some((entry) => entry.endsWith('.html')); if (!html) { console.log('Pagefind skipped: no static HTML files were generated for this SSR build.'); process.exit(0); } require('child_process').execSync('npx pagefind --site dist/client', { stdio: 'inherit' });\"",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.7",
+    "@astrojs/react": "^6.0.4",
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/vercel": "^11.0.8",
+    "@keystatic/astro": "^6.0.0",
+    "@keystatic/core": "^0.6.8",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.4",
+    "resend": "^6.24.0",
+    "sharp": "^0.35.0",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/cloudflare": "^14.2.5",
+    "@astrojs/netlify": "^8.2.4",
+    "pagefind": "^1.5.2",
+    "wrangler": "^4.127.1"
+  }
+}

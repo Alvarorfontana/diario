@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Minuto a minuto · Brasil 2026 | ${SITE_TITLE}`} description="Cobertura minuto a minuto del proceso electoral brasileño 2026.">
+	<article class="mx-auto max-w-3xl">
+		<p class="um-banner mt-4"><span class="um-luz"></span>Brasil 2026 · Cobertura en vivo</p>
+		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+			Proceso electoral de Brasil, minuto a minuto
+		</h1>
+		<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">
+			Toda la jornada con enviados en Brasil: apertura de urnas, cortes del TSE, reacciones de los candidatos y análisis en tiempo real.
+		</p>
+
+		<div class="mt-6 grid grid-cols-2 gap-4 border-y-2 border-neutral-900 py-5" id="stats">
+			<div class="text-center">
+				<span class="block font-serif text-2xl font-black" id="urnas">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">urnas escrutadas</span>
+			</div>
+			<div class="text-center">
+				<span class="block font-serif text-2xl font-black" id="participacion">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">participación</span>
+			</div>
+		</div>
+
+		<div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+			<button class="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-xs font-bold text-white" onclick="cargar()">
+				<span class="luz-parpadeante inline-block h-2 w-2 rounded-full bg-white"></span>
+				Actualizar ahora
+			</button>
+			<span class="text-xs text-neutral-500">Se actualiza solo cada 60 segundos</span>
+		</div>
+
+		<div id="timeline" class="mt-4 ml-1.5 border-l-[3px] border-neutral-900"></div>
+
+		<div class="mt-8 border border-neutral-300 bg-neutral-50 p-5 text-sm text-neutral-600">
+			<strong>Cobertura de EL DIARIO.</strong> Datos del escrutinio provisorio del Tribunal Superior Electoral de Brasil (TSE).
+		</div>
+	</article>
+</BaseLayout>
+
+<script>
+	async function cargar() {
+		try {
+			const r = await fetch('/api/brasil2026', { cache: 'no-store' });
+			const d = await r.json();
+			document.getElementById('urnas').textContent = d.urnas;
+			document.getElementById('participacion').textContent = d.participacion;
+
+			document.getElementById('timeline').innerHTML = d.posts.map((p) => `
+				<div class="relative grid grid-cols-[56px_1fr] gap-x-4 border-b border-neutral-200 py-5 pl-5">
+					<span class="absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px] ${p.clave ? 'border-brand bg-brand' : 'border-neutral-900 bg-[#f6efdf]'}"></span>
+					<span class="font-serif text-lg font-black">${p.hora}</span>
+					<div>
+						${p.clave ? '<span class="mb-2 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider uppercase text-brand">Evento clave</span>' : ''}
+						<p class="text-[15px] leading-relaxed text-neutral-800">${p.texto}</p>
+						<p class="mt-2 text-xs font-semibold text-neutral-500">${p.autor} <span class="font-normal text-neutral-400">· ${p.lugar}</span></p>
+					</div>
+				</div>
+			`).join('');
+		} catch (e) { console.error(e); }
+	}
+	cargar();
+	setInterval(cargar, 60000);
+</script>

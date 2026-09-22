@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510">
+  <defs>
+    <linearGradient id="azul" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#00267e"/>
+      <stop offset="1" stop-color="#001a5c"/>
+    </linearGradient>
+    <linearGradient id="mesa" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2e8f0"/>
+      <stop offset="1" stop-color="#94a3b8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1020" height="510" fill="url(#azul)"/>
+
+  <!-- Estrella base (se rota 12 veces alrededor del centro del círculo) -->
+  <defs>
+    <path id="estrella" d="M0,-22 L5.3,-7.3 L20.9,-6.8 L8.6,2.8 L12.9,17.8 L0,9 L-12.9,17.8 L-8.6,2.8 L-20.9,-6.8 L-5.3,-7.3 Z" fill="#ffcc00"/>
+  </defs>
+  <g transform="translate(510,175)">
+    <use href="#estrella" transform="rotate(0) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(30) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(60) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(90) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(120) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(150) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(180) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(210) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(240) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(270) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(300) translate(0,-95)"/>
+    <use href="#estrella" transform="rotate(330) translate(0,-95)"/>
+  </g>
+
+  <!-- Mesa de cumbre -->
+  <path d="M210 400 q300 -90 600 0 l0 40 q-300 -80 -600 0 z" fill="url(#mesa)"/>
+
+  <!-- Placas de nombre -->
+  <g fill="#1e3a8a" opacity="0.85">
+    <rect x="300" y="382" width="64" height="14" rx="3" transform="rotate(-8 332 389)"/>
+    <rect x="420" y="368" width="64" height="14" rx="3" transform="rotate(-4 452 375)"/>
+    <rect x="545" y="364" width="64" height="14" rx="3" transform="rotate(3 577 371)"/>
+    <rect x="665" y="376" width="64" height="14" rx="3" transform="rotate(8 697 383)"/>
+  </g>
+
+  <!-- Micrófonos sobre la mesa -->
+  <g stroke="#0f172a" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M370 372 v-26 q0 -10 10 -12"/>
+    <path d="M505 360 v-26 q0 -10 10 -12"/>
+    <path d="M640 368 v-26 q0 -10 10 -12"/>
+  </g>
+
+  <!-- Reflejo inferior -->
+  <rect y="452" width="1020" height="58" fill="#000000" opacity="0.18"/>
+</svg>

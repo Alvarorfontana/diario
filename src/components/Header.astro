@@ -1,0 +1,84 @@
+---
+import { SITE_TITLE, SECCIONES } from '../consts';
+import FormattedDate from './FormattedDate.astro';
+import SocialIcons from './SocialIcons.astro';
+
+const hoy = new Date();
+const { pathname } = Astro.url;
+const esPortada = pathname === '/';
+---
+
+<header class="border-b border-neutral-200 bg-white">
+	<!-- Barra superior -->
+	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 text-xs text-neutral-500 sm:text-sm">
+		<span class="min-w-0 flex-1 truncate capitalize"><FormattedDate date={hoy} /></span>
+		<div class="flex flex-shrink-0 items-center gap-4 sm:gap-5">
+			<a href="/buscar/" class="flex items-center gap-1 transition-colors hover:text-brand" title="Buscar">
+				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+					<path
+						fill="currentColor"
+						d="M23.809 21.646l-6.205-6.205a9.449 9.449 0 001.729-5.452C19.333 4.473 14.86 0 9.333 0S-.667 4.473-.667 9.989c0 5.516 4.473 9.989 10 9.989 2.061 0 3.976-.625 5.565-1.696l6.205 6.205a1.5 1.5 0 102.121-2.121zM9.333 16.978a6.995 6.995 0 01-7-6.989c0-3.859 3.141-6.998 7-6.998s7 3.139 7 6.998a7 7 0 01-7 6.989z"
+					/>
+				</svg>
+				<span class="hidden sm:inline">Buscar</span>
+			</a>
+			<SocialIcons />
+			<a href="/about/" class="hidden transition-colors hover:text-brand sm:inline">Acerca de</a>
+			<a href="/admin/" class="inline-flex items-center rounded-full border border-neutral-900 bg-neutral-900 px-2.5 py-1 text-[10px] font-bold tracking-[0.2em] text-white uppercase transition-colors hover:bg-brand hover:text-neutral-900">Admin</a>
+			<a
+				href="#"
+				class="rounded-sm bg-brand px-3 py-1.5 font-medium text-white transition-colors hover:bg-brand-dark"
+			>
+				Suscríbete
+			</a>
+		</div>
+	</div>
+
+	<!-- Masthead -->
+	<div class="py-4 text-center sm:py-6">
+		<a href="/" class="font-serif text-4xl font-bold tracking-tight text-neutral-900 sm:text-7xl">
+			{SITE_TITLE}<span class="text-brand">.</span>
+		</a>
+	</div>
+
+	<!-- Navegación por secciones -->
+	<nav class="border-t border-neutral-200 bg-white">
+		<ul
+			class="no-scrollbar mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 text-[13px] font-medium uppercase tracking-wide whitespace-nowrap sm:justify-center"
+		>
+			<li>
+				<a
+					href="/"
+					class={`block px-3 py-3 transition-colors hover:text-brand ${esPortada ? 'text-brand' : 'text-neutral-800'}`}
+					aria-current={esPortada ? 'page' : undefined}
+				>
+					Portada
+				</a>
+			</li>
+			{
+				SECCIONES.map((seccion) => {
+					const activa = pathname.startsWith(`/seccion/${seccion.id}`);
+					return (
+						<li>
+							<a
+								href={`/seccion/${seccion.id}/`}
+								class={`block px-3 py-3 transition-colors hover:text-brand ${activa ? 'text-brand' : 'text-neutral-800'}`}
+								aria-current={activa ? 'page' : undefined}
+							>
+								{seccion.nombre}
+							</a>
+						</li>
+					);
+				})
+			}
+			<li>
+				<a
+					href="/brasil-2026/"
+					class={`block px-3 py-3 font-bold text-brand transition-colors hover:text-neutral-900 ${pathname.startsWith('/brasil-2026') ? 'underline underline-offset-4' : ''}`}
+				>
+					Brasil 2026
+				</a>
+			</li>
+		</ul>
+	</nav>
+</header>

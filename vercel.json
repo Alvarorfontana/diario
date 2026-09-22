@@ -1,0 +1,14 @@
+{
+	"redirects": [
+		{
+			"source": "/articulo/srt-unidades-productivas-sin-afectacion",
+			"destination": "/articulo/informe-srt-mayo-2026/",
+			"permanent": false
+		},
+		{
+			"source": "/articulo/srt-unidades-productivas-sin-afectacion/",
+			"destination": "/articulo/informe-srt-mayo-2026/",
+			"permanent": false
+		}
+	]
+}

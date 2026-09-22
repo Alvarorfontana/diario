@@ -1,0 +1,152 @@
+---
+import { type CollectionEntry, getCollection, getEntry, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Comentarios from '../../components/Comentarios.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import AdBanner from '../../components/AdBanner.astro';
+import { nombreSeccion, SITE_TITLE, slugify } from '../../consts';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const articulos = await getCollection('articulos');
+	return articulos.map((articulo) => ({
+		params: { slug: articulo.id },
+		props: articulo,
+	}));
+}
+
+type Props = CollectionEntry<'articulos'>;
+
+const articulo = Astro.props?.data
+	? Astro.props
+	: await getEntry('articulos', Astro.params.slug ?? '');
+if (!articulo) {
+	return Astro.redirect('/404');
+}
+const {
+	title,
+	volanta,
+	description,
+	section,
+	author,
+	pubDate,
+	updatedDate,
+	heroImage,
+	imageCaption,
+	tags,
+} = articulo.data;
+const { Content } = await render(articulo);
+
+// Artículos relacionados de la misma sección (máximo 3)
+const relacionados = (
+	await getCollection(
+		'articulos',
+		(a) => a.data.section === section && a.id !== articulo.id
+	)
+)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
+---
+
+<BaseLayout
+	title={`${title} | ${SITE_TITLE}`}
+	description={description}
+	image={heroImage}
+	publishedTime={pubDate}
+	author={author}
+	section={nombreSeccion(section)}
+>
+	<article class="mx-auto max-w-3xl" data-pagefind-body>
+		<header>
+			<p class="text-xs font-semibold tracking-widest text-brand uppercase" data-pagefind-filter="Sección">
+				{nombreSeccion(section)}
+			</p>
+			{
+				volanta && (
+					<p class="mt-3 text-sm font-bold tracking-wide text-neutral-800 uppercase">{volanta}</p>
+				)
+			}
+			<h1 class="mt-2 font-serif text-3xl leading-tight font-bold sm:text-5xl">
+				{title}
+			</h1>
+			<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">{description}</p>
+			<div class="mt-6 flex items-center gap-3 border-y border-neutral-200 py-4">
+				<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-sm font-bold text-white">
+					{author.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
+				</div>
+				<div>
+					<p class="text-sm font-semibold text-neutral-900">{author}</p>
+					<p class="text-xs text-neutral-500">
+						<FormattedDate date={pubDate} />
+						{updatedDate && updatedDate.valueOf() !== pubDate.valueOf() && (
+							<span class="italic"> · Actualizado: <FormattedDate date={updatedDate} /></span>
+						)}
+					</p>
+				</div>
+				<div class="ml-auto">
+					<ShareButtons url={Astro.url.href} title={title} />
+				</div>
+			</div>
+			{
+				tags && tags.length > 0 && (
+					<div class="mt-4 flex flex-wrap gap-2">
+						{tags.map((etiqueta) => (
+							<a
+								href={`/tag/${slugify(etiqueta)}/`}
+								class="rounded-full border border-neutral-300 px-3 py-1 text-xs text-neutral-600 transition-colors hover:border-brand hover:text-brand"
+							>
+								#{etiqueta}
+							</a>
+						))}
+					</div>
+				)
+			}
+		</header>
+
+		{
+			heroImage && (
+				<figure class="mt-8 overflow-hidden rounded-lg">
+					{typeof heroImage === 'string' ? (
+						<img src={heroImage} alt={title} class="w-full h-auto object-cover object-center" loading="eager" />
+					) : (
+						<Image src={heroImage} alt={title} width={1020} height={510} class="w-full h-auto object-cover object-center" loading="eager" />
+					)}
+					{imageCaption && (
+						<figcaption class="mt-2 border-l-2 border-neutral-200 pl-3 text-xs leading-relaxed text-neutral-500">
+							{imageCaption}
+						</figcaption>
+					)}
+				</figure>
+			)
+		}
+
+		<div class="prose-articulo mt-10">
+			<Content />
+		</div>
+	</article>
+
+	<AdBanner position="in-article" maxAds={1} />
+
+	<Comentarios
+		identifier={articulo.id}
+		url={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()}
+		title={title}
+	/>
+
+	{
+		relacionados.length > 0 && (
+			<section class="mx-auto mt-16 max-w-6xl border-t border-neutral-200 pt-8">
+				<h2 class="font-serif text-2xl font-bold">Más en {nombreSeccion(section)}</h2>
+				<div class="mt-6 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+					{relacionados.map((relacionado) => (
+						<ArticleCard article={relacionado} />
+					))}
+				</div>
+			</section>
+		)
+	}
+</BaseLayout>

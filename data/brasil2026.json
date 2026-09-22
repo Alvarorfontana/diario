@@ -1,0 +1,59 @@
+{
+  "updatedAt": "2026-10-04T22:41:00-03:00",
+  "estado": "escrutinio_en_curso",
+  "urnas": "91,4%",
+  "participacion": "79,2%",
+  "candidatos": [
+    {
+      "nombre": "Candidato 1",
+      "partido": "Partido A",
+      "pct": 46.8,
+      "votos": "52.310.482",
+      "color": "#c4122e"
+    },
+    {
+      "nombre": "Candidato 2",
+      "partido": "Partido B",
+      "pct": 41.2,
+      "votos": "46.040.115",
+      "color": "#1a4a9b"
+    },
+    {
+      "nombre": "Candidato 3",
+      "partido": "Partido C",
+      "pct": 5.1,
+      "votos": "5.702.220",
+      "color": "#2e7d4f"
+    },
+    {
+      "nombre": "Otros",
+      "partido": "—",
+      "pct": 6.9,
+      "votos": "7.711.930",
+      "color": "#8d8172"
+    }
+  ],
+  "posts": [
+    {
+      "hora": "22:41",
+      "clave": true,
+      "autor": "Redacción",
+      "lugar": "São Paulo",
+      "texto": "Con 91% de urnas, la diferencia se mantiene en 5,6 puntos. El TSE confirma que los resultados se conocerán en la madrugada."
+    },
+    {
+      "hora": "22:03",
+      "clave": false,
+      "autor": "Redacción",
+      "lugar": "Brasilia",
+      "texto": "El Tribunal Superior Electoral descartó incidentes graves y celebró la participación récord desde 2002."
+    },
+    {
+      "hora": "21:15",
+      "clave": false,
+      "autor": "Redacción",
+      "lugar": "Río de Janeiro",
+      "texto": "Cerraron las urnas en todo el país (las últimas, en el oeste de Acre, a las 21:00 hora local). Arranca el conteo."
+    }
+  ]
+}

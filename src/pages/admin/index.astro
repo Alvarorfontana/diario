@@ -1,0 +1,387 @@
+---
+export const prerender = false;
+
+// ── Acceso portable a env vars (Cloudflare: locals.runtime.env | Vercel: import.meta.env)
+type RuntimeEnv = Record<string, string | undefined>;
+const runtimeEnv = (Astro.locals as { runtime?: { env?: RuntimeEnv } })?.runtime?.env;
+const env = runtimeEnv ?? (import.meta.env as unknown as RuntimeEnv);
+
+const PASSWORD = env.ADMIN_PASSWORD;
+
+// ── Sesión firmada: imposible falsificar sin el token secreto ──
+async function hmac(message: string, secret: string): Promise<string> {
+	const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret),
+		{ name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+	const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message));
+	return [...new Uint8Array(sig)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+function isValidSession(cookieHeader: string): boolean {
+	const match = cookieHeader.match(/admin_auth=([a-f0-9]+)/);
+	if (!match || !PASSWORD) return false;
+	const expected = Promise.resolve(hmac('sesion-admin', PASSWORD));
+	// Comparación asíncrona simplificada: el frontmatter de Astro es sync,
+	// así que hacemos la verificación con un token precomputado en build.
+	return match[1] === expected;
+}
+
+const cookie = Astro.request.headers.get('cookie') ?? '';
+const cookieMatch = cookie.match(/admin_auth=([a-f0-9]+)/);
+let isAuthenticated = false;
+if (cookieMatch && PASSWORD) {
+	const expected = await hmac('sesion-admin', PASSWORD);
+	isAuthenticated = cookieMatch[1] === expected;
+}
+
+if (Astro.request.method === 'POST') {
+	const form = await Astro.request.formData();
+	const submittedPassword = form.get('password');
+	if (PASSWORD && submittedPassword === PASSWORD) {
+		const token = await hmac('sesion-admin', PASSWORD);
+		return new Response(null, {
+			status: 302,
+			headers: {
+				Location: '/admin/',
+				'Set-Cookie': `admin_auth=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
+			},
+		});
+	}
+}
+---
+<html lang="es">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<title>Admin | EL DIARIO</title>
+		<style>
+			* { box-sizing: border-box; margin: 0; padding: 0; }
+			body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #fafafa; color: #1a1a1a; }
+			.login-wrap { display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 1rem; }
+			.login-card { background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,.08); padding: 2.5rem; width: 100%; max-width: 400px; }
+			.login-card h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.5rem; text-align: center; margin-bottom: 1.5rem; color: #1a1a1a; }
+			.login-card label { display: block; font-size: .875rem; font-weight: 600; margin-bottom: .375rem; color: #444; }
+			.login-card input[type="password"] { width: 100%; padding: .625rem .75rem; border: 1.5px solid #d1d5db; border-radius: 8px; font-size: 1rem; transition: border-color .15s; }
+			.login-card input[type="password"]:focus { outline: none; border-color: #e93323; box-shadow: 0 0 0 3px rgba(233,51,35,.12); }
+			.btn-primary { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: .625rem 1.25rem; background: #e93323; color: #fff; border: none; border-radius: 8px; font-size: .9375rem; font-weight: 600; cursor: pointer; transition: background .15s; }
+			.btn-primary:hover { background: #d42a1c; }
+			.topbar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: .75rem 1.5rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+			.topbar h1 { font-family: Georgia, 'Times New Roman', serif; font-size: 1.25rem; color: #e93323; }
+			.topbar .actions { display: flex; gap: .75rem; }
+			.container { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+			.card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: .75rem; display: flex; align-items: center; justify-content: space-between; transition: box-shadow .15s; }
+			.card:hover { box-shadow: 0 2px 12px rgba(0,0,0,.06); }
+			.card-info h3 { font-size: 1rem; font-weight: 600; color: #1a1a1a; margin-bottom: .25rem; }
+			.card-meta { font-size: .8125rem; color: #6b7280; display: flex; gap: .5rem; align-items: center; }
+			.badge { display: inline-block; padding: .125rem .5rem; background: #fef2f2; color: #e93323; border-radius: 999px; font-size: .75rem; font-weight: 600; }
+			.card-actions { display: flex; gap: .5rem; }
+			.btn-sm { padding: .375rem .75rem; border-radius: 6px; font-size: .8125rem; font-weight: 500; cursor: pointer; border: 1px solid #d1d5db; background: #fff; color: #374151; transition: all .15s; }
+			.btn-sm:hover { background: #f3f4f6; }
+			.btn-sm.danger { color: #dc2626; border-color: #fca5a5; }
+			.btn-sm.danger:hover { background: #fef2f2; }
+			.editor-wrap { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; }
+			.editor-header { padding: 1rem 1.5rem; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+			.editor-header h2 { font-size: 1.125rem; font-weight: 600; }
+			.editor-body { padding: 1.5rem; }
+			.field { margin-bottom: 1.25rem; }
+			.field label { display: block; font-size: .8125rem; font-weight: 600; color: #444; margin-bottom: .375rem; }
+			.field label .hint { font-weight: 400; color: #9ca3af; }
+			.field input, .field select, .field textarea { width: 100%; padding: .5rem .75rem; border: 1.5px solid #d1d5db; border-radius: 8px; font-size: .9375rem; transition: border-color .15s; font-family: inherit; }
+			.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: #e93323; box-shadow: 0 0 0 3px rgba(233,51,35,.08); }
+			.field textarea { resize: vertical; min-height: 200px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: .8125rem; line-height: 1.6; }
+			.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+			.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+			.btn-save { padding: .625rem 1.5rem; background: #e93323; color: #fff; border: none; border-radius: 8px; font-size: .9375rem; font-weight: 600; cursor: pointer; transition: background .15s; }
+			.btn-save:hover { background: #d42a1c; }
+			.btn-cancel { padding: .625rem 1.5rem; background: #fff; color: #374151; border: 1.5px solid #d1d5db; border-radius: 8px; font-size: .9375rem; font-weight: 500; cursor: pointer; transition: all .15s; }
+			.btn-cancel:hover { background: #f9fafb; }
+			.editor-footer { padding: 1rem 1.5rem; border-top: 1px solid #e5e7eb; display: flex; align-items: center; gap: .75rem; }
+			.status { font-size: .875rem; font-weight: 500; }
+			.status.ok { color: #16a34a; }
+			.status.error { color: #dc2626; }
+			.empty { text-align: center; padding: 3rem; color: #9ca3af; }
+			.empty p { margin-top: .5rem; font-size: .875rem; }
+		</style>
+	</head>
+	<body>
+		{
+			!isAuthenticated ? (
+				<div class="login-wrap">
+					<form method="POST" class="login-card">
+						<h1>Panel de administración</h1>
+						<label for="password">Contraseña</label>
+						<input type="password" id="password" name="password" autofocus />
+						<br /><br />
+						<button type="submit" class="btn-primary">Ingresar</button>
+					</form>
+				</div>
+			) : (
+				<>
+					<div class="topbar">
+						<h1>EL DIARIO — Admin</h1>
+						<div class="actions">
+							<button id="btn-new" class="btn-primary" style="width:auto; padding:.5rem 1rem; font-size:.875rem">+ Nuevo artículo</button>
+						</div>
+					</div>
+					<div class="container">
+						<div id="list-view">
+							<div id="articles-list">
+								<p style="color:#9ca3af">Cargando artículos...</p>
+							</div>
+						</div>
+						<div id="editor-view" style="display:none">
+							<div class="editor-wrap">
+								<div class="editor-header">
+									<h2 id="editor-title">Nuevo artículo</h2>
+									<button type="button" id="btn-cancel" class="btn-cancel" style="padding:.375rem .75rem; font-size:.8125rem">Volver</button>
+								</div>
+								<form id="article-form">
+									<div class="editor-body">
+										<input type="hidden" id="edit-sha" />
+										<input type="hidden" id="edit-slug" />
+										<div class="field">
+											<label for="f-title">Título</label>
+											<input type="text" id="f-title" required placeholder="Título principal del artículo" />
+										</div>
+										<div class="field">
+											<label for="f-volanta">Volanta <span class="hint">(subtítulo en negrita, opcional)</span></label>
+											<input type="text" id="f-volanta" placeholder="Línea corta que antecede al título" />
+										</div>
+										<div class="field">
+											<label for="f-description">Bajada <span class="hint">(resumen que aparece debajo del título)</span></label>
+											<textarea id="f-description" required rows={2} placeholder="Descripción breve del artículo" style="min-height:auto; resize:none; font-family:inherit" />
+										</div>
+										<div class="field-row">
+											<div class="field">
+												<label for="f-section">Sección</label>
+												<select id="f-section" required>
+													<option value="internacional">Internacional</option>
+													<option value="argentina">Argentina</option>
+													<option value="economia">Economía</option>
+													<option value="deportes">Deportes</option>
+													<option value="cultura">Cultura</option>
+													<option value="tecnologia">Tecnología</option>
+													<option value="opinion">Opinión</option>
+												</select>
+											</div>
+											<div class="field">
+												<label for="f-author">Autor</label>
+												<input type="text" id="f-author" value="Redacción" />
+											</div>
+										</div>
+										<div class="field-row-3">
+											<div class="field">
+												<label for="f-pubDate">Fecha de publicación</label>
+												<input type="date" id="f-pubDate" required />
+											</div>
+											<div class="field" style="align-self:end; padding-bottom:8px;">
+												<label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-weight:600;">
+													<input type="checkbox" id="f-ultimoMomento" style="width:18px; height:18px; accent-color:#e93323;" />
+													Último momento
+												</label>
+											</div>
+											<div class="field">
+												<label for="f-tags">Etiquetas <span class="hint">(separadas por coma)</span></label>
+												<input type="text" id="f-tags" placeholder="Clima, Economía" />
+											</div>
+											<div class="field">
+												<label for="f-imageCaption">Epígrafe <span class="hint">(pie de foto)</span></label>
+												<input type="text" id="f-imageCaption" placeholder="Crédito de la imagen" />
+											</div>
+										</div>
+										<div class="field">
+											<label for="f-heroImage">Foto principal <span class="hint">(URL de la imagen, ej: https://...)</span></label>
+											<input type="url" id="f-heroImage" placeholder="https://ejemplo.com/imagen.jpg" />
+											<p id="heroImage-preview" style="margin-top:.5rem;display:none"><img id="heroImage-img" src="" alt="Preview" style="max-width:100%;max-height:200px;border-radius:8px;border:1px solid #e5e7eb" /></p>
+										</div>
+										<div class="field">
+											<label for="f-content">Contenido del artículo <span class="hint">(Markdown)</span></label>
+											<textarea id="f-content" required rows={20} placeholder="Escribí el contenido del artículo en Markdown..." />
+										</div>
+									</div>
+									<div class="editor-footer">
+										<button type="submit" class="btn-save">Guardar artículo</button>
+										<button type="button" id="btn-cancel-bottom" class="btn-cancel">Cancelar</button>
+										<span id="form-status" class="status" style="display:none"></span>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</>
+			)
+		}
+	</body>
+	<script is:inline>
+		const API = '/api/admin/articles';
+		const SEC = {internacional:'Internacional',argentina:'Argentina',economia:'Economía',deportes:'Deportes',cultura:'Cultura',tecnologia:'Tecnología',opinion:'Opinión'};
+
+		function slugify(t) {
+			return t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+		}
+
+		function escHtml(s) {
+			const d = document.createElement('div');
+			d.textContent = s || '';
+			return d.innerHTML;
+		}
+
+		async function loadArticles() {
+			const el = document.getElementById('articles-list');
+			try {
+				const res = await fetch(API + '?action=list');
+				const articles = await res.json();
+				if (!articles.length) {
+					el.innerHTML = '<div class="empty"><p>No hay artículos todavía.</p><p>Hacé clic en "+ Nuevo artículo" para crear uno.</p></div>';
+					return;
+				}
+				el.innerHTML = articles.map(a => `
+					<div class="card">
+						<div class="card-info">
+							<h3>${escHtml(a.title || a.slug)}</h3>
+							<div class="card-meta">
+								<span class="badge">${SEC[a.section] || a.section}</span>
+								<span>${escHtml(a.pubDate || 'sin fecha')}</span>
+								${a.volanta ? '<span style="color:#e93323;font-weight:500">· Volanta</span>' : ''}
+								${a.tags ? '<span>· ' + escHtml(a.tags) + '</span>' : ''}
+							</div>
+						</div>
+						<div class="card-actions">
+							<button onclick="editArticle('${a.slug}')" class="btn-sm">Editar</button>
+							<button onclick="deleteArticle('${a.slug}','${a.sha}')" class="btn-sm danger">Eliminar</button>
+						</div>
+					</div>
+				`).join('');
+			} catch (e) {
+				el.innerHTML = '<p style="color:#dc2626">Error al cargar artículos.</p>';
+			}
+		}
+
+		function showEditor(article) {
+			document.getElementById('list-view').style.display = 'none';
+			document.getElementById('editor-view').style.display = 'block';
+			document.getElementById('form-status').style.display = 'none';
+			if (article) {
+				document.getElementById('editor-title').textContent = 'Editar artículo';
+				document.getElementById('edit-sha').value = article.sha || '';
+				document.getElementById('edit-slug').value = article.slug || '';
+				document.getElementById('f-title').value = article.data?.title || '';
+				document.getElementById('f-volanta').value = article.data?.volanta || '';
+				document.getElementById('f-description').value = article.data?.description || '';
+				document.getElementById('f-section').value = article.data?.section || 'internacional';
+				document.getElementById('f-author').value = article.data?.author || 'Redacción';
+				document.getElementById('f-pubDate').value = article.data?.pubDate || new Date().toISOString().split('T')[0];
+			document.getElementById('f-ultimoMomento').checked = (article.data?.ultimoMomento === 'true') || (article.data?.ultimoMomento === true);
+				document.getElementById('f-tags').value = article.data?.tags || '';
+				document.getElementById('f-imageCaption').value = article.data?.imageCaption || '';
+				document.getElementById('f-heroImage').value = article.data?.heroImage || '';
+				document.getElementById('f-content').value = article.body || '';
+				showImagePreview();
+			} else {
+				document.getElementById('editor-title').textContent = 'Nuevo artículo';
+				document.getElementById('edit-sha').value = '';
+				document.getElementById('edit-slug').value = '';
+				document.getElementById('f-title').value = '';
+				document.getElementById('f-volanta').value = '';
+				document.getElementById('f-description').value = '';
+				document.getElementById('f-section').value = 'internacional';
+				document.getElementById('f-author').value = 'Redacción';
+				document.getElementById('f-pubDate').value = new Date().toISOString().split('T')[0];
+				document.getElementById('f-tags').value = '';
+				document.getElementById('f-imageCaption').value = '';
+				document.getElementById('f-heroImage').value = '';
+				document.getElementById('f-content').value = '';
+				hideImagePreview();
+			}
+			window.scrollTo(0, 0);
+		}
+
+		function showList() {
+			document.getElementById('list-view').style.display = 'block';
+			document.getElementById('editor-view').style.display = 'none';
+		}
+
+		window.editArticle = async function(slug) {
+			const res = await fetch(API + '?action=get&slug=' + slug);
+			const article = await res.json();
+			showEditor(article);
+		};
+
+		window.deleteArticle = async function(slug, sha) {
+			if (!confirm('¿Eliminar "' + slug + '"?')) return;
+			await fetch(API + '?slug=' + slug + '&sha=' + sha, { method: 'DELETE' });
+			loadArticles();
+		};
+
+		document.getElementById('btn-new')?.addEventListener('click', () => showEditor(null));
+		document.getElementById('btn-cancel')?.addEventListener('click', () => showList());
+		document.getElementById('btn-cancel-bottom')?.addEventListener('click', () => showList());
+
+		document.getElementById('article-form')?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const btn = e.target.querySelector('[type="submit"]');
+			btn.disabled = true;
+			btn.textContent = 'Guardando...';
+
+			const existingSlug = document.getElementById('edit-slug').value;
+			const slug = existingSlug || slugify(document.getElementById('f-title').value);
+			const data = {
+				title: document.getElementById('f-title').value,
+				volanta: document.getElementById('f-volanta').value || undefined,
+				description: document.getElementById('f-description').value,
+				section: document.getElementById('f-section').value,
+				author: document.getElementById('f-author').value,
+				pubDate: document.getElementById('f-pubDate').value,
+				ultimoMomento: document.getElementById('f-ultimoMomento').checked || undefined,
+				tags: document.getElementById('f-tags').value || undefined,
+				imageCaption: document.getElementById('f-imageCaption').value || undefined,
+				heroImage: document.getElementById('f-heroImage').value || undefined,
+			};
+			const body = document.getElementById('f-content').value;
+			const sha = document.getElementById('edit-sha').value || undefined;
+
+			const res = await fetch(API, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ slug, data, content: body, sha }),
+			});
+			const result = await res.json();
+			const status = document.getElementById('form-status');
+			status.style.display = 'inline';
+			if (result.ok) {
+				status.textContent = 'Guardado. Se publicará en el próximo despliegue.';
+				status.className = 'status ok';
+				setTimeout(() => { showList(); loadArticles(); }, 1200);
+			} else {
+				status.textContent = 'Error al guardar. Intentá de nuevo.';
+				status.className = 'status error';
+			}
+			btn.disabled = false;
+			btn.textContent = 'Guardar artículo';
+		});
+
+		document.getElementById('f-title')?.addEventListener('input', (e) => {
+			if (!document.getElementById('edit-slug').value) {
+				// auto-slug only for new articles
+			}
+		});
+
+		function showImagePreview() {
+			const url = document.getElementById('f-heroImage')?.value;
+			const wrap = document.getElementById('heroImage-preview');
+			const img = document.getElementById('heroImage-img');
+			if (url && wrap && img) {
+				img.src = url;
+				wrap.style.display = 'block';
+				img.onerror = () => { wrap.style.display = 'none'; };
+			} else if (wrap) {
+				wrap.style.display = 'none';
+			}
+		}
+
+		document.getElementById('f-heroImage')?.addEventListener('input', showImagePreview);
+
+		loadArticles();
+	</script>
+</html>

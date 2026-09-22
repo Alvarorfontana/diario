@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+---
+
+<BaseLayout title={`Acerca de | ${SITE_TITLE}`} description="Quiénes somos y qué hacemos.">
+	<article class="prose-articulo mx-auto max-w-2xl">
+		<h1 class="font-serif text-4xl font-bold">Acerca de</h1>
+		<p>
+			<strong>{SITE_TITLE}</strong> es un proyecto de periódico digital construido con
+			<a href="https://astro.build">Astro</a>. Esta página es un contenido de ejemplo: edítala en
+			<code>src/pages/about.astro</code> para presentar a tu equipo y tu proyecto.
+		</p>
+		<p>
+			Para publicar noticias, añade archivos Markdown en <code>src/content/articulos/</code>. Cada
+			artículo define su titular, descripción, sección, autor y fecha en el encabezado (frontmatter).
+		</p>
+		<h2>Secciones</h2>
+		<p>
+			Las secciones del diario se configuran en <code>src/consts.ts</code>. Al añadir o renombrar una
+			sección, la navegación, las páginas de sección y el esquema de validación se actualizan solos.
+		</p>
+	</article>
+</BaseLayout>

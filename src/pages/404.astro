@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SECCIONES, SITE_TITLE } from '../consts';
+---
+
+<BaseLayout title={`Página no encontrada | ${SITE_TITLE}`} description="La página que buscas no existe.">
+	<div class="mx-auto max-w-2xl py-16 text-center">
+		<p class="font-serif text-8xl font-bold text-neutral-900">
+			404<span class="text-brand">.</span>
+		</p>
+		<h1 class="mt-4 font-serif text-3xl font-bold">Esta página no existe o ha sido movida</h1>
+		<p class="mt-3 text-lg text-neutral-600">
+			Puede que la noticia haya sido archivada o que la dirección esté mal escrita.
+		</p>
+		<a
+			href="/"
+			class="mt-8 inline-block rounded-sm bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-brand-dark"
+		>
+			Volver a la portada
+		</a>
+		<div class="mt-12 border-t border-neutral-200 pt-6">
+			<p class="text-xs font-semibold tracking-widest text-neutral-400 uppercase">
+				O continúa por una sección
+			</p>
+			<nav class="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
+				{
+					SECCIONES.map((s) => (
+						<a href={`/seccion/${s.id}/`} class="text-sm font-medium text-neutral-700 hover:text-brand">
+							{s.nombre}
+						</a>
+					))
+				}
+			</nav>
+		</div>
+	</div>
+</BaseLayout>

@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Aviso legal | ${SITE_TITLE}`} description="Aviso legal del sitio.">
+	<article class="prose-articulo mx-auto max-w-2xl">
+		<h1 class="font-serif text-4xl font-bold">Aviso legal</h1>
+		<h2>Titular del sitio</h2>
+		<p>
+			Este sitio web opera bajo el nombre <strong>{SITE_TITLE}</strong>. El titular, domicilio y
+			datos de contacto [completar] se ponen a disposición de los usuarios a todos los efectos
+			legales.
+		</p>
+		<h2>Objeto</h2>
+		<p>
+			Este sitio publica información de actualidad con fines informativos. Los contenidos tienen
+			carácter general y no constituyen asesoramiento profesional de ningún tipo.
+		</p>
+		<h2>Propiedad intelectual</h2>
+		<p>
+			Todos los contenidos originales (textos, imágenes, diseño y código) son propiedad del titular
+			o de sus autores correspondientes. Queda permitida la reproducción parcial con fines
+			informativos citando la fuente y estableciendo un enlace al contenido original.
+		</p>
+		<h2>Responsabilidad</h2>
+		<p>
+			El titular no se responsabiliza de los comentarios publicados por los usuarios en el sistema
+			de comentarios de terceros (Disqus), ni de los contenidos de sitios externos enlazados desde
+			esta web.
+		</p>
+		<h2>Legislación aplicable</h2>
+		<p>
+			Este aviso se rige por la legislación vigente en el domicilio del titular. Para cualquier
+			controversia, las partes se someten a los tribunales competentes de dicho domicilio.
+		</p>
+	</article>
+</BaseLayout>

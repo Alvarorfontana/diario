@@ -1,0 +1,82 @@
+---
+interface Ad {
+	id: string;
+	title: string;
+	imageUrl: string;
+	linkUrl: string;
+	position: 'header' | 'sidebar' | 'in-article' | 'footer';
+}
+
+interface Props {
+	position: Ad['position'];
+	maxAds?: number;
+}
+
+const { position, maxAds = 1 } = Astro.props;
+---
+
+<script is:inline>
+	(function () {
+		const position = document.currentScript?.dataset?.position;
+		const maxAds = parseInt(document.currentScript?.dataset?.maxAds || '1', 10);
+		const container = document.getElementById(`ads-${position}`);
+		if (!container) return;
+
+		const dismissed = JSON.parse(localStorage.getItem('dismissedAds') || '[]');
+
+		async function loadAds() {
+			try {
+				const res = await fetch('/api/ads');
+				if (!res.ok) return;
+				const ads = await res.json();
+				const filtered = ads
+					.filter((a) => a.position === position && !dismissed.includes(a.id))
+					.slice(0, maxAds);
+				if (filtered.length === 0) {
+					container.style.display = 'none';
+					return;
+				}
+				container.innerHTML = filtered
+					.map(
+						(ad) => `
+					<div class="ad-banner" data-ad-id="${ad.id}" style="position:relative;margin:0;border:1px solid #d8cdb9;border-radius:4px;overflow:hidden;background:#fdfaf3;">
+						<p style="margin:0;padding:5px 8px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#8d8172;border-bottom:1px solid #d8cdb9;font-weight:700;">Publicidad</p>
+						<a href="${ad.linkUrl}" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:inherit;">
+							<img src="${ad.imageUrl}" alt="${ad.title}" style="width:100%;height:280px;object-fit:cover;display:block;" loading="lazy" />
+						</a>
+						<button
+							type="button"
+							class="ad-dismiss"
+							aria-label="Cerrar aviso"
+							style="position:absolute;top:26px;right:6px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,0.45);color:white;border:none;cursor:pointer;font-size:13px;line-height:1;display:flex;align-items:center;justify-content:center;z-index:10;"
+						>
+							&times;
+						</button>
+					</div>
+				`
+					)
+					.join('');
+
+				container.querySelectorAll('.ad-dismiss').forEach((btn) => {
+					btn.addEventListener('click', (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						const banner = btn.closest('.ad-banner');
+						if (!banner) return;
+						const id = banner.dataset.adId;
+						dismissed.push(id);
+						localStorage.setItem('dismissedAds', JSON.stringify(dismissed));
+						banner.remove();
+						if (!container.querySelector('.ad-banner')) container.style.display = 'none';
+					});
+				});
+			} catch (e) {
+				console.error('Error cargando avisos:', e);
+			}
+		}
+
+		loadAds();
+	})();
+</script>
+
+<div id={`ads-${position}`} style="display:block;"></div>

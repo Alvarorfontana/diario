@@ -1,0 +1,25 @@
+---
+interface Props {
+	href: string;
+	titulo: string;
+	texto?: string;
+}
+
+const { href, titulo, texto } = Astro.props;
+---
+
+<aside class="my-8 border-l-4 border-brand bg-neutral-50 px-5 py-4">
+	<p class="text-xs font-semibold tracking-widest text-brand uppercase">Nota relacionada</p>
+	<a href={href} class="group mt-1 block">
+		<h4 class="font-serif text-lg leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
+			{titulo}
+		</h4>
+		{
+			texto && (
+				<p class="mt-1 text-sm leading-relaxed text-neutral-600 group-hover:text-neutral-800">
+					{texto}
+				</p>
+			)
+		}
+	</a>
+</aside>

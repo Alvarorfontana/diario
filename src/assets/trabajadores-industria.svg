@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 510">
+  <defs>
+    <linearGradient id="cieloind" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f59e0b"/>
+      <stop offset="0.55" stop-color="#fb923c"/>
+      <stop offset="1" stop-color="#7c2d12"/>
+    </linearGradient>
+    <linearGradient id="casco" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#facc15"/>
+      <stop offset="1" stop-color="#eab308"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Cielo amanecer industrial -->
+  <rect width="1020" height="510" fill="url(#cieloind)"/>
+  <circle cx="510" cy="330" r="70" fill="#fef3c7" opacity="0.9"/>
+
+  <!-- Planta industrial al fondo -->
+  <g fill="#1c1917">
+    <rect x="60" y="250" width="240" height="130"/>
+    <path d="M60 250 l40 -28 l40 28 l40 -28 l40 28 l40 -28 l40 28 z"/>
+    <rect x="120" y="150" width="34" height="100"/>
+    <rect x="190" y="170" width="28" height="80"/>
+
+    <rect x="700" y="230" width="260" height="150"/>
+    <path d="M700 230 l43 -30 l43 30 l44 -30 l43 30 l44 -30 l43 30 z"/>
+    <rect x="860" y="130" width="38" height="100"/>
+    <!-- Grúa -->
+    <path d="M620 380 V210 h10 v170 z M600 214 h180 v10 h-180 z M690 224 l-50 40 h14 l42 -33 z M625 224 l45 36 h-14 l-37 -29 z"/>
+  </g>
+
+  <!-- Humo -->
+  <g fill="#e7e5e4" opacity="0.55">
+    <circle cx="137" cy="140" r="18"/><circle cx="160" cy="118" r="24"/><circle cx="192" cy="96" r="30"/>
+    <circle cx="879" cy="120" r="20"/><circle cx="905" cy="98" r="26"/>
+  </g>
+
+  <!-- Engranajes decorativos -->
+  <g fill="#78350f" opacity="0.35">
+    <circle cx="360" cy="300" r="46"/>
+    <circle cx="360" cy="300" r="26" fill="#fb923c" opacity="0.001"/>
+    <circle cx="430" cy="345" r="30"/>
+  </g>
+  <g fill="#fdba74" opacity="0.5">
+    <rect x="352" y="246" width="16" height="108" rx="6" transform="rotate(20 360 300)"/>
+    <rect x="306" y="292" width="108" height="16" rx="6" transform="rotate(20 360 300)"/>
+    <rect x="352" y="246" width="16" height="108" rx="6"/>
+    <rect x="306" y="292" width="108" height="16" rx="6"/>
+    <rect x="424" y="309" width="12" height="72" rx="5" transform="rotate(45 430 345)"/>
+    <rect x="394" y="339" width="72" height="12" rx="5" transform="rotate(45 430 345)"/>
+  </g>
+
+  <!-- Franja de piso -->
+  <rect y="378" width="1020" height="132" fill="#292524"/>
+
+  <!-- Trabajadores en primer plano -->
+  <!-- Trabajador 1 (con casco amarillo) -->
+  <g>
+    <path d="M195 510 v-95 q0 -55 48 -55 q48 0 48 55 v95 z" fill="#0ea5e9"/>
+    <path d="M212 510 v-88 h62 v88 z" fill="#e2e8f0" opacity="0.25"/>
+    <circle cx="243" cy="340" r="30" fill="#d6a67b"/>
+    <path d="M205 342 q4 -38 38 -38 q34 0 38 38 z" fill="url(#casco)"/>
+    <rect x="198" y="336" width="90" height="10" rx="5" fill="url(#casco)"/>
+    <rect x="222" y="420" width="44" height="52" rx="6" fill="#fbbf24" opacity="0.85"/>
+  </g>
+  <!-- Trabajadora 2 (con casco blanco) -->
+  <g>
+    <path d="M400 510 v-88 q0 -50 44 -50 q44 0 44 50 v88 z" fill="#dc2626"/>
+    <circle cx="444" cy="352" r="27" fill="#c68a5c"/>
+    <path d="M411 354 q4 -34 33 -34 q29 0 33 34 z" fill="#f8fafc"/>
+    <rect x="405" y="348" width="78" height="9" rx="4" fill="#f8fafc"/>
+    <rect x="421" y="424" width="46" height="48" rx="6" fill="#fbbf24" opacity="0.85"/>
+  </g>
+  <!-- Trabajador 3 (con plano en mano) -->
+  <g>
+    <path d="M650 510 v-92 q0 -52 46 -52 q46 0 46 52 v92 z" fill="#166534"/>
+    <circle cx="696" cy="346" r="28" fill="#d6a67b"/>
+    <path d="M660 348 q4 -36 36 -36 q32 0 36 36 z" fill="url(#casco)"/>
+    <rect x="654" y="342" width="84" height="10" rx="5" fill="url(#casco)"/>
+    <rect x="720" y="398" width="52" height="38" rx="4" fill="#ffffff" transform="rotate(-12 746 417)"/>
+    <path d="M728 404 h36 M728 412 h30 M728 420 h36" stroke="#2563eb" stroke-width="3" transform="rotate(-12 746 417)"/>
+    <rect x="672" y="422" width="44" height="50" rx="6" fill="#fbbf24" opacity="0.85"/>
+  </g>
+
+  <!-- Chalecos reflectantes: franjas -->
+  <g stroke="#fef08a" stroke-width="5" opacity="0.9">
+    <line x1="204" y1="452" x2="282" y2="452"/>
+    <line x1="410" y1="458" x2="478" y2="458"/>
+    <line x1="659" y1="456" x2="733" y2="456"/>
+  </g>
+</svg>

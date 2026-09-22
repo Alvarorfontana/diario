@@ -1,0 +1,69 @@
+---
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { SITE_TITLE, slugify } from '../../consts';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+	const articulos = await getCollection('articulos');
+
+	const porEtiqueta = new Map<string, CollectionEntry<'articulos'>[]>();
+	for (const articulo of articulos) {
+		for (const etiqueta of articulo.data.tags ?? []) {
+			const clave = slugify(etiqueta);
+			if (!clave) continue; // ignora etiquetas vacías que rompen el build
+			if (!porEtiqueta.has(clave)) porEtiqueta.set(clave, []);
+			porEtiqueta.get(clave)!.push(articulo);
+		}
+	}
+
+	return [...porEtiqueta.entries()].map(([clave, arts]) => ({
+		params: { tag: clave },
+		props: {
+			arts: arts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+		},
+	}));
+}
+
+interface Props {
+	arts: CollectionEntry<'articulos'>[];
+}
+
+const { arts } = Astro.props;
+const { tag } = Astro.params;
+// Recupera el nombre original (con acentos) desde el primer artículo
+const nombre = arts[0]?.data.tags?.find((t) => slugify(t) === tag) ?? tag;
+---
+
+<BaseLayout title={`#${nombre} | ${SITE_TITLE}`} description={`Noticias etiquetadas como ${nombre}.`} image={arts[0]?.data.heroImage}>
+	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
+		<span class="text-brand">#</span>{nombre}
+	</h1>
+
+	{
+		arts.length === 0 ? (
+			<p class="py-12 text-center text-neutral-500">No hay noticias con esta etiqueta.</p>
+		) : (
+			<div class="divide-y divide-neutral-200 border-t border-neutral-200">
+				{arts.map((articulo) => (
+					<article class="py-8">
+						<a href={`/articulo/${articulo.id}/`} class="group block">
+							<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
+								{articulo.data.title}
+							</h2>
+							<p class="mt-2 text-sm leading-relaxed text-neutral-600">
+								{articulo.data.description}
+							</p>
+							<p class="mt-2 text-xs text-neutral-400">
+								<FormattedDate date={articulo.data.pubDate} /> · {articulo.data.author}
+							</p>
+						</a>
+					</article>
+				))}
+			</div>
+		)
+	}
+</BaseLayout>

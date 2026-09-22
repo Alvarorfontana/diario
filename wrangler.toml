@@ -1,0 +1,14 @@
+name = "diario-digital"
+compatibility_date = "2026-08-28"
+# nodejs_compat ya no es estrictamente necesario con los endpoints portables,
+# pero se mantiene como red de seguridad por si otras dependencias lo requieren.
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist/client"
+
+[vars]
+# Se definen en Cloudflare Dashboard → Pages → Settings → Environment variables
+# NUNCA commitear valores reales acá:
+# GITHUB_PAT = "..."
+# ADMIN_PASSWORD = "..."
+# NOTIFY_EMAIL = "alvarorfontana@gmail.com"
+# RESEND_API_KEY = "re_..." (opcional)

@@ -1,0 +1,45 @@
+---
+import { SITE_TITLE, SECCIONES } from '../consts';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-16 border-t border-neutral-200 bg-neutral-50">
+	<div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
+		<div>
+			<p class="font-serif text-2xl font-bold">
+				{SITE_TITLE}<span class="text-brand">.</span>
+			</p>
+			<p class="mt-2 text-sm text-neutral-500">
+				&copy; {year}. Todos los derechos reservados.
+			</p>
+		</div>
+		<nav>
+			<h2 class="text-xs font-semibold tracking-widest text-neutral-400 uppercase">Secciones</h2>
+			<ul class="mt-3 space-y-1.5 text-sm">
+				{
+					SECCIONES.map((seccion) => (
+						<li>
+							<a href={`/seccion/${seccion.id}/`} class="text-neutral-700 hover:text-brand">
+								{seccion.nombre}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<nav>
+			<h2 class="text-xs font-semibold tracking-widest text-neutral-400 uppercase">El diario</h2>
+			<ul class="mt-3 space-y-1.5 text-sm">
+				<li><a href="/about/" class="text-neutral-700 hover:text-brand">Acerca de</a></li>
+				<li><a href="/rss.xml" class="text-neutral-700 hover:text-brand">RSS</a></li>
+				<li><a href="/legal/aviso-legal/" class="text-neutral-700 hover:text-brand">Aviso legal</a></li>
+				<li>
+					<a href="/legal/politica-privacidad/" class="text-neutral-700 hover:text-brand"
+						>Política de privacidad</a
+					>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</footer>

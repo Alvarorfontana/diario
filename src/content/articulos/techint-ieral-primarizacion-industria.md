@@ -1,0 +1,30 @@
+---
+title: "El Boletín Techint y la Fundación Mediterránea encienden alarmas sobre la primarización y la crisis industrial en Argentina"
+description: "Un influyente estudio del Grupo Techint puso en el centro del debate la acelerada reprimarización de la economía nacional en un escenario de alta fragilidad macroeconómica."
+volanta: "Economía Productiva"
+section: economia
+author: "Redacción"
+pubDate: 2026-08-27
+heroImage: "https://images.unsplash.com/photo-1745921204896-c2011440a4e2?w=1200&h=600&fit=crop&v=2"
+imageCaption: "Industria manufacturera argentina"
+tags: ["techint", "industria", "primarizacion", "economia", "ieral"]
+---
+
+Un influyente estudio publicado en el Boletín Informativo del Grupo Techint y elaborado por los economistas Bernardo Kosacoff y Diego Coatz puso en el centro del debate la acelerada reprimarización de la economía nacional. Salió a la luz pública a fines de julio de 2026 en un escenario de alta fragilidad macroeconómica —marcado por el achicamiento del consumo masivo, la pérdida de puestos de trabajo formales y la apertura de las importaciones—, convirtiendo el reclamo de los históricos capitanes de la industria en un llamado de alerta política y técnica de enorme volumen institucional frente al riesgo inminente de un desmantelamiento fabril.
+
+A este severo diagnóstico sobre el tejido fabril se sumaron las evaluaciones del IERAL, el instituto de investigaciones de la Fundación Mediterránea. Los informes de la entidad cordobesa mostraron una postura crítica frente al atraso cambiario y los sobrecostos locales, alertando que Argentina continúa siendo un país costoso para producir. Desde la perspectiva del IERAL, el estancamiento de la producción manufacturera tradicional y el declive del consumo interno terminan sofocando a las pymes industriales, mientras los únicos motores dinámicos quedan reducidos a los enclaves primario-exportadores del agro, la minería y los hidrocarburos.
+
+La dimensión geopolítica del conflicto cobró aún mayor densidad con las definiciones públicas de Javier Martínez Álvarez, vicepresidente institucional del Grupo Techint. El ejecutivo advirtió que "Argentina requiere una profunda reflexión para aprovechar una oportunidad histórica" en medio del reordenamiento del comercio global, signado por la guerra comercial entre Estados Unidos y China y la tendencia global al friendshoring. Mientras Techint observa con profunda preocupación la sobrecapacidad industrial china —a la que definen como una amenaza directa para las cadenas de valor—, la lectura del holding contrasta con el modelo que profundiza el gobierno de Javier Milei. Preocupado por la falta de competitividad sistémica, el grupo liderado por Paolo Rocca reclama que el programa económico no se limite al ordenamiento macroeconómico ni al otorgamiento de incentivos exclusivamente extractivos, sino que dé señales claras de que la política pública apuntará a fortalecer el valor agregado industrial para evitar caer en una peligrosa reprimarización.
+
+La publicación del informe en el Boletín Techint cobra así un volumen conceptual inédito al provenir del propio holding siderúrgico. Que un conglomerado con intereses directos en el desarrollo de Vaca Muerta advierta sobre el riesgo de convertir al país en una mera economía extractiva generó un fuerte impacto. La advertencia adquiere un carácter de alarma de primer orden, ya que no proviene de sectores habitualmente proteccionistas, sino de los propios grupos industriales concentrados del país. La postura del documento es clara: la dicotomía entre primarización e industrialización es una tensión real en la que, sin una política productiva deliberada, la expansión de los recursos naturales terminará por desplazar definitivamente al entramado fabril transformador.
+
+Frente a esta coyuntura, las cámaras empresariales han mostrado matices e intensidades diversas. Mientras la Unión Industrial Argentina (UIA) sostiene una postura marcada por la cautela, donde coexisten reclamos por la caída de la activity con una búsqueda de preservación de los canales de diálogo con el Gobierno, el informe del Grupo Techint irrumpió con un nivel de definición mucho más explícito. La pieza elaborada por Kosacoff y Coatz plantea la urgencia de abandonar la pasividad de mercado y desplegar un esquema comercial "abierto pero no ingenuo", advirtiendo contra la desprotección ante la sobrecapacidad industrial global y el régimen de incentivos sin contrapartidas de integración local.
+
+En última instancia, el movimiento de Techint trasciende lo estrictamente técnico para marcar una clara toma de posición en la disputa por el modelo de país. En momentos donde el Ejecutivo busca consolidar una macroeconomía centrada en la disciplina fiscal y la desregulación, la irrupción de las grandes corporaciones fabriles expone una grieta profunda dentro del propio establishment económico. El mensaje que envían los capitanes de la industria al poder político es ineludible: sin un proyecto que contenga al valor agregado y proteja el capital productivo nacional en el complejo tablero geopolítico internacional, el equilibrio financiero corre el riesgo de construirse sobre un desierto industrial.
+
+**Fuentes consultadas y referencias bibliográficas:**
+
+- **Boletín Informativo Techint:** Documento "Más allá de los falsos dilemas: transformar el potencial productivo en desarrollo", por Bernardo Kosacoff y Diego Coatz (22 de julio de 2026). [Ver documento](https://boletintechint.com/publicacion/mas-alla-de-los-falsos-dilemas-transformar-ventajas-en-desarrollo/)
+- **Declaraciones institucionales:** Ponencias de Javier Martínez Álvarez, vicepresidente del Grupo Techint, sobre competitividad, modelo económico y contexto geopolítico global.
+- **Instituto de Investigaciones de la Fundación Mediterránea (IERAL):** Informes sobre costos de producción, competitividad y desempeño sectorial (2025-2026).
+- **Centro de Estudios de la Unión Industrial Argentina (CEU-UIA):** Relevamientos periódicos sobre actividad industrial, capacidad instalada y empleo formal.

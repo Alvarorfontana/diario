@@ -1,0 +1,47 @@
+const ads = [
+	{
+		title: 'Banco Nación',
+		imageUrl: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=800&h=200&fit=crop',
+		linkUrl: 'https://www.bna.com.ar',
+		position: 'header',
+		active: true,
+	},
+	{
+		title: 'YPF - Energía para crecer',
+		imageUrl: 'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800&h=200&fit=crop',
+		linkUrl: 'https://www.ypf.com',
+		position: 'sidebar',
+		active: true,
+	},
+	{
+		title: 'Telecom - Conectividad total',
+		imageUrl: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=200&fit=crop',
+		linkUrl: 'https://www.telecom.com.ar',
+		position: 'in-article',
+		active: true,
+	},
+	{
+		title: 'Mercado Libre - Tu marketplace',
+		imageUrl: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=200&fit=crop',
+		linkUrl: 'https://www.mercadolibre.com.ar',
+		position: 'footer',
+		active: true,
+	},
+	{
+		title: 'Techint - Acero argentino',
+		imageUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=200&fit=crop',
+		linkUrl: 'https://www.techintgroup.com',
+		position: 'header',
+		active: true,
+	},
+];
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const adsPath = path.join(__dirname, '..', 'data', 'ads.json');
+fs.writeFileSync(adsPath, JSON.stringify(ads, null, 2));
+console.log('Ads seed escritos en data/ads.json');

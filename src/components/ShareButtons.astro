@@ -1,0 +1,31 @@
+---
+interface Props {
+	url: string;
+	title: string;
+}
+const { url, title } = Astro.props;
+const texto = encodeURIComponent(title);
+const enlace = encodeURIComponent(url);
+---
+
+<div class="flex items-center gap-2">
+	<span class="text-[11px] font-bold tracking-[0.15em] text-neutral-400 uppercase">Compartir</span>
+	<a
+		href={`https://twitter.com/intent/tweet?text=${texto}&url=${enlace}`}
+		target="_blank" rel="noopener"
+		aria-label="Compartir en X"
+		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
+	>𝕏</a>
+	<a
+		href={`https://wa.me/?text=${texto}%20${enlace}`}
+		target="_blank" rel="noopener"
+		aria-label="Compartir en WhatsApp"
+		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
+	>✆</a>
+	<a
+		href={`https://www.facebook.com/sharer/sharer.php?u=${enlace}`}
+		target="_blank" rel="noopener"
+		aria-label="Compartir en Facebook"
+		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
+	>f</a>
+</div>

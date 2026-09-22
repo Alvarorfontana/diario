@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+// Live blog: cobertura minuto a minuto. En producción, los posts vendrían
+// de un JSON (mismo patrón que comentarios) o de una colección aparte.
+const posts = [
+	{
+		hora: '23:41',
+		clave: true,
+		autor: 'Redacción',
+		lugar: 'Sede del partido',
+		texto: 'El presidente felicitó a su equipo desde el balcón: "Ganó la democracia". Todavía no hubo reconocimiento del rival.',
+	},
+	{
+		hora: '23:18',
+		clave: false,
+		autor: 'Redacción',
+		lugar: 'Redacción, datos',
+		texto: 'Con el 78% escrutado, la diferencia se mantiene en 4,2 puntos. El mapa se confirma: 15 provincias y CABA para el Frente Nacional.',
+	},
+	{
+		hora: '22:20',
+		clave: false,
+		autor: 'Redacción',
+		lugar: 'Redacción',
+		texto: 'La Cámara Nacional Electoral pidió paciencia ante la demora en la carga de datos de la provincia de Buenos Aires.',
+	},
+];
+
+const stats = [
+	{ n: '78%', l: 'mesas escrutadas' },
+	{ n: '4,2', u: 'pts', l: 'diferencia' },
+	{ n: '47,8%', l: 'Frente Nacional' },
+	{ n: '43,6%', l: 'Unidad Federal' },
+];
+---
+
+<BaseLayout title={`Minuto a minuto | ${SITE_TITLE}`} description="Cobertura en vivo">
+	<article class="mx-auto max-w-3xl">
+		<p class="um-banner mt-4"><span class="um-luz"></span>Cobertura en vivo</p>
+		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+			Resultados en vivo: el escrutinio marca una ventaja de 4,2 puntos con el 78% de mesas contadas
+		</h1>
+		<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">
+			Seguí el minuto a minuto del conteo con enviados en todo el país y datos oficiales.
+		</p>
+
+		<div class="mt-6 grid grid-cols-2 gap-4 border-y-2 border-neutral-900 border-t-neutral-900 py-5 sm:grid-cols-4">
+			{stats.map((s) => (
+				<div class="text-center">
+					<span class="block font-serif text-2xl font-black">
+						{s.n}{s.u && <span class="text-sm font-bold">{s.u}</span>}
+					</span>
+					<span class="text-[11px] tracking-wide text-neutral-500 uppercase">{s.l}</span>
+				</div>
+			))}
+		</div>
+
+		<div class="mt-5 flex items-center justify-between">
+			<span class="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-xs font-bold text-white">
+				<span class="luz-parpadeante inline-block h-2 w-2 rounded-full bg-white"></span>
+				Actualización automática
+			</span>
+			<span class="text-xs text-neutral-500">Los últimos eventos aparecen primero</span>
+		</div>
+
+		<div class="mt-4 ml-1.5 border-l-[3px] border-neutral-900">
+			{
+				posts.map((p) => (
+					<div class="relative grid grid-cols-[56px_1fr] gap-x-4 border-b border-neutral-200 py-5 pl-5">
+						<span class:list={[
+							'absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px]',
+							p.clave ? 'border-brand bg-brand' : 'border-neutral-900 bg-[#f6efdf]',
+						]}></span>
+						<span class="font-serif text-lg font-black">{p.hora}</span>
+						<div>
+							{p.clave && (
+								<span class="mb-2 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider text-brand uppercase">
+									Evento clave
+								</span>
+							)}
+							<p class="text-[15px] leading-relaxed text-neutral-800">{p.texto}</p>
+							<p class="mt-2 text-xs font-semibold text-neutral-500">
+								{p.autor} <span class="font-normal text-neutral-400">· {p.lugar}</span>
+							</p>
+						</div>
+					</div>
+				))
+			}
+		</div>
+	</article>
+</BaseLayout>

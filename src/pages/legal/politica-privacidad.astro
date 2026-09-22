@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+
+const year = new Date().getFullYear();
+---
+
+<BaseLayout title={`Política de privacidad | ${SITE_TITLE}`} description="Política de privacidad y cookies del sitio.">
+	<article class="prose-articulo mx-auto max-w-2xl">
+		<h1 class="font-serif text-4xl font-bold">Política de privacidad</h1>
+		<p>
+			Esta política explica qué datos trata <strong>{SITE_TITLE}</strong>, con qué finalidad y
+			qué derechos tienes como usuario.
+		</p>
+		<h2>Datos que se recogen</h2>
+		<p>
+			La navegación por este sitio es anónima. No solicitamos datos personales salvo cuando el
+			usuario decide participar en las zonas de comentarios a través de la plataforma Disqus,
+			cuya gestión de cuentas y datos corresponde exclusivamente a dicha plataforma conforme a su
+			propia política de privacidad.
+		</p>
+		<h2>Cookies</h2>
+		<p>
+			Este sitio utiliza únicamente cookies técnicas necesarias para su funcionamiento. Si activas
+			el sistema de comentarios (Disqus), dicha plataforma puede instalar cookies adicionales con
+			fines de autenticación y publicidad; puedes consultar y configurar esas preferencias en tu
+			cuenta de Disqus.
+		</p>
+		<h2>Servicios de terceros</h2>
+		<ul>
+			<li><strong>Vercel Inc.</strong>: alojamiento y distribución del sitio.</li>
+			<li><strong>Disqus</strong>: sistema de comentarios (si está activado).</li>
+		</ul>
+		<h2>Derechos del usuario</h2>
+		<p>
+			Puedes ejercer tus derechos de acceso, rectificación y supresión sobre cualquier dato que te
+			concierna escribiendo a [tu-email@dominio.com]. Asimismo, puedes darte de baja de Disqus y
+			eliminar tus comentarios desde tu perfil en esa plataforma.
+		</p>
+		<h2>Actualizaciones</h2>
+		<p>
+			Esta política puede revisarse periódicamente. Última actualización: agosto de {year}.
+		</p>
+	</article>
+</BaseLayout>
