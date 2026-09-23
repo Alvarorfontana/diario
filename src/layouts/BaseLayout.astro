@@ -3,6 +3,7 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import AdBanner from '../components/AdBanner.astro';
+import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
@@ -28,17 +29,6 @@ const { title, description, image, publishedTime, author, section } = Astro.prop
 			author={author}
 			section={section}
 		/>
-		<style is:global>
-			/* Fondo beige general */
-			body {
-				background-color: #e3d3b3;
-			}
-			/* Contenedor principal con sombra suave */
-			main {
-				background-color: #f6efdf;
-				box-shadow: 0 0 44px rgba(90,70,35,0.16);
-			}
-		</style>
 	</head>
 	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased">
 		<Header />
