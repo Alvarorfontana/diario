@@ -1,1 +1,154 @@
+---
+export const prerender = false;
 
+const cookie = Astro.request.headers.get('cookie') ?? '';
+const isAuthenticated = cookie.includes('admin_auth=1');
+
+let ads: any[] = [];
+try {
+	const res = await fetch(`${Astro.url.origin}/api/ads`);
+	ads = await res.json();
+} catch (e) {
+	ads = [];
+}
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<title>Publicidad - Admin</title>
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; background: #f5f5f5; }
+		.card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+		.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; }
+		.btn-primary { background: #e93323; color: white; }
+		.btn-secondary { background: #6b7280; color: white; }
+		input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+		.preview { max-width: 300px; margin: 20px 0; border: 1px solid #ddd; display: none; }
+		.ad-item { border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 4px; display: flex; gap: 20px; align-items: center; }
+		.ad-item img { width: 150px; height: auto; }
+		.hidden { display: none; }
+	</style>
+</head>
+<body>
+	{!isAuthenticated ? (
+		<div class="card">
+			<h2>Acceso denegado</h2>
+			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+		</div>
+	) : (
+		<div>
+			<div class="card">
+				<h1>📢 Panel de Publicidad</h1>
+				<p>Subí banners y gestioná los espacios publicitarios.</p>
+				<a href="/admin" class="btn btn-secondary">← Volver al Admin</a>
+			</div>
+
+			<div class="card">
+				<h3>Subir nuevo banner</h3>
+				<form id="upload-form">
+					<div>
+						<label>Imagen del banner (JPG, PNG - máx 2MB)</label>
+						<input type="file" id="image-file" accept="image/*" required />
+					</div>
+					<img id="preview" class="preview" />
+					<div>
+						<label>Nombre del anunciante</label>
+						<input type="text" id="ad-title" placeholder="Ej: YPF, Banco Macro" required />
+					</div>
+					<div>
+						<label>Link destino (URL)</label>
+						<input type="url" id="ad-link" placeholder="https://ejemplo.com" required />
+					</div>
+					<div>
+						<label>Posición</label>
+						<select id="ad-position">
+							<option value="sidebar">Barra lateral (vertical)</option>
+							<option value="header">Arriba de todo (horizontal)</option>
+							<option value="footer">Abajo de todo</option>
+						</select>
+					</div>
+					<button type="submit" class="btn btn-primary">Subir y Publicar</button>
+				</form>
+			</div>
+
+			<div class="card">
+				<h3>Banners activos ({ads.length})</h3>
+				{ads.map(ad => (
+					<div class="ad-item">
+						<img src={ad.imageUrl} alt={ad.title} />
+						<div style="flex: 1;">
+							<strong>{ad.title}</strong><br />
+							<small>{ad.position} — {ad.linkUrl}</small><br />
+							<button class="btn btn-secondary" style="margin-top: 10px;" onclick={`deleteAd('${ad.id}')`}>Eliminar</button>
+						</div>
+					</div>
+				))}
+				{ads.length === 0 && <p>No hay banners cargados todavía.</p>}
+			</div>
+		</div>
+	)}
+
+	<script>
+		const fileInput = document.getElementById('image-file');
+		const preview = document.getElementById('preview');
+		
+		fileInput?.addEventListener('change', (e) => {
+			const file = e.target.files[0];
+			if (file) {
+				preview.src = URL.createObjectURL(file);
+				preview.style.display = 'block';
+			}
+		});
+
+		document.getElementById('upload-form')?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const file = document.getElementById('image-file').files[0];
+			if (!file) return alert('Elegí una imagen');
+
+			const formData = new FormData();
+			formData.append('file', file);
+			
+			const uploadRes = await fetch('/api/upload-image', {
+				method: 'POST',
+				body: formData
+			});
+			const uploadData = await uploadRes.json();
+			
+			if (!uploadData.ok) {
+				alert('Error al subir imagen: ' + (uploadData.error || 'Error desconocido'));
+				return;
+			}
+
+			const adData = {
+				id: Date.now().toString(),
+				title: document.getElementById('ad-title').value,
+				imageUrl: uploadData.url,
+				linkUrl: document.getElementById('ad-link').value,
+				position: document.getElementById('ad-position').value,
+				active: true
+			};
+
+			const saveRes = await fetch('/api/ads', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(adData)
+			});
+
+			if (saveRes.ok) {
+				alert('¡Publicidad subida y activa!');
+				location.reload();
+			} else {
+				alert('Error al guardar datos');
+			}
+		});
+
+		async function deleteAd(id) {
+			if (!confirm('¿Eliminar este banner?')) return;
+			await fetch(`/api/ads?id=${id}`, { method: 'DELETE' });
+			location.reload();
+		}
+	</script>
+</body>
+</html>
