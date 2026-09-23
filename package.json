@@ -12,7 +12,7 @@
     "preview": "astro preview",
     "astro": "astro"
   },
-  "dependencies": {
+ "dependencies": {
     "@astrojs/mdx": "^7.0.7",
     "@astrojs/react": "^6.0.4",
     "@astrojs/rss": "^4.0.19",
@@ -24,8 +24,9 @@
     "astro": "^7.2.4",
     "resend": "^6.24.0",
     "sharp": "^0.35.0",
-    "tailwindcss": "^4.3.3"
-  },"@vercel/blob"
+    "tailwindcss": "^4.3.3",
+    "@vercel/blob": "^0.27.0"
+}
   "devDependencies": {
     "@astrojs/cloudflare": "^14.2.5",
     "@astrojs/netlify": "^8.2.4",
