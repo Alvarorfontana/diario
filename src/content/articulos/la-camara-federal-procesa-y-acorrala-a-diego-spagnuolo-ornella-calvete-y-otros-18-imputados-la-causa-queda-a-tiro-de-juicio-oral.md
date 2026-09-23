@@ -4,9 +4,9 @@ volanta: "GIRO JUDICIAL Y POLÍTICO EN EL CASO ANDIS"
 description: "En un fallo de enorme repercusión política e institucional, la Cámara Federal Porteña confirmó la medida contra la cúpula acusada de encabezar una red de corrupción y defraudar al Estado con la compra de medicamentos e insumos de alto costo. La decisión judicial se produce tras la renuncia de la conducción del organismo ante inconsistencias por $158.000 millones y en pleno debate parlamentario por la regulación de los fondos para discapacidad."
 section: "argentina"
 author: "Redacción"
-pubDate: "2026-09-23"
+pubDate: "2026-09-22"
 tags:
-  - '''Andis'''
+  - ''''Andis''''
 heroImage: "https://x.com/ArrepentidosLLA/status/2102451071956509085/video/1"
 ---
 
