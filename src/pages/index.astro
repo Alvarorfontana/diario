@@ -150,4 +150,15 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 						<p class="text-[11px] font-bold tracking-[0.25em] text-brand uppercase">
 							{nombreSeccion(articulo.data.section)}
 						</p>
-						<h3 class="mt-2 font-serif text-xl
+						<h3 class="mt-2 font-serif text-xl leading-tight font-bold text-neutral-900 transition-colors group-hover:text-brand">
+							{articulo.data.title}
+						</h3>
+						<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600">
+							{articulo.data.description}
+						</p>
+					</a>
+				))}
+			</div>
+		</section>
+	)}
+</BaseLayout>
