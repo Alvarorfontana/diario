@@ -11,10 +11,12 @@ export const POST = async ({ request }: { request: Request }) => {
 			return new Response(JSON.stringify({ ok: false, error: 'No file' }), { status: 400 });
 		}
 
-		// Subir a Vercel Blob con el token correcto
+		// Usar IMAGES_READ_WRITE_TOKEN (el nuevo store) o BLOB_READ_WRITE_TOKEN (fallback)
+		const token = process.env.IMAGES_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+
 		const blob = await put(`ads/${Date.now()}-${file.name}`, file, {
 			access: 'public',
-			token: process.env.BLOB_READ_WRITE_TOKEN,
+			token: token,
 		});
 
 		return new Response(JSON.stringify({ ok: true, url: blob.url }), {
@@ -22,6 +24,6 @@ export const POST = async ({ request }: { request: Request }) => {
 		});
 	} catch (error) {
 		console.error('Upload error:', error);
-		return new Response(JSON.stringify({ ok: false, error: 'Upload failed: ' + error.message }), { status: 500 });
+		return new Response(JSON.stringify({ ok: false, error: 'Upload failed' }), { status: 500 });
 	}
 };
