@@ -6,12 +6,9 @@ section: "argentina"
 author: "Redacción"
 pubDate: "2026-09-23"
 tags:
-  - 'Andis'
+  - ''Andis''
+heroImage: "https://x.com/ArrepentidosLLA/status/2102451071956509085/video/1"
 ---
-
-
-
-
 
 ​
 
@@ -54,4 +51,4 @@ tags:
 
 ​Cámara Nacional de Apelaciones en lo Criminal y Correccional Federal (Sala II) – Fallo y confirmación de procesamientos en la Causa ANDIS. ​Ministerio Público Fiscal – Fiscalía Federal N° 10 a cargo del Dr. Franco Picardi. 
 
-​Juzgado Criminal y Correccional Federal N° 7. ​Informes de auditoría interna de la Agencia Nacional de Discapacidad (ANDIS) e información presupuestaria oficial. ​Cobertura periodística especializada en temas judiciales e institucionales (Agencia Noticias Argentinas, BAE Negocios, elDiarioAR, MDZ Online). 
+​Juzgado Criminal y Correccional Federal N° 7. ​Informes de auditoría interna de la Agencia Nacional de Discapacidad (ANDIS) e información presupuestaria oficial. ​Cobertura periodística especializada en temas judiciales e institucionales (Agencia Noticias Argentinas, BAE Negocios, elDiarioAR, MDZ Online).
