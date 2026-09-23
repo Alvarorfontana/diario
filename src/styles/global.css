@@ -1,32 +1,110 @@
-/* ── FIXES MOBILE ── */
+@import "tailwindcss";
 
-/* Ticker: forzar negro incluso si hay herencia de colores */
-.ticker,
-.ticker * {
-	background-color: #171412 !important;
-}
-.ticker-label {
-	background-color: #e93323 !important;
-	color: white !important;
+@theme {
+	--font-sans: 'Atkinson', ui-sans-serif, system-ui, sans-serif;
+	--font-serif: Georgia, 'Times New Roman', Times, serif;
+	--color-brand: #e93323;
+	--color-paper: #f6efdf;
+	--color-beige: #e3d3b3;
 }
 
-/* Sidebar en mobile: quitar bordes y padding que desbordan */
+html {
+	background-color: var(--color-beige);
+}
+
+body {
+	background-color: var(--color-beige);
+	font-family: var(--font-sans);
+}
+
+main {
+	background-color: var(--color-paper);
+	box-shadow: 0 0 44px rgba(90,70,35,0.16);
+}
+
+/* Capitular */
+.prose-articulo > p:first-of-type::first-letter {
+	font-family: var(--font-serif);
+	font-weight: 900;
+	font-size: 3.4em;
+	line-height: 0.85;
+	float: left;
+	margin: 0.06em 0.12em 0 0;
+	color: var(--color-neutral-900);
+}
+
+/* Subrayado animado */
+.titular-link {
+	background-image: linear-gradient(currentColor, currentColor);
+	background-size: 0% 2px;
+	background-repeat: no-repeat;
+	background-position: 0 96%;
+	transition: background-size 0.35s ease;
+	display: inline;
+}
+.titular-link:hover {
+	background-size: 100% 2px;
+}
+
+/* Banner Último Momento */
+.um-banner {
+	display: inline-flex;
+	align-items: center;
+	gap: 9px;
+	background: #171412;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 800;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	padding: 8px 18px;
+}
+.um-luz {
+	position: relative;
+	width: 11px;
+	height: 11px;
+	border-radius: 50%;
+	background: #e93323;
+}
+.um-luz::before, .um-luz::after {
+	content: "";
+	position: absolute;
+	inset: -7px;
+	border-radius: 50%;
+	border: 2px solid rgba(233,51,35,0.8);
+	animation: destello 1.4s ease-out infinite;
+}
+.um-luz::after {
+	animation-delay: 0.7s;
+}
+@keyframes destello {
+	0% { transform: scale(0.4); opacity: 1; }
+	100% { transform: scale(1.6); opacity: 0; }
+}
+
+/* Ticker */
+.ticker-scroll span {
+	animation: ticker-scroll 30s linear infinite;
+	display: inline-block;
+}
+@keyframes ticker-scroll {
+	0% { transform: translateX(30%); }
+	100% { transform: translateX(-100%); }
+}
+
+/* FIXES MOBILE */
 @media (max-width: 1024px) {
 	aside.lg\:border-l {
 		border-left: none !important;
 		padding-left: 0 !important;
 		margin-top: 2rem;
 	}
-	
-	/* Aviso y suscripción: ancho completo sin desbordar */
 	aside .border,
 	aside .rounded,
 	aside [class*="border"] {
 		max-width: 100%;
 		overflow: hidden;
 	}
-	
-	/* Suscripción: que no se salga del contenedor */
 	aside .newsletter-box,
 	aside [class*="newsletter"],
 	aside form {
@@ -34,15 +112,11 @@
 		padding: 1rem;
 		box-sizing: border-box;
 	}
-	
-	/* Imagen del aviso: que no se corte raro en mobile */
 	aside img {
 		max-width: 100%;
 		height: auto;
 	}
 }
-
-/* Ajuste fino para pantallas muy chicas */
 @media (max-width: 640px) {
 	.ticker {
 		margin-left: -1rem;
