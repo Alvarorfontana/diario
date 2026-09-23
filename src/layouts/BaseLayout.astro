@@ -28,11 +28,22 @@ const { title, description, image, publishedTime, author, section } = Astro.prop
 			author={author}
 			section={section}
 		/>
+		<style is:global>
+			/* Fondo beige general */
+			body {
+				background-color: #e3d3b3;
+			}
+			/* Contenedor principal con sombra suave */
+			main {
+				background-color: #f6efdf;
+				box-shadow: 0 0 44px rgba(90,70,35,0.16);
+			}
+		</style>
 	</head>
-	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased" style="background-color:#e3d3b3;">
+	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased">
 		<Header />
 		<AdBanner position="header" maxAds={1} />
-		<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8" style="background-color:#f6efdf; box-shadow:0 0 44px rgba(90,70,35,0.16);">
+		<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8">
 			<slot />
 		</main>
 		<AdBanner position="footer" maxAds={2} />
