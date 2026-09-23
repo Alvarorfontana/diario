@@ -1,8 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import { getCollection } from 'astro:content';
-...---
-import { getCollection } from 'astro:content';
 
 export const prerender = false;
 
@@ -208,27 +205,4 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			const formData = new FormData(e.target);
 			const data = {
 				title: formData.get('title'),
-				slug: formData.get('slug'),
-				description: formData.get('description'),
-				section: formData.get('section'),
-				pubDate: formData.get('pubDate'),
-				ultimoMomento: formData.get('ultimoMomento') === 'on',
-				heroImage: formData.get('heroImage'),
-				tags: formData.get('tags'),
-				content: formData.get('content'),
-			};
-			const res = await fetch('/api/admin/articles', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data),
-			});
-			if (res.ok) {
-				alert('Noticia guardada');
-				location.reload();
-			} else {
-				alert('Error al guardar');
-			}
-		});
-	</script>
-</body>
-</html>
+				slug:
