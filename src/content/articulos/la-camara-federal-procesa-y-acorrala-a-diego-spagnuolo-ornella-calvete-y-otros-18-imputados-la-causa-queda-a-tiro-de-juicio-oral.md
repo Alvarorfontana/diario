@@ -6,7 +6,7 @@ section: "argentina"
 author: "Redacción"
 pubDate: "2026-09-23"
 tags:
-  - ''Andis''
+  - '''Andis'''
 heroImage: "https://x.com/ArrepentidosLLA/status/2102451071956509085/video/1"
 ---
 
