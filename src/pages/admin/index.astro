@@ -164,8 +164,8 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 								<td>{articulo.data.pubDate.toLocaleDateString('es-AR')}</td>
 								<td>{articulo.data.ultimoMomento ? <span class="badge badge-ultimo">Sí</span> : '-'}</td>
 								<td class="actions">
-									<button class="btn btn-primary" onclick={`editArticle('${articulo.id}')`}>Editar</button>
-									<button class="btn btn-danger" onclick={`deleteArticle('${articulo.id}')`}>Eliminar</button>
+									<button class="btn btn-primary" data-slug={articulo.id} data-action="edit">Editar</button>
+									<button class="btn btn-danger" data-slug={articulo.id} data-action="delete">Eliminar</button>
 								</td>
 							</tr>
 						))}
@@ -175,7 +175,7 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 		</div>
 	)}
 
-	<script>
+	<script is:inline>
 		async function editArticle(id) {
 			const res = await fetch('/api/admin/articles?action=get&slug=' + id);
 			const data = await res.json();
@@ -200,32 +200,42 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			if (res.ok) location.reload();
 		}
 
-		document.getElementById('create-form').addEventListener('submit', async (e) => {
-			e.preventDefault();
-			const formData = new FormData(e.target);
-			const data = {
-				title: formData.get('title'),
-				slug: formData.get('slug'),
-				description: formData.get('description'),
-				section: formData.get('section'),
-				pubDate: formData.get('pubDate'),
-				ultimoMomento: formData.get('ultimoMomento') === 'on',
-				heroImage: formData.get('heroImage'),
-				tags: formData.get('tags'),
-				content: formData.get('content'),
-			};
-			const res = await fetch('/api/admin/articles', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(data),
-			});
-			if (res.ok) {
-				alert('Noticia guardada');
-				location.reload();
-			} else {
-				alert('Error al guardar');
-			}
+		document.querySelectorAll('[data-action="edit"]').forEach(function (btn) {
+			btn.addEventListener('click', function () { editArticle(btn.dataset.slug); });
 		});
-		<script is:inline>
+		document.querySelectorAll('[data-action="delete"]').forEach(function (btn) {
+			btn.addEventListener('click', function () { deleteArticle(btn.dataset.slug); });
+		});
+
+		var createForm = document.getElementById('create-form');
+		if (createForm) {
+			createForm.addEventListener('submit', async function (e) {
+				e.preventDefault();
+				const formData = new FormData(e.target);
+				const data = {
+					title: formData.get('title'),
+					slug: formData.get('slug'),
+					description: formData.get('description'),
+					section: formData.get('section'),
+					pubDate: formData.get('pubDate'),
+					ultimoMomento: formData.get('ultimoMomento') === 'on',
+					heroImage: formData.get('heroImage'),
+					tags: formData.get('tags'),
+					content: formData.get('content'),
+				};
+				const res = await fetch('/api/admin/articles', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify(data),
+				});
+				if (res.ok) {
+					alert('Noticia guardada');
+					location.reload();
+				} else {
+					alert('Error al guardar');
+				}
+			});
+		}
+	</script>
 </body>
 </html>
