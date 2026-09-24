@@ -1,6 +1,6 @@
 ---
 title: "Ajuste, desindustrialización y pobreza al 32,3%: el costo social de la primarización de la economía"
-description: "La aceleración en los costos de las canastas básicas, la pérdida de empleos industriales y el sesgo hacia sectores extractivos de baja absorción laboral profundizaron la grieta social en la Argentina[cite: 5, 6]. La pobreza alcanzó al 32,3% de la población (9,7 millones de personas) y la indigencia trepó al 7,5%, afectando dramáticamente a los menores de 14 años (44,5%) y golpeando con dureza a las regiones del norte del país."
+description: "La aceleración en los costos de las canastas básicas, la pérdida de empleos industriales y el sesgo hacia sectores extractivos de baja absorción laboral profundizaron la grieta social en la Argentina. La pobreza alcanzó al 32,3% de la población (9,7 millones de personas) y la indigencia trepó al 7,5%, afectando dramáticamente a los menores de 14 años (44,5%) y golpeando con dureza a las regiones del norte del país."
 section: "argentina"
 pubDate: 2026-09-24
 ultimoMomento: true
