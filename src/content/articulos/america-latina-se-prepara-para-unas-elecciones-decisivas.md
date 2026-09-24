@@ -2,12 +2,11 @@
 title: "América Latina se prepara para unas elecciones decisivas"
 description: "Varios países acuden a las urnas en los próximos meses en unos comicios que marcarán el rumbo económico y social de la región para la próxima década."
 section: "internacional"
-author: "Redacción"
-pubDate: "2026-09-23"
+pubDate: 2026-09-23
+heroImage: "https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?w=1020&h=510&fit=crop"
 tags:
   - 'politica'
   - 'elecciones'
-heroImage: "https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?w=1020&h=510&fit=crop"
 ---
 
 Medio continente acude a las urnas. Los comicios que se celebrarán en los próximos meses en varios países de América Latina están llamados a redefinir el mapa político de la región.
