@@ -86,8 +86,9 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			</div>
 
 			<div id="form-nuevo" class="card hidden">
-				<h3 style="margin-bottom: 15px;">Crear Nueva Noticia</h3>
+				<h3 style="margin-bottom: 15px;">Crear / Editar Noticia</h3>
 				<form id="create-form">
+					<input type="hidden" id="edit-sha" name="sha" />
 					<div class="grid">
 						<div>
 							<div class="form-group">
@@ -181,6 +182,7 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			const data = await res.json();
 			if (data.ok) {
 				document.getElementById('form-nuevo').classList.remove('hidden');
+				document.getElementById('edit-sha').value = data.sha || '';
 				document.getElementById('title').value = data.data.title || '';
 				document.getElementById('slug').value = data.data.slug || id;
 				document.getElementById('description').value = data.data.description || '';
@@ -212,21 +214,24 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			createForm.addEventListener('submit', async function (e) {
 				e.preventDefault();
 				const formData = new FormData(e.target);
+				const slug = formData.get('slug');
+				const content = formData.get('content');
+				const sha = formData.get('sha');
 				const data = {
 					title: formData.get('title'),
-					slug: formData.get('slug'),
 					description: formData.get('description'),
 					section: formData.get('section'),
 					pubDate: formData.get('pubDate'),
 					ultimoMomento: formData.get('ultimoMomento') === 'on',
 					heroImage: formData.get('heroImage'),
 					tags: formData.get('tags'),
-					content: formData.get('content'),
 				};
+				const payload = { slug: slug, data: data, content: content };
+				if (sha) payload.sha = sha;
 				const res = await fetch('/api/admin/articles', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(data),
+					body: JSON.stringify(payload),
 				});
 				if (res.ok) {
 					alert('Noticia guardada');
