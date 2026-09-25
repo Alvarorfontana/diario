@@ -1,143 +1,64 @@
-import { ImageResponse } from '@vercel/og';
 import { getCollection } from 'astro:content';
+import { ImageResponse } from '@vercel/og';
+import { createElement as h } from 'react';
 
 export const prerender = true;
 
 export async function getStaticPaths() {
-	const articulos = await getCollection('articulos');
-	return articulos.map((articulo) => ({
-		params: { slug: articulo.id },
-		props: { articulo },
-	}));
+  const articulos = await getCollection('articulos');
+  return articulos.map((a) => ({ params: { slug: a.id } }));
 }
 
-export async function GET({ props, site }: { props: { articulo: any }; site: URL }) {
-	const articulo = props.articulo;
-	const { title, heroImage } = articulo.data;
+export async function GET({ params }: { params: { slug: string } }) {
+  const articulos = await getCollection('articulos');
+  const art = articulos.find((a) => a.id === params.slug);
+  if (!art) return new Response('No encontrado', { status: 404 });
 
-	let imageUrl: string | null = null;
-	if (typeof heroImage === 'object' && heroImage?.src) {
-		imageUrl = new URL(heroImage.src, site).toString();
-	} else if (typeof heroImage === 'string' && heroImage.length > 0) {
-		imageUrl = heroImage.startsWith('http') ? heroImage : new URL(heroImage, site).toString();
-	}
+  const { title, heroImage } = art.data;
+  
+  let imageUrl: string | null = null;
+  if (typeof heroImage === 'object' && heroImage?.src) {
+    imageUrl = heroImage.src;
+  } else if (typeof heroImage === 'string' && heroImage.length > 0) {
+    imageUrl = heroImage.startsWith('http') ? heroImage : `https://www.diariofederal.com.ar${heroImage}`;
+  }
 
-	const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
+  const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
 
-	const panelTexto = {
-		type: 'div',
-		props: {
-			style: {
-				flex: 1,
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				gap: '14px',
-				padding: '32px 64px',
-			},
-			children: [
-				{
-					type: 'div',
-					props: {
-						style: { display: 'flex', alignItems: 'center', gap: '10px' },
-						children: [
-							{
-								type: 'div',
-								props: {
-									style: {
-										width: '14px',
-										height: '14px',
-										borderRadius: '50%',
-										background: '#e93323',
-										display: 'flex',
-									},
-								},
-							},
-							{
-								type: 'span',
-								props: {
-									style: {
-										color: '#e93323',
-										fontSize: '22px',
-										fontWeight: 700,
-										letterSpacing: '2px',
-										textTransform: 'uppercase',
-										fontFamily: 'sans-serif',
-									},
-									children: 'Nota',
-								},
-							},
-						],
-					},
-				},
-				{
-					type: 'div',
-					props: {
-						style: {
-							fontFamily: 'serif',
-							fontWeight: 700,
-							fontSize: '46px',
-							lineHeight: 1.2,
-							color: '#1a1712',
-							display: 'flex',
-						},
-						children: tituloCorto,
-					},
-				},
-				{
-					type: 'div',
-					props: {
-						style: {
-							fontFamily: 'serif',
-							fontWeight: 700,
-							fontSize: '22px',
-							color: '#6b6255',
-							display: 'flex',
-						},
-						children: 'EL DIARIO.',
-					},
-				},
-			],
-		},
-	};
+  const markup = h(
+    'div',
+    { style: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#f6efdf' } },
+    imageUrl && h('img', {
+      src: imageUrl,
+      style: { width: '100%', height: '62%', objectFit: 'cover' },
+    }),
+    h(
+      'div',
+      {
+        style: {
+          display: 'flex', flexDirection: 'column',
+          backgroundColor: '#f6efdf', height: '38%', padding: '44px 52px',
+          justifyContent: 'center', gap: '14px',
+        },
+      },
+      h(
+        'div',
+        { style: { display: 'flex', alignItems: 'center', gap: '14px' } },
+        h('div', { style: { width: '18px', height: '18px', borderRadius: '50%', backgroundColor: '#e93323' } }),
+        h('span', { style: { fontSize: '26px', letterSpacing: '5px', fontWeight: 600, color: '#e93323', textTransform: 'uppercase', fontFamily: 'sans-serif' } }, 'NOTA')
+      ),
+      h('span', { style: { fontSize: '52px', fontWeight: 700, lineHeight: 1.15, color: '#1a1712', fontFamily: 'serif' } }, tituloCorto),
+      h('span', { style: { fontSize: '28px', marginTop: 'auto', fontWeight: 600, color: '#6b6255', fontFamily: 'serif' } }, 'EL DIARIO.')
+    )
+  );
 
-	const children: any[] = [];
-	if (imageUrl) {
-		children.push({
-			type: 'div',
-			props: {
-				style: { width: '1200px', height: '390px', display: 'flex' },
-				children: {
-					type: 'img',
-					props: {
-						src: imageUrl,
-						width: 1200,
-						height: 390,
-						style: { width: '1200px', height: '390px', objectFit: 'cover' },
-					},
-				},
-			},
-		});
-	}
-	children.push(panelTexto);
+  const img = new ImageResponse(markup, { width: 1200, height: 630 });
+  const buf = await img.arrayBuffer();
 
-	return new ImageResponse(
-		{
-			type: 'div',
-			props: {
-				style: {
-					width: '1200px',
-					height: '630px',
-					display: 'flex',
-					flexDirection: 'column',
-					background: '#f6efdf',
-				},
-				children,
-			},
-		},
-		{
-			width: 1200,
-			height: 630,
-		}
-	);
+  return new Response(buf, {
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': 'public, max-age=31536000, immutable',
+    },
+  });
 }
