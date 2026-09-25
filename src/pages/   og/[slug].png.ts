@@ -16,11 +16,24 @@ export async function GET({ params }: { params: { slug: string } }) {
 
   const { title, heroImage } = art.data;
   
+  // Construir URL absoluta SIEMPRE
   let imageUrl: string | null = null;
-  if (typeof heroImage === 'object' && heroImage?.src) {
-    imageUrl = heroImage.src;
-  } else if (typeof heroImage === 'string' && heroImage.length > 0) {
-    imageUrl = heroImage.startsWith('http') ? heroImage : `https://www.diariofederal.com.ar${heroImage}`;
+  if (heroImage) {
+    const imagePath = typeof heroImage === 'object' ? heroImage.src : heroImage;
+    if (imagePath) {
+      // Si ya es URL absoluta (empieza con http), usarla tal cual
+      if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+        imageUrl = imagePath;
+      } 
+      // Si es ruta relativa (empieza con /), construir URL absoluta
+      else if (imagePath.startsWith('/')) {
+        imageUrl = `https://www.diariofederal.com.ar${imagePath}`;
+      }
+      // Si es ruta relativa sin /, agregar el prefijo
+      else {
+        imageUrl = `https://www.diariofederal.com.ar/${imagePath}`;
+      }
+    }
   }
 
   const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
@@ -28,16 +41,16 @@ export async function GET({ params }: { params: { slug: string } }) {
   const markup = h(
     'div',
     { style: { display: 'flex', flexDirection: 'column', width: '100%', height: '100%', backgroundColor: '#f6efdf' } },
-    imageUrl && h('img', {
+    imageUrl ? h('img', {
       src: imageUrl,
       style: { width: '100%', height: '62%', objectFit: 'cover' },
-    }),
+    }) : null,
     h(
       'div',
       {
         style: {
           display: 'flex', flexDirection: 'column',
-          backgroundColor: '#f6efdf', height: '38%', padding: '44px 52px',
+          backgroundColor: '#f6efdf', height: imageUrl ? '38%' : '100%', padding: '44px 52px',
           justifyContent: 'center', gap: '14px',
         },
       },
