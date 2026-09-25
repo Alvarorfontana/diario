@@ -1,8 +1,1 @@
-{
-  "functions": {
-    "src/pages/og/[slug].png.ts": {
-      "memory": 1024,
-      "maxDuration": 30
-    }
-  }
-}
+{}
