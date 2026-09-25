@@ -11,24 +11,6 @@ export async function getStaticPaths() {
 	}));
 }
 
-async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
-	const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`;
-	
-	const css = await fetch(url, {
-		headers: {
-			// User-Agent viejo para forzar TTF en vez de WOFF2
-			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-		},
-	}).then((res) => res.text());
-
-	// Buscar cualquier formato de fuente disponible
-	const match = css.match(/src: url\(([^)]+)\) format\('(?:truetype|opentype|woff2)'\)/);
-	if (!match) throw new Error(`No se pudo obtener la fuente ${family}`);
-	
-	const fontRes = await fetch(match[1]);
-	return fontRes.arrayBuffer();
-}
-
 export async function GET({ props, site }: { props: any; site: URL }) {
 	const { data } = props;
 	const { title, heroImage } = data;
@@ -41,11 +23,6 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 	}
 
 	const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
-
-	const [loraBold, interBold] = await Promise.all([
-		loadGoogleFont('Lora', 700),
-		loadGoogleFont('Inter', 700),
-	]);
 
 	const panelTexto = {
 		type: 'div',
@@ -85,7 +62,7 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 										fontWeight: 700,
 										letterSpacing: '2px',
 										textTransform: 'uppercase',
-										fontFamily: 'Inter',
+										fontFamily: 'sans-serif',
 									},
 									children: 'Nota',
 								},
@@ -97,7 +74,7 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 					type: 'div',
 					props: {
 						style: {
-							fontFamily: 'Lora',
+							fontFamily: 'serif',
 							fontWeight: 700,
 							fontSize: '46px',
 							lineHeight: 1.2,
@@ -111,7 +88,7 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 					type: 'div',
 					props: {
 						style: {
-							fontFamily: 'Lora',
+							fontFamily: 'serif',
 							fontWeight: 700,
 							fontSize: '22px',
 							color: '#6b6255',
@@ -161,10 +138,6 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 		{
 			width: 1200,
 			height: 630,
-			fonts: [
-				{ name: 'Lora', data: loraBold, weight: 700, style: 'normal' },
-				{ name: 'Inter', data: interBold, weight: 700, style: 'normal' },
-			],
 		}
 	);
 }
