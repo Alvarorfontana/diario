@@ -1,25 +1,22 @@
 import { ImageResponse } from '@vercel/og';
-import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 
 export const prerender = false;
 
-export async function getStaticPaths() {
-	const articulos = await getCollection('articulos');
-	return articulos.map((articulo) => ({
-		params: { slug: articulo.id },
-		props: articulo,
-	}));
-}
+export async function GET({ params }: { params: { slug: string } }) {
+	const articulo = await getEntry('articulos', params.slug);
+	
+	if (!articulo) {
+		return new Response('Artículo no encontrado', { status: 404 });
+	}
 
-export async function GET({ props, site }: { props: any; site: URL }) {
-	const { data } = props;
-	const { title, heroImage } = data;
+	const { title, heroImage } = articulo.data;
 
 	let imageUrl: string | null = null;
 	if (typeof heroImage === 'object' && heroImage?.src) {
-		imageUrl = new URL(heroImage.src, site).toString();
+		imageUrl = heroImage.src;
 	} else if (typeof heroImage === 'string' && heroImage.length > 0) {
-		imageUrl = heroImage.startsWith('http') ? heroImage : new URL(heroImage, site).toString();
+		imageUrl = heroImage.startsWith('http') ? heroImage : heroImage;
 	}
 
 	const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
