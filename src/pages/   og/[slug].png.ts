@@ -13,10 +13,16 @@ export async function getStaticPaths() {
 
 async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
 	const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`;
-	const css = await fetch(url).then((res) => res.text());
+	
+	const css = await fetch(url, {
+		headers: {
+			// User-Agent viejo para forzar TTF en vez de WOFF2
+			'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+		},
+	}).then((res) => res.text());
 
-	// Google ahora devuelve woff2, buscamos ese formato
-	const match = css.match(/src: url\(([^)]+)\) format\('woff2'\)/);
+	// Buscar cualquier formato de fuente disponible
+	const match = css.match(/src: url\(([^)]+)\) format\('(?:truetype|opentype|woff2)'\)/);
 	if (!match) throw new Error(`No se pudo obtener la fuente ${family}`);
 	
 	const fontRes = await fetch(match[1]);
