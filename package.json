@@ -22,6 +22,7 @@
     "@keystatic/core": "^0.6.8",
     "@tailwindcss/vite": "^4.3.3",
     "@vercel/blob": "^0.27.0",
+    "@vercel/og": "^0.6.2",
     "astro": "^7.2.4",
     "resend": "^6.24.0",
     "sharp": "^0.35.0",
