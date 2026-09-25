@@ -1,7 +1,7 @@
 import { ImageResponse } from '@vercel/og';
 import { getCollection } from 'astro:content';
 
-export const prerender = true;
+export const prerender = false;
 
 export async function getStaticPaths() {
 	const articulos = await getCollection('articulos');
