@@ -1,3 +1,149 @@
+	export const prerender = true;
+
+import { ImageResponse } from '@vercel/og';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const articulos = await getCollection('articulos');
+	return articulos.map((articulo) => ({
+		params: { slug: articulo.id },
+		props: articulo,
+	}));
+}
+
+async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
+	const css = await fetch(
+		`https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`,
+		{
+			headers: {
+				// Con un user-agent viejo, Google devuelve TTF en vez de WOFF2 (lo que necesita el generador de imagen)
+				'User-Agent':
+					'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
+			},
+		}
+	).then((res) => res.text());
+
+	const match = css.match(/src: url\(([^)]+)\) format\('(?:truetype|opentype)'\)/);
+	if (!match) throw new Error(`No se pudo obtener la fuente ${family}`);
+	const fontRes = await fetch(match[1]);
+	return fontRes.arrayBuffer();
+}
+
+export async function GET({ props, site }: { props: any; site: URL }) {
+	const { data } = props;
+	const { title, heroImage } = data;
+
+	let imageUrl: string | null = null;
+	if (typeof heroImage === 'object' && heroImage?.src) {
+		imageUrl = new URL(heroImage.src, site).toString();
+	} else if (typeof heroImage === 'string' && heroImage.length > 0) {
+		imageUrl = heroImage.startsWith('http') ? heroImage : new URL(heroImage, site).toString();
+	}
+
+	const tituloCorto = title.length > 85 ? title.slice(0, 82) + '…' : title;
+
+	const [loraBold, interBold] = await Promise.all([
+		loadGoogleFont('Lora', 700),
+		loadGoogleFont('Inter', 700),
+	]);
+
+	const panelTexto = {
+		type: 'div',
+		props: {
+			style: {
+				flex: 1,
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				gap: '14px',
+				padding: '32px 64px',
+			},
+			children: [
+				{
+					type: 'div',
+					props: {
+						style: { display: 'flex', alignItems: 'center', gap: '10px' },
+						children: [
+							{
+								type: 'div',
+								props: {
+									style: {
+										width: '14px',
+										height: '14px',
+										borderRadius: '50%',
+										background: '#e93323',
+										display: 'flex',
+									},
+								},
+							},
+							{
+								type: 'span',
+								props: {
+									style: {
+										color: '#e93323',
+										fontSize: '22px',
+										fontWeight: 700,
+										letterSpacing: '2px',
+										textTransform: 'uppercase',
+										fontFamily: 'Inter',
+									},
+									children: 'Nota',
+								},
+							},
+						],
+					},
+				},
+				{
+					type: 'div',
+					props: {
+						style: {
+							fontFamily: 'Lora',
+							fontWeight: 700,
+							fontSize: '46px',
+							lineHeight: 1.2,
+							color: '#1a1712',
+							display: 'flex',
+						},
+						children: tituloCorto,
+					},
+				},
+				{
+					type: 'div',
+					props: {
+						style: {
+							fontFamily: 'Lora',
+							fontWeight: 700,
+							fontSize: '22px',
+							color: '#6b6255',
+							display: 'flex',
+						},
+						children: 'EL DIARIO.',
+					},
+				},
+			],
+		},
+	};
+
+	const children = [];
+	if (imageUrl) {
+		children.push({
+			type: 'div',
+			props: {
+				style: { width: '1200px', height: '390px', display: 'flex' },
+				children: {
+					type: 'img',
+					props: {
+						src: imageUrl,
+						width: 1200,
+						height: 390,
+						style: { width: '1200px', height: '390px', objectFit: 'cover' },
+					},
+				},
+			},
+		});
+	}
+	children.push(panelTexto);
+
 	return new ImageResponse(
 		{
 			type: 'div',
