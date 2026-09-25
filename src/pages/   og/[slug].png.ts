@@ -5,10 +5,11 @@ import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
 	const articulos = await getCollection('articulos');
-	return articulos.map((articulo) => ({
-		params: { slug: articulo.id },
-		props: articulo,
-	}));
+return articulos.map((articulo) => ({
+    params: { slug: articulo.id.replace(/\.(md|mdx)$/, '') },
+    props: articulo,
+}));
+	
 }
 
 async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer | null> {
