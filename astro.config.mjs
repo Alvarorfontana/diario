@@ -11,7 +11,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://diario-digital-mocha-iota.vercel.app',
+  site: 'https://www.diariofederal.com.ar/',
   output: 'server',
   adapter: vercel(),
   integrations: [mdx(), sitemap(), react(), keystatic()],
