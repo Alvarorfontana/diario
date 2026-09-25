@@ -1,14 +1,8 @@
 {
-	"redirects": [
-		{
-			"source": "/articulo/srt-unidades-productivas-sin-afectacion",
-			"destination": "/articulo/informe-srt-mayo-2026/",
-			"permanent": false
-		},
-		{
-			"source": "/articulo/srt-unidades-productivas-sin-afectacion/",
-			"destination": "/articulo/informe-srt-mayo-2026/",
-			"permanent": false
-		}
-	]
+  "functions": {
+    "src/pages/og/[slug].png.ts": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  }
 }
