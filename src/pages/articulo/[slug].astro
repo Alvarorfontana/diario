@@ -41,6 +41,10 @@ const {
 } = articulo.data;
 const { Content } = await render(articulo);
 
+// Tiempo estimado de lectura (≈200 palabras por minuto)
+const palabras = (articulo.body ?? '').trim().split(/\s+/).filter(Boolean).length;
+const minutosLectura = Math.max(1, Math.round(palabras / 200));
+
 // Artículos relacionados de la misma sección (máximo 3)
 const relacionados = (
 	await getCollection(
@@ -60,7 +64,10 @@ const relacionados = (
 	author={author}
 	section={nombreSeccion(section)}
 >
-	<article class="mx-auto max-w-3xl" data-pagefind-body>
+	<!-- Barra de progreso de lectura -->
+	<div id="progreso-lectura" class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-brand transition-[width] duration-150 ease-out"></div>
+
+	<article class="mx-auto max-w-[680px]" data-pagefind-body>
 		<header>
 			<p class="text-xs font-semibold tracking-widest text-brand uppercase" data-pagefind-filter="Sección">
 				{nombreSeccion(section)}
@@ -70,10 +77,11 @@ const relacionados = (
 					<p class="mt-3 text-sm font-bold tracking-wide text-neutral-800 uppercase">{volanta}</p>
 				)
 			}
-			<h1 class="mt-2 font-serif text-3xl leading-tight font-bold sm:text-5xl">
+			<h1 class="mt-2 font-serif text-3xl leading-[1.12] font-bold sm:text-[2.75rem]">
 				{title}
 			</h1>
 			<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">{description}</p>
+
 			<div class="mt-6 flex items-center gap-3 border-y border-neutral-200 py-4">
 				<div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-sm font-bold text-white">
 					{author.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
@@ -85,19 +93,22 @@ const relacionados = (
 						{updatedDate && updatedDate.valueOf() !== pubDate.valueOf() && (
 							<span class="italic"> · Actualizado: <FormattedDate date={updatedDate} /></span>
 						)}
+						<span class="mx-1.5">·</span>
+						{minutosLectura} min de lectura
 					</p>
 				</div>
 				<div class="ml-auto">
 					<ShareButtons url={Astro.url.href} title={title} />
 				</div>
 			</div>
+
 			{
 				tags && tags.length > 0 && (
 					<div class="mt-4 flex flex-wrap gap-2">
 						{tags.map((etiqueta) => (
 							<a
 								href={`/tag/${slugify(etiqueta)}/`}
-								class="rounded-full border border-neutral-300 px-3 py-1 text-xs text-neutral-600 transition-colors hover:border-brand hover:text-brand"
+								class="rounded-full border border-neutral-300 bg-paper px-3 py-1 text-xs text-neutral-600 transition-colors hover:border-brand hover:text-brand"
 							>
 								#{etiqueta}
 							</a>
@@ -124,7 +135,7 @@ const relacionados = (
 			)
 		}
 
-		<div class="prose-articulo mt-10">
+		<div class="prose-articulo mt-10 text-[18px] leading-[1.75] text-neutral-800">
 			<Content />
 		</div>
 	</article>
@@ -139,7 +150,7 @@ const relacionados = (
 
 	{
 		relacionados.length > 0 && (
-			<section class="mx-auto mt-16 max-w-6xl border-t border-neutral-200 pt-8">
+			<section class="mx-auto mt-16 max-w-6xl border-t-2 border-neutral-900 pt-8">
 				<h2 class="font-serif text-2xl font-bold">Más en {nombreSeccion(section)}</h2>
 				<div class="mt-6 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
 					{relacionados.map((relacionado) => (
@@ -150,3 +161,27 @@ const relacionados = (
 		)
 	}
 </BaseLayout>
+
+<script is:inline>
+	(function () {
+		var barra = document.getElementById('progreso-lectura');
+		var articulo = document.querySelector('[data-pagefind-body]');
+		if (!barra || !articulo) return;
+
+		function actualizar() {
+			var rect = articulo.getBoundingClientRect();
+			var alturaTotal = rect.height - window.innerHeight;
+			if (alturaTotal <= 0) {
+				barra.style.width = '100%';
+				return;
+			}
+			var recorrido = Math.min(Math.max(-rect.top, 0), alturaTotal);
+			var porcentaje = (recorrido / alturaTotal) * 100;
+			barra.style.width = porcentaje + '%';
+		}
+
+		document.addEventListener('scroll', actualizar, { passive: true });
+		window.addEventListener('resize', actualizar);
+		actualizar();
+	})();
+</script>
