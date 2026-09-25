@@ -1,4 +1,4 @@
-	export const prerender = true;
+export const prerender = true;
 
 import { ImageResponse } from '@vercel/og';
 import { getCollection } from 'astro:content';
@@ -11,22 +11,21 @@ export async function getStaticPaths() {
 	}));
 }
 
-async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer> {
-	const css = await fetch(
-		`https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`,
-		{
-			headers: {
-				// Con un user-agent viejo, Google devuelve TTF en vez de WOFF2 (lo que necesita el generador de imagen)
-				'User-Agent':
-					'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-			},
-		}
-	).then((res) => res.text());
+async function loadGoogleFont(family: string, weight: number): Promise<ArrayBuffer | null> {
+	try {
+		const css = await fetch(
+			`https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`
+		).then((res) => res.text());
 
-	const match = css.match(/src: url\(([^)]+)\) format\('(?:truetype|opentype)'\)/);
-	if (!match) throw new Error(`No se pudo obtener la fuente ${family}`);
-	const fontRes = await fetch(match[1]);
-	return fontRes.arrayBuffer();
+		// Aceptamos cualquier formato que Google devuelva (woff2, truetype, etc.)
+		const match = css.match(/src: url\(([^)]+)\) format\('([\w-]+)'\)/);
+		if (!match) return null;
+		const fontRes = await fetch(match[1]);
+		if (!fontRes.ok) return null;
+		return await fontRes.arrayBuffer();
+	} catch {
+		return null;
+	}
 }
 
 export async function GET({ props, site }: { props: any; site: URL }) {
@@ -46,6 +45,10 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 		loadGoogleFont('Lora', 700),
 		loadGoogleFont('Inter', 700),
 	]);
+
+	const fonts = [];
+	if (loraBold) fonts.push({ name: 'Lora', data: loraBold, weight: 700 as const, style: 'normal' as const });
+	if (interBold) fonts.push({ name: 'Inter', data: interBold, weight: 700 as const, style: 'normal' as const });
 
 	const panelTexto = {
 		type: 'div',
@@ -161,10 +164,7 @@ export async function GET({ props, site }: { props: any; site: URL }) {
 		{
 			width: 1200,
 			height: 630,
-			fonts: [
-				{ name: 'Lora', data: loraBold, weight: 700, style: 'normal' },
-				{ name: 'Inter', data: interBold, weight: 700, style: 'normal' },
-			],
+			fonts,
 		}
 	);
 }
