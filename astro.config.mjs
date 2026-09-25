@@ -12,7 +12,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.diariofederal.com.ar/',
-  output: 'server',
+  output: 'hybrid',
   adapter: vercel(),
   integrations: [mdx(), sitemap(), react(), keystatic()],
 
