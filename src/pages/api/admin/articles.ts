@@ -14,10 +14,11 @@ export const GET = async ({ request, locals }: ApiContext) => {
 	const action = url.searchParams.get('action');
 
 	if (action === 'list') {
+		// Primero intentamos con status, si no existe la columna, traemos todo
 		const { data: articles, error } = await supabase
 			.from('articles')
 			.select('*')
-			.order('published_at', { ascending: false });
+			.order('date', { ascending: false });
 
 		if (error) {
 			return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'content-type': 'application/json' } });
@@ -27,11 +28,11 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			slug: article.slug,
 			sha: article.id,
 			title: article.title,
-			date: article.published_at,
+			date: article.date,
 			author: article.author,
 			excerpt: article.excerpt,
 			heroImage: article.image_url,
-			status: article.status
+			status: article.status || 'published'
 		}));
 
 		return new Response(JSON.stringify(formattedArticles), { headers: { 'content-type': 'application/json' } });
@@ -56,11 +57,11 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			sha: article.id, 
 			data: {
 				title: article.title,
-				date: article.published_at,
+				date: article.date,
 				author: article.author,
 				excerpt: article.excerpt,
 				heroImage: article.image_url,
-				status: article.status
+				status: article.status || 'published'
 			}, 
 			body: article.content 
 		}), { headers: { 'content-type': 'application/json' } });
@@ -83,7 +84,7 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		slug: slug,
 		content: content || '',
 		excerpt: data.excerpt || '',
-		published_at: data.date || new Date().toISOString(),
+		date: data.date || new Date().toISOString().split('T')[0],
 		author: data.author || 'Redacción',
 		image_url: data.heroImage || '',
 		status: data.status || 'published'
