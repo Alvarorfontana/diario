@@ -29,7 +29,6 @@ const res = await fetch(
 		},
 	}
 );
-
 const articulos = res.ok ? await res.json() : [];
 const articulo = articulos[0];
 
@@ -48,6 +47,8 @@ const {
 	tags,
 	content,
 } = articulo;
+
+const fecha = new Date(date);
 
 // Tiempo estimado de lectura (≈200 palabras por minuto)
 // Se quitan las etiquetas HTML para contar solo texto
@@ -75,7 +76,7 @@ const relacionados = todos
 	title={`${title} | ${SITE_TITLE}`}
 	description={excerpt}
 	image={image_url}
-	publishedTime={date}
+	publishedTime={fecha}
 	author={author}
 	section={nombreSeccion(section || '')}
 >
@@ -104,7 +105,7 @@ const relacionados = todos
 				<div>
 					<p class="text-sm font-semibold text-neutral-900">{author || 'Redacción'}</p>
 					<p class="text-xs text-neutral-500">
-						<FormattedDate date={date} />
+						<FormattedDate date={fecha} />
 						<span class="mx-1.5">·</span>
 						{minutosLectura} min de lectura
 					</p>
