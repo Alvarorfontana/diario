@@ -1,28 +1,43 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterBox from '../components/NewsletterBox.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion } from '../consts';
+import { getRuntimeEnv } from '../lib/runtimeEnv';
 
-// Ordenar por fecha, sin filtrar futuras
-const articulos = (await getCollection('articulos')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
+// Traer artículos desde Supabase
+const env = getRuntimeEnv(Astro.locals);
+let articulos = [];
 
-const alerta = articulos.find((a) => a.data.ultimoMomento) ?? null;
+try {
+	const supabaseUrl = env.SUPABASE_PROJECT_URL;
+	const supabaseKey = env.SUPABASE_SECRET_KEY;
+	const res = await fetch(`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`, {
+		headers: {
+			apikey: supabaseKey,
+			Authorization: `Bearer ${supabaseKey}`,
+		},
+	});
+	if (res.ok) {
+		articulos = await res.json();
+	}
+} catch (e) {
+	console.error('Error cargando artículos:', e);
+}
+
+// Ordenar por fecha
+articulos = articulos.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+
+const alerta = articulos.find((a) => a.breaking) ?? null;
 const restoAlerta = alerta ? articulos.filter((a) => a.id !== alerta.id) : articulos;
-
 const [principal, ...resto] = restoAlerta;
 const ultimos = resto.slice(0, 6);
 const destacados = resto.slice(6, 12);
-
 const seccionesPortada = ['internacional', 'argentina', 'economia', 'deportes', 'cultura', 'tecnologia']
-	.map((sec) => articulos.find((a) => a.data.section === sec))
+	.map((sec) => articulos.find((a) => a.section === sec))
 	.filter(Boolean);
-
-const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
+const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
@@ -35,8 +50,8 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 		</span>
 		<div class="flex flex-1 items-center overflow-hidden pl-4 text-[13px] font-medium text-neutral-200">
 			<span class="whitespace-nowrap">
-				{alerta ? `${alerta.data.title}  •  ` : ''}
-				{ultimos.slice(0, 3).map((a) => `${a.data.title}  •  `).join('')}
+				{alerta ? `${alerta.title}  •  ` : ''}
+				{ultimos.slice(0, 3).map((a) => `${a.title}  •  `).join('')}
 			</span>
 		</div>
 	</div>
@@ -44,7 +59,7 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 	<!-- ÚLTIMO MOMENTO -->
 	{alerta && (
 		<article class="border-t-4 border-neutral-900">
-			<a href={`/articulo/${alerta.id}/`} class="group block">
+			<a href={`/articulo/${alerta.slug}/`} class="group block">
 				<p class="mt-4 inline-flex items-center gap-2 bg-neutral-900 px-3 py-2 text-xs font-bold text-white uppercase tracking-wider">
 					<span class="relative flex h-2 w-2">
 						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
@@ -53,19 +68,19 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 					Último momento
 				</p>
 				<h1 class="mt-4 font-serif text-4xl leading-[1.05] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-5xl lg:text-6xl">
-					{alerta.data.title}
+					{alerta.title}
 				</h1>
 				<p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600 sm:text-xl">
-					{alerta.data.description}
+					{alerta.excerpt}
 				</p>
 			</a>
-			{alerta.data.heroImage && (
-				<a href={`/articulo/${alerta.id}/`} class="mt-6 block overflow-hidden">
-					<img src={typeof alerta.data.heroImage === 'string' ? alerta.data.heroImage : alerta.data.heroImage.src} alt="" class="w-full object-cover" />
+			{alerta.image_url && (
+				<a href={`/articulo/${alerta.slug}/`} class="mt-6 block overflow-hidden">
+					<img src={alerta.image_url} alt="" class="w-full object-cover" />
 				</a>
 			)}
 			<p class="mt-3 mb-8 text-xs tracking-wide text-neutral-400 uppercase">
-				<FormattedDate date={alerta.data.pubDate} />
+				<FormattedDate date={alerta.date} />
 			</p>
 		</article>
 	)}
@@ -75,19 +90,19 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 		<div class="grid items-start gap-8 border-t border-neutral-200 pt-8 pb-10 lg:grid-cols-2">
 			<a href={urlPrincipal} class="group block">
 				<p class="text-xs font-bold tracking-[0.2em] text-brand uppercase">
-					{nombreSeccion(principal.data.section)}
+					{nombreSeccion(principal.section)}
 				</p>
 				<h2 class="titular-link mt-3 font-serif text-3xl leading-[1.08] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-4xl lg:text-5xl">
-					{principal.data.title}
+					{principal.title}
 				</h2>
-				<p class="mt-4 text-lg leading-relaxed text-neutral-600">{principal.data.description}</p>
+				<p class="mt-4 text-lg leading-relaxed text-neutral-600">{principal.excerpt}</p>
 				<p class="mt-4 text-xs font-medium tracking-wide text-neutral-400 uppercase">
-					<FormattedDate date={principal.data.pubDate} />
+					<FormattedDate date={principal.date} />
 				</p>
 			</a>
 			<a href={urlPrincipal} class="block overflow-hidden">
-				{principal.data.heroImage ? (
-					<img src={typeof principal.data.heroImage === 'string' ? principal.data.heroImage : principal.data.heroImage.src} alt="" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+				{principal.image_url ? (
+					<img src={principal.image_url} alt="" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
 				) : (
 					<div class="flex aspect-[4/3] w-full items-center justify-center bg-neutral-100 font-serif text-6xl font-bold text-neutral-300">
 						EL DIARIO<span class="text-brand">.</span>
@@ -100,22 +115,24 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 	<!-- SECUNDARIAS + SIDEBAR -->
 	<div class="grid gap-10 border-t border-neutral-200 pt-8 lg:grid-cols-3">
 		<div class="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:col-span-2">
-			{destacados.map((articulo) => <ArticleCard article={articulo} />)}
+			{destacados.map((articulo) => (
+				<ArticleCard article={articulo} />
+			))}
 		</div>
 
 		<aside class="lg:border-l lg:border-neutral-200 lg:pl-8">
 			<h2 class="border-b-2 border-neutral-900 pb-2 font-serif text-lg font-bold">Lo último</h2>
 			<div class="divide-y divide-neutral-200">
 				{ultimos.map((articulo) => (
-					<a href={`/articulo/${articulo.id}/`} class="group block py-3.5">
+					<a href={`/articulo/${articulo.slug}/`} class="group block py-3.5">
 						<p class="text-[11px] font-bold tracking-[0.2em] text-brand uppercase">
-							{nombreSeccion(articulo.data.section)}
+							{nombreSeccion(articulo.section)}
 						</p>
 						<h3 class="mt-1 font-serif text-base leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
-							{articulo.data.title}
+							{articulo.title}
 						</h3>
 						<p class="mt-1 text-xs text-neutral-400">
-							<FormattedDate date={articulo.data.pubDate} />
+							<FormattedDate date={articulo.date} />
 						</p>
 					</a>
 				))}
@@ -123,42 +140,4 @@ const urlPrincipal = principal ? `/articulo/${principal.id}/` : '/';
 
 			<!-- PUBLICIDAD -->
 			<div class="mt-8 border border-neutral-200 bg-white overflow-hidden">
-				<p class="text-[10px] font-bold tracking-widest text-neutral-400 uppercase px-3 py-2 border-b border-neutral-100 bg-neutral-50">Publicidad</p>
-				<div class="relative bg-neutral-100 flex flex-col items-center justify-center p-6 min-h-[280px]">
-					<div class="w-full h-40 bg-white border border-neutral-200 flex items-center justify-center mb-3">
-						<span class="text-neutral-400 text-sm">[ <img src="https://placehold.co/300x600/e3d3b3/1a1712?text=Tu+Publicidad+Aqui" alt="Publicidad" class="w-full h-auto" /> ]</span>
-					</div>
-					<p class="font-bold text-lg text-neutral-800">Tu Marca Acá</p>
-					<a href="#" class="mt-3 px-4 py-2 bg-neutral-900 text-white text-sm font-bold rounded hover:bg-neutral-800 transition-colors">Ver más</a>
-					<button class="absolute top-2 right-2 w-6 h-6 bg-black bg-opacity-50 text-white rounded-full text-xs flex items-center justify-center hover:bg-opacity-70">✕</button>
-				</div>
-			</div>
-
-			<!-- SUSCRIPCIÓN -->
-			<div class="mt-8">
-				<NewsletterBox />
-			</div>
-		</aside>
-	</div>
-
-	<!-- SECCIONES -->
-	{seccionesPortada.length > 0 && (
-		<section class="mt-14 border-t-2 border-neutral-900 pt-6">
-			<div class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-				{seccionesPortada.map((articulo) => (
-					<a href={`/articulo/${articulo.id}/`} class="group block border-t border-neutral-300 pt-4">
-						<p class="text-[11px] font-bold tracking-[0.25em] text-brand uppercase">
-							{nombreSeccion(articulo.data.section)}
-						</p>
-						<h3 class="mt-2 font-serif text-xl leading-tight font-bold text-neutral-900 transition-colors group-hover:text-brand">
-							{articulo.data.title}
-						</h3>
-						<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600">
-							{articulo.data.description}
-						</p>
-					</a>
-				))}
-			</div>
-		</section>
-	)}
-</BaseLayout>
+				<p class="text-[10px] font-bold tracking-w
