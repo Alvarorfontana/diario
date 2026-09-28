@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getRuntimeEnv } from '../../../lib/runtimeEnv';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
 
 export const GET: APIRoute = async ({ locals }) => {
   const env = getRuntimeEnv(locals);
