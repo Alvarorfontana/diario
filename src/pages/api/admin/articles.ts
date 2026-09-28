@@ -1,6 +1,6 @@
 export const prerender = false;
 
-import { supabase } from '../../../lib/supabase';
+import { supabase } from './supabase';
 
 type RuntimeEnv = Record<string, string | undefined>;
 interface ApiContext {
