@@ -61,6 +61,8 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 		.checkbox-wrapper { display: flex; align-items: center; gap: 8px; }
 		.checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; accent-color: #e93323; }
 		.hidden { display: none; }
+		.upload-status { font-size: 13px; color: #6b7280; margin: 6px 0 0; }
+		.hero-preview { max-width: 240px; margin-top: 10px; border-radius: 4px; display: block; }
 	</style>
 </head>
 <body>
@@ -97,7 +99,7 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 							</div>
 							<div class="form-group">
 								<label for="slug">Slug (URL)</label>
-								<input type="text" id="slug" name="slug" required pattern="[a-z0-9-]+" placeholder="ej: mi-noticia" />
+								<input type="text" id="slug" name="slug" required placeholder="se completa solo con el título" />
 							</div>
 							<div class="form-group">
 								<label for="description">Resumen</label>
@@ -128,8 +130,12 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="heroImage">URL de imagen (opcional)</label>
-								<input type="text" id="heroImage" name="heroImage" placeholder="https://..." />
+								<label for="heroFile">Foto de la nota</label>
+								<input type="file" id="heroFile" accept="image/*" />
+								<p id="upload-status" class="upload-status"></p>
+								<img id="hero-preview" class="hero-preview hidden" alt="" />
+								<label for="heroImage" style="margin-top: 10px;">Ruta de la imagen (se completa sola al subir la foto)</label>
+								<input type="text" id="heroImage" name="heroImage" placeholder="/uploads/..." />
 							</div>
 							<div class="form-group">
 								<label for="tags">Etiquetas (separadas por comas)</label>
@@ -177,10 +183,25 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 	)}
 
 	<script is:inline>
+		var slugTouched = false;
+
+		function slugify(t) {
+			return String(t || '')
+				.toLowerCase()
+				.normalize('NFD')
+				.replace(/[\u0300-\u036f]/g, '')
+				.replace(/[^a-z0-9]+/g, '-')
+				.replace(/^-+|-+$/g, '')
+				.slice(0, 80);
+		}
+
 		async function editArticle(id) {
 			const res = await fetch('/api/admin/articles?action=get&slug=' + id);
 			const data = await res.json();
 			if (data.ok) {
+				slugTouched = true;
+				document.getElementById('hero-preview').classList.add('hidden');
+				document.getElementById('upload-status').textContent = '';
 				document.getElementById('form-nuevo').classList.remove('hidden');
 				document.getElementById('edit-sha').value = data.sha || '';
 				document.getElementById('title').value = data.data.title || '';
@@ -209,12 +230,70 @@ const articulosOrdenados = articulos.sort((a, b) => b.data.pubDate.valueOf() - a
 			btn.addEventListener('click', function () { deleteArticle(btn.dataset.slug); });
 		});
 
+		var titleInput = document.getElementById('title');
+		var slugInput = document.getElementById('slug');
+		if (titleInput && slugInput) {
+			slugInput.addEventListener('input', function () { slugTouched = true; });
+			titleInput.addEventListener('input', function () {
+				if (!slugTouched) slugInput.value = slugify(titleInput.value);
+			});
+		}
+
+		function resizeImage(file, maxWidth) {
+			return new Promise(function (resolve, reject) {
+				var img = new Image();
+				var url = URL.createObjectURL(file);
+				img.onload = function () {
+					var scale = Math.min(1, maxWidth / img.width);
+					var canvas = document.createElement('canvas');
+					canvas.width = Math.round(img.width * scale);
+					canvas.height = Math.round(img.height * scale);
+					canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+					URL.revokeObjectURL(url);
+					canvas.toBlob(function (blob) {
+						if (blob) resolve(blob);
+						else reject(new Error('No se pudo procesar la imagen'));
+					}, 'image/jpeg', 0.85);
+				};
+				img.onerror = function () { reject(new Error('No se pudo leer la imagen')); };
+				img.src = url;
+			});
+		}
+
+		var heroFile = document.getElementById('heroFile');
+		var uploadStatus = document.getElementById('upload-status');
+		var heroPreview = document.getElementById('hero-preview');
+		if (heroFile) {
+			heroFile.addEventListener('change', async function () {
+				var file = heroFile.files[0];
+				if (!file) return;
+				uploadStatus.textContent = 'Subiendo foto...';
+				try {
+					var blob = await resizeImage(file, 1600);
+					var fd = new FormData();
+					fd.append('file', blob, file.name.replace(/\.[^.]+$/, '') + '.jpg');
+					var res = await fetch('/api/upload-image', { method: 'POST', body: fd });
+					var result = await res.json();
+					if (result.ok) {
+						document.getElementById('heroImage').value = result.url;
+						heroPreview.src = URL.createObjectURL(blob);
+						heroPreview.classList.remove('hidden');
+						uploadStatus.textContent = 'Foto subida. Ahora guardá la noticia.';
+					} else {
+						uploadStatus.textContent = 'No se pudo subir: ' + (result.error || 'error desconocido');
+					}
+				} catch (err) {
+					uploadStatus.textContent = 'No se pudo subir la foto. Probá de nuevo.';
+				}
+			});
+		}
+
 		var createForm = document.getElementById('create-form');
 		if (createForm) {
 			createForm.addEventListener('submit', async function (e) {
 				e.preventDefault();
 				const formData = new FormData(e.target);
-				const slug = formData.get('slug');
+				const slug = slugify(formData.get('slug'));
 				const content = formData.get('content');
 				const sha = formData.get('sha');
 				const data = {
