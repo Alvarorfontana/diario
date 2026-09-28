@@ -9,23 +9,22 @@ const PASSWORD = env.ADMIN_PASSWORD;
 const cookie = Astro.request.headers.get('cookie') ?? '';
 let isAuthenticated = cookie.includes('admin_auth=1');
 
-// Traer artículos desde Supabase
+// Traer artículos desde nuestro propio endpoint (que ya funciona)
 let articulos = [];
+let errorMsg = '';
 if (isAuthenticated) {
 	try {
-		const supabaseUrl = env.SUPABASE_PROJECT_URL;
-		const supabaseKey = env.SUPABASE_SECRET_KEY;
-		const res = await fetch(`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`, {
-			headers: {
-				apikey: supabaseKey,
-				Authorization: `Bearer ${supabaseKey}`,
-			},
+		const siteUrl = new URL(Astro.request.url).origin;
+		const res = await fetch(`${siteUrl}/api/admin/articles?action=list`, {
+			headers: { cookie: Astro.request.headers.get('cookie') ?? '' }
 		});
 		if (res.ok) {
 			articulos = await res.json();
+		} else {
+			errorMsg = `Error ${res.status}: ${await res.text()}`;
 		}
 	} catch (e) {
-		console.error('Error cargando artículos:', e);
+		errorMsg = `Error de conexión: ${e.message}`;
 	}
 }
 
@@ -80,6 +79,7 @@ if (Astro.request.method === 'POST') {
 		.hidden { display: none; }
 		.upload-status { font-size: 13px; color: #6b7280; margin: 6px 0 0; }
 		.hero-preview { max-width: 240px; margin-top: 10px; border-radius: 4px; display: block; }
+		.error-box { background: #fee; color: #991b1b; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
 	</style>
 </head>
 <body>
@@ -103,6 +103,8 @@ if (Astro.request.method === 'POST') {
 					<a href="/" class="btn btn-secondary" style="margin-left: 10px;">Ver sitio</a>
 				</div>
 			</div>
+
+			{errorMsg && <div class="error-box">⚠️ {errorMsg}</div>}
 
 			<div id="form-nuevo" class="card hidden">
 				<h3 style="margin-bottom: 15px;">Crear / Editar Noticia</h3>
@@ -188,8 +190,8 @@ if (Astro.request.method === 'POST') {
 								<td>{articulo.date ? new Date(articulo.date).toLocaleDateString('es-AR') : '-'}</td>
 								<td>{articulo.breaking ? <span class="badge badge-ultimo">Sí</span> : '-'}</td>
 								<td class="actions">
-									<button class="btn btn-primary" data-id={articulo.id} data-slug={articulo.slug} data-action="edit">Editar</button>
-									<button class="btn btn-danger" data-id={articulo.id} data-slug={articulo.slug} data-action="delete">Eliminar</button>
+									<button class="btn btn-primary" data-id={articulo.sha} data-slug={articulo.slug} data-action="edit">Editar</button>
+									<button class="btn btn-danger" data-id={articulo.sha} data-slug={articulo.slug} data-action="delete">Eliminar</button>
 								</td>
 							</tr>
 						))}
