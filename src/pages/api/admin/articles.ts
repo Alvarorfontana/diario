@@ -17,8 +17,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 		const { data: articles, error } = await supabase
 			.from('articles')
 			.select('*')
-			.eq('status', 'published')
-			.order('date', { ascending: false });
+			.order('published_at', { ascending: false });
 
 		if (error) {
 			return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'content-type': 'application/json' } });
@@ -28,7 +27,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			slug: article.slug,
 			sha: article.id,
 			title: article.title,
-			date: article.date,
+			date: article.published_at,
 			author: article.author,
 			excerpt: article.excerpt,
 			heroImage: article.image_url,
@@ -57,7 +56,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			sha: article.id, 
 			data: {
 				title: article.title,
-				date: article.date,
+				date: article.published_at,
 				author: article.author,
 				excerpt: article.excerpt,
 				heroImage: article.image_url,
@@ -84,7 +83,7 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		slug: slug,
 		content: content || '',
 		excerpt: data.excerpt || '',
-		date: data.date || new Date().toISOString().split('T')[0],
+		published_at: data.date || new Date().toISOString(),
 		author: data.author || 'Redacción',
 		image_url: data.heroImage || '',
 		status: data.status || 'published'
@@ -94,7 +93,7 @@ export const POST = async ({ request, locals }: ApiContext) => {
 	if (sha) {
 		result = await supabase.from('articles').update(articleData).eq('id', sha);
 	} else {
-		result = await supabase.from('articles').insert([articleData]);
+		result = await supabase.from('articles').insert([articleData]).select();
 	}
 
 	if (result.error) {
@@ -126,4 +125,3 @@ export const DELETE = async ({ request, locals }: ApiContext) => {
 
 	return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
 };
-	
