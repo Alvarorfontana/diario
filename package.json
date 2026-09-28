@@ -20,14 +20,14 @@
     "@astrojs/vercel": "^11.0.8",
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.8",
-    "@supabase/supabase-js": "^2.45.4",
     "@tailwindcss/vite": "^4.3.3",
     "@vercel/blob": "^0.27.0",
     "@vercel/og": "^0.6.2",
     "astro": "^7.2.4",
     "resend": "^6.24.0",
     "sharp": "^0.35.0",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@astrojs/cloudflare": "^14.2.5",
