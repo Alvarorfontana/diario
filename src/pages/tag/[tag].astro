@@ -1,46 +1,55 @@
 ---
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, slugify } from '../../consts';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
 
-export const prerender = true;
+export const prerender = false;
 
-export async function getStaticPaths() {
-	const articulos = await getCollection('articulos');
-
-	const porEtiqueta = new Map<string, CollectionEntry<'articulos'>[]>();
-	for (const articulo of articulos) {
-		for (const etiqueta of articulo.data.tags ?? []) {
-			const clave = slugify(etiqueta);
-			if (!clave) continue; // ignora etiquetas vacías que rompen el build
-			if (!porEtiqueta.has(clave)) porEtiqueta.set(clave, []);
-			porEtiqueta.get(clave)!.push(articulo);
-		}
-	}
-
-	return [...porEtiqueta.entries()].map(([clave, arts]) => ({
-		params: { tag: clave },
-		props: {
-			arts: arts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
-		},
-	}));
-}
-
-interface Props {
-	arts: CollectionEntry<'articulos'>[];
-}
-
-const { arts } = Astro.props;
 const { tag } = Astro.params;
-// Recupera el nombre original (con acentos) desde el primer artículo
-const nombre = arts[0]?.data.tags?.find((t) => slugify(t) === tag) ?? tag;
+if (!tag) {
+	return Astro.redirect('/404');
+}
+
+// Traer todos los artículos desde Supabase
+const env = getRuntimeEnv(Astro.locals);
+const supabaseUrl = env.SUPABASE_PROJECT_URL;
+const supabaseKey = env.SUPABASE_SECRET_KEY;
+
+const res = await fetch(
+	`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`,
+	{
+		headers: {
+			apikey: supabaseKey,
+			Authorization: `Bearer ${supabaseKey}`,
+		},
+	}
+);
+
+const todos = res.ok ? await res.json() : [];
+
+// Normalizar tags: pueden venir como array o como texto separado por comas
+function obtenerTags(articulo: any): string[] {
+	const t = articulo.tags;
+	if (Array.isArray(t)) return t;
+	if (typeof t === 'string' && t.trim()) return t.split(',').map((s: string) => s.trim());
+	return [];
+}
+
+// Filtrar artículos que tengan esta etiqueta
+const arts = todos.filter((a: any) =>
+	obtenerTags(a).some((t: string) => slugify(t) === tag)
+);
+
+// Recuperar el nombre original (con acentos) desde el primer artículo
+const nombre = arts[0]
+	? obtenerTags(arts[0]).find((t: string) => slugify(t) === tag)
+	: null;
 ---
 
-<BaseLayout title={`#${nombre} | ${SITE_TITLE}`} description={`Noticias etiquetadas como ${nombre}.`} image={arts[0]?.data.heroImage}>
+<BaseLayout title={`#${nombre ?? tag} | ${SITE_TITLE}`} description={`Noticias etiquetadas como ${nombre ?? tag}.`} image={arts[0]?.image_url}>
 	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
-		<span class="text-brand">#</span>{nombre}
+		<span class="text-brand">#</span>{nombre ?? tag}
 	</h1>
 
 	{
@@ -48,17 +57,17 @@ const nombre = arts[0]?.data.tags?.find((t) => slugify(t) === tag) ?? tag;
 			<p class="py-12 text-center text-neutral-500">No hay noticias con esta etiqueta.</p>
 		) : (
 			<div class="divide-y divide-neutral-200 border-t border-neutral-200">
-				{arts.map((articulo) => (
+				{arts.map((articulo: any) => (
 					<article class="py-8">
-						<a href={`/articulo/${articulo.id}/`} class="group block">
+						<a href={`/articulo/${articulo.slug}/`} class="group block">
 							<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
-								{articulo.data.title}
+								{articulo.title}
 							</h2>
 							<p class="mt-2 text-sm leading-relaxed text-neutral-600">
-								{articulo.data.description}
+								{articulo.excerpt}
 							</p>
 							<p class="mt-2 text-xs text-neutral-400">
-								<FormattedDate date={articulo.data.pubDate} /> · {articulo.data.author}
+								<FormattedDate date={articulo.date} /> · {articulo.author}
 							</p>
 						</a>
 					</article>
