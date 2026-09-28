@@ -1,37 +1,47 @@
 ---
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SECCIONES, SITE_TITLE } from '../../consts';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
 
-export const prerender = true;
-
-export async function getStaticPaths() {
-	return SECCIONES.map((seccion) => ({
-		params: { section: seccion.id },
-		props: { nombre: seccion.nombre },
-	}));
-}
-
-interface Props {
-	nombre: string;
-}
+export const prerender = false;
 
 const { nombre } = Astro.props;
 const { section } = Astro.params;
 
-const articulos: CollectionEntry<'articulos'>[] = (
-	await getCollection('articulos', (articulo) => articulo.data.section === section)
-).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// Validar que la sección exista
+const seccionValida = SECCIONES.find((s) => s.id === section);
+if (!seccionValida) {
+	return Astro.redirect('/404');
+}
+
+const nombreSeccion = nombre ?? seccionValida.nombre;
+
+// Traer artículos de Supabase filtrados por sección
+const env = getRuntimeEnv(Astro.locals);
+const supabaseUrl = env.SUPABASE_PROJECT_URL;
+const supabaseKey = env.SUPABASE_SECRET_KEY;
+
+const res = await fetch(
+	`${supabaseUrl}/rest/v1/articles?section=eq.${encodeURIComponent(section ?? '')}&select=*&order=date.desc`,
+	{
+		headers: {
+			apikey: supabaseKey,
+			Authorization: `Bearer ${supabaseKey}`,
+		},
+	}
+);
+
+let articulos = res.ok ? await res.json() : [];
+articulos = articulos.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
 
 const [primero, ...resto] = articulos;
 ---
 
-<BaseLayout title={`${nombre} | ${SITE_TITLE}`} description={`Todas las noticias de ${nombre} en ${SITE_TITLE}.`} image={primero?.data.heroImage}>
+<BaseLayout title={`${nombreSeccion} | ${SITE_TITLE}`} description={`Todas las noticias de ${nombreSeccion} en ${SITE_TITLE}.`} image={primero?.image_url}>
 	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
-		{nombre}
+		{nombreSeccion}
 	</h1>
 
 	{
@@ -48,10 +58,10 @@ const [primero, ...resto] = articulos;
 					<div class="divide-y divide-neutral-200 border-t border-neutral-200">
 						{resto.map((articulo) => (
 							<article class="grid gap-4 py-8 sm:grid-cols-[auto_1fr] sm:items-start">
-							{articulo.data.heroImage && (
-								<a href={`/articulo/${articulo.id}/`} class="sm:w-48 shrink-0">
+							{articulo.image_url && (
+								<a href={`/articulo/${articulo.slug}/`} class="sm:w-48 shrink-0">
 									<img
-										src={typeof articulo.data.heroImage === 'string' ? articulo.data.heroImage : articulo.data.heroImage.src}
+										src={articulo.image_url}
 										alt=""
 										width={192}
 										height={108}
@@ -60,15 +70,15 @@ const [primero, ...resto] = articulos;
 								</a>
 							)}
 								<div>
-									<a href={`/articulo/${articulo.id}/`} class="group block">
+									<a href={`/articulo/${articulo.slug}/`} class="group block">
 										<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
-											{articulo.data.title}
+											{articulo.title}
 										</h2>
 										<p class="mt-2 text-sm leading-relaxed text-neutral-600">
-											{articulo.data.description}
+											{articulo.excerpt}
 										</p>
 										<p class="mt-2 text-xs text-neutral-400">
-											<FormattedDate date={articulo.data.pubDate} /> · {articulo.data.author}
+											<FormattedDate date={articulo.date} /> · {articulo.author}
 										</p>
 									</a>
 								</div>
