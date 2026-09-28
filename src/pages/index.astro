@@ -6,23 +6,18 @@ import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterBox from '../components/NewsletterBox.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion } from '../consts';
-import { getRuntimeEnv } from '../lib/runtimeEnv';
 
-// Traer artículos desde Supabase
-const env = getRuntimeEnv(Astro.locals);
+// Traer artículos desde el endpoint interno (ya verificado que funciona)
 let articulos = [];
-
 try {
-	const supabaseUrl = env.SUPABASE_PROJECT_URL;
-	const supabaseKey = env.SUPABASE_SECRET_KEY;
-	const res = await fetch(`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`, {
-		headers: {
-			apikey: supabaseKey,
-			Authorization: `Bearer ${supabaseKey}`,
-		},
-	});
+	const base = new URL(Astro.request.url).origin;
+	const res = await fetch(base + '/api/admin/articles?action=list');
 	if (res.ok) {
-		articulos = await res.json();
+		const lista = await res.json();
+		articulos = lista.map((a: any) => ({
+			...a,
+			image_url: a.heroImage || '',
+		}));
 	}
 } catch (e) {
 	console.error('Error cargando artículos:', e);
@@ -140,7 +135,7 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 				))}
 			</div>
 
-			<!-- PUBLICIDAD (Simplificada para evitar errores de sintaxis) -->
+			<!-- PUBLICIDAD -->
 			<div class="mt-8 border border-neutral-200 bg-white overflow-hidden">
 				<p class="text-[10px] font-bold tracking-widest text-neutral-400 uppercase px-3 py-2 border-b border-neutral-100 bg-neutral-50">Publicidad</p>
 				<div class="relative bg-neutral-100 flex flex-col items-center justify-center p-6 min-h-[280px]">
