@@ -1,24 +1,11 @@
 export const prerender = false;
 
-import { createClient } from '@supabase/supabase-js';
-import { getRuntimeEnv } from '../../../lib/runtimeEnv';
+import { getSupabase } from './supabase';
 
 type RuntimeEnv = Record<string, string | undefined>;
 interface ApiContext {
 	request: Request;
 	locals?: { runtime?: { env?: RuntimeEnv } };
-}
-
-function getSupabase(locals?: { runtime?: { env?: RuntimeEnv } }) {
-	const env = getRuntimeEnv(locals);
-	const url = env.SUPABASE_PROJECT_URL;
-	const key = env.SUPABASE_SECRET_KEY;
-	
-	if (!url || !key) {
-		throw new Error(`Faltan variables de Supabase. URL: ${url ? 'presente' : 'AUSENTE'}, KEY: ${key ? 'presente' : 'AUSENTE'}`);
-	}
-	
-	return createClient(url, key);
 }
 
 export const GET = async ({ request, locals }: ApiContext) => {
@@ -31,7 +18,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			.from('articles')
 			.select('*')
 			.eq('status', 'published')
-			.order('published_at', { ascending: false });
+			.order('date', { ascending: false });
 
 		if (error) {
 			return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'content-type': 'application/json' } });
@@ -41,7 +28,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			slug: article.slug,
 			sha: article.id,
 			title: article.title,
-			date: article.published_at,
+			date: article.date,
 			author: article.author,
 			excerpt: article.excerpt,
 			heroImage: article.image_url,
@@ -70,7 +57,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			sha: article.id, 
 			data: {
 				title: article.title,
-				date: article.published_at,
+				date: article.date,
 				author: article.author,
 				excerpt: article.excerpt,
 				heroImage: article.image_url,
@@ -97,7 +84,7 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		slug: slug,
 		content: content || '',
 		excerpt: data.excerpt || '',
-		published_at: data.date || new Date().toISOString(),
+		date: data.date || new Date().toISOString().split('T')[0],
 		author: data.author || 'Redacción',
 		image_url: data.heroImage || '',
 		status: data.status || 'published'
@@ -105,9 +92,9 @@ export const POST = async ({ request, locals }: ApiContext) => {
 
 	let result;
 	if (sha) {
-		result = await supabase.from('articles').update(articleData).eq('id', sha).select();
+		result = await supabase.from('articles').update(articleData).eq('id', sha);
 	} else {
-		result = await supabase.from('articles').insert([articleData]).select();
+		result = await supabase.from('articles').insert([articleData]);
 	}
 
 	if (result.error) {
@@ -139,3 +126,4 @@ export const DELETE = async ({ request, locals }: ApiContext) => {
 
 	return new Response(JSON.stringify({ ok: true }), { headers: { 'content-type': 'application/json' } });
 };
+	
