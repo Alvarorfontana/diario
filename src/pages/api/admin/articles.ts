@@ -1,6 +1,7 @@
 export const prerender = false;
 
-import { supabase } from './supabase';
+import { createClient } from '@supabase/supabase-js';
+import { getRuntimeEnv } from '../../../lib/runtimeEnv';
 
 type RuntimeEnv = Record<string, string | undefined>;
 interface ApiContext {
@@ -8,7 +9,20 @@ interface ApiContext {
 	locals?: { runtime?: { env?: RuntimeEnv } };
 }
 
+function getSupabase(locals?: { runtime?: { env?: RuntimeEnv } }) {
+	const env = getRuntimeEnv(locals);
+	const url = env.SUPABASE_PROJECT_URL;
+	const key = env.SUPABASE_SECRET_KEY;
+	
+	if (!url || !key) {
+		throw new Error(`Faltan variables de Supabase. URL: ${url ? 'presente' : 'AUSENTE'}, KEY: ${key ? 'presente' : 'AUSENTE'}`);
+	}
+	
+	return createClient(url, key);
+}
+
 export const GET = async ({ request, locals }: ApiContext) => {
+	const supabase = getSupabase(locals);
 	const url = new URL(request.url);
 	const action = url.searchParams.get('action');
 
@@ -17,7 +31,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			.from('articles')
 			.select('*')
 			.eq('status', 'published')
-			.order('date', { ascending: false });
+			.order('published_at', { ascending: false });
 
 		if (error) {
 			return new Response(JSON.stringify({ ok: false, error: error.message }), { status: 500, headers: { 'content-type': 'application/json' } });
@@ -27,7 +41,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			slug: article.slug,
 			sha: article.id,
 			title: article.title,
-			date: article.date,
+			date: article.published_at,
 			author: article.author,
 			excerpt: article.excerpt,
 			heroImage: article.image_url,
@@ -56,7 +70,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 			sha: article.id, 
 			data: {
 				title: article.title,
-				date: article.date,
+				date: article.published_at,
 				author: article.author,
 				excerpt: article.excerpt,
 				heroImage: article.image_url,
@@ -70,6 +84,7 @@ export const GET = async ({ request, locals }: ApiContext) => {
 };
 
 export const POST = async ({ request, locals }: ApiContext) => {
+	const supabase = getSupabase(locals);
 	const body = await request.json();
 	const { slug, data, content, sha } = body;
 
@@ -82,7 +97,7 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		slug: slug,
 		content: content || '',
 		excerpt: data.excerpt || '',
-		date: data.date || new Date().toISOString().split('T')[0],
+		published_at: data.date || new Date().toISOString(),
 		author: data.author || 'Redacción',
 		image_url: data.heroImage || '',
 		status: data.status || 'published'
@@ -90,9 +105,9 @@ export const POST = async ({ request, locals }: ApiContext) => {
 
 	let result;
 	if (sha) {
-		result = await supabase.from('articles').update(articleData).eq('id', sha);
+		result = await supabase.from('articles').update(articleData).eq('id', sha).select();
 	} else {
-		result = await supabase.from('articles').insert([articleData]);
+		result = await supabase.from('articles').insert([articleData]).select();
 	}
 
 	if (result.error) {
@@ -104,10 +119,11 @@ export const POST = async ({ request, locals }: ApiContext) => {
 };
 
 export const DELETE = async ({ request, locals }: ApiContext) => {
+	const supabase = getSupabase(locals);
 	const url = new URL(request.url);
 	const slug = url.searchParams.get('slug');
 	const sha = url.searchParams.get('sha');
-	
+
 	if (!slug || !sha) {
 		return new Response(JSON.stringify({ ok: false, error: 'Missing fields' }), { status: 400 });
 	}
