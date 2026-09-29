@@ -3,7 +3,7 @@ import { config, collection, fields } from '@keystatic/core';
 export default config({
   storage: {
     kind: 'github',
-    repo: 'Alvarorfontana/el-diario',
+    repo: 'Alvarorfontana/diario',
   },
   collections: {
     articulos: collection({
