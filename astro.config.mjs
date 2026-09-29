@@ -18,5 +18,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      external: ['@supabase/supabase-js'],
+    },
   },
 });
