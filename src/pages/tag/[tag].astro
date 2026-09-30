@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SITE_TITLE, slugify } from '../../consts';
-import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { getArticulos } from '../../lib/articles';
 
 export const prerender = false;
 
@@ -11,22 +11,7 @@ if (!tag) {
 	return Astro.redirect('/404');
 }
 
-// Traer todos los artículos desde Supabase
-const env = getRuntimeEnv(Astro.locals);
-const supabaseUrl = env.SUPABASE_PROJECT_URL;
-const supabaseKey = env.SUPABASE_SECRET_KEY;
-
-const res = await fetch(
-	`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`,
-	{
-		headers: {
-			apikey: supabaseKey,
-			Authorization: `Bearer ${supabaseKey}`,
-		},
-	}
-);
-
-const todos = res.ok ? await res.json() : [];
+const todos = await getArticulos();
 
 // Normalizar tags: pueden venir como array o como texto separado por comas
 function obtenerTags(articulo: any): string[] {

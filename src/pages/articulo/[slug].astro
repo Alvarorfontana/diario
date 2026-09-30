@@ -6,7 +6,8 @@ import Comentarios from '../../components/Comentarios.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import AdBanner from '../../components/AdBanner.astro';
 import { nombreSeccion, SITE_TITLE, slugify } from '../../consts';
-import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { getArticulos } from '../../lib/articles';
+import { render } from 'astro:content';
 
 export const prerender = false;
 
@@ -15,61 +16,25 @@ if (!slug) {
 	return Astro.redirect('/404');
 }
 
-// Traer el artículo desde Supabase
-const env = getRuntimeEnv(Astro.locals);
-const supabaseUrl = env.SUPABASE_PROJECT_URL;
-const supabaseKey = env.SUPABASE_SECRET_KEY;
-
-const res = await fetch(
-	`${supabaseUrl}/rest/v1/articles?slug=eq.${encodeURIComponent(slug)}&select=*`,
-	{
-		headers: {
-			apikey: supabaseKey,
-			Authorization: `Bearer ${supabaseKey}`,
-		},
-	}
-);
-const articulos = res.ok ? await res.json() : [];
-const articulo = articulos[0];
+const todos = await getArticulos();
+const articulo = todos.find((a) => a.slug === slug);
 
 if (!articulo) {
 	return Astro.redirect('/404');
 }
 
-const {
-	title,
-	volanta,
-	excerpt,
-	section,
-	author,
-	date,
-	image_url,
-	tags,
-	content,
-} = articulo;
+const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags } = articulo;
+const { Content } = await render(articulo.entry);
 
 const fecha = new Date(date);
 
 // Tiempo estimado de lectura (≈200 palabras por minuto)
-// Se quitan las etiquetas HTML para contar solo texto
-const textoPlano = (content ?? '').replace(/<[^>]*>/g, ' ').trim();
+const textoPlano = (articulo.entry.body ?? '').replace(/<[^>]*>/g, ' ').trim();
 const palabras = textoPlano.split(/\s+/).filter(Boolean).length;
 const minutosLectura = Math.max(1, Math.round(palabras / 200));
 
 // Artículos relacionados de la misma sección (máximo 3)
-const resTodos = await fetch(
-	`${supabaseUrl}/rest/v1/articles?select=*&order=date.desc`,
-	{
-		headers: {
-			apikey: supabaseKey,
-			Authorization: `Bearer ${supabaseKey}`,
-		},
-	}
-);
-const todos = resTodos.ok ? await resTodos.json() : [];
-const relacionados = todos
-	.filter((a) => a.section === section && a.slug !== slug)
-	.slice(0, 3);
+const relacionados = todos.filter((a) => a.section === section && a.slug !== slug).slice(0, 3);
 ---
 
 <BaseLayout
@@ -135,13 +100,13 @@ const relacionados = todos
 			image_url && (
 				<figure class="mt-8 overflow-hidden rounded-lg">
 					<img src={image_url} alt={title} class="w-full h-auto object-cover object-center" loading="eager" />
+					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
 			)
 		}
 
-		<!-- El contenido se guarda como HTML en Supabase -->
-		<div class="prose-articulo mt-10 text-[18px] leading-[1.75] text-neutral-800">
-			<Fragment set:html={content} />
+		<div class="prose-articulo mt-10">
+			<Content />
 		</div>
 	</article>
 

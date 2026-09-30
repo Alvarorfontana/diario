@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { SECCIONES, SITE_TITLE } from '../../consts';
-import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { getArticulos } from '../../lib/articles';
 
 export const prerender = false;
 
@@ -18,23 +18,7 @@ if (!seccionValida) {
 
 const nombreSeccion = nombre ?? seccionValida.nombre;
 
-// Traer artículos de Supabase filtrados por sección
-const env = getRuntimeEnv(Astro.locals);
-const supabaseUrl = env.SUPABASE_PROJECT_URL;
-const supabaseKey = env.SUPABASE_SECRET_KEY;
-
-const res = await fetch(
-	`${supabaseUrl}/rest/v1/articles?section=eq.${encodeURIComponent(section ?? '')}&select=*&order=date.desc`,
-	{
-		headers: {
-			apikey: supabaseKey,
-			Authorization: `Bearer ${supabaseKey}`,
-		},
-	}
-);
-
-let articulos = res.ok ? await res.json() : [];
-articulos = articulos.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+const articulos = (await getArticulos()).filter((a) => a.section === section);
 
 const [primero, ...resto] = articulos;
 ---

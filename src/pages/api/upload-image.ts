@@ -1,7 +1,8 @@
 export const prerender = false;
 
-const REPO = 'Alvarorfontana/diario';
-const BRANCH = 'main';
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+
 const UPLOAD_DIR = 'public/uploads';
 const MAX_BYTES = 3_000_000;
 
@@ -28,12 +29,12 @@ function toBase64(bytes: Uint8Array): string {
 }
 
 export const POST = async ({ request, locals }: ApiContext) => {
-	const cookie = request.headers.get('cookie') ?? '';
-	if (!cookie.includes('admin_auth=1')) {
+	const env = getRuntimeEnv(locals);
+	if (!(await isAdmin(request, env))) {
 		return json({ ok: false, error: 'No autorizado' }, 401);
 	}
-
-	const env = locals?.runtime?.env ?? (import.meta.env as unknown as RuntimeEnv);
+	const REPO = env.GITHUB_REPO || 'Alvarorfontana/diario';
+	const BRANCH = env.GITHUB_BRANCH || 'main';
 	const token = env.GITHUB_PAT;
 	if (!token) return json({ ok: false, error: 'GITHUB_PAT no configurado' }, 500);
 

@@ -18,6 +18,8 @@ const articulos = defineCollection({
 			heroImage: z.union([image(), z.string()]).optional(),
 			// Pie de foto (epígrafe) que acompaña a la imagen principal
 			imageCaption: z.string().optional(),
+			// Borrador: se guarda pero no se muestra en el sitio
+			draft: z.boolean().default(false),
 			// Marca la noticia como alerta de último momento en la portada
 			ultimoMomento: z.boolean().optional(),
 			// Etiquetas temáticas (p. ej. ['Clima', 'Economía'])

@@ -35,7 +35,7 @@ import { SITE_TITLE } from '../consts';
 	// Cargar todas las notas publicadas desde el endpoint
 	async function cargarArticulos() {
 		try {
-			const res = await fetch('/api/admin/articles?action=list');
+			const res = await fetch('/api/articulos');
 			if (res.ok) {
 				articulos = await res.json();
 			}

@@ -1,8 +1,9 @@
 ---
 export const prerender = false;
 
-const cookie = Astro.request.headers.get('cookie') ?? '';
-const isAuthenticated = cookie.includes('admin_auth=1');
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
 
 let ads: any[] = [];
 try {

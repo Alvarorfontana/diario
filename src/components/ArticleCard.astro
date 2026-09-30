@@ -4,7 +4,7 @@ import { nombreSeccion } from '../consts';
 
 const { article } = Astro.props;
 
-// Soporta AMBOS formatos: Markdown viejo (article.data.*) y Supabase nuevo (article.*)
+// Soporta AMBOS formatos: datos anidados (article.data.*) y planos (article.*)
 const data = article.data ?? article;
 const title = data.title;
 const excerpt = data.excerpt ?? data.description ?? '';

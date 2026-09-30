@@ -1,30 +1,14 @@
+---
 export const prerender = false;
 
----
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterBox from '../components/NewsletterBox.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion } from '../consts';
+import { getArticulos } from '../lib/articles';
 
-// Traer artículos desde el endpoint interno (ya verificado que funciona)
-let articulos = [];
-try {
-	const base = new URL(Astro.request.url).origin;
-	const res = await fetch(base + '/api/admin/articles?action=list');
-	if (res.ok) {
-		const lista = await res.json();
-		articulos = lista.map((a: any) => ({
-			...a,
-			image_url: a.heroImage || '',
-		}));
-	}
-} catch (e) {
-	console.error('Error cargando artículos:', e);
-}
-
-// Ordenar por fecha
-articulos = articulos.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+const articulos = await getArticulos();
 
 const alerta = articulos.find((a) => a.breaking) ?? null;
 const restoAlerta = alerta ? articulos.filter((a) => a.id !== alerta.id) : articulos;

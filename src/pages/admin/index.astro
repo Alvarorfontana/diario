@@ -2,31 +2,14 @@
 export const prerender = false;
 
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { isAdmin, loginCookie } from '../../lib/auth';
+import { SECCIONES } from '../../consts';
 
 const env = getRuntimeEnv(Astro.locals);
 const PASSWORD = env.ADMIN_PASSWORD;
 
-const cookie = Astro.request.headers.get('cookie') ?? '';
-let isAuthenticated = cookie.includes('admin_auth=1');
-
-// Traer artículos desde nuestro propio endpoint (que ya funciona)
-let articulos = [];
-let errorMsg = '';
-if (isAuthenticated) {
-	try {
-		const siteUrl = new URL(Astro.request.url).origin;
-		const res = await fetch(`${siteUrl}/api/admin/articles?action=list`, {
-			headers: { cookie: Astro.request.headers.get('cookie') ?? '' }
-		});
-		if (res.ok) {
-			articulos = await res.json();
-		} else {
-			errorMsg = `Error ${res.status}: ${await res.text()}`;
-		}
-	} catch (e) {
-		errorMsg = `Error de conexión: ${e.message}`;
-	}
-}
+let isAuthenticated = await isAdmin(Astro.request, env);
+let loginError = '';
 
 if (Astro.request.method === 'POST') {
 	const form = await Astro.request.formData();
@@ -35,10 +18,11 @@ if (Astro.request.method === 'POST') {
 			status: 302,
 			headers: {
 				Location: '/admin/',
-				'Set-Cookie': 'admin_auth=1; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly',
+				'Set-Cookie': await loginCookie(PASSWORD, Astro.url.protocol === 'https:'),
 			},
 		});
 	}
+	loginError = PASSWORD ? 'Contraseña incorrecta.' : 'Falta configurar ADMIN_PASSWORD en Vercel.';
 }
 ---
 
@@ -49,43 +33,72 @@ if (Astro.request.method === 'POST') {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Admin - EL DIARIO</title>
 	<style>
-		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; margin: 0; }
+		* { box-sizing: border-box; }
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; margin: 0; color: #1f2937; }
 		.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-		.header { background: #1a1712; color: #f6efdf; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-		.header h1 { font-family: Georgia, serif; font-size: 24px; }
-		.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; }
+		.header { background: #1a1712; color: #f6efdf; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+		.header h1 { font-family: Georgia, serif; font-size: 24px; margin: 0; }
+		.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block; font-size: 14px; }
 		.btn-primary { background: #e93323; color: white; }
 		.btn-secondary { background: #6b7280; color: white; }
 		.btn-danger { background: #dc2626; color: white; }
+		.btn:disabled { opacity: .6; cursor: wait; }
 		.login-box { max-width: 400px; margin: 100px auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 		.form-group { margin-bottom: 15px; }
-		.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #374151; }
-		.form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
-		.form-group textarea { min-height: 100px; font-family: monospace; }
+		.form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #374151; font-size: 14px; }
+		.form-group input[type=text], .form-group input[type=date], .form-group input[type=password], .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 4px; font-size: 14px; font-family: inherit; }
+		.form-group textarea { min-height: 90px; }
 		.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 		@media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
 		.card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
+		.card h3 { margin: 0 0 15px; }
 		.article-list { width: 100%; border-collapse: collapse; }
-		.article-list th, .article-list td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+		.article-list th, .article-list td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 14px; }
 		.article-list th { background: #f9fafb; font-weight: 600; color: #374151; }
 		.article-list tr:hover { background: #f9fafb; }
 		.badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 		.badge-ultimo { background: #fee2e2; color: #991b1b; }
+		.badge-draft { background: #fef3c7; color: #92400e; }
 		.badge-section { background: #e0e7ff; color: #3730a3; }
 		.actions { display: flex; gap: 8px; }
 		.actions button { padding: 6px 12px; font-size: 12px; }
+		.checks { display: flex; gap: 24px; flex-wrap: wrap; }
 		.checkbox-wrapper { display: flex; align-items: center; gap: 8px; }
 		.checkbox-wrapper input[type="checkbox"] { width: 18px; height: 18px; accent-color: #e93323; }
-		.hidden { display: none; }
+		.checkbox-wrapper label { margin: 0 !important; cursor: pointer; }
+		.hidden { display: none !important; }
 		.upload-status { font-size: 13px; color: #6b7280; margin: 6px 0 0; }
 		.hero-preview { max-width: 240px; margin-top: 10px; border-radius: 4px; display: block; }
 		.error-box { background: #fee; color: #991b1b; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+		.ok-box { background: #ecfdf5; color: #065f46; padding: 10px; border-radius: 4px; margin-bottom: 15px; }
+
+		/* Editor visual */
+		.toolbar { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px; background: #f3f4f6; border: 1px solid #d1d5db; border-bottom: 0; border-radius: 4px 4px 0 0; position: sticky; top: 0; z-index: 5; }
+		.toolbar button { border: 1px solid #d1d5db; background: white; border-radius: 4px; padding: 6px 10px; cursor: pointer; font-size: 14px; min-width: 34px; }
+		.toolbar button:hover { background: #e5e7eb; }
+		.toolbar .sep { width: 1px; background: #d1d5db; margin: 0 4px; }
+		#editor { min-height: 380px; padding: 18px 22px; border: 1px solid #d1d5db; border-radius: 0 0 4px 4px; background: white; font-family: Georgia, 'Times New Roman', serif; font-size: 18px; line-height: 1.7; outline: none; }
+		#editor:focus { border-color: #e93323; }
+		#editor:empty::before { content: attr(data-ph); color: #9ca3af; }
+		#editor p { margin: 0 0 1em; }
+		#editor h2 { font-size: 1.5em; margin: 1.4em 0 .5em; line-height: 1.25; }
+		#editor h3 { font-size: 1.2em; margin: 1.2em 0 .4em; }
+		#editor blockquote { margin: 1.2em 0; padding: .2em 0 .2em 1em; border-left: 4px solid #e93323; font-style: italic; color: #4b5563; }
+		#editor blockquote p { margin: 0; }
+		#editor p.destacado { font-size: 1.4em; line-height: 1.35; font-weight: 700; text-align: center; padding: .6em 0; border-top: 3px solid #1a1712; border-bottom: 1px solid #d1d5db; }
+		#editor ul, #editor ol { margin: 0 0 1em 1.4em; padding: 0; }
+		#editor a { color: #e93323; text-decoration: underline; }
+		#editor hr { border: 0; border-top: 1px solid #d1d5db; margin: 1.6em 0; }
+		#editor img { max-width: 100%; height: auto; }
+		#html-source { width: 100%; min-height: 380px; font-family: monospace; font-size: 13px; padding: 12px; border: 1px solid #d1d5db; border-radius: 0 0 4px 4px; }
+		.tip { font-size: 12px; color: #6b7280; margin: 6px 0 0; }
 	</style>
 </head>
 <body>
 	{!isAuthenticated ? (
 		<div class="login-box">
 			<h2>Panel de Administración</h2>
+			{loginError && <div class="error-box">{loginError}</div>}
 			<form method="POST">
 				<div class="form-group">
 					<label for="password">Contraseña</label>
@@ -99,53 +112,61 @@ if (Astro.request.method === 'POST') {
 			<div class="header">
 				<h1>EL DIARIO - Panel de Admin</h1>
 				<div>
-					<button class="btn btn-primary" onclick="document.getElementById('form-nuevo').classList.toggle('hidden')">+ Nuevo artículo</button>
+					<button class="btn btn-primary" id="btn-nueva">+ Nueva nota</button>
+					<a href="/admin/publicidad/" class="btn btn-secondary" style="margin-left: 10px;">Publicidad</a>
 					<a href="/" class="btn btn-secondary" style="margin-left: 10px;">Ver sitio</a>
 				</div>
 			</div>
 
-			{errorMsg && <div class="error-box">⚠️ {errorMsg}</div>}
+			<div id="msg"></div>
 
 			<div id="form-nuevo" class="card hidden">
-				<h3 style="margin-bottom: 15px;">Crear / Editar Noticia</h3>
+				<h3 id="form-titulo">Nueva nota</h3>
 				<form id="create-form">
-					<input type="hidden" id="edit-sha" name="sha" />
+					<input type="hidden" id="edit-sha" />
+					<input type="hidden" id="edit-filename" />
 					<div class="grid">
 						<div>
 							<div class="form-group">
+								<label for="volanta">Volanta (opcional, antes del título)</label>
+								<input type="text" id="volanta" />
+							</div>
+							<div class="form-group">
 								<label for="title">Título</label>
-								<input type="text" id="title" name="title" required />
+								<input type="text" id="title" required />
 							</div>
 							<div class="form-group">
 								<label for="slug">Slug (URL)</label>
-								<input type="text" id="slug" name="slug" required placeholder="se completa solo con el título" />
+								<input type="text" id="slug" required placeholder="se completa solo con el título" />
 							</div>
 							<div class="form-group">
-								<label for="excerpt">Resumen</label>
-								<textarea id="excerpt" name="excerpt" required></textarea>
+								<label for="excerpt">Bajada / resumen</label>
+								<textarea id="excerpt" required></textarea>
 							</div>
 							<div class="form-group">
 								<label for="section">Sección</label>
-								<select id="section" name="section">
-									<option value="internacional">Internacional</option>
-									<option value="argentina">Argentina</option>
-									<option value="economia">Economía</option>
-									<option value="deportes">Deportes</option>
-									<option value="cultura">Cultura</option>
-									<option value="tecnologia">Tecnología</option>
-									<option value="opinion">Opinión</option>
+								<select id="section">
+									{SECCIONES.map((s) => <option value={s.id}>{s.nombre}</option>)}
 								</select>
 							</div>
 						</div>
 						<div>
 							<div class="form-group">
-								<label for="date">Fecha de publicación</label>
-								<input type="date" id="date" name="date" required />
+								<label for="author">Autor</label>
+								<input type="text" id="author" value="Redacción" />
 							</div>
 							<div class="form-group">
+								<label for="date">Fecha de publicación</label>
+								<input type="date" id="date" required />
+							</div>
+							<div class="form-group checks">
 								<div class="checkbox-wrapper">
-									<input type="checkbox" id="breaking" name="breaking" />
-									<label for="breaking" style="margin: 0; cursor: pointer;">Último momento</label>
+									<input type="checkbox" id="breaking" />
+									<label for="breaking">Último momento</label>
+								</div>
+								<div class="checkbox-wrapper">
+									<input type="checkbox" id="draft" />
+									<label for="draft">Borrador (no se muestra en el sitio)</label>
 								</div>
 							</div>
 							<div class="form-group">
@@ -154,194 +175,365 @@ if (Astro.request.method === 'POST') {
 								<p id="upload-status" class="upload-status"></p>
 								<img id="hero-preview" class="hero-preview hidden" alt="" />
 								<label for="image_url" style="margin-top: 10px;">URL de la imagen (se completa sola al subir)</label>
-								<input type="text" id="image_url" name="image_url" placeholder="/uploads/..." />
+								<input type="text" id="image_url" placeholder="/uploads/..." />
+							</div>
+							<div class="form-group">
+								<label for="imageCaption">Pie de foto (opcional)</label>
+								<input type="text" id="imageCaption" />
 							</div>
 							<div class="form-group">
 								<label for="tags">Etiquetas (separadas por comas)</label>
-								<input type="text" id="tags" name="tags" placeholder="politica, economia" />
+								<input type="text" id="tags" placeholder="Política, Economía" />
 							</div>
 						</div>
 					</div>
+
 					<div class="form-group">
-						<label for="content">Contenido (HTML con negritas, párrafos, etc.)</label>
-						<textarea id="content" name="content" rows="10" style="width: 100%; font-family: monospace;"></textarea>
+						<label>Texto de la nota</label>
+						<div class="toolbar" id="toolbar">
+							<button type="button" data-cmd="bold" title="Negrita (Ctrl+B)"><b>N</b></button>
+							<button type="button" data-cmd="italic" title="Cursiva (Ctrl+I)"><i>C</i></button>
+							<span class="sep"></span>
+							<button type="button" data-block="h2" title="Subtítulo">Subtítulo</button>
+							<button type="button" data-block="h3" title="Subtítulo menor">Sub 2</button>
+							<button type="button" data-block="p" title="Párrafo normal">Párrafo</button>
+							<span class="sep"></span>
+							<button type="button" data-block="blockquote" title="Cita">❝ Cita</button>
+							<button type="button" data-cmd="destacado" title="Frase destacada">★ Destacado</button>
+							<span class="sep"></span>
+							<button type="button" data-cmd="insertUnorderedList" title="Lista con viñetas">• Lista</button>
+							<button type="button" data-cmd="insertOrderedList" title="Lista numerada">1. Lista</button>
+							<span class="sep"></span>
+							<button type="button" data-cmd="link" title="Enlace">🔗</button>
+							<button type="button" data-cmd="unlink" title="Quitar enlace">⛓‍💥</button>
+							<button type="button" data-cmd="insertHorizontalRule" title="Línea separadora">―</button>
+							<span class="sep"></span>
+							<button type="button" data-cmd="clear" title="Quitar formato">Limpiar</button>
+							<button type="button" data-cmd="undo" title="Deshacer">↶</button>
+							<button type="button" data-cmd="redo" title="Rehacer">↷</button>
+							<span class="sep"></span>
+							<button type="button" id="btn-html" title="Ver / editar HTML">&lt;/&gt;</button>
+						</div>
+						<div id="editor" contenteditable="true" data-ph="Escribí o pegá el texto de la nota. Al pegar se conservan párrafos, negritas y subtítulos."></div>
+						<textarea id="html-source" class="hidden"></textarea>
+						<p class="tip">Cada Enter crea un párrafo nuevo. Seleccioná texto para ponerlo en negrita o convertirlo en subtítulo, cita o frase destacada.</p>
 					</div>
-					<button type="submit" class="btn btn-primary">Guardar Noticia</button>
+
+					<button type="submit" class="btn btn-primary" id="btn-guardar">Guardar nota</button>
+					<button type="button" class="btn btn-secondary" id="btn-cancelar" style="margin-left: 8px;">Cancelar</button>
 				</form>
 			</div>
 
 			<div class="card">
-				<h3 style="margin-bottom: 15px;">Noticias Existentes ({articulos.length})</h3>
+				<h3>Notas (<span id="count">…</span>)</h3>
 				<table class="article-list">
 					<thead>
-						<tr>
-							<th>Título</th>
-							<th>Sección</th>
-							<th>Fecha</th>
-							<th>Último Momento</th>
-							<th>Acciones</th>
-						</tr>
+						<tr><th>Título</th><th>Sección</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>
 					</thead>
-					<tbody>
-						{articulos.map((articulo) => (
-							<tr>
-								<td>{articulo.title}</td>
-								<td><span class="badge badge-section">{articulo.section || '-'}</span></td>
-								<td>{articulo.date ? new Date(articulo.date).toLocaleDateString('es-AR') : '-'}</td>
-								<td>{articulo.breaking ? <span class="badge badge-ultimo">Sí</span> : '-'}</td>
-								<td class="actions">
-									<button class="btn btn-primary" data-id={articulo.sha} data-slug={articulo.slug} data-action="edit">Editar</button>
-									<button class="btn btn-danger" data-id={articulo.sha} data-slug={articulo.slug} data-action="delete">Eliminar</button>
-								</td>
-							</tr>
-						))}
-					</tbody>
+					<tbody id="lista"><tr><td colspan="5">Cargando…</td></tr></tbody>
 				</table>
 			</div>
 		</div>
 	)}
 
 	<script is:inline>
+		var $ = function (id) { return document.getElementById(id); };
+		var API = '/api/admin/articles';
+		if (!$('create-form')) { /* pantalla de login */ } else {
+
 		var slugTouched = false;
+		var editor = $('editor');
+		var htmlSource = $('html-source');
+		var htmlMode = false;
+		try { document.execCommand('defaultParagraphSeparator', false, 'p'); } catch (e) {}
 
 		function slugify(t) {
-			return String(t || '')
-				.toLowerCase()
-				.normalize('NFD')
-				.replace(/[\u0300-\u036f]/g, '')
-				.replace(/[^a-z0-9]+/g, '-')
-				.replace(/^-+|-+$/g, '')
-				.slice(0, 80);
+			return String(t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+				.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 80);
+		}
+		function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+		function showMsg(text, ok) {
+			$('msg').innerHTML = '<div class="' + (ok ? 'ok-box' : 'error-box') + '">' + esc(text) + '</div>';
+			window.scrollTo(0, 0);
 		}
 
-		async function editArticle(id, slug) {
-			const res = await fetch('/api/admin/articles?action=get&slug=' + slug);
-			const data = await res.json();
-			if (data.ok) {
-				slugTouched = true;
-				document.getElementById('hero-preview').classList.add('hidden');
-				document.getElementById('upload-status').textContent = '';
-				document.getElementById('form-nuevo').classList.remove('hidden');
-				document.getElementById('edit-sha').value = data.sha || '';
-				document.getElementById('title').value = data.data.title || '';
-				document.getElementById('slug').value = data.data.slug || slug;
-				document.getElementById('excerpt').value = data.data.excerpt || '';
-				document.getElementById('section').value = data.data.section || 'internacional';
-				document.getElementById('date').value = data.data.date ? data.data.date.split('T')[0] : new Date().toISOString().split('T')[0];
-				document.getElementById('breaking').checked = data.data.breaking === true || data.data.breaking === 'true';
-				document.getElementById('image_url').value = data.data.image_url || data.data.heroImage || '';
-				document.getElementById('tags').value = Array.isArray(data.data.tags) ? data.data.tags.join(', ') : (data.data.tags || '');
-				document.getElementById('content').value = data.body || '';
-				window.scrollTo(0, 0);
+		/* ---------- Limpieza de HTML (editor y pegado) ---------- */
+		var BLOCK = { P:1, H1:1, H2:1, H3:1, H4:1, H5:1, H6:1, UL:1, OL:1, LI:1, BLOCKQUOTE:1, DIV:1, FIGURE:1, FIGCAPTION:1, HR:1, TABLE:1, TR:1 };
+		function hasBlock(el) { return !!el.querySelector('p,div,h1,h2,h3,h4,h5,h6,ul,ol,blockquote,table,figure'); }
+		function safeHref(h) { return /^(https?:|mailto:|\/|#)/i.test(h || ''); }
+
+		function cleanNode(n) {
+			if (n.nodeType === 3) return esc(n.nodeValue.replace(/\s+/g, ' '));
+			if (n.nodeType !== 1) return '';
+			var tag = n.nodeName;
+			if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'META' || tag === 'LINK') return '';
+			var inner = Array.prototype.map.call(n.childNodes, cleanNode).join('');
+			var wrap = function (t, s) { return inner.replace(/\s/g, '') ? '<' + t + '>' + s + '</' + t + '>' : inner; };
+			switch (tag) {
+				case 'B': case 'STRONG': return wrap('strong', inner);
+				case 'I': case 'EM': return wrap('em', inner);
+				case 'SPAN': case 'FONT': {
+					var st = n.style || {};
+					var out = inner;
+					var fw = st.fontWeight;
+					if (fw === 'bold' || parseInt(fw, 10) >= 600) out = wrap('strong', out);
+					if (st.fontStyle === 'italic') out = wrap('em', out);
+					return out;
+				}
+				case 'H1': case 'H2': return '<h2>' + inner + '</h2>';
+				case 'H3': case 'H4': case 'H5': case 'H6': return '<h3>' + inner + '</h3>';
+				case 'P': return '<p' + (n.classList.contains('destacado') ? ' class="destacado"' : '') + '>' + inner + '</p>';
+				case 'DIV': return hasBlock(n) ? inner : '<p>' + inner + '</p>';
+				case 'A': return safeHref(n.getAttribute('href')) ? '<a href="' + esc(n.getAttribute('href')) + '">' + inner + '</a>' : inner;
+				case 'UL': case 'OL': case 'LI': case 'BLOCKQUOTE': case 'FIGURE': case 'FIGCAPTION': return '<' + tag.toLowerCase() + '>' + inner + '</' + tag.toLowerCase() + '>';
+				case 'HR': return '<hr>';
+				case 'BR': return '<br>';
+				case 'IMG': return safeHref(n.getAttribute('src')) ? '<img src="' + esc(n.getAttribute('src')) + '" alt="' + esc(n.getAttribute('alt') || '') + '">' : '';
+				default: return inner;
 			}
 		}
 
-		async function deleteArticle(id, slug) {
-			if (!confirm('¿Eliminar esta noticia?')) return;
-			const res = await fetch('/api/admin/articles?action=delete&slug=' + slug + '&sha=' + id, { method: 'DELETE' });
-			if (res.ok) location.reload();
-		}
-
-		document.querySelectorAll('[data-action="edit"]').forEach(function (btn) {
-			btn.addEventListener('click', function () { editArticle(btn.dataset.id, btn.dataset.slug); });
-		});
-		document.querySelectorAll('[data-action="delete"]').forEach(function (btn) {
-			btn.addEventListener('click', function () { deleteArticle(btn.dataset.id, btn.dataset.slug); });
-		});
-
-		var titleInput = document.getElementById('title');
-		var slugInput = document.getElementById('slug');
-		if (titleInput && slugInput) {
-			slugInput.addEventListener('input', function () { slugTouched = true; });
-			titleInput.addEventListener('input', function () {
-				if (!slugTouched) slugInput.value = slugify(titleInput.value);
+		function cleanHtml(html) {
+			var doc = new DOMParser().parseFromString('<body>' + html + '</body>', 'text/html');
+			var raw = Array.prototype.map.call(doc.body.childNodes, cleanNode).join('');
+			// Agrupar texto suelto en párrafos
+			var box = document.createElement('div');
+			box.innerHTML = raw;
+			var out = '', run = '';
+			var flush = function () {
+				if (run.replace(/<br>|\s|&nbsp;/g, '')) out += '<p>' + run.trim() + '</p>';
+				run = '';
+			};
+			Array.prototype.forEach.call(box.childNodes, function (c) {
+				if (c.nodeType === 1 && BLOCK[c.nodeName]) { flush(); out += c.outerHTML; }
+				else run += c.nodeType === 3 ? esc(c.nodeValue) : c.outerHTML;
 			});
+			flush();
+			// Quitar párrafos vacíos
+			return out.replace(/<p(?: class="destacado")?>(\s|<br>|&nbsp;)*<\/p>/g, '');
 		}
 
+		function textToHtml(text) {
+			return text.replace(/\r\n/g, '\n').split(/\n\s*\n/).map(function (b) { return b.trim(); }).filter(Boolean)
+				.map(function (b) { return '<p>' + esc(b).replace(/\n/g, ' ') + '</p>'; }).join('');
+		}
+
+		editor.addEventListener('paste', function (e) {
+			e.preventDefault();
+			var cd = e.clipboardData;
+			var html = cd.getData('text/html');
+			var text = cd.getData('text/plain');
+			var toInsert = html ? cleanHtml(html) : textToHtml(text);
+			document.execCommand('insertHTML', false, toInsert);
+		});
+
+		/* ---------- Barra de herramientas ---------- */
+		function currentBlock() {
+			var sel = window.getSelection();
+			if (!sel.rangeCount) return null;
+			var n = sel.anchorNode;
+			while (n && n !== editor) {
+				if (n.nodeType === 1 && /^(P|H2|H3|BLOCKQUOTE|LI)$/.test(n.nodeName)) return n;
+				n = n.parentNode;
+			}
+			return null;
+		}
+
+		$('toolbar').addEventListener('mousedown', function (e) { e.preventDefault(); }); // no perder la selección
+		$('toolbar').addEventListener('click', function (e) {
+			var b = e.target.closest('button');
+			if (!b || b.id === 'btn-html') return;
+			if (htmlMode) return;
+			editor.focus();
+			var block = b.dataset.block, cmd = b.dataset.cmd;
+			if (block) {
+				var cur = currentBlock();
+				var already = cur && cur.nodeName.toLowerCase() === block;
+				document.execCommand('formatBlock', false, already ? 'p' : block);
+			} else if (cmd === 'destacado') {
+				var cb = currentBlock();
+				if (cb && cb.nodeName === 'P') cb.classList.toggle('destacado');
+			} else if (cmd === 'link') {
+				var url = prompt('Dirección del enlace (https://…)');
+				if (url) document.execCommand('createLink', false, /^(https?:|mailto:|\/)/i.test(url) ? url : 'https://' + url);
+			} else if (cmd === 'clear') {
+				document.execCommand('removeFormat');
+				document.execCommand('formatBlock', false, 'p');
+			} else if (cmd) {
+				document.execCommand(cmd);
+			}
+		});
+
+		$('btn-html').addEventListener('click', function () {
+			htmlMode = !htmlMode;
+			if (htmlMode) {
+				htmlSource.value = cleanHtml(editor.innerHTML).replace(/(<\/(?:p|h2|h3|ul|ol|blockquote|figure)>)/g, '$1\n');
+				editor.classList.add('hidden'); htmlSource.classList.remove('hidden');
+			} else {
+				editor.innerHTML = cleanHtml(htmlSource.value);
+				htmlSource.classList.add('hidden'); editor.classList.remove('hidden');
+			}
+		});
+
+		function getContent() {
+			return cleanHtml(htmlMode ? htmlSource.value : editor.innerHTML);
+		}
+		function setContent(html) {
+			if (htmlMode) $('btn-html').click();
+			editor.innerHTML = cleanHtml(html || '');
+		}
+
+		/* ---------- Lista de notas ---------- */
+		var SECCION_NOMBRE = {};
+		Array.prototype.forEach.call($('section').options, function (o) { SECCION_NOMBRE[o.value] = o.text; });
+
+		async function cargarLista() {
+			try {
+				var res = await fetch(API + '?action=list');
+				var data = await res.json();
+				if (!res.ok) throw new Error(data.error || ('Error ' + res.status));
+				$('count').textContent = data.length;
+				$('lista').innerHTML = data.map(function (a) {
+					return '<tr><td>' + esc(a.title) + '</td>' +
+						'<td><span class="badge badge-section">' + esc(SECCION_NOMBRE[a.section] || a.section || '-') + '</span></td>' +
+						'<td>' + (a.date ? a.date.split('-').reverse().join('/') : '-') + '</td>' +
+						'<td>' + (a.draft ? '<span class="badge badge-draft">Borrador</span> ' : '') + (a.breaking ? '<span class="badge badge-ultimo">Último momento</span>' : '') + '</td>' +
+						'<td class="actions">' +
+						(/\.mdx$/.test(a.filename) ? '' : '<button class="btn btn-primary" data-act="edit" data-file="' + esc(a.filename) + '">Editar</button>') +
+						'<button class="btn btn-danger" data-act="delete" data-file="' + esc(a.filename) + '" data-sha="' + esc(a.sha) + '">Eliminar</button></td></tr>';
+				}).join('') || '<tr><td colspan="5">Todavía no hay notas.</td></tr>';
+			} catch (err) {
+				$('count').textContent = '0';
+				$('lista').innerHTML = '';
+				showMsg('No se pudieron cargar las notas: ' + err.message, false);
+			}
+		}
+
+		$('lista').addEventListener('click', function (e) {
+			var b = e.target.closest('button');
+			if (!b) return;
+			if (b.dataset.act === 'edit') editarNota(b.dataset.file);
+			if (b.dataset.act === 'delete') borrarNota(b.dataset.file, b.dataset.sha);
+		});
+
+		/* ---------- Formulario ---------- */
+		function limpiarFormulario() {
+			$('create-form').reset();
+			$('edit-sha').value = ''; $('edit-filename').value = '';
+			$('slug').disabled = false; slugTouched = false;
+			$('date').value = new Date().toISOString().slice(0, 10);
+			$('author').value = 'Redacción';
+			$('hero-preview').classList.add('hidden'); $('upload-status').textContent = '';
+			setContent('');
+		}
+		function abrirFormulario(titulo) {
+			$('form-titulo').textContent = titulo;
+			$('form-nuevo').classList.remove('hidden');
+			window.scrollTo(0, 0);
+		}
+
+		$('btn-nueva').addEventListener('click', function () { limpiarFormulario(); abrirFormulario('Nueva nota'); });
+		$('btn-cancelar').addEventListener('click', function () { $('form-nuevo').classList.add('hidden'); });
+
+		async function editarNota(filename) {
+			try {
+				var res = await fetch(API + '?action=get&filename=' + encodeURIComponent(filename));
+				var r = await res.json();
+				if (!res.ok || !r.ok) throw new Error(r.error || 'Error');
+				limpiarFormulario();
+				var d = r.data;
+				$('edit-sha').value = r.sha; $('edit-filename').value = r.filename;
+				$('slug').value = r.filename.replace(/\.(md|mdx)$/, ''); $('slug').disabled = true;
+				$('title').value = d.title; $('volanta').value = d.volanta; $('excerpt').value = d.excerpt;
+				$('section').value = d.section; $('author').value = d.author; $('date').value = d.date;
+				$('breaking').checked = d.breaking; $('draft').checked = d.draft;
+				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
+				$('tags').value = (d.tags || []).join(', ');
+				if (d.image_url) { $('hero-preview').src = d.image_url; $('hero-preview').classList.remove('hidden'); }
+				setContent(r.body);
+				abrirFormulario('Editar nota');
+			} catch (err) { showMsg('No se pudo abrir la nota: ' + err.message, false); }
+		}
+
+		async function borrarNota(filename, sha) {
+			if (!confirm('¿Eliminar esta nota? No se puede deshacer.')) return;
+			var res = await fetch(API + '?filename=' + encodeURIComponent(filename) + '&sha=' + encodeURIComponent(sha), { method: 'DELETE' });
+			var r = await res.json();
+			if (res.ok && r.ok) { showMsg('Nota eliminada. El sitio se actualiza en ~1 minuto.', true); cargarLista(); }
+			else showMsg('No se pudo eliminar: ' + (r.error || 'error'), false);
+		}
+
+		$('title').addEventListener('input', function () { if (!slugTouched && !$('slug').disabled) $('slug').value = slugify($('title').value); });
+		$('slug').addEventListener('input', function () { slugTouched = true; });
+
+		/* ---------- Foto ---------- */
 		function resizeImage(file, maxWidth) {
 			return new Promise(function (resolve, reject) {
-				var img = new Image();
-				var url = URL.createObjectURL(file);
+				var img = new Image(); var url = URL.createObjectURL(file);
 				img.onload = function () {
 					var scale = Math.min(1, maxWidth / img.width);
-					var canvas = document.createElement('canvas');
-					canvas.width = Math.round(img.width * scale);
-					canvas.height = Math.round(img.height * scale);
-					canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+					var c = document.createElement('canvas');
+					c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+					c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
 					URL.revokeObjectURL(url);
-					canvas.toBlob(function (blob) {
-						if (blob) resolve(blob);
-						else reject(new Error('No se pudo procesar la imagen'));
-					}, 'image/jpeg', 0.85);
+					c.toBlob(function (b) { b ? resolve(b) : reject(new Error('No se pudo procesar la imagen')); }, 'image/jpeg', 0.85);
 				};
 				img.onerror = function () { reject(new Error('No se pudo leer la imagen')); };
 				img.src = url;
 			});
 		}
+		$('heroFile').addEventListener('change', async function () {
+			var file = $('heroFile').files[0];
+			if (!file) return;
+			$('upload-status').textContent = 'Subiendo foto...';
+			try {
+				var blob = await resizeImage(file, 1600);
+				var fd = new FormData();
+				fd.append('file', blob, file.name.replace(/\.[^.]+$/, '') + '.jpg');
+				var res = await fetch('/api/upload-image', { method: 'POST', body: fd });
+				var r = await res.json();
+				if (r.ok) {
+					$('image_url').value = r.url;
+					$('hero-preview').src = URL.createObjectURL(blob); $('hero-preview').classList.remove('hidden');
+					$('upload-status').textContent = 'Foto subida. Ahora guardá la nota.';
+				} else $('upload-status').textContent = 'No se pudo subir: ' + (r.error || r.detail || 'error desconocido');
+			} catch (err) { $('upload-status').textContent = 'No se pudo subir la foto. Probá de nuevo.'; }
+		});
 
-		var heroFile = document.getElementById('heroFile');
-		var uploadStatus = document.getElementById('upload-status');
-		var heroPreview = document.getElementById('hero-preview');
-		if (heroFile) {
-			heroFile.addEventListener('change', async function () {
-				var file = heroFile.files[0];
-				if (!file) return;
-				uploadStatus.textContent = 'Subiendo foto...';
-				try {
-					var blob = await resizeImage(file, 1600);
-					var fd = new FormData();
-					fd.append('file', blob, file.name.replace(/\.[^.]+$/, '') + '.jpg');
-					var res = await fetch('/api/upload-image', { method: 'POST', body: fd });
-					var result = await res.json();
-					if (result.ok) {
-						document.getElementById('image_url').value = result.url;
-						heroPreview.src = URL.createObjectURL(blob);
-						heroPreview.classList.remove('hidden');
-						uploadStatus.textContent = 'Foto subida. Ahora guardá la noticia.';
-					} else {
-						uploadStatus.textContent = 'No se pudo subir: ' + (result.error || 'error desconocido');
-					}
-				} catch (err) {
-					uploadStatus.textContent = 'No se pudo subir la foto. Probá de nuevo.';
+		/* ---------- Guardar ---------- */
+		$('create-form').addEventListener('submit', async function (e) {
+			e.preventDefault();
+			var contenido = getContent();
+			if (!contenido) { showMsg('La nota no tiene texto.', false); return; }
+			var btn = $('btn-guardar'); btn.disabled = true; btn.textContent = 'Guardando…';
+			var payload = {
+				slug: slugify($('slug').value),
+				filename: $('edit-filename').value || undefined,
+				sha: $('edit-sha').value || undefined,
+				content: contenido,
+				data: {
+					title: $('title').value.trim(), volanta: $('volanta').value.trim(), excerpt: $('excerpt').value.trim(),
+					section: $('section').value, author: $('author').value.trim() || 'Redacción', date: $('date').value,
+					breaking: $('breaking').checked, draft: $('draft').checked,
+					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
+					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean)
 				}
-			});
-		}
+			};
+			try {
+				var res = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+				var r = await res.json();
+				if (res.ok && r.ok) {
+					$('form-nuevo').classList.add('hidden');
+					showMsg('Nota guardada. En aproximadamente 1 minuto se ve publicada en el sitio.', true);
+					cargarLista();
+				} else showMsg('Error al guardar: ' + (r.error || 'desconocido'), false);
+			} catch (err) { showMsg('Error de conexión al guardar.', false); }
+			btn.disabled = false; btn.textContent = 'Guardar nota';
+		});
 
-		var createForm = document.getElementById('create-form');
-		if (createForm) {
-			createForm.addEventListener('submit', async function (e) {
-				e.preventDefault();
-				const formData = new FormData(e.target);
-				const slug = slugify(formData.get('slug'));
-				const content = formData.get('content');
-				const sha = formData.get('sha');
-				const tagsRaw = formData.get('tags');
-				const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(t => t) : [];
-				const data = {
-					title: formData.get('title'),
-					excerpt: formData.get('excerpt'),
-					section: formData.get('section'),
-					date: formData.get('date'),
-					breaking: formData.get('breaking') === 'on',
-					image_url: formData.get('image_url'),
-					tags: tags,
-					status: 'published'
-				};
-				const payload = { slug: slug, data: data, content: content };
-				if (sha) payload.sha = sha;
-				const res = await fetch('/api/admin/articles', {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify(payload),
-				});
-				const result = await res.json();
-				if (res.ok) {
-					alert('Noticia guardada');
-					location.reload();
-				} else {
-					alert('Error al guardar: ' + (result.detail || result.error || 'desconocido'));
-				}
-			});
+		limpiarFormulario();
+		$('form-nuevo').classList.add('hidden');
+		cargarLista();
 		}
 	</script>
 </body>
