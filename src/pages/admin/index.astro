@@ -113,12 +113,33 @@ if (Astro.request.method === 'POST') {
 				<h1>EL DIARIO - Panel de Admin</h1>
 				<div>
 					<button class="btn btn-primary" id="btn-nueva">+ Nueva nota</button>
+					<button class="btn btn-secondary" id="btn-brasil" style="margin-left: 10px;">Brasil 2026 · Minuto a minuto</button>
 					<a href="/admin/publicidad/" class="btn btn-secondary" style="margin-left: 10px;">Publicidad</a>
 					<a href="/" class="btn btn-secondary" style="margin-left: 10px;">Ver sitio</a>
 				</div>
 			</div>
 
 			<div id="msg"></div>
+
+			<div id="brasil-panel" class="card hidden">
+				<h3>Brasil 2026 · Minuto a minuto</h3>
+				<p class="tip" style="margin-bottom:16px;">Publicá una actualización sin editar código. La más nueva aparece primero.</p>
+				<div class="grid">
+					<div>
+						<div class="form-group"><label for="br-fecha">Fecha</label><input type="text" id="br-fecha" placeholder="30 SEP" /></div>
+						<div class="form-group"><label for="br-hora">Hora</label><input type="text" id="br-hora" placeholder="18:30" /></div>
+						<div class="form-group"><label for="br-fuente">Fuente</label><input type="text" id="br-fuente" value="Diario Federal" /></div>
+						<div class="checkbox-wrapper"><input type="checkbox" id="br-clave" /><label for="br-clave">Evento clave</label></div>
+					</div>
+					<div>
+						<div class="form-group"><label for="br-titulo">Título</label><input type="text" id="br-titulo" /></div>
+						<div class="form-group"><label for="br-texto">Texto</label><textarea id="br-texto" style="min-height:140px;"></textarea></div>
+					</div>
+				</div>
+				<button type="button" class="btn btn-primary" id="br-publicar">Publicar actualización</button>
+				<button type="button" class="btn btn-secondary" id="br-cerrar" style="margin-left:8px;">Cerrar</button>
+				<div style="margin-top:22px;"><h3>Actualizaciones publicadas</h3><div id="br-lista">Cargando…</div></div>
+			</div>
 
 			<div id="form-nuevo" class="card hidden">
 				<h3 id="form-titulo">Nueva nota</h3>
@@ -382,6 +403,54 @@ if (Astro.request.method === 'POST') {
 			if (htmlMode) $('btn-html').click();
 			editor.innerHTML = cleanHtml(html || '');
 		}
+
+		/* ---------- Brasil 2026 · Minuto a minuto ---------- */
+		var BR_API = '/api/brasil2026-minuto';
+		async function cargarBrasil() {
+			try {
+				var res = await fetch(BR_API);
+				var r = await res.json();
+				if (!res.ok || !r.ok) throw new Error(r.error || 'Error');
+				$('br-lista').innerHTML = (r.items || []).map(function (x) {
+					return '<div style="padding:12px 0;border-bottom:1px solid #e5e7eb;">' +
+						'<div style="display:flex;justify-content:space-between;gap:12px;align-items:start;">' +
+						'<div><strong>' + esc(x.fecha) + ' · ' + esc(x.hora) + '</strong>' +
+						(x.clave ? ' <span class="badge badge-ultimo">Evento clave</span>' : '') +
+						'<div style="font-weight:700;margin-top:4px;">' + esc(x.titulo) + '</div>' +
+						'<div style="font-size:13px;color:#6b7280;margin-top:3px;">' + esc(x.fuente) + '</div></div>' +
+						'<button class="btn btn-danger" data-br-delete="' + esc(x.id) + '">Eliminar</button></div></div>';
+				}).join('') || '<p class="tip">Todavía no publicaste actualizaciones desde el panel.</p>';
+			} catch (e) { $('br-lista').innerHTML = '<div class="error-box">' + esc(e.message) + '</div>'; }
+		}
+		$('btn-brasil').addEventListener('click', function () {
+			$('brasil-panel').classList.remove('hidden');
+			$('form-nuevo').classList.add('hidden');
+			if (!$('br-fecha').value) $('br-fecha').value = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short'}).toUpperCase().replace('.','');
+			if (!$('br-hora').value) $('br-hora').value = new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+			cargarBrasil(); window.scrollTo(0,0);
+		});
+		$('br-cerrar').addEventListener('click', function () { $('brasil-panel').classList.add('hidden'); });
+		$('br-publicar').addEventListener('click', async function () {
+			var titulo=$('br-titulo').value.trim(), texto=$('br-texto').value.trim();
+			if (!titulo || !texto) { showMsg('Completá título y texto de la actualización.', false); return; }
+			var btn=$('br-publicar'); btn.disabled=true; btn.textContent='Publicando…';
+			try {
+				var res=await fetch(BR_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+					fecha:$('br-fecha').value.trim(), hora:$('br-hora').value.trim(), titulo:titulo, texto:texto,
+					fuente:$('br-fuente').value.trim() || 'Diario Federal', clave:$('br-clave').checked
+				})});
+				var r=await res.json(); if(!res.ok||!r.ok) throw new Error(r.error||'Error');
+				$('br-titulo').value=''; $('br-texto').value=''; $('br-clave').checked=false;
+				showMsg('Actualización publicada.', true); await cargarBrasil();
+			} catch(e) { showMsg('No se pudo publicar: '+e.message,false); }
+			btn.disabled=false; btn.textContent='Publicar actualización';
+		});
+		$('br-lista').addEventListener('click', async function(e) {
+			var b=e.target.closest('[data-br-delete]'); if(!b) return;
+			if(!confirm('¿Eliminar esta actualización?')) return;
+			var res=await fetch(BR_API+'?id='+encodeURIComponent(b.dataset.brDelete),{method:'DELETE'});
+			var r=await res.json(); if(res.ok&&r.ok) cargarBrasil(); else showMsg('No se pudo eliminar: '+(r.error||'error'),false);
+		});
 
 		/* ---------- Lista de notas ---------- */
 		var SECCION_NOMBRE = {};
