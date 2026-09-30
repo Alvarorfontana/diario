@@ -22,6 +22,7 @@
     "@keystatic/astro": "^6.0.0",
     "@keystatic/core": "^0.6.8",
     "@tailwindcss/vite": "^4.3.3",
+    "@vercel/analytics": "^2.0.1",
     "@vercel/blob": "^0.27.0",
     "@vercel/og": "^0.6.2",
     "astro": "^7.2.4",
