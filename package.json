@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "prebuild": "node scripts/limpiar.mjs",
+    "prebuild": "node -e \"const fs=require('fs'),path=require('path');['keystatic.config.ts','SUPABASE-CMS.md','src/pages/api/admin/supabase.ts','src/   lib','src/pages/   og'].forEach(p=>{if(fs.existsSync(p)){fs.rmSync(p,{recursive:true,force:true});console.log('[limpiar] borrado',p)}});const walk=d=>{for(const e of fs.readdirSync(d,{withFileTypes:true})){const p=path.join(d,e.name);if(e.isDirectory())walk(p);else if(/\\.(ts|js|mjs|astro|tsx|jsx)$/.test(e.name)&&fs.readFileSync(p,'utf8').includes('@supabase/supabase-js')){fs.rmSync(p);console.log('[limpiar] borrado',p)}}};if(fs.existsSync('src'))walk('src');\"",
     "build": "astro build",
     "postbuild": "node -e \"const fs=require('fs'); const path=require('path'); const site=path.join('dist','client'); if (!fs.existsSync(site)) { console.log('Pagefind skipped: no dist/client folder found for this SSR build.'); process.exit(0); } const html = fs.existsSync(path.join(site,'index.html')) || fs.readdirSync(site).some((entry) => entry.endsWith('.html')); if (!html) { console.log('Pagefind skipped: no static HTML files were generated for this SSR build.'); process.exit(0); } require('child_process').execSync('npx pagefind --site dist/client', { stdio: 'inherit' });\"",
     "preview": "astro preview",
