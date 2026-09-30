@@ -467,16 +467,36 @@ if (Astro.request.method === 'POST') {
 		$('slug').addEventListener('input', function () { slugTouched = true; });
 
 		/* ---------- Foto ---------- */
-		function resizeImage(file, maxWidth) {
+		// WhatsApp descarta las fotos de vista previa muy pesadas (más de ~300 KB) y deja la miniatura borrosa.
+		// Por eso se achica a 1200 px de ancho y se baja la calidad hasta que pese menos de 250 KB.
+		var MAX_BYTES = 250 * 1024;
+		function encodeJpeg(img, width, quality) {
+			return new Promise(function (resolve, reject) {
+				var scale = Math.min(1, width / img.width);
+				var c = document.createElement('canvas');
+				c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+				var ctx = c.getContext('2d');
+				ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+				ctx.drawImage(img, 0, 0, c.width, c.height);
+				c.toBlob(function (b) { b ? resolve(b) : reject(new Error('No se pudo procesar la imagen')); }, 'image/jpeg', quality);
+			});
+		}
+		function resizeImage(file) {
 			return new Promise(function (resolve, reject) {
 				var img = new Image(); var url = URL.createObjectURL(file);
-				img.onload = function () {
-					var scale = Math.min(1, maxWidth / img.width);
-					var c = document.createElement('canvas');
-					c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
-					c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
-					URL.revokeObjectURL(url);
-					c.toBlob(function (b) { b ? resolve(b) : reject(new Error('No se pudo procesar la imagen')); }, 'image/jpeg', 0.85);
+				img.onload = async function () {
+					try {
+						var widths = [1200, 1000, 800];
+						var blob = null;
+						for (var w = 0; w < widths.length; w++) {
+							for (var q = 0.82; q >= 0.5; q -= 0.08) {
+								blob = await encodeJpeg(img, widths[w], q);
+								if (blob.size <= MAX_BYTES) { URL.revokeObjectURL(url); return resolve(blob); }
+							}
+						}
+						URL.revokeObjectURL(url);
+						resolve(blob);
+					} catch (e) { reject(e); }
 				};
 				img.onerror = function () { reject(new Error('No se pudo leer la imagen')); };
 				img.src = url;
@@ -487,7 +507,7 @@ if (Astro.request.method === 'POST') {
 			if (!file) return;
 			$('upload-status').textContent = 'Subiendo foto...';
 			try {
-				var blob = await resizeImage(file, 1600);
+				var blob = await resizeImage(file);
 				var fd = new FormData();
 				fd.append('file', blob, file.name.replace(/\.[^.]+$/, '') + '.jpg');
 				var res = await fetch('/api/upload-image', { method: 'POST', body: fd });
@@ -495,7 +515,7 @@ if (Astro.request.method === 'POST') {
 				if (r.ok) {
 					$('image_url').value = r.url;
 					$('hero-preview').src = URL.createObjectURL(blob); $('hero-preview').classList.remove('hidden');
-					$('upload-status').textContent = 'Foto subida. Ahora guardá la nota.';
+					$('upload-status').textContent = 'Foto subida (' + Math.round(blob.size / 1024) + ' KB). Ahora guardá la nota.';
 				} else $('upload-status').textContent = 'No se pudo subir: ' + (r.error || r.detail || 'error desconocido');
 			} catch (err) { $('upload-status').textContent = 'No se pudo subir la foto. Probá de nuevo.'; }
 		});
