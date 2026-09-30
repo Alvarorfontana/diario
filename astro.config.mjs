@@ -4,7 +4,6 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
 import react from '@astrojs/react';
-import keystatic from '@keystatic/astro';
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -14,14 +13,9 @@ export default defineConfig({
   site: 'https://www.diariofederal.com.ar/',
   output: 'server',
   adapter: vercel(),
-  integrations: [mdx(), sitemap(), react(), keystatic()],
+  integrations: [mdx(), sitemap(), react()],
 
   vite: {
     plugins: [tailwindcss()],
-  },
-  build: {
-    rolldownOptions: {
-      external: ['@supabase/supabase-js'],
-    },
   },
 });
