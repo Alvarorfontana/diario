@@ -15,7 +15,8 @@ const articulos = defineCollection({
 			author: z.string().default('Redacción'),
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
-			heroImage: z.union([image(), z.string()]).optional(),
+			// Rutas públicas (/uploads/...) y URLs externas se usan tal cual; solo las rutas relativas del repo pasan por image()
+			heroImage: z.union([z.string().regex(/^(\/|https?:\/\/)/), image()]).optional(),
 			// Pie de foto (epígrafe) que acompaña a la imagen principal
 			imageCaption: z.string().optional(),
 			// Borrador: se guarda pero no se muestra en el sitio
