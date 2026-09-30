@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/limpiar.mjs",
     "build": "astro build",
     "postbuild": "node -e \"const fs=require('fs'); const path=require('path'); const site=path.join('dist','client'); if (!fs.existsSync(site)) { console.log('Pagefind skipped: no dist/client folder found for this SSR build.'); process.exit(0); } const html = fs.existsSync(path.join(site,'index.html')) || fs.readdirSync(site).some((entry) => entry.endsWith('.html')); if (!html) { console.log('Pagefind skipped: no static HTML files were generated for this SSR build.'); process.exit(0); } require('child_process').execSync('npx pagefind --site dist/client', { stdio: 'inherit' });\"",
     "preview": "astro preview",
