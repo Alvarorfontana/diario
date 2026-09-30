@@ -6,7 +6,7 @@ section: economia
 author: Redacción
 pubDate: 2026-09-30
 heroImage: https://www.infobae.com/resizer/v2/4HDA2S5AKZH6HGENSICRUFIVXA.jpg?auth=9b894e17163b51a6db370257d5aa241ae2fe1ccd8d8ed8ebd79981329c5fc5c3&smart=true&width=992&height=661&quality=85
-imageCaption: desploe y caida de la inversion
+imageCaption: desplome y caida de la inversion
 ultimoMomento: true
 tags:
   - economía
