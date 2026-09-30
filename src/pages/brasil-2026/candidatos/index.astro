@@ -3,18 +3,18 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../../../consts';
 
 const candidatos = [
-	{ nombre: 'Luiz Inácio Lula da Silva', urna: 'Lula', partido: 'PT', vice: 'Geraldo Alckmin', vicePartido: 'PSB' },
-	{ nombre: 'Flávio Bolsonaro', urna: 'Flávio Bolsonaro', partido: 'PL', vice: 'Alfredo Gaspar', vicePartido: 'PL' },
+	{ nombre: 'Luiz In\u00e1cio Lula da Silva', urna: 'Lula', partido: 'PT', vice: 'Geraldo Alckmin', vicePartido: 'PSB' },
+	{ nombre: 'Fl\u00e1vio Bolsonaro', urna: 'Fl\u00e1vio Bolsonaro', partido: 'PL', vice: 'Alfredo Gaspar', vicePartido: 'PL' },
 	{ nombre: 'Ronaldo Caiado', urna: 'Ronaldo Caiado', partido: 'PSD', vice: 'Gilberto Kassab', vicePartido: 'PSD' },
-	{ nombre: 'Rui Costa Pimenta', urna: 'Rui Costa Pimenta', partido: 'PCO', vice: 'Antônio Carlos', vicePartido: 'PCO' },
-	{ nombre: 'Samara Martins', urna: 'Samara', partido: 'UP', vice: 'Raquel Brício', vicePartido: 'UP' },
-	{ nombre: 'Romeu Zema', urna: 'Zema', partido: 'NOVO', vice: 'Eduardo Girão', vicePartido: 'NOVO' },
+	{ nombre: 'Rui Costa Pimenta', urna: 'Rui Costa Pimenta', partido: 'PCO', vice: 'Ant\u00f4nio Carlos', vicePartido: 'PCO' },
+	{ nombre: 'Samara Martins', urna: 'Samara', partido: 'UP', vice: 'Raquel Br\u00edcio', vicePartido: 'UP' },
+	{ nombre: 'Romeu Zema', urna: 'Zema', partido: 'NOVO', vice: 'Eduardo Gir\u00e3o', vicePartido: 'NOVO' },
 	{ nombre: 'Hertz Dias', urna: 'Hertz Dias', partido: 'PSTU', vice: 'Vanessa Portugal', vicePartido: 'PSTU' },
 	{ nombre: 'Edmilson Costa', urna: 'Edmilson Costa', partido: 'PCB', vice: 'Cleusa Santos', vicePartido: 'PCB' },
-	{ nombre: 'Renan Santos', urna: 'Renan Santos', partido: 'MISSÃO', vice: 'Aroldo Medina', vicePartido: 'MISSÃO' },
-	{ nombre: 'Wilson Grassi', urna: 'Veterinário Wilson Grassi', partido: 'DEMOCRATA', vice: 'Suêd Haidar', vicePartido: 'DEMOCRATA' },
-	{ nombre: 'Clariana Barão', urna: 'Clariana Barão', partido: 'DC', vice: 'Fabiana Torquato', vicePartido: 'DC' },
-	{ nombre: 'Augusto Cury', urna: 'Escritor Augusto Cury', partido: 'AVANTE', vice: 'Júlio Delgado', vicePartido: 'AVANTE' },
+	{ nombre: 'Renan Santos', urna: 'Renan Santos', partido: 'MISS\u00c3O', vice: 'Aroldo Medina', vicePartido: 'MISS\u00c3O' },
+	{ nombre: 'Wilson Grassi', urna: 'Veterin\u00e1rio Wilson Grassi', partido: 'DEMOCRATA', vice: 'Su\u00ead Haidar', vicePartido: 'DEMOCRATA' },
+	{ nombre: 'Clariana Bar\u00e3o', urna: 'Clariana Bar\u00e3o', partido: 'DC', vice: 'Fabiana Torquato', vicePartido: 'DC' },
+	{ nombre: 'Augusto Cury', urna: 'Escritor Augusto Cury', partido: 'AVANTE', vice: 'J\u00falio Delgado', vicePartido: 'AVANTE' },
 ];
 
 const tseCandidaturas =
@@ -25,8 +25,8 @@ const tsePropostas =
 ---
 
 <BaseLayout
-	title={`Candidatos a presidente · Brasil 2026 | ${SITE_TITLE}`}
-	description="Lista de candidaturas registradas para la Presidencia de Brasil en las elecciones de 2026, basada en información oficial del Tribunal Superior Eleitoral."
+	title={`Candidatos a presidente - Brasil 2026 | ${SITE_TITLE}`}
+	description="Lista de candidaturas registradas para la Presidencia de Brasil en las elecciones de 2026, basada en informacion oficial del Tribunal Superior Eleitoral."
 >
 	<div class="mx-auto max-w-5xl">
 		<nav class="mt-4 text-xs font-semibold text-neutral-500" aria-label="Migas de pan">
@@ -41,8 +41,8 @@ const tsePropostas =
 				Los candidatos a la Presidencia de Brasil
 			</h1>
 			<p class="mt-4 max-w-3xl text-lg leading-relaxed text-neutral-600">
-				Las candidaturas presidenciales registradas para las elecciones de 2026. Esta página no muestra encuestas,
-				porcentajes ni posiciones: presenta la nómina electoral y la fórmula de cada candidatura.
+				Las candidaturas presidenciales registradas para las elecciones de 2026. Esta p&aacute;gina no muestra encuestas,
+				porcentajes ni posiciones: presenta la n&oacute;mina electoral y la f&oacute;rmula de cada candidatura.
 			</p>
 		</div>
 
@@ -50,17 +50,17 @@ const tsePropostas =
 			<div>
 				<p class="text-xs font-extrabold tracking-[0.14em] text-neutral-900 uppercase">Fuente institucional</p>
 				<p class="mt-1 text-sm leading-relaxed text-neutral-600">
-					Tribunal Superior Eleitoral (TSE) · candidaturas presidenciales 2026.
+					Tribunal Superior Eleitoral (TSE) &middot; candidaturas presidenciales 2026.
 				</p>
 			</div>
 			<div class="flex flex-wrap gap-2">
 				<a href={tseCandidaturas} target="_blank" rel="noopener noreferrer"
 					class="border border-neutral-900 px-3 py-2 text-xs font-bold transition hover:bg-neutral-900 hover:text-white">
-					Ver candidaturas en TSE ↗
+					Ver candidaturas en TSE &nearr;
 				</a>
 				<a href={tsePropostas} target="_blank" rel="noopener noreferrer"
 					class="border border-neutral-300 bg-white px-3 py-2 text-xs font-bold transition hover:border-brand hover:text-brand">
-					Ver propuestas oficiales ↗
+					Ver propuestas oficiales &nearr;
 				</a>
 			</div>
 		</div>
@@ -96,14 +96,14 @@ const tsePropostas =
 								</div>
 
 								<div class="mt-4 border-t border-neutral-200 pt-3">
-									<p class="text-[10px] font-bold tracking-[0.14em] text-neutral-400 uppercase">Fórmula presidencial</p>
+									<p class="text-[10px] font-bold tracking-[0.14em] text-neutral-400 uppercase">F&oacute;rmula presidencial</p>
 									<p class="mt-1 text-sm font-semibold text-neutral-800">
 										{candidato.nombre}
 										<span class="font-normal text-neutral-400"> / </span>
 										{candidato.vice}
 									</p>
 									<p class="mt-0.5 text-xs text-neutral-500">
-										Presidencia: {candidato.partido} · Vicepresidencia: {candidato.vicePartido}
+										Presidencia: {candidato.partido} <span>&middot;</span> Vicepresidencia: {candidato.vicePartido}
 									</p>
 								</div>
 							</div>
@@ -116,20 +116,19 @@ const tsePropostas =
 		<section class="mt-10 border-t-2 border-neutral-900 pt-6">
 			<h2 class="font-serif text-2xl font-extrabold">Datos y resultados</h2>
 			<p class="mt-2 max-w-3xl text-sm leading-relaxed text-neutral-600">
-				Esta nómina se mantiene separada del módulo de resultados. Los porcentajes y votos se muestran únicamente
-				en la página de escrutinio cuando existen datos electorales para representar.
+				Esta n&oacute;mina se mantiene separada del m&oacute;dulo de resultados. Los porcentajes y votos se muestran &uacute;nicamente
+				en la p&aacute;gina de escrutinio cuando existen datos electorales para representar.
 			</p>
 			<a href="/brasil-2026/resultados/"
 				class="mt-4 inline-flex items-center border border-neutral-900 px-4 py-2.5 text-sm font-bold transition hover:bg-neutral-900 hover:text-white">
-				Ir al módulo de resultados →
+				Ir al m&oacute;dulo de resultados &rarr;
 			</a>
 		</section>
 
 		<div class="mt-10 border border-neutral-300 bg-neutral-50 p-5 text-xs leading-relaxed text-neutral-500">
 			<strong class="text-neutral-700">Criterio editorial:</strong>
-			la información de candidaturas y fórmulas se presenta con base en fuentes oficiales del TSE. La inclusión en esta
-			página no implica valoración, recomendación ni orden de preferencia.
+			la informaci&oacute;n de candidaturas y f&oacute;rmulas se presenta con base en fuentes oficiales del TSE. La inclusi&oacute;n en esta
+			p&aacute;gina no implica valoraci&oacute;n, recomendaci&oacute;n ni orden de preferencia.
 		</div>
 	</div>
 </BaseLayout>
-
