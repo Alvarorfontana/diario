@@ -12,7 +12,7 @@ tags:
   - economía
 ---
 
-<h3>La inversión sigue siendo uno de los puntos débiles de la economía argentina. El último Índice de Inversión Bruta Interna Mensual (IBIM), elaborado por el Centro de Estudios Económicos de Orlando J. Ferreres &amp; Asociados, mostró que <strong>la inversión real cayó 5,4% interanual en agosto y acumuló una contracción de 7,9% durante los primeros ocho meses de 2026</strong>.</h3>
+<blockquote><em><strong>La inversión sigue siendo uno de los puntos débiles de la economía argentina. El último Índice de Inversión Bruta Interna Mensual (IBIM), elaborado por el Centro de Estudios Económicos de Orlando J. Ferreres &amp; Asociados, mostró que la inversión real cayó 5,4% interanual en agosto y acumuló una contracción de 7,9% durante los primeros ocho meses de 2026.</strong></em></blockquote>
 <p>El dato adquiere mayor dimensión porque no se trata de una medición nominal afectada por los precios: el indicador busca medir el <strong>volumen físico de la inversión</strong>, descontando el efecto inflacionario. En otras palabras, lo que disminuyó fue la cantidad real de recursos destinados a ampliar la capacidad productiva mediante construcción, maquinaria y equipos.</p>
 <p>Ferreres estimó que durante agosto se invirtieron alrededor de <strong>US$7.515 millones</strong>, equivalentes aproximadamente al <strong>18,6% del Producto Bruto Interno</strong>.</p>
 <h3>Diez meses en terreno negativo</h3>
