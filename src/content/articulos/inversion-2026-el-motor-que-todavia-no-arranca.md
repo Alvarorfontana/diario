@@ -5,14 +5,14 @@ description: "La inversión real cayó 5,4% interanual en agosto y acumula un re
 section: economia
 author: Redacción
 pubDate: 2026-09-30
-heroImage: /uploads/1790793239580-94d3f41b-ea21-4ca6-8a69-970d9f2cf8e0.jpg
-imageCaption: brusca caida de la inversion
+heroImage: https://www.infobae.com/resizer/v2/4HDA2S5AKZH6HGENSICRUFIVXA.jpg?auth=9b894e17163b51a6db370257d5aa241ae2fe1ccd8d8ed8ebd79981329c5fc5c3&smart=true&width=992&height=661&quality=85
+imageCaption: desploe y caida de la inversion
 ultimoMomento: true
 tags:
   - economía
 ---
 
-<p>La inversión sigue siendo uno de los puntos débiles de la economía argentina. El último Índice de Inversión Bruta Interna Mensual (IBIM), elaborado por el Centro de Estudios Económicos de Orlando J. Ferreres &amp; Asociados, mostró que <strong>la inversión real cayó 5,4% interanual en agosto y acumuló una contracción de 7,9% durante los primeros ocho meses de 2026</strong>.</p>
+<h3>La inversión sigue siendo uno de los puntos débiles de la economía argentina. El último Índice de Inversión Bruta Interna Mensual (IBIM), elaborado por el Centro de Estudios Económicos de Orlando J. Ferreres &amp; Asociados, mostró que <strong>la inversión real cayó 5,4% interanual en agosto y acumuló una contracción de 7,9% durante los primeros ocho meses de 2026</strong>.</h3>
 <p>El dato adquiere mayor dimensión porque no se trata de una medición nominal afectada por los precios: el indicador busca medir el <strong>volumen físico de la inversión</strong>, descontando el efecto inflacionario. En otras palabras, lo que disminuyó fue la cantidad real de recursos destinados a ampliar la capacidad productiva mediante construcción, maquinaria y equipos.</p>
 <p>Ferreres estimó que durante agosto se invirtieron alrededor de <strong>US$7.515 millones</strong>, equivalentes aproximadamente al <strong>18,6% del Producto Bruto Interno</strong>.</p>
 <h3>Diez meses en terreno negativo</h3>
