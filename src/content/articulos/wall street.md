@@ -5,7 +5,7 @@ description: El inesperado informe de J.P. Morgan expone la fragilidad del esque
 section: argentina
 author: Redacción
 pubDate: 2026-09-29
-heroImage: https://www.lanacion.com.ar/economia/jp-morgan-advirtio-que-colocar-deuda-en-wall-street-sera-clave-para-sostener-el-programa-argentino-nid11032026/
+heroImage: /uploads/1790774262313-el-presidente-javier-milei-en-el-nuevo-edificio-ze.jpg
 imageCaption: Milei en el JP Morgan
 ultimoMomento: true
 tags:
