@@ -1,0 +1,29 @@
+---
+title: "“Lo importante es coronar a Axel en la presidencia”: Ferraresi llamó a dar el debate interno y construir una nueva mayoría"
+volanta: Carrera por la gobernación
+description: Con un salón colmado por militantes y vecinos en un club de barrio de Villa Martelli, el dirigente peronista profundizó sus recorridas por el Conurbano para consolidar la propuesta política de Axel Kicillof a nivel nacional. En un marco de fuerte autocrítica, pidió cambiar los métodos de construcción del espacio de cara a los próximos desafíos electorales
+section: argentina
+author: Redacción
+pubDate: 2026-09-29
+heroImage: /uploads/1790733120108-img-20260929-wa0137-scaled.jpg
+ultimoMomento: true
+tags:
+  - politica
+  - elecciones
+---
+
+<h2>En un escenario socioeconómico nacional signado por las políticas de ajuste, el desempleo y el endeudamiento de las familias, la reorganización del peronismo suma kilometraje y debate en los distritos bonaerenses. En el marco de sus continuas recorridas por la provincia de Buenos Aires, el dirigente y referente del peronismo bonaerense, Jorge Ferraresi, desembarcó en la Primera Sección Electoral para encabezar un multitudinario plenario militante. </h2>
+<p>La cita tuvo lugar en las instalaciones del Club Atlético La Escuelita, un emblemático club de barrio ubicado en la localidad de Villa Martelli, partido de Vicente López. Con las instalaciones colmadas por una concurrida presencia de vecinos, referentes locales y militantes de la zona norte, la jornada se transformó en un espacio de debate abierto sobre la coyuntura del país y el futuro de la provincia. </p>
+<p>El encuentro se dio en continuidad con las actividades de la última semana y las intensas recorridas por el conurbano bonaerense, en las que el dirigente busca sentar las bases para una alternativa superadora en el plano nacional. </p>
+<h3>La urgencia de mirar al futuro con propuestas claras</h3>
+<p>Durante la rueda de prensa previa al inicio de la charla, Ferraresi analizó el presente económico y advirtió que el peronismo no debe quedarse únicamente en el diagnóstico del fracaso ajeno, sino en la formulación de ideas concretas. </p>
+<blockquote><em>"Eso arrancaba diciendo que el modelo de Milei es un proyecto que no fracasó, nosotros no podemos hablar sobre un proyecto que no fracasó. Nosotros tenemos que hablar sobre nuestras propuestas del futuro, sobre poner arriba de la mesa lo que le importa a la gente, percibe que nosotros no nos damos cuenta, o cuando pifiamos en el tema del discurso"</em>, remarcó de manera tajante. </blockquote>
+<blockquote>En esa misma línea, planteó la necesidad de una profunda autocrítica sobre los procesos electorales recientes: <em>"Planteamos que hemos perdido siete elecciones de nueve y que, por lo tanto, el mismo método de construcción nos va a dar un resultado muy parecido al que tuvimos en las siete elecciones que perdimos"</em>. </blockquote>
+<p>A su vez, retomó los conceptos expresados por el ministro Gabriel Katopodis para marcar la hoja de ruta en el territorio: <em>"A cada desilusionado de Milei tenemos que ir a buscarlo para sumarlo a nuestro espacio. Todavía tenemos un camino por recorrer, pero empieza desde abajo"</em>. </p>
+<h3>Primarias, internas y la proyección nacional de Kicillof</h3>
+<p>Consultado sobre las internas y la diversidad de precandidatos que emergen en la provincia de Buenos Aires, Ferraresi abogó por la madurez política y el consenso. </p>
+<blockquote><em>"Nosotros tenemos que ser inteligentes. Tenemos que ser inteligentes en tener el compañero que en mejores condiciones esté de darnos un triunfo electoral, y ese es el compañero que nos va a representar. Mientras tanto, cada uno construimos complementariamente. No hay nadie que sea un enemigo dentro de esta cuestión que estamos desarrollando"</em>, sostuvo. </blockquote>
+<blockquote>Al referirse a los mecanismos de selección de candidaturas y la importancia del peso territorial, Ferraresi fue contundente: <em>"La mejor manera de construir una unidad es a partir del peso específico que tenga cada uno en los procesos electorales. Porque si no, cada uno que cree que tal compañero representa... (...) Hasta que uno no gana una elección, no es jefe. La construcción de los liderazgos se construye... Néstor no era un líder antes de haber sido presidente. Néstor construyó el liderazgo a partir de ser presidente y tomar una cantidad de decisiones que beneficiaron al conjunto del pueblo. Esto es lo mismo: el liderazgo se construye a partir de los procesos electorales y el que gana es el que va a tener las condiciones de ser el jefe de ese territorio"</em>. </blockquote>
+<blockquote>Sin embargo, al evaluar la historia de las internas partidarias, recordó el antecedente de 2015: <em>"La primaria es una herramienta que inventamos nosotros y nunca la usamos. Y la única vez que la usamos la usamos pésimo, porque fue en el año 2015, donde enfrentamos dos candidatos a gobernador cuando había un solo candidato a intendente y un solo candidato a presidente, y la verdad la guerra fue sangrienta y el resultado final fue desesperante y horrible"</em>. </blockquote>
+<blockquote>Finalmente, el referente peronista enmarcó todo el trabajo territorial de las recorridas en la consolidación del proyecto político que encabeza el gobernador de la provincia de Buenos Aires: <em>"Axel ya empieza a esbozar una propuesta, una alternativa de cómo llevar la Argentina adelante, y ahí es cuando vamos a empezar a tener eso que dice Katopodis. (...) Lo importante es coronar a Axel en la presidencia. En una Argentina que no se desarrolle, no hay posibilidad de desarrollar una provincia, menos la provincia de Buenos Aires, así que por lo tanto necesitamos tener el gobierno de Axel en la presidencia"</em>. </blockquote>
+<p><strong>Fuente:</strong> Declaraciones periodísticas de Jorge Ferraresi en el plenario militante celebrado en el Club Atlético La Escuelita (Villa Martelli, Vicente López). </p>
