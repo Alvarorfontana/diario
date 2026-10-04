@@ -5,6 +5,8 @@ description: "En medio de la disputa por las urnas, las dos grandes fracciones e
 section: internacional
 author: Redacción
 pubDate: 2026-10-04
+heroImage: /uploads/1791139098785-lula-planta-acero-gerdau-ricardo-stuckert-flickr-5.jpg
+imageCaption: Lula en la planta de acero
 ultimoMomento: true
 tags:
   - Política
