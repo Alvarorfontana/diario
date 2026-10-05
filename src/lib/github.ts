@@ -1,4 +1,6 @@
 // Acceso a los archivos del repo vía API de GitHub (las notas viven en el repo).
+import { getRepo } from './repo';
+
 export const NOTAS_DIR = 'src/content/articulos';
 
 export interface GhConfig { token: string; repo: string; branch: string }
@@ -7,8 +9,8 @@ export function ghConfig(env: Record<string, string | undefined>): GhConfig | nu
 	if (!env.GITHUB_PAT) return null;
 	return {
 		token: env.GITHUB_PAT,
-		repo: env.GITHUB_REPO || 'Alvarorfontana/diario',
-		branch: env.GITHUB_BRANCH || 'main',
+		repo: env.GITHUB_REPO || getRepo().repo,
+		branch: env.GITHUB_BRANCH || getRepo().branch,
 	};
 }
 

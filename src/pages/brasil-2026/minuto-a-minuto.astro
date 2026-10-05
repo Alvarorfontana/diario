@@ -1,51 +1,66 @@
 ---
-export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../../consts';
-
-let cobertura: any[] = [];
-try {
-	const r = await fetch(new URL('/api/brasil2026-minuto', Astro.url), { headers: { accept: 'application/json' } });
-	if (r.ok) cobertura = (await r.json()).items ?? [];
-} catch {}
-
-const iniciales = [
-	{ id:'base-1', fecha:'30 SEP', hora:'Actualización', titulo:'Brasil entra en la recta final hacia la primera vuelta', texto:'La primera vuelta de las Elecciones Generales de 2026 se realizará el domingo 4 de octubre. Esta página irá incorporando los hechos relevantes de la jornada y de los días previos.', fuente:'Diario Federal · Calendario electoral TSE', clave:true },
-	{ id:'base-2', fecha:'29 SEP', hora:'TSE', titulo:'Finalizaron los simulados técnicos de divulgación de resultados', texto:'El Tribunal Superior Eleitoral completó la etapa de pruebas prevista para validar las soluciones de divulgación de resultados.', fuente:'Tribunal Superior Eleitoral', clave:false },
-	{ id:'base-3', fecha:'11 SEP', hora:'TSE', titulo:'Quedaron validadas 12 candidaturas presidenciales', texto:'El TSE concluyó el juzgamiento de los registros presidenciales y validó doce fórmulas para la disputa por la Presidencia de la República.', fuente:'Tribunal Superior Eleitoral', clave:true },
-];
-const items = [...cobertura, ...iniciales];
 ---
 
-<BaseLayout title={`Minuto a minuto · Brasil 2026 | ${SITE_TITLE}`} description="Cobertura cronológica de las Elecciones Generales de Brasil 2026.">
+<BaseLayout title={`Minuto a minuto · Brasil 2026 | ${SITE_TITLE}`} description="Cobertura minuto a minuto del proceso electoral brasileño 2026.">
 	<article class="mx-auto max-w-3xl">
-		<nav class="mt-4 text-xs font-semibold text-neutral-500"><a href="/brasil-2026/" class="hover:text-brand">Brasil 2026</a><span class="mx-2">/</span><span>Minuto a minuto</span></nav>
-		<p class="mt-5 text-[11px] font-extrabold tracking-[0.18em] text-brand uppercase">● Brasil 2026 · Cobertura electoral</p>
-		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">La elección de Brasil, minuto a minuto</h1>
-		<p class="mt-4 text-lg leading-relaxed text-neutral-600">Seguimiento de los hechos relevantes antes y durante la jornada electoral. Hasta el inicio del escrutinio, esta página funciona como cronología editorial y no muestra resultados.</p>
+		<p class="um-banner mt-4"><span class="um-luz"></span>Brasil 2026 · Cobertura en vivo</p>
+		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+			Proceso electoral de Brasil, minuto a minuto
+		</h1>
+		<p class="mt-4 text-lg leading-relaxed text-neutral-600 sm:text-xl">
+			Toda la jornada con enviados en Brasil: apertura de urnas, cortes del TSE, reacciones de los candidatos y análisis en tiempo real.
+		</p>
 
-		<div class="mt-6 border-y-2 border-neutral-900 py-5">
-			<p class="text-[11px] font-extrabold tracking-[0.16em] text-brand uppercase">Estado de la cobertura</p>
-			<p class="mt-1 font-serif text-2xl font-black">Etapa previa a la primera vuelta</p>
-			<p class="mt-2 text-sm leading-relaxed text-neutral-600">Las novedades publicadas desde el panel aparecen aquí sin que tengas que editar esta página.</p>
+		<div class="mt-6 grid grid-cols-2 gap-4 border-y-2 border-neutral-900 py-5" id="stats">
+			<div class="text-center">
+				<span class="block font-serif text-2xl font-black" id="urnas">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">urnas escrutadas</span>
+			</div>
+			<div class="text-center">
+				<span class="block font-serif text-2xl font-black" id="participacion">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">participación</span>
+			</div>
 		</div>
 
-		<div class="mt-7 flex items-end justify-between border-b border-neutral-300 pb-3">
-			<div><p class="text-[11px] font-bold tracking-[0.16em] text-brand uppercase">Cronología</p><h2 class="mt-1 font-serif text-2xl font-extrabold">Últimas actualizaciones</h2></div>
-			<span class="text-xs font-semibold text-neutral-500">Diario Federal</span>
+		<div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+			<button class="inline-flex items-center gap-2 rounded-full bg-brand px-4 py-2 text-xs font-bold text-white" onclick="cargar()">
+				<span class="luz-parpadeante inline-block h-2 w-2 rounded-full bg-white"></span>
+				Actualizar ahora
+			</button>
+			<span class="text-xs text-neutral-500">Se actualiza solo cada 60 segundos</span>
 		</div>
 
-		<div class="mt-2 ml-1.5 border-l-[3px] border-neutral-900">
-			{items.map((p) => (
-				<article class="relative border-b border-neutral-200 py-5 pl-6">
-					<span class:list={['absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px]', p.clave ? 'border-brand bg-brand' : 'border-neutral-900 bg-[#f6efdf]']}></span>
-					<div class="flex flex-wrap items-baseline gap-x-3"><p class="font-serif text-lg font-black">{p.fecha}</p><p class="text-xs font-bold uppercase tracking-wide text-neutral-500">{p.hora}</p></div>
-					{p.clave && <span class="mt-2 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider uppercase text-brand">Evento clave</span>}
-					<h3 class="mt-2 font-serif text-xl font-black">{p.titulo}</h3>
-					<p class="mt-2 text-[15px] leading-relaxed text-neutral-800">{p.texto}</p>
-					<p class="mt-2 text-xs font-semibold text-neutral-500">Fuente: {p.fuente}</p>
-				</article>
-			))}
+		<div id="timeline" class="mt-4 ml-1.5 border-l-[3px] border-neutral-900"></div>
+
+		<div class="mt-8 border border-neutral-300 bg-neutral-50 p-5 text-sm text-neutral-600">
+			<strong>Cobertura de EL DIARIO.</strong> Datos del escrutinio provisorio del Tribunal Superior Electoral de Brasil (TSE).
 		</div>
 	</article>
 </BaseLayout>
+
+<script>
+	async function cargar() {
+		try {
+			const r = await fetch('/api/brasil2026', { cache: 'no-store' });
+			const d = await r.json();
+			document.getElementById('urnas').textContent = d.urnas;
+			document.getElementById('participacion').textContent = d.participacion;
+
+			document.getElementById('timeline').innerHTML = d.posts.map((p) => `
+				<div class="relative grid grid-cols-[56px_1fr] gap-x-4 border-b border-neutral-200 py-5 pl-5">
+					<span class="absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px] ${p.clave ? 'border-brand bg-brand' : 'border-neutral-900 bg-[#f6efdf]'}"></span>
+					<span class="font-serif text-lg font-black">${p.hora}</span>
+					<div>
+						${p.clave ? '<span class="mb-2 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider uppercase text-brand">Evento clave</span>' : ''}
+						<p class="text-[15px] leading-relaxed text-neutral-800">${p.texto}</p>
+						<p class="mt-2 text-xs font-semibold text-neutral-500">${p.autor} <span class="font-normal text-neutral-400">· ${p.lugar}</span></p>
+					</div>
+				</div>
+			`).join('');
+		} catch (e) { console.error(e); }
+	}
+	cargar();
+	setInterval(cargar, 60000);
+</script>

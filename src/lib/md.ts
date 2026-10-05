@@ -36,6 +36,9 @@ export function htmlParaArchivo(html: string): string {
 	return html
 		.replace(/<script[\s\S]*?<\/script>/gi, '')
 		.replace(/\son\w+="[^"]*"/gi, '')
+		.replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, (m) =>
+			/src="https:\/\/www\.youtube(-nocookie)?\.com\/embed\/[\w-]{11}"/.test(m) ? m : ''
+		)
 		.replace(/(<\/(?:p|h2|h3|ul|ol|li|blockquote|figure|figcaption)>|<hr\s*\/?>)\s*/gi, '$1\n')
 		.replace(/\n{2,}/g, '\n')
 		.trim();

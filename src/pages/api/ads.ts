@@ -1,3 +1,4 @@
+import { getRepo } from '../../lib/repo';
 export const prerender = false;
 
 // ─── Acceso portable a variables de entorno ────────────────────────────────
@@ -29,8 +30,8 @@ function b64decodeUtf8(b64: string): string {
 	return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
 }
 
-const REPO = 'Alvarorfontana/diario';
-const BRANCH = 'main';
+const REPO = getRepo().repo;
+const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/ads.json';
 
 interface Ad {

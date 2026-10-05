@@ -3,7 +3,6 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import AdBanner from '../components/AdBanner.astro';
-import Analytics from '@vercel/analytics/astro';
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 
@@ -22,7 +21,6 @@ const { title, description, image, publishedTime, author, section } = Astro.prop
 <!doctype html>
 <html lang="es">
 	<head>
-		<Analytics />
 		<BaseHead
 			title={title}
 			description={description}

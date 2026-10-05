@@ -89,7 +89,11 @@ if (Astro.request.method === 'POST') {
 		#editor ul, #editor ol { margin: 0 0 1em 1.4em; padding: 0; }
 		#editor a { color: #e93323; text-decoration: underline; }
 		#editor hr { border: 0; border-top: 1px solid #d1d5db; margin: 1.6em 0; }
-		#editor img { max-width: 100%; height: auto; }
+		#editor img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+		#editor figure { margin: 1.4em 0; padding: 8px; border: 1px dashed #d1d5db; border-radius: 6px; background: #fafafa; }
+		#editor figcaption { margin-top: 6px; font-family: -apple-system, 'Segoe UI', sans-serif; font-size: 13px; color: #6b7280; text-align: center; }
+		#editor figure.video { position: relative; aspect-ratio: 16 / 9; padding: 0; }
+		#editor figure.video iframe { width: 100%; height: 100%; border: 0; pointer-events: none; }
 		#html-source { width: 100%; min-height: 380px; font-family: monospace; font-size: 13px; padding: 12px; border: 1px solid #d1d5db; border-radius: 0 0 4px 4px; }
 		.tip { font-size: 12px; color: #6b7280; margin: 6px 0 0; }
 	</style>
@@ -113,33 +117,12 @@ if (Astro.request.method === 'POST') {
 				<h1>EL DIARIO - Panel de Admin</h1>
 				<div>
 					<button class="btn btn-primary" id="btn-nueva">+ Nueva nota</button>
-					<button class="btn btn-secondary" id="btn-brasil" style="margin-left: 10px;">Brasil 2026 · Minuto a minuto</button>
 					<a href="/admin/publicidad/" class="btn btn-secondary" style="margin-left: 10px;">Publicidad</a>
 					<a href="/" class="btn btn-secondary" style="margin-left: 10px;">Ver sitio</a>
 				</div>
 			</div>
 
 			<div id="msg"></div>
-
-			<div id="brasil-panel" class="card hidden">
-				<h3>Brasil 2026 · Minuto a minuto</h3>
-				<p class="tip" style="margin-bottom:16px;">Publicá una actualización sin editar código. La más nueva aparece primero.</p>
-				<div class="grid">
-					<div>
-						<div class="form-group"><label for="br-fecha">Fecha</label><input type="text" id="br-fecha" placeholder="30 SEP" /></div>
-						<div class="form-group"><label for="br-hora">Hora</label><input type="text" id="br-hora" placeholder="18:30" /></div>
-						<div class="form-group"><label for="br-fuente">Fuente</label><input type="text" id="br-fuente" value="Diario Federal" /></div>
-						<div class="checkbox-wrapper"><input type="checkbox" id="br-clave" /><label for="br-clave">Evento clave</label></div>
-					</div>
-					<div>
-						<div class="form-group"><label for="br-titulo">Título</label><input type="text" id="br-titulo" /></div>
-						<div class="form-group"><label for="br-texto">Texto</label><textarea id="br-texto" style="min-height:140px;"></textarea></div>
-					</div>
-				</div>
-				<button type="button" class="btn btn-primary" id="br-publicar">Publicar actualización</button>
-				<button type="button" class="btn btn-secondary" id="br-cerrar" style="margin-left:8px;">Cerrar</button>
-				<div style="margin-top:22px;"><h3>Actualizaciones publicadas</h3><div id="br-lista">Cargando…</div></div>
-			</div>
 
 			<div id="form-nuevo" class="card hidden">
 				<h3 id="form-titulo">Nueva nota</h3>
@@ -229,6 +212,9 @@ if (Astro.request.method === 'POST') {
 							<button type="button" data-cmd="unlink" title="Quitar enlace">⛓‍💥</button>
 							<button type="button" data-cmd="insertHorizontalRule" title="Línea separadora">―</button>
 							<span class="sep"></span>
+							<button type="button" data-cmd="imagen" title="Insertar foto (por link o subiendo una)">🖼 Foto</button>
+							<button type="button" data-cmd="video" title="Insertar video de YouTube (pegando el link)">▶ YouTube</button>
+							<span class="sep"></span>
 							<button type="button" data-cmd="clear" title="Quitar formato">Limpiar</button>
 							<button type="button" data-cmd="undo" title="Deshacer">↶</button>
 							<button type="button" data-cmd="redo" title="Rehacer">↷</button>
@@ -237,7 +223,8 @@ if (Astro.request.method === 'POST') {
 						</div>
 						<div id="editor" contenteditable="true" data-ph="Escribí o pegá el texto de la nota. Al pegar se conservan párrafos, negritas y subtítulos."></div>
 						<textarea id="html-source" class="hidden"></textarea>
-						<p class="tip">Cada Enter crea un párrafo nuevo. Seleccioná texto para ponerlo en negrita o convertirlo en subtítulo, cita o frase destacada.</p>
+						<input type="file" id="img-file" accept="image/*" class="hidden" />
+						<p class="tip">Cada Enter crea un párrafo nuevo. Seleccioná texto para ponerlo en negrita o convertirlo en subtítulo, cita o frase destacada. Las fotos y videos se insertan donde está el cursor; para sacar uno, ubicá el cursor justo debajo y apretá Retroceso.</p>
 					</div>
 
 					<button type="submit" class="btn btn-primary" id="btn-guardar">Guardar nota</button>
@@ -306,7 +293,13 @@ if (Astro.request.method === 'POST') {
 				case 'P': return '<p' + (n.classList.contains('destacado') ? ' class="destacado"' : '') + '>' + inner + '</p>';
 				case 'DIV': return hasBlock(n) ? inner : '<p>' + inner + '</p>';
 				case 'A': return safeHref(n.getAttribute('href')) ? '<a href="' + esc(n.getAttribute('href')) + '">' + inner + '</a>' : inner;
-				case 'UL': case 'OL': case 'LI': case 'BLOCKQUOTE': case 'FIGURE': case 'FIGCAPTION': return '<' + tag.toLowerCase() + '>' + inner + '</' + tag.toLowerCase() + '>';
+				case 'FIGURE': return '<figure' + (n.classList.contains('video') ? ' class="video"' : '') + '>' + inner + '</figure>';
+				case 'IFRAME': {
+					var ysrc = n.getAttribute('src') || '';
+					return /^https:\/\/www\.youtube(-nocookie)?\.com\/embed\/[\w-]{11}$/.test(ysrc)
+						? '<iframe src="' + ysrc + '" title="Video de YouTube" loading="lazy" allowfullscreen></iframe>' : '';
+				}
+				case 'UL': case 'OL': case 'LI': case 'BLOCKQUOTE': case 'FIGCAPTION': return '<' + tag.toLowerCase() + '>' + inner + '</' + tag.toLowerCase() + '>';
 				case 'HR': return '<hr>';
 				case 'BR': return '<br>';
 				case 'IMG': return safeHref(n.getAttribute('src')) ? '<img src="' + esc(n.getAttribute('src')) + '" alt="' + esc(n.getAttribute('alt') || '') + '">' : '';
@@ -377,12 +370,71 @@ if (Astro.request.method === 'POST') {
 			} else if (cmd === 'link') {
 				var url = prompt('Dirección del enlace (https://…)');
 				if (url) document.execCommand('createLink', false, /^(https?:|mailto:|\/)/i.test(url) ? url : 'https://' + url);
+			} else if (cmd === 'imagen') {
+				insertarFoto();
+			} else if (cmd === 'video') {
+				insertarVideo();
 			} else if (cmd === 'clear') {
 				document.execCommand('removeFormat');
 				document.execCommand('formatBlock', false, 'p');
 			} else if (cmd) {
 				document.execCommand(cmd);
 			}
+		});
+
+		/* ---------- Fotos y videos dentro de la nota ---------- */
+		var savedRange = null;
+		function guardarSeleccion() {
+			var sel = window.getSelection();
+			savedRange = sel.rangeCount && editor.contains(sel.anchorNode) ? sel.getRangeAt(0).cloneRange() : null;
+		}
+		function insertarBloque(html) {
+			editor.focus();
+			if (savedRange) { var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+			document.execCommand('insertHTML', false, html + '<p><br></p>');
+		}
+		function youtubeId(url) {
+			var m = String(url).trim().match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/))([\w-]{11})/);
+			return m ? m[1] : null;
+		}
+		function insertarVideo() {
+			guardarSeleccion();
+			var url = prompt('Pegá el link del video de YouTube');
+			if (!url) return;
+			var id = youtubeId(url);
+			if (!id) { showMsg('No reconozco ese link de YouTube. Probá copiando la dirección desde el botón Compartir del video.', false); return; }
+			insertarBloque('<figure class="video" contenteditable="false"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '" title="Video de YouTube" allowfullscreen></iframe></figure>');
+		}
+		function insertarFoto() {
+			guardarSeleccion();
+			var url = prompt('Pegá la dirección (link) de la foto. Si querés subir una desde tu computadora o celular, dejá esto vacío y aceptá.');
+			if (url === null) return;
+			url = url.trim();
+			if (url) {
+				if (!/^https?:\/\//i.test(url)) { showMsg('El link de la foto tiene que empezar con https://', false); return; }
+				return ponerFoto(url);
+			}
+			$('img-file').value = '';
+			$('img-file').click();
+		}
+		function ponerFoto(src) {
+			var pie = prompt('Pie de foto (opcional)') || '';
+			insertarBloque('<figure contenteditable="false"><img src="' + esc(src) + '" alt="' + esc(pie) + '">' + (pie ? '<figcaption>' + esc(pie) + '</figcaption>' : '') + '</figure>');
+		}
+		$('img-file').addEventListener('change', async function () {
+			var file = $('img-file').files[0];
+			if (!file) return;
+			showMsg('Subiendo foto…', true);
+			try {
+				var blob = await resizeImage(file);
+				var fd = new FormData();
+				fd.append('file', blob, file.name.replace(/\.[^.]+$/, '') + '.jpg');
+				var res = await fetch('/api/upload-image', { method: 'POST', body: fd });
+				var r = await res.json();
+				if (!r.ok) throw new Error(r.error || r.detail || 'error desconocido');
+				$('msg').innerHTML = '';
+				ponerFoto(r.url);
+			} catch (err) { showMsg('No se pudo subir la foto: ' + err.message, false); }
 		});
 
 		$('btn-html').addEventListener('click', function () {
@@ -403,54 +455,6 @@ if (Astro.request.method === 'POST') {
 			if (htmlMode) $('btn-html').click();
 			editor.innerHTML = cleanHtml(html || '');
 		}
-
-		/* ---------- Brasil 2026 · Minuto a minuto ---------- */
-		var BR_API = '/api/brasil2026-minuto';
-		async function cargarBrasil() {
-			try {
-				var res = await fetch(BR_API);
-				var r = await res.json();
-				if (!res.ok || !r.ok) throw new Error(r.error || 'Error');
-				$('br-lista').innerHTML = (r.items || []).map(function (x) {
-					return '<div style="padding:12px 0;border-bottom:1px solid #e5e7eb;">' +
-						'<div style="display:flex;justify-content:space-between;gap:12px;align-items:start;">' +
-						'<div><strong>' + esc(x.fecha) + ' · ' + esc(x.hora) + '</strong>' +
-						(x.clave ? ' <span class="badge badge-ultimo">Evento clave</span>' : '') +
-						'<div style="font-weight:700;margin-top:4px;">' + esc(x.titulo) + '</div>' +
-						'<div style="font-size:13px;color:#6b7280;margin-top:3px;">' + esc(x.fuente) + '</div></div>' +
-						'<button class="btn btn-danger" data-br-delete="' + esc(x.id) + '">Eliminar</button></div></div>';
-				}).join('') || '<p class="tip">Todavía no publicaste actualizaciones desde el panel.</p>';
-			} catch (e) { $('br-lista').innerHTML = '<div class="error-box">' + esc(e.message) + '</div>'; }
-		}
-		$('btn-brasil').addEventListener('click', function () {
-			$('brasil-panel').classList.remove('hidden');
-			$('form-nuevo').classList.add('hidden');
-			if (!$('br-fecha').value) $('br-fecha').value = new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short'}).toUpperCase().replace('.','');
-			if (!$('br-hora').value) $('br-hora').value = new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-			cargarBrasil(); window.scrollTo(0,0);
-		});
-		$('br-cerrar').addEventListener('click', function () { $('brasil-panel').classList.add('hidden'); });
-		$('br-publicar').addEventListener('click', async function () {
-			var titulo=$('br-titulo').value.trim(), texto=$('br-texto').value.trim();
-			if (!titulo || !texto) { showMsg('Completá título y texto de la actualización.', false); return; }
-			var btn=$('br-publicar'); btn.disabled=true; btn.textContent='Publicando…';
-			try {
-				var res=await fetch(BR_API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-					fecha:$('br-fecha').value.trim(), hora:$('br-hora').value.trim(), titulo:titulo, texto:texto,
-					fuente:$('br-fuente').value.trim() || 'Diario Federal', clave:$('br-clave').checked
-				})});
-				var r=await res.json(); if(!res.ok||!r.ok) throw new Error(r.error||'Error');
-				$('br-titulo').value=''; $('br-texto').value=''; $('br-clave').checked=false;
-				showMsg('Actualización publicada.', true); await cargarBrasil();
-			} catch(e) { showMsg('No se pudo publicar: '+e.message,false); }
-			btn.disabled=false; btn.textContent='Publicar actualización';
-		});
-		$('br-lista').addEventListener('click', async function(e) {
-			var b=e.target.closest('[data-br-delete]'); if(!b) return;
-			if(!confirm('¿Eliminar esta actualización?')) return;
-			var res=await fetch(BR_API+'?id='+encodeURIComponent(b.dataset.brDelete),{method:'DELETE'});
-			var r=await res.json(); if(res.ok&&r.ok) cargarBrasil(); else showMsg('No se pudo eliminar: '+(r.error||'error'),false);
-		});
 
 		/* ---------- Lista de notas ---------- */
 		var SECCION_NOMBRE = {};

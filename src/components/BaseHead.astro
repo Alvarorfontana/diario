@@ -30,6 +30,40 @@ const imageFormat = isExternalImage
 	: (image.format === 'jpg' ? 'jpeg' : image.format);
 // Para fotos subidas desde el panel no se conocen las medidas reales: mejor no declararlas
 // que declarar unas falsas (WhatsApp puede deformar o descartar la imagen).
+// Datos estructurados (JSON-LD) para Google, Bing y asistentes de IA
+const siteOrigin = new URL(baseURL.toString()).origin;
+const sufijo = ` | ${SITE_TITLE}`;
+const tituloLimpio = title.endsWith(sufijo) ? title.slice(0, -sufijo.length) : title;
+const jsonLd = publishedTime
+	? {
+			'@context': 'https://schema.org',
+			'@type': 'NewsArticle',
+			headline: tituloLimpio.slice(0, 110),
+			description,
+			image: [imageURL.href],
+			datePublished: publishedTime.toISOString(),
+			dateModified: publishedTime.toISOString(),
+			inLanguage: 'es-AR',
+			...(section ? { articleSection: section } : {}),
+			author: [{ '@type': 'Person', name: author || 'Redacción' }],
+			publisher: { '@type': 'NewsMediaOrganization', name: SITE_TITLE, url: siteOrigin },
+			mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.href },
+		}
+	: {
+			'@context': 'https://schema.org',
+			'@graph': [
+				{ '@type': 'NewsMediaOrganization', '@id': `${siteOrigin}/#organization`, name: SITE_TITLE, url: siteOrigin },
+				{
+					'@type': 'WebSite',
+					'@id': `${siteOrigin}/#website`,
+					url: siteOrigin,
+					name: SITE_TITLE,
+					inLanguage: 'es-AR',
+					publisher: { '@id': `${siteOrigin}/#organization` },
+				},
+			],
+		};
+const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 const imageWidth = isExternalImage ? undefined : String(image.width);
 const imageHeight = isExternalImage ? undefined : String(image.height);
 ---
@@ -79,6 +113,11 @@ const imageHeight = isExternalImage ? undefined : String(image.height);
 }
 {publishedTime && author && <meta property="article:author" content={author} />}
 {publishedTime && section && <meta property="article:section" content={section} />}
+
+<meta property="og:locale" content="es_AR" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="alternate" type="application/xml" title="Mapa de notas" href="/sitemap-articulos.xml" />
+<script type="application/ld+json" set:html={jsonLdText} is:inline></script>
 
 <!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image" />

@@ -1,9 +1,10 @@
+import { getRepo } from '../../lib/repo';
 export const prerender = false;
 
 import { notifyNewComment } from '../../lib/email';
 
-const REPO = 'Alvarorfontana/diario';
-const BRANCH = 'main';
+const REPO = getRepo().repo;
+const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/comments.json';
 
 // ─── Acceso portable a variables de entorno ────────────────────────────────

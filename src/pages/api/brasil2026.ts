@@ -1,9 +1,10 @@
+import { getRepo } from '../../lib/repo';
 export const prerender = false;
 
 import datosLocales from '../../../data/brasil2026.json';
 
-const REPO = 'Alvarorfontana/diario';
-const BRANCH = 'main';
+const REPO = getRepo().repo;
+const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/brasil2026.json';
 
 type RuntimeEnv = Record<string, string | undefined>;

@@ -2,6 +2,7 @@ export const prerender = false;
 
 import { isAdmin } from '../../lib/auth';
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { getRepo } from '../../lib/repo';
 
 const UPLOAD_DIR = 'public/uploads';
 const MAX_BYTES = 3_000_000;
@@ -33,8 +34,8 @@ export const POST = async ({ request, locals }: ApiContext) => {
 	if (!(await isAdmin(request, env))) {
 		return json({ ok: false, error: 'No autorizado' }, 401);
 	}
-	const REPO = env.GITHUB_REPO || 'Alvarorfontana/diario';
-	const BRANCH = env.GITHUB_BRANCH || 'main';
+	const REPO = env.GITHUB_REPO || getRepo().repo;
+	const BRANCH = env.GITHUB_BRANCH || getRepo().branch;
 	const token = env.GITHUB_PAT;
 	if (!token) return json({ ok: false, error: 'GITHUB_PAT no configurado' }, 500);
 

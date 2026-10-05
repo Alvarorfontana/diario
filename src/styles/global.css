@@ -178,3 +178,8 @@ main {
 	.prose-articulo { font-size: 1.125rem; }
 	.prose-articulo p.destacado { font-size: 1.35rem; }
 }
+
+/* Fotos y videos dentro de la nota */
+.prose-articulo figure.video { position: relative; aspect-ratio: 16 / 9; width: 100%; margin: 2em 0; background: #000; }
+.prose-articulo figure.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.prose-articulo figure img { width: 100%; height: auto; display: block; }

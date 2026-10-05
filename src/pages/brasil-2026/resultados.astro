@@ -1,137 +1,86 @@
 ---
-export const prerender = false;
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../../consts';
-
-const candidatos = [
-	{ nombre: 'Luiz Inácio Lula da Silva', partido: 'PT', vice: 'Geraldo Alckmin', vicePartido: 'PSB' },
-	{ nombre: 'Flávio Bolsonaro', partido: 'PL', vice: 'Alfredo Gaspar', vicePartido: 'PL' },
-	{ nombre: 'Ronaldo Caiado', partido: 'PSD', vice: 'Gilberto Kassab', vicePartido: 'PSD' },
-	{ nombre: 'Rui Costa Pimenta', partido: 'PCO', vice: 'Antônio Carlos', vicePartido: 'PCO' },
-	{ nombre: 'Samara Martins', partido: 'UP', vice: 'Raquel Brício', vicePartido: 'UP' },
-	{ nombre: 'Romeu Zema', partido: 'NOVO', vice: 'Eduardo Girão', vicePartido: 'NOVO' },
-	{ nombre: 'Hertz Dias', partido: 'PSTU', vice: 'Vanessa Portugal', vicePartido: 'PSTU' },
-	{ nombre: 'Edmilson Costa', partido: 'PCB', vice: 'Cleusa Santos', vicePartido: 'PCB' },
-	{ nombre: 'Renan Santos', partido: 'MISSÃO', vice: 'Aroldo Medina', vicePartido: 'MISSÃO' },
-	{ nombre: 'Wilson Grassi', partido: 'DEMOCRATA', vice: 'Suêd Haidar', vicePartido: 'DEMOCRATA' },
-	{ nombre: 'Clariana Barão', partido: 'DC', vice: 'Fabiana Torquato', vicePartido: 'DC' },
-	{ nombre: 'Augusto Cury', partido: 'AVANTE', vice: 'Júlio Delgado', vicePartido: 'AVANTE' }
-];
-
-const TSE_RESULTADOS = 'https://resultados.tse.jus.br/oficial/ele2026/6257/dados/br/br-c0001-e006257-u.json';
-const INICIO_RESULTADOS = new Date('2026-10-04T17:00:00-03:00');
-
-let tse: any = null;
-let tseDisponible = false;
-
-if (new Date() >= INICIO_RESULTADOS) {
-	try {
-		const r = await fetch(TSE_RESULTADOS, {
-			headers: { accept: 'application/json' },
-		});
-		if (r.ok) {
-			const json = await r.json();
-			const cargo = json?.carg?.find((c: any) => String(c.cd) === '1') ?? json?.carg?.[0];
-			const filas: any[] = [];
-			for (const agr of cargo?.agr ?? []) {
-				for (const par of agr?.par ?? []) {
-					for (const cand of par?.cand ?? []) {
-						filas.push({
-							nombre: cand.nmu || cand.nm,
-							partido: par.sg,
-							votos: Number(cand.vap || 0),
-							pct: Number(String(cand.pvapn ?? cand.pvap ?? '0').replace(',', '.')),
-							situacion: cand.dvt || '',
-						});
-					}
-				}
-			}
-			const hayVotos = filas.some((x) => x.votos > 0);
-			if (hayVotos) {
-				tseDisponible = true;
-				tse = {
-					fecha: json.dt,
-					hora: json.ht,
-					secciones: json?.s?.pst ?? '—',
-					participacion: json?.e?.pc ?? '—',
-					candidatos: filas.sort((a, b) => b.votos - a.votos),
-				};
-			}
-		}
-	} catch {
-		// Si el TSE todavía no publica el archivo o hay una incidencia,
-		// la página permanece en modo "escrutinio no iniciado".
-	}
-}
 ---
 
-<BaseLayout title={`Resultados · Brasil 2026 | ${SITE_TITLE}`} description="Resultados oficiales de la elección presidencial de Brasil 2026.">
-	<div class="mx-auto max-w-4xl">
-		<nav class="mt-4 text-xs font-semibold text-neutral-500">
-			<a href="/brasil-2026/" class="hover:text-brand">Brasil 2026</a><span class="mx-2">/</span><span>Resultados</span>
-		</nav>
+<BaseLayout title={`Resultados en vivo · Brasil 2026 | ${SITE_TITLE}`} description="Resultados del escrutinio en Brasil 2026, en vivo.">
+	<div class="mx-auto max-w-3xl" id="app">
+		<p class="um-banner mt-4"><span class="um-luz"></span>Resultados en vivo · Brasil 2026</p>
+		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+			Elecciones en Brasil: seguí el escrutinio en vivo
+		</h1>
+		<p class="mt-3 text-sm text-neutral-500">
+			Actualizado: <span id="updated">—</span> · Fuente: Tribunal Superior Electoral (TSE)
+		</p>
 
-		<div class="mt-5 border-b-2 border-neutral-900 pb-7">
-			<p class="text-[11px] font-extrabold tracking-[0.2em] text-brand uppercase">Elecciones Brasil 2026 · Primera vuelta</p>
-			<h1 class="mt-3 font-serif text-4xl leading-[1.06] font-black tracking-tight sm:text-5xl">Resultados presidenciales</h1>
-
-			{tseDisponible ? (
-				<div class="mt-5 border-l-4 border-brand bg-neutral-50 p-4">
-					<p class="font-bold">Resultados oficiales en actualización</p>
-					<p class="mt-1 text-sm text-neutral-600">Último dato TSE: {tse.fecha} · {tse.hora}. La página consulta la fuente oficial al abrirse.</p>
-				</div>
-			) : (
-				<div class="mt-5 border-l-4 border-neutral-900 bg-neutral-50 p-4">
-					<p class="font-bold">Escrutinio aún no iniciado</p>
-					<p class="mt-1 text-sm leading-relaxed text-neutral-600">
-						Por ahora se muestran las candidaturas registradas, sin votos ni porcentajes. La divulgación oficial de resultados está prevista a partir de las 17:00, hora de Brasilia, del 4 de octubre.
-					</p>
-				</div>
-			)}
+		<!-- Tarjetas principales -->
+		<div class="mt-6 grid grid-cols-2 gap-4 border-y-2 border-neutral-900 py-5">
+			<div class="text-center">
+				<span class="block font-serif text-3xl font-black" id="urnas">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">urnas escrutadas</span>
+			</div>
+			<div class="text-center">
+				<span class="block font-serif text-3xl font-black" id="participacion">—</span>
+				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">participación</span>
+			</div>
 		</div>
 
-		{tseDisponible && (
-			<div class="mt-6 grid grid-cols-2 gap-4 border-y border-neutral-300 py-5">
-				<div class="text-center"><span class="block font-serif text-3xl font-black">{tse.secciones}%</span><span class="text-[11px] uppercase text-neutral-500">secciones totalizadas</span></div>
-				<div class="text-center"><span class="block font-serif text-3xl font-black">{tse.participacion}%</span><span class="text-[11px] uppercase text-neutral-500">participación</span></div>
-			</div>
-		)}
+		<!-- Barras de candidatos -->
+		<div id="candidatos" class="mt-6 space-y-5"></div>
 
-		<section class="mt-8">
-			<div class="flex items-end justify-between border-b border-neutral-300 pb-3">
-				<div><p class="text-[11px] font-bold tracking-[0.16em] text-brand uppercase">{tseDisponible ? 'Datos oficiales TSE' : 'Candidaturas registradas'}</p><h2 class="mt-1 font-serif text-2xl font-extrabold">Presidencia de la República</h2></div>
-				<p class="text-sm font-semibold text-neutral-500">{tseDisponible ? 'En vivo' : '12 candidaturas'}</p>
-			</div>
+		<!-- Minuto a minuto -->
+		<div class="mt-10 flex items-center justify-between">
+			<h2 class="font-serif text-2xl font-extrabold">Minuto a minuto</h2>
+			<span class="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1.5 text-[11px] font-bold text-white">
+				<span class="luz-parpadeante inline-block h-1.5 w-1.5 rounded-full bg-white"></span>
+				Auto-actualización
+			</span>
+		</div>
+		<div id="timeline" class="mt-4 ml-1.5 border-l-[3px] border-neutral-900"></div>
 
-			{tseDisponible ? (
-				<div class="mt-5 space-y-5">
-					{tse.candidatos.map((c: any) => (
-						<article class="border-b border-neutral-200 pb-5">
-							<div class="flex items-baseline justify-between gap-4">
-								<div><h3 class="font-serif text-xl font-black">{c.nombre}</h3><p class="text-xs font-bold text-brand">{c.partido} · {c.situacion}</p></div>
-								<p class="font-serif text-2xl font-black">{c.pct.toLocaleString('es-AR', { maximumFractionDigits: 2 })}%</p>
-							</div>
-							<div class="mt-2 h-3 w-full bg-neutral-200"><div class="h-3 bg-neutral-900" style={`width:${Math.max(0, Math.min(100, c.pct))}%`}></div></div>
-							<p class="mt-1 text-xs text-neutral-500">{c.votos.toLocaleString('es-AR')} votos</p>
-						</article>
-					))}
-				</div>
-			) : (
-				<div class="mt-5 grid gap-3 md:grid-cols-2">
-					{candidatos.map((c) => (
-						<article class="border border-neutral-300 bg-white p-4">
-							<p class="text-[10px] font-extrabold tracking-[0.15em] text-brand uppercase">{c.partido}</p>
-							<h3 class="mt-1 font-serif text-lg font-black">{c.nombre}</h3>
-							<p class="mt-2 text-xs text-neutral-500">Vice: {c.vice} ({c.vicePartido})</p>
-							<p class="mt-3 text-xs font-semibold text-neutral-400">Sin resultados oficiales todavía</p>
-						</article>
-					))}
-				</div>
-			)}
-		</section>
-
-		<div class="mt-8 border border-neutral-300 bg-neutral-50 p-5 text-sm leading-relaxed text-neutral-600">
-			<strong>Fuente y metodología.</strong> La nómina de candidaturas y, cuando comience la totalización, los votos y porcentajes provienen del Tribunal Superior Eleitoral (TSE). Diario Federal no genera ni estima resultados.
+		<div class="mt-8 border border-neutral-300 bg-neutral-50 p-5 text-sm text-neutral-600">
+			<strong>Nota metodológica:</strong> los datos provienen del escrutinio provisorio del TSE. Los resultados definitivos se publican tras la jornada de totalización.
 		</div>
 	</div>
 </BaseLayout>
+
+<script>
+	async function cargar() {
+		try {
+			const r = await fetch('/api/brasil2026', { cache: 'no-store' });
+			const d = await r.json();
+
+			document.getElementById('updated').textContent = new Date(d.updatedAt).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' });
+			document.getElementById('urnas').textContent = d.urnas;
+			document.getElementById('participacion').textContent = d.participacion;
+
+			const cont = document.getElementById('candidatos');
+			cont.innerHTML = d.candidatos.map((c) => `
+				<div>
+					<div class="flex items-baseline justify-between">
+						<p class="font-serif text-lg font-extrabold">${c.nombre} <span class="text-sm font-semibold text-neutral-500">${c.partido}</span></p>
+						<p class="font-serif text-xl font-black">${c.pct}%</p>
+					</div>
+					<div class="mt-1.5 h-3.5 w-full bg-neutral-200">
+						<div class="h-3.5" style="width:${c.pct}%; background:${c.color}"></div>
+					</div>
+					<p class="mt-1 text-xs text-neutral-500">${c.votos} votos</p>
+				</div>
+			`).join('');
+
+			document.getElementById('timeline').innerHTML = d.posts.map((p) => `
+				<div class="relative border-b border-neutral-200 py-5 pl-6">
+					<span class="absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px] ${p.clave ? 'border-brand bg-brand' : 'border-neutral-900'} bg-[#f6efdf]"></span>
+					<p class="font-serif text-lg font-black">${p.hora}</p>
+					${p.clave ? '<span class="mt-1 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider uppercase text-brand">Evento clave</span>' : ''}
+					<p class="mt-2 text-[15px] leading-relaxed text-neutral-800">${p.texto}</p>
+					<p class="mt-2 text-xs font-semibold text-neutral-500">${p.autor} <span class="font-normal text-neutral-400">· ${p.lugar}</span></p>
+				</div>
+			`).join('');
+		} catch (e) {
+			console.error('Error cargando resultados', e);
+		}
+	}
+	cargar();
+	setInterval(cargar, 60000);
+</script>

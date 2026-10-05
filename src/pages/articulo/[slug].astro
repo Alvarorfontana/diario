@@ -35,6 +35,25 @@ const minutosLectura = Math.max(1, Math.round(palabras / 200));
 
 // Artículos relacionados de la misma sección (máximo 3)
 const relacionados = todos.filter((a) => a.section === section && a.slug !== slug).slice(0, 3);
+
+// Datos estructurados para Google (Schema.org NewsArticle)
+const siteOrigin = Astro.site ?? Astro.url.origin;
+const schema = {
+	'@context': 'https://schema.org',
+	'@type': 'NewsArticle',
+	headline: title,
+	description: excerpt ?? '',
+	...(image_url ? { image: [new URL(image_url, siteOrigin).toString()] } : {}),
+	datePublished: fecha.toISOString(),
+	dateModified: fecha.toISOString(),
+	author: { '@type': 'Person', name: author || 'Redacción' },
+	publisher: {
+		'@type': 'Organization',
+		name: SITE_TITLE,
+		logo: { '@type': 'ImageObject', url: new URL('/favicon.svg', siteOrigin).toString() },
+	},
+	mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
+};
 ---
 
 <BaseLayout
@@ -45,8 +64,18 @@ const relacionados = todos.filter((a) => a.section === section && a.slug !== slu
 	author={author}
 	section={nombreSeccion(section || '')}
 >
-	<!-- Barra de progreso de lectura -->
-	<div id="progreso-lectura" class="fixed top-0 left-0 z-50 h-[3px] w-0 bg-brand transition-[width] duration-150 ease-out"></div>
+	<!-- Datos estructurados para buscadores -->
+	<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+	<!-- Barra fija con el titular: aparece al scrollear (estilo El País / Washington Post) -->
+	<div id="barra-fija" class="fixed inset-x-0 top-0 z-50 -translate-y-full border-b border-neutral-200 bg-white/95 shadow-sm backdrop-blur transition-transform duration-200">
+		<div class="mx-auto flex max-w-[680px] items-center gap-3 px-4 py-2.5">
+			<span class="shrink-0 text-[11px] font-bold uppercase tracking-widest text-brand">{nombreSeccion(section || '')}</span>
+			<span class="h-4 w-px shrink-0 bg-neutral-300"></span>
+			<span class="truncate text-sm font-semibold text-neutral-900">{title}</span>
+		</div>
+		<div class="h-[3px] w-full bg-neutral-100"><div id="progreso-lectura" class="h-full w-0 bg-brand"></div></div>
+	</div>
 
 	<article class="mx-auto max-w-[680px]" data-pagefind-body>
 		<header>
@@ -134,20 +163,29 @@ const relacionados = todos.filter((a) => a.section === section && a.slug !== slu
 
 <script is:inline>
 	(function () {
-		var barra = document.getElementById('progreso-lectura');
+		var barraFija = document.getElementById('barra-fija');
+		var progreso = document.getElementById('progreso-lectura');
 		var articulo = document.querySelector('[data-pagefind-body]');
-		if (!barra || !articulo) return;
+		if (!articulo) return;
 
 		function actualizar() {
+			var y = window.scrollY || window.pageYOffset;
+			if (barraFija) {
+				var mostrar = y > 420;
+				barraFija.classList.toggle('mostrar', mostrar);
+				// Estilo directo: no depende de clases CSS externas
+				barraFija.style.transform = mostrar ? 'translateY(0)' : '';
+				barraFija.style.translate = mostrar ? '0 0' : '';
+			}
+			if (!progreso) return;
 			var rect = articulo.getBoundingClientRect();
 			var alturaTotal = rect.height - window.innerHeight;
 			if (alturaTotal <= 0) {
-				barra.style.width = '100%';
+				progreso.style.width = '100%';
 				return;
 			}
 			var recorrido = Math.min(Math.max(-rect.top, 0), alturaTotal);
-			var porcentaje = (recorrido / alturaTotal) * 100;
-			barra.style.width = porcentaje + '%';
+			progreso.style.width = ((recorrido / alturaTotal) * 100) + '%';
 		}
 
 		document.addEventListener('scroll', actualizar, { passive: true });
@@ -155,3 +193,4 @@ const relacionados = todos.filter((a) => a.section === section && a.slug !== slu
 		actualizar();
 	})();
 </script>
+
