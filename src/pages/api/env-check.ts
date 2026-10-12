@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({ locals }) => {
 		JSON.stringify({
 			ok: true,
 			mensaje: 'Diagnóstico de variables en Vercel',
-			variables: { ADMIN_PASSWORD: ok(env.ADMIN_PASSWORD), GITHUB_PAT: ok(env.GITHUB_PAT) },
+			variables: { ADMIN_PASSWORD: ok(env.ADMIN_PASSWORD), GITHUB_PAT: ok(env.GITHUB_PAT), DATA_REPO: env.DATA_REPO ? '✅ ' + env.DATA_REPO + ' (comentarios, suscripciones, publicidad y fotos fuera del repo del sitio)' : '⚠️ sin configurar: los datos se guardan en el repo del sitio y cada cambio despliega' },
 		}),
 		{ headers: { 'Content-Type': 'application/json' } }
 	);

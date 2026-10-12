@@ -3,6 +3,7 @@ export const prerender = false;
 import { isAdmin } from '../../lib/auth';
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
 import { getRepo } from '../../lib/repo';
+import { getDataRepo, writeData } from '../../lib/datastore';
 
 const UPLOAD_DIR = 'public/uploads';
 const MAX_BYTES = 3_000_000;
@@ -60,6 +61,12 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		const path = `${UPLOAD_DIR}/${fileName}`;
 
 		const bytes = new Uint8Array(await file.arrayBuffer());
+		// Con repo de datos privado: la foto va ahí y se sirve al instante por /media/,
+		// sin disparar un despliegue del sitio ni esperar a que se publique.
+		if (getDataRepo(env).separate) {
+			await writeData(`uploads/${fileName}`, toBase64(bytes), null, `Subir imagen: ${fileName}`, token, env, true);
+			return json({ ok: true, url: `/media/${fileName}` });
+		}
 		const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${path}`, {
 			method: 'PUT',
 			headers: {

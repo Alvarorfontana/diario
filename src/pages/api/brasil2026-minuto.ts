@@ -2,7 +2,8 @@ export const prerender = false;
 
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
 import { isAdmin } from '../../lib/auth';
-import { ghConfig, getFile, putFile } from '../../lib/github';
+import { ghConfig } from '../../lib/github';
+import { readData, writeData } from '../../lib/datastore';
 
 const DATA_PATH = 'data/brasil2026-minuto.json';
 const json = (body: unknown, status = 200) =>
@@ -23,13 +24,13 @@ type Item = {
 };
 
 async function readItems(cfg: any): Promise<{ items: Item[]; sha?: string }> {
-	const f = await getFile(cfg, DATA_PATH);
-	if (!f) return { items: [] };
+	const f = await readData(DATA_PATH, cfg.token);
+	if (!f.text) return { items: [], sha: f.sha ?? undefined };
 	try {
 		const parsed = JSON.parse(f.text);
-		return { items: Array.isArray(parsed) ? parsed : [], sha: f.sha };
+		return { items: Array.isArray(parsed) ? parsed : [], sha: f.sha ?? undefined };
 	} catch {
-		return { items: [], sha: f.sha };
+		return { items: [], sha: f.sha ?? undefined };
 	}
 }
 
@@ -68,7 +69,7 @@ export const POST = async ({ request, locals }: any) => {
 			createdAt: new Date().toISOString(),
 		};
 		const items = [item, ...actual.items];
-		const sha = await putFile(cfg, DATA_PATH, JSON.stringify(items, null, 2) + '\n', `Brasil 2026 minuto a minuto: ${titulo.slice(0, 55)}`, actual.sha);
+		const sha = (await writeData(DATA_PATH, JSON.stringify(items, null, 2) + '\n', actual.sha ?? null, `Brasil 2026 minuto a minuto: ${titulo.slice(0, 55)}`, cfg.token))?.content?.sha;
 		return json({ ok: true, item, sha });
 	} catch (e: any) {
 		return json({ ok: false, error: e.message }, 500);
@@ -87,7 +88,7 @@ export const DELETE = async ({ request, locals }: any) => {
 		const actual = await readItems(cfg);
 		const items = actual.items.filter((x) => x.id !== id);
 		if (items.length === actual.items.length) return json({ ok: false, error: 'No existe la actualización' }, 404);
-		await putFile(cfg, DATA_PATH, JSON.stringify(items, null, 2) + '\n', 'Eliminar actualización Brasil 2026', actual.sha);
+		await writeData(DATA_PATH, JSON.stringify(items, null, 2) + '\n', actual.sha ?? null, 'Eliminar actualización Brasil 2026', cfg.token);
 		return json({ ok: true });
 	} catch (e: any) {
 		return json({ ok: false, error: e.message }, 500);

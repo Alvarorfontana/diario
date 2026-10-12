@@ -1,10 +1,8 @@
-import { getRepo } from '../../lib/repo';
+import { readData, writeData } from '../../lib/datastore';
 export const prerender = false;
 
 import { notifyNewComment } from '../../lib/email';
 
-const REPO = getRepo().repo;
-const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/comments.json';
 
 // ─── Acceso portable a variables de entorno ────────────────────────────────
@@ -50,31 +48,19 @@ interface Comment {
 
 async function readCommentsFile(token: string): Promise<{ comments: Comment[]; sha: string | null }> {
 	try {
-		const res = await fetch(
-			`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`,
-			{ headers: ghHeaders(token) }
-		);
-		if (!res.ok) return { comments: [], sha: null };
-		const data = await res.json();
-		return { comments: JSON.parse(b64decodeUtf8(data.content)), sha: data.sha };
+		const { text, sha } = await readData(FILE_PATH, token);
+		return { comments: text ? JSON.parse(text) : [], sha };
 	} catch {
 		return { comments: [], sha: null };
 	}
 }
 
 async function writeCommentsFile(token: string, comments: Comment[], sha: string | null) {
-	const body: Record<string, unknown> = {
-		message: 'Update comments',
-		content: b64encodeUtf8(JSON.stringify(comments, null, 2)),
-		branch: BRANCH,
-	};
-	if (sha) body.sha = sha;
-
-	const res = await fetch(
-		`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-		{ method: 'PUT', headers: { ...ghHeaders(token), 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-	);
-	return res.json();
+	try {
+		return await writeData(FILE_PATH, JSON.stringify(comments, null, 2), sha, 'Update comments', token);
+	} catch (e: any) {
+		return { message: e.message };
+	}
 }
 
 // ─── Handlers ──────────────────────────────────────────────────────────────

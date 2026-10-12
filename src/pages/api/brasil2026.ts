@@ -1,10 +1,8 @@
-import { getRepo } from '../../lib/repo';
+import { readData } from '../../lib/datastore';
 export const prerender = false;
 
 import datosLocales from '../../../data/brasil2026.json';
 
-const REPO = getRepo().repo;
-const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/brasil2026.json';
 
 type RuntimeEnv = Record<string, string | undefined>;
@@ -23,13 +21,9 @@ export const GET = async ({ locals }: ApiContext) => {
 	try {
 		const token = getEnv(locals).GITHUB_PAT;
 		if (!token) throw new Error('sin token');
-		const res = await fetch(
-			`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`,
-			{ headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github+json' } }
-		);
-		if (!res.ok) throw new Error('github');
-		const data = await res.json();
-		const json = JSON.parse(b64decodeUtf8(data.content));
+		const { text } = await readData(FILE_PATH, token);
+		if (!text) throw new Error('github');
+		const json = JSON.parse(text);
 		return new Response(JSON.stringify(json), {
 			headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
 		});
