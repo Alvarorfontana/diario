@@ -29,6 +29,10 @@ const { title, description, image, publishedTime, author, section } = Astro.prop
 			author={author}
 			section={section}
 		/>
+		<!-- Tipografías de diario: Newsreader (titulares y texto, hecha para noticias) e Inter (interfaz). Gratuitas, Google Fonts. -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..600&display=swap" rel="stylesheet" />
 	</head>
 	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased">
 		<Header />

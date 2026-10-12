@@ -11,7 +11,7 @@ const esPortada = pathname === '/';
 <header class="border-b border-neutral-200 bg-white">
 	<!-- Barra superior -->
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 text-xs text-neutral-500 sm:text-sm">
-		<span class="min-w-0 flex-1 truncate capitalize"><FormattedDate date={hoy} /></span>
+		<span class="min-w-0 flex-1 truncate first-letter:uppercase"><FormattedDate date={hoy} /></span>
 		<div class="flex flex-shrink-0 items-center gap-4 sm:gap-5">
 			<a href="/buscar/" class="flex items-center gap-1 transition-colors hover:text-brand" title="Buscar">
 				<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
@@ -36,16 +36,17 @@ const esPortada = pathname === '/';
 
 	<!-- Masthead -->
 	<div class="py-4 text-center sm:py-6">
-		<a href="/" class="font-serif text-4xl font-bold tracking-tight text-neutral-900 sm:text-7xl">
+		<a href="/" class="font-serif text-[2.6rem] font-extrabold tracking-[-0.03em] text-neutral-900 sm:text-[5.2rem] sm:leading-none">
 			{SITE_TITLE}<span class="text-brand">.</span>
 		</a>
 	</div>
 
 	<!-- Navegación por secciones -->
-	<nav class="border-t border-neutral-200 bg-white">
+	<nav class="nav-fija border-y border-neutral-200 bg-white" id="nav-secciones">
 		<ul
-			class="no-scrollbar mx-auto flex max-w-6xl gap-1 overflow-x-auto px-2 text-[13px] font-medium uppercase tracking-wide whitespace-nowrap sm:justify-center"
+			class="no-scrollbar mx-auto flex max-w-6xl items-center gap-1 overflow-x-auto px-2 text-[12.5px] font-semibold uppercase tracking-[0.06em] whitespace-nowrap sm:justify-center"
 		>
+			<li class="logo-mini shrink-0 pr-2"><a href="/" class="font-serif text-xl font-extrabold tracking-tight normal-case text-neutral-900">{SITE_TITLE}<span class="text-brand">.</span></a></li>
 			<li>
 				<a
 					href="/"
@@ -82,3 +83,21 @@ const esPortada = pathname === '/';
 		</ul>
 	</nav>
 </header>
+<script>
+	// Al bajar, la barra de secciones queda fija arriba y muestra el logo chico (como LPO y El País)
+	const nav = document.getElementById('nav-secciones');
+	if (nav) {
+		const hueco = document.createElement('div');
+		nav.before(hueco);
+		let tope = nav.offsetTop;
+		const marca = () => {
+			const pegar = window.scrollY > tope;
+			if (pegar === nav.classList.contains('pegada')) return;
+			hueco.style.height = pegar ? nav.offsetHeight + 'px' : '0px';
+			nav.classList.toggle('pegada', pegar);
+		};
+		addEventListener('scroll', marca, { passive: true });
+		addEventListener('resize', () => { if (!nav.classList.contains('pegada')) tope = nav.offsetTop; marca(); });
+		marca();
+	}
+</script>

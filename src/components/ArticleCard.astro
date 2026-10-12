@@ -15,19 +15,19 @@ const articleSlug = data.slug ?? article.id;
 const volanta = data.volanta;
 ---
 
-<article class="border-t border-neutral-300 pt-3">
+<article class="pt-1">
 	<a href={`/articulo/${articleSlug}/`} class="group block">
-		<p class="text-[11px] font-bold tracking-[0.2em] uppercase">
+		{img && <div class="mb-3 overflow-hidden"><img src={img} alt="" class="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" /></div>}
+		<p class="text-[11px] font-bold tracking-[0.16em] uppercase">
 			<span class="text-brand">{nombreSeccion(section)}</span>
 			{volanta && <span class="font-semibold tracking-normal text-neutral-500 normal-case"> · {volanta}</span>}
 		</p>
-		<h3 class="titular-link mt-2 font-serif text-xl leading-snug font-bold text-neutral-900 sm:text-2xl">
+		<h3 class="titular-link mt-1.5 font-serif text-[1.35rem] leading-[1.18] font-bold text-neutral-900 sm:text-[1.5rem]">
 			{title}
 		</h3>
 		<p class="mt-2 line-clamp-3 text-sm leading-relaxed text-neutral-600">
 			{excerpt}
 		</p>
-		{img && <img src={img} alt="" class="mt-3 w-full object-cover" loading="lazy" />}
 		<p class="mt-2 text-xs text-neutral-400">
 			<FormattedDate date={articleDate} />
 		</p>
