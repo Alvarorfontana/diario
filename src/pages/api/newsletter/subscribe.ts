@@ -1,8 +1,6 @@
-import { getRepo } from '../../../lib/repo';
+import { readData, writeData } from '../../../lib/datastore';
 export const prerender = false;
 
-const REPO = getRepo().repo;
-const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/subscribers.json';
 
 // ─── Acceso portable a variables de entorno ────────────────────────────────
@@ -36,31 +34,19 @@ function b64decodeUtf8(b64: string): string {
 
 async function readSubscribersFile(token: string): Promise<{ emails: string[]; sha: string | null }> {
 	try {
-		const res = await fetch(
-			`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`,
-			{ headers: ghHeaders(token) }
-		);
-		if (!res.ok) return { emails: [], sha: null };
-		const data = await res.json();
-		return { emails: JSON.parse(b64decodeUtf8(data.content)), sha: data.sha };
+		const { text, sha } = await readData(FILE_PATH, token);
+		return { emails: text ? JSON.parse(text) : [], sha };
 	} catch {
 		return { emails: [], sha: null };
 	}
 }
 
 async function writeSubscribersFile(token: string, emails: string[], sha: string | null) {
-	const body: Record<string, unknown> = {
-		message: 'Update subscribers',
-		content: b64encodeUtf8(JSON.stringify(emails, null, 2)),
-		branch: BRANCH,
-	};
-	if (sha) body.sha = sha;
-
-	const res = await fetch(
-		`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-		{ method: 'PUT', headers: { ...ghHeaders(token), 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-	);
-	return res.json();
+	try {
+		return await writeData(FILE_PATH, JSON.stringify(emails, null, 2), sha, 'Update subscribers', token);
+	} catch (e: any) {
+		return { message: e.message };
+	}
 }
 
 export const POST = async ({ request, locals }: ApiContext) => {

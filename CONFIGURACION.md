@@ -46,3 +46,25 @@ Texto de la nota…
 npm install
 ADMIN_PASSWORD=algo GITHUB_PAT=ghp_xxx npm run dev
 ```
+
+## Datos fuera del repositorio del sitio (recomendado)
+
+Comentarios, suscripciones, publicidad, "minuto a minuto" y fotos del panel pueden vivir en un
+repositorio **privado** aparte. Así:
+
+- solo publicar o editar una nota despliega la web (antes también lo hacía cada comentario, cada
+  suscripción, cada foto y cada cambio de publicidad: todo eso cuenta en el límite de 100
+  despliegues por día del plan gratuito de Vercel);
+- los correos de los suscriptores dejan de estar públicos;
+- las fotos se ven al instante en `/media/...`, sin esperar un despliegue.
+
+Pasos:
+1. GitHub → New repository → `diario-datos` → **Private** → Create.
+2. Al token `GITHUB_PAT` (fine-grained) sumarle el repositorio `diario-datos` con **Contents: Read and write**.
+3. Vercel → proyecto del diario → Settings → Environment Variables: `DATA_REPO` = `Alvarorfontana/diario-datos`. Redeploy.
+4. Abrir `/api/env-check`: `DATA_REPO` tiene que aparecer en verde.
+
+La migración es automática: si un archivo todavía no está en `diario-datos`, se lee el viejo del
+sitio y la próxima vez que cambia se guarda en el privado. Después de la primera suscripción o del
+primer comentario nuevo se puede borrar `data/subscribers.json` y `data/comments.json` de este
+repositorio (siguen en el historial de Git).

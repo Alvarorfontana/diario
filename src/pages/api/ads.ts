@@ -1,4 +1,4 @@
-import { getRepo } from '../../lib/repo';
+import { readData, writeData } from '../../lib/datastore';
 export const prerender = false;
 
 // ─── Acceso portable a variables de entorno ────────────────────────────────
@@ -30,8 +30,6 @@ function b64decodeUtf8(b64: string): string {
 	return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
 }
 
-const REPO = getRepo().repo;
-const BRANCH = getRepo().branch;
 const FILE_PATH = 'data/ads.json';
 
 interface Ad {
@@ -47,29 +45,12 @@ interface Ad {
 }
 
 async function getAdsFile(token: string): Promise<{ ads: Ad[]; sha: string | null }> {
-	const res = await fetch(
-		`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`,
-		{ headers: ghHeaders(token) }
-	);
-	if (!res.ok) return { ads: [], sha: null };
-	const data = await res.json();
-	return { ads: JSON.parse(b64decodeUtf8(data.content)), sha: data.sha };
+	const { text, sha } = await readData(FILE_PATH, token);
+	return { ads: text ? JSON.parse(text) : [], sha };
 }
 
 async function saveAdsToGitHub(token: string, ads: Ad[], sha: string | null) {
-	const body: Record<string, unknown> = {
-		message: 'Update ads',
-		content: b64encodeUtf8(JSON.stringify(ads, null, 2)),
-		branch: BRANCH,
-	};
-	if (sha) body.sha = sha;
-
-	const res = await fetch(
-		`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`,
-		{ method: 'PUT', headers: { ...ghHeaders(token), 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-	);
-	if (!res.ok) throw new Error('GitHub API error');
-	return res.json();
+	return writeData(FILE_PATH, JSON.stringify(ads, null, 2), sha, 'Update ads', token);
 }
 
 // Simple auth: compare bearer token with ADMIN_PASSWORD env var
