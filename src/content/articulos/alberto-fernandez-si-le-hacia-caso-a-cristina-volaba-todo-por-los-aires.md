@@ -5,6 +5,8 @@ description: "En una extensa entrevista con el creador de contenido Joaco Santos
 section: argentina
 author: Redacción
 pubDate: 2026-10-13
+heroImage: https://www.rosario3.com/__export/1791847011677/sites/rosario3/img/2026/10/12/alberto_f_cristina_k.jpg_1851203400.jpg
+imageCaption: "Alberto Fernández y Cristina Kirchner. Foto: Rosario3"
 tags:
   - Alberto Fernández
   - Cristina Kirchner
