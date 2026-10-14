@@ -12,7 +12,15 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://www.diariofederal.com.ar/',
   output: 'server',
-  adapter: vercel(),
+  adapter: vercel({
+    // Permite que Vercel achique y sirva desde nuestro dominio las fotos externas
+    // (vista previa de WhatsApp/Facebook): /_vercel/image?url=...&w=1200&q=75
+    imagesConfig: {
+      sizes: [640, 1200],
+      domains: [],
+      remotePatterns: [{ protocol: 'https' }],
+    },
+  }),
   integrations: [mdx(), sitemap(), react()],
 
   vite: {
