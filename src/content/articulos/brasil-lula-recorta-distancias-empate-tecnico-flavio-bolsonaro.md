@@ -5,8 +5,8 @@ description: "A once días del balotaje, la disputa presidencial brasileña pres
 section: internacional
 author: Redacción
 pubDate: 2026-10-14T13:00:00-03:00
-heroImage: /uploads/1791163593653-lula-hablo-tras-quedar-segundo-en-las-nupzp54xv5ck.jpg
-imageCaption: "Luiz Inácio Lula da Silva. Foto: Nelson Almeida / AFP"
+heroImage: "https://www.vanguardia.com/resizer/v2/flavio-bolsonaro-reune-a-miles-para-denunciar-la-dictadura-de-moraes-y-criticar-a-lula-3YXGY4YMZFDSRAJPVVPYLJNKVE.jpg?auth=5409008ab4b37ded117fa3b5f29da8ce469aab45ff3173255ea88616799b01e2&smart=true&width=1200&height=800&quality=70"
+imageCaption: "Flávio Bolsonaro habla en un acto por el Día de la Independencia en la Avenida Paulista, São Paulo, el 7 de septiembre. Foto: EFE / Isaac Fontana"
 tags:
   - Brasil
   - Elecciones
@@ -24,6 +24,7 @@ tags:
 <p>El concepto de empate técnico no significa que los candidatos tengan exactamente el mismo respaldo. Indica que, considerando la incertidumbre estadística informada por el instituto, no puede establecerse con suficiente certeza una diferencia entre ambos.</p>
 <p>En este contexto, las cuatro encuestas mencionadas aportan una interpretación distinta de la carrera presidencial respecto de los estudios que registran ventajas más amplias para Bolsonaro.</p>
 <h2>¿Dónde está remontando Lula?</h2>
+<figure style="margin:2rem 0"><img src="/uploads/1791163593653-lula-hablo-tras-quedar-segundo-en-las-nupzp54xv5ck.jpg" alt="Luiz Inácio Lula da Silva" style="width:100%;height:auto" loading="lazy" /><figcaption style="margin-top:.5rem;font-size:.8rem;color:#737373">Luiz Inácio Lula da Silva, tras la primera vuelta. Foto: Nelson Almeida / AFP</figcaption></figure>
 <p>La recuperación que puede documentarse con mayor precisión aparece en dos dimensiones.</p>
 <p>La primera es la evolución nacional de la intención de voto, especialmente en PoderData y Vox Brasil, donde las comparaciones entre mediciones del mismo instituto muestran una mejora para Lula.</p>
 <p>La segunda es la persistencia de una base electoral importante entre los sectores de menores ingresos y en el Nordeste, según los perfiles de votantes identificados por Datafolha. Sin embargo, todavía no corresponde afirmar que Lula esté creciendo específicamente en cada uno de esos segmentos: para demostrarlo se necesitan series regionales y sociodemográficas comparables.</p>
