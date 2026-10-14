@@ -25,3 +25,7 @@ Disallow: /api/
 Sitemap: https://www.diariofederal.com.ar/sitemap-articulos.xml
 Sitemap: https://www.diariofederal.com.ar/news-sitemap.xml
 Sitemap: https://www.diariofederal.com.ar/sitemap-index.xml
+
+# Mapas del sitio para buscadores
+Sitemap: https://www.diariofederal.com.ar/sitemap-articulos.xml
+Sitemap: https://www.diariofederal.com.ar/news-sitemap.xml
