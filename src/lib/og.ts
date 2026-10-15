@@ -24,3 +24,9 @@ export function ogImagePath(slug: string, imageUrl?: string | null): string {
 	const v = ogVersion(`${slug}|${imageUrl ?? ''}`);
 	return `/api/og/${encodeURIComponent(slug)}.jpg?v=${v}`;
 }
+
+// Ruta relativa de la foto que se ve dentro de la nota, servida por nosotros.
+export function imagenNotaPath(slug: string, imageUrl: string | null | undefined, ancho = 1200): string {
+	const v = ogVersion(`${slug}|${imageUrl ?? ''}|${ancho}`);
+	return `/api/img/${encodeURIComponent(slug)}.jpg?w=${ancho}&v=${v}`;
+}
