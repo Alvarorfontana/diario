@@ -10,6 +10,9 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata | string;
+	// Imagen propia ya recortada a 1200x630 (p. ej. /api/og/<slug>.jpg).
+	// Cuando se pasa, tiene prioridad para las vistas previas en redes.
+	ogImage?: string;
 	publishedTime?: Date;
 	author?: string;
 	section?: string;
@@ -18,7 +21,7 @@ interface Props {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const baseURL = Astro.site ?? Astro.url.origin;
 
-const { title, description, image = FallbackImage, publishedTime, author, section } = Astro.props;
+const { title, description, image = FallbackImage, ogImage, publishedTime, author, section } = Astro.props;
 
 // Handle both ImageMetadata and string URLs
 const isExternalImage = typeof image === 'string';
@@ -32,11 +35,21 @@ const esDeOtroSitio = isExternalImage && rawImageURL.host.replace(/^www\./, '') 
 const imageURL = esDeOtroSitio
 	? new URL(`/_vercel/image?url=${encodeURIComponent(rawImageURL.href)}&w=1200&q=75`, baseURL)
 	: rawImageURL;
-const imageFormat = isExternalImage
-	? (imageURL.pathname.endsWith('.png') ? 'png' : 'jpeg')
-	: (image.format === 'jpg' ? 'jpeg' : image.format);
+
+// Imagen de vista previa propia, recortada a 1200x630 por /api/og/<slug>.jpg.
+// Es la que se usa para og:image / twitter:image porque WhatsApp, Facebook y X
+// exigen ese formato y no conviene depender de servidores de terceros.
+const tieneOgImage = typeof ogImage === 'string' && ogImage.length > 0;
+const previewURL = tieneOgImage ? new URL(ogImage as string, baseURL) : imageURL;
+
+const imageFormat = tieneOgImage
+	? 'jpeg'
+	: isExternalImage
+		? (imageURL.pathname.endsWith('.png') ? 'png' : 'jpeg')
+		: (image.format === 'jpg' ? 'jpeg' : image.format);
 // Para fotos subidas desde el panel no se conocen las medidas reales: mejor no declararlas
 // que declarar unas falsas (WhatsApp puede deformar o descartar la imagen).
+// Con la imagen propia (ogImage) sí conocemos las medidas exactas: 1200x630.
 // Datos estructurados (JSON-LD) para Google, Bing y asistentes de IA
 const siteOrigin = new URL(baseURL.toString()).origin;
 const sufijo = ` | ${SITE_TITLE}`;
@@ -47,7 +60,7 @@ const jsonLd = publishedTime
 			'@type': 'NewsArticle',
 			headline: tituloLimpio.slice(0, 110),
 			description,
-			image: [imageURL.href],
+			image: [previewURL.href],
 			datePublished: publishedTime.toISOString(),
 			dateModified: publishedTime.toISOString(),
 			inLanguage: 'es-AR',
@@ -71,8 +84,8 @@ const jsonLd = publishedTime
 			],
 		};
 const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
-const imageWidth = isExternalImage ? undefined : String(image.width);
-const imageHeight = isExternalImage ? undefined : String(image.height);
+const imageWidth = tieneOgImage ? '1200' : isExternalImage ? undefined : String(image.width);
+const imageHeight = tieneOgImage ? '630' : isExternalImage ? undefined : String(image.height);
 ---
 
 <!-- Global Metadata -->
@@ -104,15 +117,15 @@ const imageHeight = isExternalImage ? undefined : String(image.height);
 <meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={imageURL} />
+<meta property="og:image" content={previewURL} />
 <meta property="og:image:alt" content={description} />
-{!esDeOtroSitio && (
+{tieneOgImage || !esDeOtroSitio ? (
 	<meta
 		property="og:image:type"
 		content={`image/${imageFormat}`}
 	/>
-)}
-<meta property="og:image:secure_url" content={imageURL} />
+) : null}
+<meta property="og:image:secure_url" content={previewURL} />
 {imageWidth && <meta property="og:image:width" content={imageWidth} />}
 {imageHeight && <meta property="og:image:height" content={imageHeight} />}
 {
@@ -132,4 +145,4 @@ const imageHeight = isExternalImage ? undefined : String(image.height);
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image" content={previewURL} />
