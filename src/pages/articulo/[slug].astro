@@ -7,6 +7,7 @@ import ShareButtons from '../../components/ShareButtons.astro';
 import AdBanner from '../../components/AdBanner.astro';
 import { nombreSeccion, SITE_TITLE, slugify } from '../../consts';
 import { getArticulos } from '../../lib/articles';
+import { ogImagePath } from '../../lib/og';
 import { render } from 'astro:content';
 
 export const prerender = false;
@@ -25,6 +26,10 @@ if (!articulo) {
 
 const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags } = articulo;
 const { Content } = await render(articulo.entry);
+
+// Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
+// La genera src/pages/api/og/[slug].ts a partir de la foto de la nota.
+const ogImage = ogImagePath(slug, image_url);
 
 const fecha = new Date(date);
 
@@ -60,6 +65,7 @@ const schema = {
 	title={`${title} | ${SITE_TITLE}`}
 	description={excerpt}
 	image={image_url}
+	ogImage={ogImage}
 	publishedTime={fecha}
 	author={author}
 	section={nombreSeccion(section || '')}

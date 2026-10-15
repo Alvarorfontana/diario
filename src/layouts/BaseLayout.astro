@@ -10,12 +10,14 @@ interface Props {
 	title: string;
 	description: string;
 	image?: ImageMetadata | string;
+	// Imagen propia de 1200x630 para las vistas previas en redes (/api/og/<slug>.jpg).
+	ogImage?: string;
 	publishedTime?: Date;
 	author?: string;
 	section?: string;
 }
 
-const { title, description, image, publishedTime, author, section } = Astro.props;
+const { title, description, image, ogImage, publishedTime, author, section } = Astro.props;
 ---
 
 <!doctype html>
@@ -25,6 +27,7 @@ const { title, description, image, publishedTime, author, section } = Astro.prop
 			title={title}
 			description={description}
 			image={image}
+			ogImage={ogImage}
 			publishedTime={publishedTime}
 			author={author}
 			section={section}
