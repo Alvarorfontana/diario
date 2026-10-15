@@ -5,8 +5,8 @@ description: "El Senado aprobó reducir la jornada a 40 horas y garantizar dos d
 section: internacional
 author: "Emilio Lahitte"
 pubDate: 2026-10-15T11:00:00-03:00
-heroImage: "https://www12.senado.leg.br/noticias/materias/2026/10/14/senado-aprova-fim-da-6x1-em-primeiro-turno/20261014_04613cm-1.jpg"
-imageCaption: "Parlamentarios celebran en el Senado la aprobación del fin de la escala 6x1, el 14 de octubre. Foto: Agência Senado"
+heroImage: /uploads/1792072800000-oglobo-fim-escala-6x1.jpg
+imageCaption: "El fin de la escala 6x1 reduce la jornada semanal a 40 horas sin recorte salarial. Ilustración: O Globo"
 tags:
   - Brasil
   - Lula
