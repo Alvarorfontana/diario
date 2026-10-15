@@ -3,7 +3,7 @@ title: "Lula logra una victoria política antes del balotaje: Brasil aprueba tra
 volanta: A diez días del balotaje · Análisis
 description: "El Senado aprobó reducir la jornada a 40 horas y garantizar dos días de descanso sin recorte salarial. La reforma fortalece la agenda social del presidente, obliga a Flávio Bolsonaro a acompañarla y abre una disputa con las entidades empresariales. Su impacto electoral todavía está por verse."
 section: internacional
-author: "Emilio Lahitte"
+author: Redacción
 pubDate: 2026-10-15T11:00:00-03:00
 heroImage: /uploads/1792072800000-oglobo-fim-escala-6x1.jpg
 imageCaption: "El fin de la escala 6x1 reduce la jornada semanal a 40 horas sin recorte salarial. Ilustración: O Globo"
