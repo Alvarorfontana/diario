@@ -7,8 +7,8 @@ author: 'Redacción económica'
 pubDate: 2026-10-16T09:30:00
 ultimoMomento: true
 tags: ['Inflación', 'Economía', 'INDEC']
-heroImage: '../../assets/trabajadores-industria.jpg'
-imageCaption: 'La aceleración de costos mayoristas presiona sobre la cadena de producción y distribución. Imagen de archivo.'
+heroImage: '/uploads/2026-10-16-inflacion-mayorista-pyme-verduleria.jpg'
+imageCaption: 'Un comercio de barrio: la aceleración de costos mayoristas presiona sobre pymes y comercios. Foto: Fernando Martello / Wikimedia Commons (CC BY-SA 4.0).'
 ---
 
 **16 de octubre de 2026 —** En los despachos oficiales y en las cadenas de producción y distribución del país las alarmas se encendieron con la difusión de los últimos datos oficiales. El Instituto Nacional de Estadística y Censos (INDEC) informó que el Índice de Precios Internos al por Mayor (IPIM) registró en septiembre un incremento del 3,2% mensual, marcando una aceleración por segundo mes consecutivo tras el 2,1% registrado en agosto y consolidando la segunda variación más alta del año. Con este resultado, la inflación mayorista acumuló una suba del 22,8% en los primeros nueve meses de 2026 y alcanzó una variación interanual del 29,2%. La cifra cobra vital relevancia porque volvió a quedar sensiblemente por encima del Índice de Precios al Consumidor (IPC) del mismo mes (1,9%), encendiendo las luces rojas sobre la capacidad de los comercios para absorber los márgenes.
