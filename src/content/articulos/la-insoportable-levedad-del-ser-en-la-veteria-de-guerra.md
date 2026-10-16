@@ -1,6 +1,6 @@
 ---
 title: "La insoportable levedad del ser en la Veteranía de Guerra"
-volanta: "Malvinas | Los conscriptos del Atlántico Sur | Octubre de 2026"
+volanta: "La Negación como herramienta de exclusión"
 description: "Miles de soldados conscriptos argentinos fueron movilizados al Teatro de Operaciones del Atlántico Sur para defender el litoral marítimo patagónico y los objetivos estratégicos del continente. Cuando la guerra terminó, un decreto de 1988 recortó el reconocimiento a una franja de mar alrededor de las islas y los dejó afuera. Cuatro décadas después, la Corte Suprema podría revisar por primera vez esa norma. Una crónica sobre el peso de la guerra y la levedad con que un papel puede borrar a un veterano."
 section: argentina
 author: "Diario Federal"
