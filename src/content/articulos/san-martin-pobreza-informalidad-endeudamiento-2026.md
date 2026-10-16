@@ -1,7 +1,7 @@
 ---
 title: "El conurbano en alerta: en San Martín, casi la mitad de la población relevada es pobre y cuatro de cada diez hogares están atrasados con sus deudas"
 volanta: "Informe socioeconómico | Buenos Aires | 16 de octubre de 2026"
-description: "Un informe elaborado conjuntamente por la Universidad Nacional de San Martín, el Observatorio de Investigación Demográfica de la Provincia de Buenos Aires y el municipio revela un deterioro preocupante de las condiciones de vida. El desempleo alcanza el 12%, la informalidad laboral llega al 42% y el 57% de los hogares necesita recurrir a trabajos adicionales para completar sus ingresos. El endeudamiento para comprar alimentos, pagar servicios y afrontar gastos de salud aparece como una de las señales más graves de la crisis."
+description: "Un informe elaborado por la Universidad Nacional de San Martín, el Observatorio de Investigación Demográfica de la Provincia de Buenos Aires y el municipio de General San Martín revela un cuadro devastador: el 43,77% de la población relevada es pobre, el desempleo alcanza el 12%, la informalidad laboral llega al 42% y el 57% de los hogares necesita trabajos adicionales para completar sus ingresos. Los resultados confirman que este deterioro es consecuencia del modelo económico de ajuste total del gobierno de Javier Milei, que asfixia a las provincias y a los municipios y deja a las familias del conurbano sin los ingresos ni las respuestas del Estado para cubrir sus necesidades básicas."
 section: argentina
 author: "Diario Federal"
 pubDate: 2026-10-16T09:00:00-03:00
