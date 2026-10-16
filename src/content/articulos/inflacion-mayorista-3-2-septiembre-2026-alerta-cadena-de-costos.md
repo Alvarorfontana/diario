@@ -1,0 +1,30 @@
+---
+title: 'Alerta en la cadena de costos: la inflación mayorista saltó al 3,2% en septiembre impactada por divergencias en el frente interno'
+volanta: 'Último momento · Economía'
+description: 'El diferencial entre la inflación al consumidor y al por mayor vuelve a tensionar la economía. Las tarifas energéticas, el transporte local y la inercia en los costos fijos de insumos nacionales explican la aceleración de costos que preocupa a cámaras empresarias y pymes.'
+section: economia
+author: 'Redacción económica'
+pubDate: 2026-10-16T09:30:00
+ultimoMomento: true
+tags: ['Inflación', 'Economía', 'INDEC']
+heroImage: '../../assets/trabajadores-industria.jpg'
+imageCaption: 'La aceleración de costos mayoristas presiona sobre la cadena de producción y distribución. Imagen de archivo.'
+---
+
+**16 de octubre de 2026 —** En los despachos oficiales y en las cadenas de producción y distribución del país las alarmas se encendieron con la difusión de los últimos datos oficiales. El Instituto Nacional de Estadística y Censos (INDEC) informó que el Índice de Precios Internos al por Mayor (IPIM) registró en septiembre un incremento del 3,2% mensual, marcando una aceleración por segundo mes consecutivo tras el 2,1% registrado en agosto y consolidando la segunda variación más alta del año. Con este resultado, la inflación mayorista acumuló una suba del 22,8% en los primeros nueve meses de 2026 y alcanzó una variación interanual del 29,2%. La cifra cobra vital relevancia porque volvió a quedar sensiblemente por encima del Índice de Precios al Consumidor (IPC) del mismo mes (1,9%), encendiendo las luces rojas sobre la capacidad de los comercios para absorber los márgenes.
+
+El reajuste en los valores del petróleo crudo y del gas natural en boca de pozo aportó por sí solo 1,43 puntos porcentuales al incremento mayorista de septiembre. Si bien el sector de combustibles captó la atención por su magnitud, el comportamiento desagregado del IPIM revela que las tensiones internas en la estructura de costos argentina jugaron un papel determinante.
+
+Por un lado, el ajuste en el valor del gas natural y el petróleo en el mercado interno no responde únicamente al ciclo internacional, sino al reajuste de las tarifas de transporte y distribución en la cadena energética local, diseñado para sostener la reducción de subsidios fiscales y recomponer los márgenes operativos de las empresas generadoras y distribuidoras. Por otro lado, los productos nacionales registraron una suba del 3,4% mensual, superando con holgura el nivel general. Dentro de este bloque, los productos primarios crecieron un 7,9% en el Índice de Precios Básicos del Productor (IPP), reflejando el encarecimiento de la logística, los fletes y la estructura de insumos básicos producidos puertas adentro.
+
+Asimismo, los productos elaborados (alimentos y bebidas avanzaron un 1,7%) absorbieron aumentos en packaging, logística, combustibles de transporte y energía eléctrica. Estas subas de costos fijos ejercen una inercia difícil de desarmar en las primeras etapas del eslabón comercial. En contraste, los productos importados apenas subieron un 0,4% en el mes, beneficiados por la estabilidad del tipo de cambio oficial y la reducción de aranceles, lo que confirma que el impulso inflacionario de septiembre no provino de un shock externo o cambiario importado, sino de la dinámica de los precios y costos internos.
+
+Desde las cámaras Pymes y el sector comercial advierten sobre el "efecto represamiento" de costos fijos y la imposibilidad de trasladarlos a precios por la caída en las ventas. Voceros del sector de comercio y servicios de la Confederación Argentina de la Mediana Empresa (CAME) señalaron que las micro, pequeñas y medianas empresas comerciales vienen trabajando con márgenes operativos al límite, de modo que cuando el costo mayorista sube por encima del IPC minorista, el comerciante queda atrapado en un dilema: si traslada el costo pierde ventas por la cautela del consumidor, y si lo absorbe resiente la sustentabilidad de su negocio. Por su parte, desde la conducción económica expresaron en el marco de la difusión de las cuentas públicas que el dato de mayoristas refleja el ordenamiento y sinceramiento de precios relativos en el sector energético, pero remarcaron que la tendencia general de desaceleración fiscal y monetaria se mantiene firme.
+
+El dato de septiembre quebró el sendero de convergencia que el indicador venía mostrando a mitad de año, cuando el IPIM se ubicó en 1,1% en junio y 0,8% en julio. La reaceleración de agosto (2,1%) y septiembre (3,2%) dejó al índice mayorista 1,3 puntos porcentuales por encima de la inflación al consumidor final (1,9%). Esta discrepancia plantea un dilema central para el último trimestre del año: evidencia que la cadena minorista ha estado amortiguando parte de las subas en sus propios márgenes para no resentir aún más la demanda local. Sin embargo, la acumulación de costos en la etapa de producción genera un riesgo de traslado diferido hacia los precios finales en góndolas y comercios de cercanía a medida que se acerquen las fiestas de fin de año.
+
+La aceleración de los costos de producción expone la crudeza de una crisis económica que profundiza la certidumbre de que los bolsillos ya no toleran más aumentos. Con un consumo debilitado, salarios golpeados y comercios al borde del colapso, el distanciamiento entre los costos de producción y lo que la gente efectivamente puede pagar configura un escenario de extrema gravedad. Para la gran mayoría de los argentinos, este salto mayorista no representa un simple indicador técnico de los economistas, sino una amenaza directa e inminente sobre el costo de vida cotidiano, encendiendo una profunda preocupación sobre la viabilidad social de la estabilización y el fantasma de una nueva ola de remarcaciones en la mesa familiar.
+
+---
+
+**Fuentes primarias y de consulta:** Instituto Nacional de Estadística y Censos (INDEC) — *Índices de precios internos al por mayor (IPIM, IPIB, IPP)*; informes y reportes de coyuntura económica de *Infobae*, *Clarín*, *Canal 26*, *Mendoza Post* y *La Nueva*; y declaraciones del sector comercial (CAME).
