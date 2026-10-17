@@ -1,0 +1,58 @@
+---
+title: "Diego Molinas: «La tierra prometida es la justicia social»"
+volanta: LIBROS | FE, POLÍTICA Y COMUNIDAD
+description: En su libro En la tierra como en el cielo. La promesa es la justicia social, el autor recupera la experiencia de los barrios, las capillas y la militancia para pensar una salida colectiva a la crisis civilizatoria. En esta entrevista reflexiona sobre el legado de Francisco, los desafíos de León XIV y la comunidad organizada como una propuesta de sociedad.
+section: opinion
+author: Álvaro Fontana
+pubDate: 2026-10-17
+heroImage: /uploads/1792278963477-exec-4b10b777-9772-4ed8-9849-5ddbef72e12f.jpg
+imageCaption: En la tierra como en el cielo. La promesa es la justicia social, de Diego Molinas, publicado por Acercándonos Ediciones. Imagen de tapa editada para esta nota.
+tags:
+  - Diego Molinas
+  - Libros
+  - Justicia social
+  - Comunidad organizada
+  - Francisco
+---
+
+<p>Hay un tesoro que no aparece en los indicadores económicos ni ocupa el centro de los debates públicos: los vínculos que sostienen la vida colectiva. Diego Molinas lo encuentra en la memoria popular, en la fe, en la militancia y en las comunidades que se organizan para acompañar a quienes más lo necesitan. Esa experiencia atraviesa su libro En la tierra como en el cielo. La promesa es la justicia social, publicado por Acercándonos Ediciones, con presentación de Domingo Bressi y prólogo de Nicolás Angelotti.</p>
+<p>La obra tuvo una presentación en el barrio Costa Esperanza, en José León Suárez, y llegó después a la Feria Internacional del Libro de Montevideo. Ese recorrido, del conurbano bonaerense a un encuentro cultural internacional, expresa una de sus ideas centrales: las experiencias comunitarias tienen algo para aportar a la discusión sobre el futuro de nuestras sociedades.</p>
+<p><strong>—El libro lleva como subtítulo «La promesa es la justicia social», pero comienza con otra imagen: «El tesoro que no ves, los milagros que van a estar de tu lado». ¿Qué significa ese tesoro?</strong></p>
+<p>—Creo que expresa algo fundamental de nuestra experiencia como pueblo. Muchas veces buscamos las respuestas a las grandes crisis en las instituciones, en la economía o en las decisiones de quienes tienen poder. Sin embargo, hay una riqueza que permanece oculta y que no puede medirse con indicadores económicos: la capacidad de nuestro pueblo para construir comunidad, sostener vínculos, compartir el dolor y organizar la esperanza.</p>
+<p>Ese tesoro está en una peregrinación, en una capilla, en una unidad básica, en una familia que acompaña o en una mesa compartida. Está en la memoria, en la fe popular, en la solidaridad y en la obstinación de quienes siguen creyendo que la vida puede ser mejor cuando se construye con otros.</p>
+<p>El libro nace de esa intuición. En medio de una crisis civilizatoria, cuando todo parece empujarnos hacia el individualismo, la competencia y la fragmentación, necesitamos reconocer aquello que nos mantiene unidos. No se trata de idealizar al pueblo ni de desconocer sus dificultades, sino de comprender que allí existe una reserva ética, afectiva y espiritual para pensar otra forma de organizar la sociedad.</p>
+<p><strong>—¿Por qué ese recorrido tiene como horizonte la justicia social?</strong></p>
+<p>—Porque ambas cuestiones son inseparables. Si existe un tesoro en nuestra experiencia comunitaria, tiene que poder proyectarse sobre la forma en que organizamos la vida colectiva.</p>
+<p>El libro reivindica la justicia social frente a los discursos que buscan deslegitimarla. Lo hace desde una tradición política, social y religiosa que entiende que la dignidad humana necesita condiciones concretas para realizarse: un trabajo que permita vivir dignamente, acceso a la educación y a la salud, y la posibilidad de que cada familia construya un proyecto de vida.</p>
+<p>Pero la justicia social también significa reconocernos como parte de una comunidad y comprender que el bienestar de los demás forma parte de nuestro propio horizonte.</p>
+<p>Por eso recupero la imagen bíblica de la Tierra Prometida. La promesa expresa la posibilidad de construir una vida común en la que la dignidad deje de ser una declaración y se convierta en realidad. Nuestra hipótesis es que la Tierra Prometida es la justicia social: una comunidad donde nadie sobra y donde la vida de cada persona importa.</p>
+<p><strong>—En el libro recuperás la experiencia de una generación que comenzó a militar entre fines de los noventa y los primeros años del 2000. ¿Por qué era importante contar esa historia?</strong></p>
+<p>—Porque también necesitamos reconstruir nuestra propia historia. Somos una generación post-setentista y pre-kirchnerista, que comenzó a construir su experiencia política en un período que muchas veces queda desdibujado en los relatos históricos.</p>
+<p>En ocasiones se habla de la Argentina anterior a 2003 como si allí no hubiera existido nada. Sin embargo, había organizaciones, capillas, comedores y comunidades que sostenían la vida de los barrios y construían respuestas frente a situaciones muy difíciles.</p>
+<p>La capilla era, en una época analógica, una ventana al mundo. Era un espacio de encuentro, de aprendizaje y de formación ética. Allí aprendíamos a reconocer el valor del otro y a comprender que nuestra vida estaba relacionada con la de los demás. La militancia aportaba la posibilidad de transformar esa preocupación en organización, participación y construcción colectiva.</p>
+<p>Esa experiencia nos constituyó. Recuperarla no significa idealizar el pasado, sino reconocer una historia comunitaria que merece ser contada y que puede ayudarnos a comprender el presente. En buena medida, somos lo que otros hicieron posible en nosotros.</p>
+<p><strong>—¿Cómo se transforma esa experiencia barrial en una propuesta frente a la crisis civilizatoria?</strong></p>
+<p>—A través de la idea de la comunidad organizada como una hipótesis de mundo.</p>
+<p>Cuando hablamos de comunidad organizada, hablamos de una forma de comprender la vida en común, en la que cada persona encuentra su lugar y los problemas se abordan desde la responsabilidad compartida.</p>
+<p>El barrio puede ser una reserva de sentido porque conserva experiencias de solidaridad, memoria, fe, cultura y organización que permiten resistir la fragmentación. Frente a una crisis que nos obliga a preguntarnos qué entendemos por humanidad, esas experiencias tienen un valor que excede lo local.</p>
+<p>Nos permiten imaginar una sociedad en la que la economía esté al servicio de la vida, la política recupere su vocación de bien común y las comunidades participen de la construcción de su propio destino. Esa es la propuesta del libro: reconocer en nuestras experiencias comunitarias una fuente de pensamiento y una posibilidad concreta de imaginar un mundo mejor.</p>
+<p><strong>—El pensamiento del papa Francisco tiene una presencia importante en la obra. ¿Qué encontraste en su magisterio?</strong></p>
+<p>—Francisco nos ayudó a recuperar una mirada sobre el mundo desde las periferias, desde los pobres y desde las comunidades que muchas veces quedan fuera de los lugares donde se toman las decisiones.</p>
+<p>Para quienes venimos de la militancia barrial y de una relación entre fe y compromiso social, su palabra tuvo una importancia particular. Reconoció que los sectores populares son protagonistas: producen cultura, construyen organización y tienen algo para decir sobre el futuro de la humanidad.</p>
+<p>Su crítica a la cultura del descarte, su defensa de la fraternidad, su preocupación por el cuidado de la casa común y su valoración de los movimientos populares forman parte de una tradición que el libro busca recuperar.</p>
+<p>También nos ayudó a poner en palabras algo que ya estaba presente en nuestros barrios: la convicción de que la vida adquiere sentido cuando se comparte y de que la fe puede convertirse en una fuerza para transformar la realidad. Por eso su presencia en el libro está vinculada con una experiencia histórica y comunitaria que muchos veníamos construyendo desde hacía tiempo.</p>
+<p><strong>—¿Qué desafíos abre el pontificado de León XIV para esa relación entre la fe, la comunidad y la justicia social?</strong></p>
+<p>—León XIV reafirma la importancia de la Doctrina Social de la Iglesia y nos plantea preguntas fundamentales sobre la dignidad humana en una época atravesada por transformaciones tecnológicas, económicas y culturales muy profundas.</p>
+<p>Nos invita a pensar qué lugar ocupa la persona en un mundo donde la inteligencia artificial, los algoritmos y la concentración del poder tecnológico están modificando nuestras formas de trabajar, comunicarnos y relacionarnos.</p>
+<p>En ese contexto, recuperar la dimensión comunitaria adquiere una importancia particular. Necesitamos preguntarnos qué capacidades queremos desarrollar como humanidad y qué principios deben orientar el uso de la tecnología, la economía y la política.</p>
+<p>Me interesa que el libro contribuya a esa conversación y recupere una tradición que entiende que el Evangelio tiene consecuencias sobre la forma en que organizamos nuestra vida en común. Francisco nos ayudó a reconocer el valor de las periferias y de la cultura del encuentro. León XIV nos encuentra ante nuevos desafíos. La pregunta de fondo sigue siendo qué sociedad queremos construir y qué lugar le damos al otro.</p>
+<p><strong>—El libro se presentó primero en Costa Esperanza y después en la Feria Internacional del Libro de Montevideo. ¿Qué significado tuvo ese recorrido?</strong></p>
+<p>—Las dos presentaciones fueron importantes porque permitieron que el libro dialogara con ámbitos diferentes.</p>
+<p>En Costa Esperanza, en José León Suárez, la presentación tuvo una impronta comunitaria y barrial. Era importante que la obra pudiera encontrarse con una experiencia que forma parte de su propia raíz: las comunidades que sostienen vínculos, construyen organización y mantienen viva la posibilidad de un futuro compartido.</p>
+<p>En Montevideo, ese diálogo se amplió. Participaron el ministro de Desarrollo Social de Uruguay, Gonzalo Civila, referentes sociales y comunitarios, sacerdotes e integrantes del cuerpo diplomático. Fue una oportunidad para compartir estas reflexiones y poner en diálogo experiencias de Argentina y Uruguay.</p>
+<p>Me parece significativo que el recorrido haya unido un barrio del conurbano bonaerense con un espacio cultural e institucional internacional. La comunidad es una dimensión fundamental para pensar cómo queremos organizar nuestras sociedades. Las dos presentaciones expresaron una misma convicción: hay experiencias populares que merecen ser reconocidas, pensadas y proyectadas hacia el futuro.</p>
+<p><strong>—¿Con qué idea te gustaría que se quedara el lector al terminar el libro?</strong></p>
+<p>—Con la idea de que hay un tesoro en nuestra experiencia como pueblo y que necesitamos volver a reconocerlo. Está en la memoria, en la fe popular, en la militancia, en los barrios y en los vínculos que nos enseñaron que nadie construye su vida completamente solo.</p>
+<p>Ese tesoro puede ayudarnos a atravesar la crisis civilizatoria y a recuperar la capacidad de imaginar una sociedad diferente. El libro propone que esa búsqueda tenga un horizonte concreto: la justicia social.</p>
+<p>La Tierra Prometida es una forma de organizar la vida en común donde la dignidad humana sea el fundamento de todo lo demás. Una comunidad donde nadie sobra, donde la libertad se convierte en derechos y donde la esperanza se transforma en una construcción colectiva.</p>
+<p>La Tierra Prometida es la justicia social. Y el tesoro que no vemos puede ser una de las claves para volver a construirla.</p>
