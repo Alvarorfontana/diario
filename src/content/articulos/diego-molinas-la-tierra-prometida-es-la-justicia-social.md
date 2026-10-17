@@ -1,12 +1,12 @@
 ---
 title: "Diego Molinas: «La tierra prometida es la justicia social»"
 volanta: LIBROS | FE, POLÍTICA Y COMUNIDAD
-description: En su libro En la tierra como en el cielo. La promesa es la justicia social, el autor recupera la experiencia de los barrios, las capillas y la militancia para pensar una salida colectiva a la crisis civilizatoria. En esta entrevista reflexiona sobre el legado de Francisco, los desafíos de León XIV y la comunidad organizada como una propuesta de sociedad.
+description: Diego Molinas reivindica la justicia social y el valor de los vínculos comunitarios frente al individualismo y la fragmentación. A propósito de su libro «En la tierra como en el cielo», reflexiona sobre la militancia barrial, el legado de Francisco y los desafíos de León XIV.
 section: opinion
 author: Álvaro Fontana
 pubDate: 2026-10-17
 heroImage: /uploads/1792278963477-exec-4b10b777-9772-4ed8-9849-5ddbef72e12f.jpg
-imageCaption: En la tierra como en el cielo. La promesa es la justicia social, de Diego Molinas, publicado por Acercándonos Ediciones. Imagen de tapa editada para esta nota.
+imageCaption: Tapa de «En la tierra como en el cielo», de Diego Molinas, cuyo subtítulo es «La promesa es la justicia social». Acercándonos Ediciones. Imagen editada para esta nota.
 tags:
   - Diego Molinas
   - Libros
@@ -15,7 +15,7 @@ tags:
   - Francisco
 ---
 
-<p>Hay un tesoro que no aparece en los indicadores económicos ni ocupa el centro de los debates públicos: los vínculos que sostienen la vida colectiva. Diego Molinas lo encuentra en la memoria popular, en la fe, en la militancia y en las comunidades que se organizan para acompañar a quienes más lo necesitan. Esa experiencia atraviesa su libro En la tierra como en el cielo. La promesa es la justicia social, publicado por Acercándonos Ediciones, con presentación de Domingo Bressi y prólogo de Nicolás Angelotti.</p>
+<p>Hay un tesoro que no aparece en los indicadores económicos ni ocupa el centro de los debates públicos: los vínculos que sostienen la vida colectiva. Diego Molinas lo encuentra en la memoria popular, en la fe, en la militancia y en las comunidades que se organizan para acompañar a quienes más lo necesitan. Esa experiencia atraviesa su libro <em>En la tierra como en el cielo</em>, cuyo subtítulo es «La promesa es la justicia social», publicado por Acercándonos Ediciones, con presentación de Domingo Bressi y prólogo de Nicolás Angelotti.</p>
 <p>La obra tuvo una presentación en el barrio Costa Esperanza, en José León Suárez, y llegó después a la Feria Internacional del Libro de Montevideo. Ese recorrido, del conurbano bonaerense a un encuentro cultural internacional, expresa una de sus ideas centrales: las experiencias comunitarias tienen algo para aportar a la discusión sobre el futuro de nuestras sociedades.</p>
 <p><strong>—El libro lleva como subtítulo «La promesa es la justicia social», pero comienza con otra imagen: «El tesoro que no ves, los milagros que van a estar de tu lado». ¿Qué significa ese tesoro?</strong></p>
 <p>—Creo que expresa algo fundamental de nuestra experiencia como pueblo. Muchas veces buscamos las respuestas a las grandes crisis en las instituciones, en la economía o en las decisiones de quienes tienen poder. Sin embargo, hay una riqueza que permanece oculta y que no puede medirse con indicadores económicos: la capacidad de nuestro pueblo para construir comunidad, sostener vínculos, compartir el dolor y organizar la esperanza.</p>
