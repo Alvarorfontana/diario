@@ -27,7 +27,7 @@ export default defineConfig({
     plugins: [tailwindcss()],
     // Bundle the sanitizer and its ESM parser for Vercel's server runtime.
     ssr: {
-      noExternal: ['sanitize-html', 'htmlparser2', 'domhandler', 'domutils', 'dom-serializer', 'domelementtype', 'entities', 'escape-string-regexp'],
+      noExternal: ["dayjs", "dom-serializer", "domelementtype", "domhandler", "domutils", "entities", "escape-string-regexp", "htmlparser2", "is-plain-object", "launder", "nanoid", "parse-srcset", "picocolors", "postcss", "sanitize-html", "source-map-js"],
     },
   },
 });
