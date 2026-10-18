@@ -25,5 +25,9 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    // Bundle the sanitizer and its ESM parser for Vercel's server runtime.
+    ssr: {
+      noExternal: ['sanitize-html', 'htmlparser2', 'domhandler', 'domutils', 'dom-serializer', 'domelementtype', 'entities', 'escape-string-regexp'],
+    },
   },
 });
