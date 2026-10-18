@@ -3,7 +3,7 @@ title: Milei se abstuvo de respaldar una resolución contra el colonialismo y ex
 volanta: POLÍTICA EXTERIOR | EL VOTO ARGENTINO EN NACIONES UNIDAS
 description: La Argentina no acompañó una iniciativa que reafirma principios vinculados con su reclamo sobre las islas. La decisión expone la distancia entre el discurso soberanista del Gobierno y sus prioridades internacionales.
 section: internacional
-author: Álvaro Fontana
+author: Emilio Lahitte
 pubDate: 2026-10-17
 heroImage: https://www.argentina.gob.ar/sites/default/files/intervenciononu.jpg
 imageCaption: "Javier Milei ante la Asamblea General de Naciones Unidas, el 23 de septiembre de 2026. Foto: Argentina.gob.ar."
