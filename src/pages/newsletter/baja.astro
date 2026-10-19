@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Darte de baja | ${SITE_TITLE}`} description="Dejá de recibir el boletín del diario.">
+	<article class="mx-auto max-w-xl py-10">
+		<p class="text-xs font-semibold uppercase tracking-widest text-brand">Newsletter</p>
+		<h1 class="mt-3 font-serif text-4xl font-bold">Darte de baja</h1>
+		<p class="mt-4 text-neutral-600">
+			Escribí el correo con el que te suscribiste y lo damos de baja. No vas a recibir más correos del
+			boletín.
+		</p>
+
+		<form id="baja-form" class="mt-8 flex flex-col gap-3 sm:flex-row">
+			<input
+				type="email"
+				name="email"
+				required
+				autocomplete="email"
+				placeholder="tu@correo.com"
+				class="w-full rounded-sm border border-neutral-300 bg-white px-4 py-3 text-base text-neutral-900 placeholder-neutral-400 focus:border-brand focus:outline-none"
+			/>
+			<button
+				type="submit"
+				id="baja-btn"
+				class="shrink-0 rounded-sm bg-neutral-900 px-6 py-3 font-medium text-white transition-colors hover:bg-neutral-800"
+			>
+				Darme de baja
+			</button>
+		</form>
+		<p id="baja-status" class="mt-3 hidden text-sm" role="status" aria-live="polite"></p>
+	</article>
+</BaseLayout>
+
+<script is:inline>
+	(function () {
+		const form = document.getElementById('baja-form');
+		const btn = document.getElementById('baja-btn');
+		const status = document.getElementById('baja-status');
+		const params = new URLSearchParams(location.search);
+		const prefill = params.get('email');
+		if (prefill) form.querySelector('input[name="email"]').value = prefill;
+
+		form?.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			const email = String(new FormData(form).get('email') || '').trim();
+			btn.disabled = true;
+			btn.textContent = 'Procesando...';
+			status.className = 'mt-3 hidden text-sm';
+			try {
+				const res = await fetch('/api/newsletter/unsubscribe', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ email }),
+				});
+				const out = await res.json();
+				status.className = 'mt-3 text-sm';
+				status.style.color = out.ok ? '#22c55e' : '#ef4444';
+				status.textContent = out.ok
+					? out.message || 'Listo. No vas a recibir más correos.'
+					: out.error || 'No pudimos procesar la baja.';
+			} catch {
+				status.className = 'mt-3 text-sm';
+				status.style.color = '#ef4444';
+				status.textContent = 'Error de conexión.';
+			}
+			btn.disabled = false;
+			btn.textContent = 'Darme de baja';
+		});
+	})();
+</script>

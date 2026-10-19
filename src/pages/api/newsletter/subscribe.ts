@@ -1,97 +1,61 @@
-import { readData, writeData } from '../../../lib/datastore';
 export const prerender = false;
+import { brevoConfig, subscribe } from '../../../lib/brevo';
 
-const FILE_PATH = 'data/subscribers.json';
+// Alta al newsletter. Con doble confirmación, Brevo envía el correo y suma al lector
+// recién cuando confirma. No guarda direcciones en el repositorio.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-// ─── Acceso portable a variables de entorno ────────────────────────────────
-// Cloudflare Workers: locals.runtime.env | Vercel/Netlify/Node: import.meta.env
-type RuntimeEnv = Record<string, string | undefined>;
-
-interface ApiContext {
-	request: Request;
-	locals?: { runtime?: { env?: RuntimeEnv } };
+function json(data: unknown, status = 200) {
+	return new Response(JSON.stringify(data), {
+		status,
+		headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
+	});
 }
 
-function getEnv(locals: ApiContext['locals']): RuntimeEnv {
-	const runtimeEnv = locals?.runtime?.env;
-	return runtimeEnv ?? (import.meta.env as unknown as RuntimeEnv);
+function isDuplicate(data: unknown): boolean {
+	const code = (data as { code?: string } | null)?.code;
+	return code === 'duplicate_parameter' || code === 'contact_already_exists' || code === 'contact_already_in_list';
 }
 
-function ghHeaders(token: string) {
-	return {
-		Authorization: `token ${token}`,
-		Accept: 'application/vnd.github+json',
-	};
-}
-
-function b64encodeUtf8(text: string): string {
-	return btoa(unescape(encodeURIComponent(text)));
-}
-
-function b64decodeUtf8(b64: string): string {
-	return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
-}
-
-async function readSubscribersFile(token: string): Promise<{ emails: string[]; sha: string | null }> {
+export const POST = async ({ request, locals }: { request: Request; locals?: unknown }) => {
 	try {
-		const { text, sha } = await readData(FILE_PATH, token);
-		return { emails: text ? JSON.parse(text) : [], sha };
+		const body = (await request.json().catch(() => ({}))) as Record<string, unknown>;
+
+		// Trampa anti-robots: un humano no ve ni completa este campo.
+		if (body.website) return json({ ok: true, message: '¡Gracias! Revisá tu correo.' });
+
+		if (body.consent !== true) {
+			return json({ ok: false, error: 'Tenés que aceptar recibir el boletín.' }, 400);
+		}
+
+		const email = String(body.email ?? '').trim().toLowerCase();
+		if (!EMAIL_RE.test(email) || email.length > 254) {
+			return json({ ok: false, error: 'Revisá el correo: parece incompleto.' }, 400);
+		}
+
+		const cfg = brevoConfig(locals);
+		if (!cfg) {
+			return json({ ok: false, error: 'El boletín todavía no está configurado. Probá más tarde.' }, 503);
+		}
+
+		const r = await subscribe(cfg, email);
+
+		if (r.ok) {
+			return json({
+				ok: true,
+				message:
+					r.mode === 'doi'
+						? '¡Listo! Te enviamos un correo para confirmar la suscripción.'
+						: '¡Gracias por suscribirte!',
+			});
+		}
+
+		if (r.status === 400 && isDuplicate(r.data)) {
+			return json({ ok: true, message: 'Ya estás en la lista. Si no confirmaste, revisá tu correo.' });
+		}
+
+		return json({ ok: false, error: 'No pudimos completar la suscripción. Probá de nuevo.' }, 502);
 	} catch {
-		return { emails: [], sha: null };
-	}
-}
-
-async function writeSubscribersFile(token: string, emails: string[], sha: string | null) {
-	try {
-		return await writeData(FILE_PATH, JSON.stringify(emails, null, 2), sha, 'Update subscribers', token);
-	} catch (e: any) {
-		return { message: e.message };
-	}
-}
-
-export const POST = async ({ request, locals }: ApiContext) => {
-	try {
-		const token = getEnv(locals).GITHUB_PAT;
-		if (!token) {
-			return new Response(JSON.stringify({ ok: false, error: 'GITHUB_PAT no configurado' }), {
-				status: 500,
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-
-		const body = await request.json();
-		const email = body.email as string;
-
-		if (!email || !email.includes('@')) {
-			return new Response(JSON.stringify({ ok: false, error: 'Email inválido' }), {
-				status: 400,
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-
-		const { emails, sha } = await readSubscribersFile(token);
-		if (emails.includes(email)) {
-			return new Response(JSON.stringify({ ok: true, message: 'Ya estás suscripto' }), {
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-
-		emails.push(email);
-		const result = await writeSubscribersFile(token, emails, sha);
-
-		if (result.commit) {
-			return new Response(JSON.stringify({ ok: true, message: '¡Suscripción exitosa!' }), {
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-		return new Response(JSON.stringify({ ok: false, error: 'Error al guardar' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json' },
-		});
-	} catch {
-		return new Response(JSON.stringify({ ok: false, error: 'Error del servidor' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json' },
-		});
+		return json({ ok: false, error: 'Error del servidor.' }, 500);
 	}
 };

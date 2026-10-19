@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Suscripción confirmada | ${SITE_TITLE}`} description="Tu suscripción al boletín quedó confirmada.">
+	<article class="mx-auto max-w-2xl py-10 text-center">
+		<p class="text-xs font-semibold uppercase tracking-widest text-brand">Newsletter</p>
+		<h1 class="mt-3 font-serif text-4xl font-bold">Suscripción confirmada</h1>
+		<p class="mt-5 text-lg leading-relaxed text-neutral-600">
+			Ya estás en la lista. Vas a recibir el boletín de <strong>{SITE_TITLE}</strong> con lo más importante
+			de la semana.
+		</p>
+		<p class="mt-6">
+			<a href="/" class="inline-block rounded-sm bg-brand px-6 py-3 font-medium text-white transition-colors hover:bg-brand-dark"
+				>Volver a la portada</a
+			>
+		</p>
+		<p class="mt-8 text-sm text-neutral-500">
+			¿Querés darte de baja? <a href="/newsletter/baja/" class="underline hover:text-brand">Podés hacerlo acá</a>.
+		</p>
+	</article>
+</BaseLayout>

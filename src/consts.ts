@@ -47,6 +47,4 @@ export function slugify(texto: string): string {
 		.replace(/^-+|-+$/g, '');
 }
 
-// URL de suscripción al newsletter (Buttondown). Crea una cuenta gratis en
-// https://buttondown.email y sustituye TU-USUARIO por tu nombre de usuario.
-export const NEWSLETTER_ACTION = 'https://buttondown.email/api/emails/embed-subscribe/fontana_l';
+// El newsletter se integra con Brevo (ver src/lib/brevo.ts y NEWSLETTER.md).
