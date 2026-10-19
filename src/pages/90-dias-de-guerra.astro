@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const perfil = 'https://substack.com/@alvarofontanal';
+---
+<BaseLayout title="90 días de guerra | Diario Federal" description="Archivo especial de crónicas de Álvaro Fontana publicadas en Substack.">
+  <section class="mx-auto max-w-4xl py-10">
+    <p class="text-xs font-bold uppercase tracking-[.2em] text-brand">Archivo especial · Internacional</p>
+    <h1 class="mt-4 font-serif text-4xl font-black leading-tight sm:text-6xl">90 días de guerra: Estados Unidos e Irán</h1>
+    <p class="mt-5 text-lg leading-relaxed text-neutral-600">Una serie de crónicas de Álvaro Fontana sobre los acontecimientos políticos, militares y diplomáticos del conflicto. Los artículos y sus imágenes permanecen publicados en Substack.</p>
+    <div class="mt-8 border-y border-neutral-200 py-6">
+      <a href={perfil} target="_blank" rel="noopener noreferrer" class="inline-flex bg-neutral-900 px-6 py-3 text-sm font-bold text-white hover:bg-red-800">Leer las crónicas en Substack ↗</a>
+    </div>
+    <p class="mt-6 text-sm text-neutral-500">Archivo externo. La lectura se realiza en la publicación original, sin duplicar contenidos en Diario Federal.</p>
+  </section>
+</BaseLayout>
