@@ -1,0 +1,42 @@
+name: Generar imagen social fija de Diario Federal
+on:
+  push:
+    paths:
+      - '.github/workflows/imagen-social-portada.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  imagen-social:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar Pillow
+        run: python -m pip install pillow
+      - name: Crear JPG estático 1200x630
+        run: |
+          python - <<'PY'
+          from PIL import Image,ImageDraw,ImageFont
+          import os
+          os.makedirs('public/images',exist_ok=True)
+          im=Image.new('RGB',(1200,630),'#f9f8f5')
+          d=ImageDraw.Draw(im)
+          d.rectangle((0,0,1200,20),fill='#c81924')
+          d.rectangle((70,90,1130,94),fill='#c81924')
+          bold='/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+          regular='/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+          f=lambda n:ImageFont.truetype(bold,n)
+          d.text((75,125),'PERIODISMO INDEPENDIENTE',font=f(28),fill='#c81924')
+          d.text((67,210),'DIARIO',font=f(120),fill='#171717')
+          d.text((67,348),'FEDERAL',font=f(120),fill='#c81924')
+          d.rectangle((70,505,1130,509),fill='#171717')
+          d.text((75,535),'POLITICA  |  ECONOMIA  |  INTERNACIONALES',font=ImageFont.truetype(regular,26),fill='#333333')
+          d.rectangle((0,605,1200,630),fill='#c81924')
+          im.save('public/images/diario-federal-whatsapp.jpg','JPEG',quality=88,optimize=True,progressive=False)
+          PY
+      - name: Guardar imagen en repositorio
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/images/diario-federal-whatsapp.jpg
+          git diff --cached --quiet || (git commit -m "Publicar imagen JPG estática para compartir portada" && git push)
