@@ -1,15 +1,34 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import cronicas from '../data/cronicas-substack.json';
 const perfil = 'https://substack.com/@alvarofontanal';
+const entradas = cronicas
+  .filter((a) => a.tema === 'guerra-iran' && a.aprobado === true && /^https:\/\//.test(a.url) && !Number.isNaN(Date.parse(a.fecha)))
+  .sort((a, b) => Date.parse(a.fecha) - Date.parse(b.fecha));
+const fecha = (valor: string) => new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(valor + 'T12:00:00Z'));
 ---
-<BaseLayout title="90 días de guerra | Diario Federal" description="Archivo especial de crónicas de Álvaro Fontana publicadas en Substack.">
+<BaseLayout title="90 días de guerra | Diario Federal" description="Cronología de las crónicas de Álvaro Fontana publicadas en Substack.">
   <section class="mx-auto max-w-4xl py-10">
     <p class="text-xs font-bold uppercase tracking-[.2em] text-brand">Archivo especial · Internacional</p>
     <h1 class="mt-4 font-serif text-4xl font-black leading-tight sm:text-6xl">90 días de guerra: Estados Unidos e Irán</h1>
-    <p class="mt-5 text-lg leading-relaxed text-neutral-600">Una serie de crónicas de Álvaro Fontana sobre los acontecimientos políticos, militares y diplomáticos del conflicto. Los artículos y sus imágenes permanecen publicados en Substack.</p>
-    <div class="mt-8 border-y border-neutral-200 py-6">
-      <a href={perfil} target="_blank" rel="noopener noreferrer" class="inline-flex bg-neutral-900 px-6 py-3 text-sm font-bold text-white hover:bg-red-800">Leer las crónicas en Substack ↗</a>
-    </div>
-    <p class="mt-6 text-sm text-neutral-500">Archivo externo. La lectura se realiza en la publicación original, sin duplicar contenidos en Diario Federal.</p>
+    <p class="mt-5 text-lg leading-relaxed text-neutral-600">Una cronología de las crónicas de Álvaro Fontana, desde el comienzo de la cobertura hasta su desenlace. Los textos e imágenes permanecen alojados en Substack.</p>
+    {entradas.length > 0 ? (
+      <ol class="mt-10 border-l-2 border-neutral-200 pl-6">
+        {entradas.map((articulo, i) => (
+          <li class="relative mb-9">
+            <span class="absolute -left-[31px] top-2 h-3 w-3 rounded-full bg-red-700"></span>
+            <p class="text-xs font-bold uppercase tracking-widest text-brand">{fecha(articulo.fecha)} · Crónica {i + 1}</p>
+            <h2 class="mt-2 font-serif text-2xl font-bold text-neutral-900"><a class="hover:text-brand" href={articulo.url} target="_blank" rel="noopener noreferrer">{articulo.titulo} ↗</a></h2>
+            {articulo.resumen && <p class="mt-2 text-neutral-600">{articulo.resumen}</p>}
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <div class="mt-10 border-y border-neutral-200 py-8">
+        <p class="font-semibold">Cronología en preparación</p>
+        <p class="mt-2 text-neutral-600">Estamos verificando los enlaces originales y clasificando las crónicas para excluir las publicaciones ajenas al conflicto.</p>
+      </div>
+    )}
+    <a href={perfil} target="_blank" rel="noopener noreferrer" class="mt-7 inline-block bg-neutral-900 px-6 py-3 text-sm font-bold text-white hover:bg-red-800">Consultar todas las publicaciones en Substack ↗</a>
   </section>
 </BaseLayout>
