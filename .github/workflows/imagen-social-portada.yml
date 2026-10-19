@@ -1,4 +1,4 @@
-name: Generar imagen social fija de Diario Federal
+name: Generar imagen social fija de Diario Federal (WhatsApp)
 on:
   push:
     paths:
