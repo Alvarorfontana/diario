@@ -3,7 +3,7 @@ title: "Lula impuso su experiencia y dejó al descubierto las debilidades de Fl�
 volanta: "BRASIL 2026 | DEBATE PRESIDENCIAL"
 description: "El presidente recuperó la iniciativa frente a las provocaciones de su adversario y exhibió su experiencia de gobierno. Flávio Bolsonaro apostó a los ataques personales, pero mostró dificultades para sostener respuestas de fondo."
 section: "internacional"
-heroImage: "https://agenciabrasil.ebc.com.br/sites/default/files/thumbnails/image/2026/10/18/sem_titulo_1.jpg"
+heroImage: "/images/debate-lula-flavio-2026.jpg"
 imageCaption: "Luiz Inácio Lula da Silva interviene ante Flávio Bolsonaro durante el debate presidencial del 18 de octubre de 2026 en San Pablo. Foto: Renato Pizzutto / Band."
 author: "Redacción Diario Federal"
 pubDate: 2026-10-19
