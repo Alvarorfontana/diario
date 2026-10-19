@@ -4,6 +4,8 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Allow: /api/og/
+Allow: /api/img/
 Disallow: /api/
 
 # Asistentes y buscadores de IA (permitidos de forma explícita)
@@ -20,6 +22,8 @@ User-agent: Applebot-Extended
 User-agent: Bingbot
 Allow: /
 Disallow: /admin/
+Allow: /api/og/
+Allow: /api/img/
 Disallow: /api/
 
 Sitemap: https://www.diariofederal.com.ar/sitemap-articulos.xml
@@ -29,3 +33,13 @@ Sitemap: https://www.diariofederal.com.ar/sitemap-index.xml
 # Mapas del sitio para buscadores
 Sitemap: https://www.diariofederal.com.ar/sitemap-articulos.xml
 Sitemap: https://www.diariofederal.com.ar/news-sitemap.xml
+
+# Robots de vista previa social: WhatsApp, Facebook y Telegram
+User-agent: facebookexternalhit
+Allow: /
+User-agent: Facebot
+Allow: /
+User-agent: WhatsApp
+Allow: /
+User-agent: TelegramBot
+Allow: /
