@@ -4,10 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       tema:
-        description: 'Tema, borrador o instrucciones de la nota'
+        description: 'Tema o borrador de la nota'
         required: true
       seccion:
-        description: 'Sección (ej: Politica, Economia, Internacionales)'
+        description: 'Sección'
         required: true
         default: 'Internacionales'
 
@@ -30,6 +30,9 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          INPUT_TEMA: ${{ github.event.inputs.tema }}
+          INPUT_SECCION: ${{ github.event.inputs.seccion }}
+          REPO_NAME: ${{ github.repository }}
         run: |
           python -c "
           import datetime, re, os
@@ -38,12 +41,14 @@ jobs:
 
           client = genai.Client(api_key=os.environ['GEMINI_API_KEY'])
           fecha_actual = datetime.date.today().strftime('%Y-%m-%d')
+          tema = os.environ['INPUT_TEMA']
+          seccion = os.environ['INPUT_SECCION']
 
           prompt = f'''
           Actúa como un periodista profesional de política e internacionales.
           Redacta una nota periodística basada en las siguientes instrucciones:
 
-          Tema: ${{ { { github.event.inputs.tema } } }}
+          Tema: {tema}
 
           Instrucciones de formato:
           1. Genera un TÍTULO llamativo de máximo 12 palabras.
@@ -87,7 +92,7 @@ jobs:
           contenido_final = f'''---
           title: \"{titulo}\"
           description: \"{descripcion}\"
-          seccion: \"${{ { { github.event.inputs.seccion } } }}\"
+          seccion: \"{seccion}\"
           autor: \"Emilio Lahitte\"
           date: {fecha_actual}
           ---
@@ -96,7 +101,7 @@ jobs:
           '''
 
           g = Github(os.environ['GH_TOKEN'])
-          repo = g.get_repo('${{ github.repository }}')
+          repo = g.get_repo(os.environ['REPO_NAME'])
 
           path_archivo = f'src/content/articulos/{fecha_actual}-{slug_nota}.md'
 
@@ -108,3 +113,4 @@ jobs:
           )
           print('Nota guardada con éxito')
           "
+
