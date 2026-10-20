@@ -3,6 +3,8 @@ title: "Carolina Moisés desafía al kirchnerismo y reivindica la autonomía pol
 volanta: "PERONISMO DEL INTERIOR | DEBATE POLÍTICO"
 description: "La senadora jujeña defendió a Osvaldo Jaldo frente a los cuestionamientos de Teresa García y reabrió la discusión sobre el papel de los gobernadores, la conducción kirchnerista y las negociaciones con el Gobierno nacional."
 section: argentina
+heroImage: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mar%C3%ADa_Carolina_Moises.png"
+imageCaption: "Carolina Moisés. Fotografía: Honorable Senado de la Nación Argentina, vía Wikimedia Commons (dominio público)."
 author: "Diario Federal"
 pubDate: 2026-10-20T12:45:00-03:00
 tags: ["Carolina Moisés", "Osvaldo Jaldo", "Teresa García", "Kirchnerismo", "Peronismo", "Gobernadores"]
@@ -14,6 +16,10 @@ La senadora nacional por Jujuy **Carolina Moisés** volvió a ocupar el centro d
 El intercambio se produjo después de las celebraciones del Día de la Lealtad del 17 de octubre y volvió a instalar el debate sobre el papel de las provincias en la conducción del justicialismo.
 
 ## La defensa de Jaldo y el cuestionamiento de García
+
+![Osvaldo Jaldo, fotografía de archivo de 2018](https://commons.wikimedia.org/wiki/Special:Redirect/file/Osvaldo_Jaldo.jpg)
+
+*Osvaldo Jaldo. Fotografía de archivo (2018): Mauro Rico / Ministerio de Cultura de la Nación, CC BY-SA 2.0, vía Wikimedia Commons.*
 
 El gobernador tucumano reivindicó la autonomía de su provincia durante la conmemoración peronista. García cuestionó su posicionamiento político y los acuerdos que sectores vinculados al mandatario mantienen con el Gobierno de Javier Milei.
 
@@ -28,6 +34,10 @@ La reivindicación del federalismo partidario no constituye un planteo aislado d
 El reclamo tiene un trasfondo institucional: los gobernadores administran territorios con estructuras económicas, demandas de infraestructura y necesidades fiscales diferentes. Pero la discusión también plantea qué límites deben tener las negociaciones con el Poder Ejecutivo cuando las decisiones parlamentarias afectan políticas nacionales.
 
 La autonomía provincial y la coherencia programática no son conceptos necesariamente incompatibles. Su articulación depende del contenido concreto de los acuerdos y de la capacidad de construir objetivos compartidos.
+
+![Teresa García, fotografía institucional de archivo](https://commons.wikimedia.org/wiki/Special:Redirect/file/Mar%C3%ADa_Teresa_Garc%C3%ADa.png)
+
+*Teresa García. Fotografía institucional de archivo (2017): Cámara de Diputados de la Nación, vía Wikimedia Commons (dominio público).*
 
 ## El papel del kirchnerismo
 
