@@ -3,8 +3,8 @@ title: "Carolina Moisés desafía al kirchnerismo y reivindica la autonomía pol
 volanta: "PERONISMO DEL INTERIOR | DEBATE POLÍTICO"
 description: "La senadora jujeña defendió a Osvaldo Jaldo frente a los cuestionamientos de Teresa García y reabrió la discusión sobre el papel de los gobernadores, la conducción kirchnerista y las negociaciones con el Gobierno nacional."
 section: argentina
-heroImage: "https://commons.wikimedia.org/wiki/Special:Redirect/file/Mar%C3%ADa_Carolina_Moises.png"
-imageCaption: "Carolina Moisés. Fotografía: Honorable Senado de la Nación Argentina, vía Wikimedia Commons (dominio público)."
+heroImage: "https://commons.wikimedia.org/wiki/Special:FilePath/CarolinaMois%C3%A9swikipedia.jpg"
+imageCaption: "Carolina Moisés. Fotografía de archivo: Carolina Moisés / Wikimedia Commons, licencia CC BY-SA 3.0."
 author: "Diario Federal"
 pubDate: 2026-10-20T12:45:00-03:00
 tags: ["Carolina Moisés", "Osvaldo Jaldo", "Teresa García", "Kirchnerismo", "Peronismo", "Gobernadores"]
