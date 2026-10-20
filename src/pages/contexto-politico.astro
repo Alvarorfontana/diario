@@ -30,9 +30,9 @@ const categories = ['Guerra y geopolítica','Pensamiento y sociedad','Historia, 
 const validDate = (date: string) => date && Number.isFinite(Date.parse(date));
 const safeImage = (url: string) => /^https:\/\//i.test(url) ? url : '';
 ---
-<BaseLayout title="Contexto Político | Diario Federal" description="Artículos de análisis, historia y geopolítica de Álvaro Fontana publicados en Substack.">
+<BaseLayout title="Contexto Político | Diario Federal" description="Artículos de análisis, historia, geopolítica y pensamiento en Diario Federal.">
   <section class="border-t-4 border-red-700 pt-8 pb-10">
-    <p class="text-xs font-bold uppercase tracking-[.2em] text-red-700">Diario Federal · Publicaciones de Álvaro Fontana</p>
+    <p class="text-xs font-bold uppercase tracking-[.2em] text-red-700">Diario Federal · Análisis e historia</p>
     <h1 class="mt-3 font-serif text-4xl font-black text-neutral-900 sm:text-6xl">Contexto Político</h1>
     <p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600">Crónicas y análisis para comprender los acontecimientos internacionales, su historia y sus consecuencias. Los textos completos se leen en Substack.</p>
     <a href={sourceUrl} target="_blank" rel="noopener noreferrer" class="mt-5 inline-block text-sm font-bold text-red-700 underline">Visitar Contexto Político en Substack ↗</a>
