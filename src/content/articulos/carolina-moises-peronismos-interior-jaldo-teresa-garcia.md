@@ -11,7 +11,7 @@ draft: false
 
 La senadora nacional por Jujuy **Carolina Moisés** volvió a ocupar el centro de una discusión dentro del justicialismo. Su defensa del gobernador tucumano **Osvaldo Jaldo** frente a los cuestionamientos de **Teresa García** puso en primer plano el reclamo de autonomía de los peronismos provinciales y la relación entre las conducciones partidarias y los representantes del interior.
 
-La controversia fue reconstruida por [Letra P](https://www.letrap.com.ar/politica/carolina-moises-salto-defensa-jaldo-y-cruzo-teresa-garcia-nombre-los-peronismos-del-interior-n5427476) después de las celebraciones del Día de la Lealtad del 17 de octubre.
+El intercambio se produjo después de las celebraciones del Día de la Lealtad del 17 de octubre y volvió a instalar el debate sobre el papel de las provincias en la conducción del justicialismo.
 
 ## La defensa de Jaldo y el cuestionamiento de García
 
