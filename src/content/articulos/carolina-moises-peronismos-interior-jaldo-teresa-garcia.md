@@ -2,7 +2,7 @@
 title: "Carolina Moisés desafía al kirchnerismo y reivindica la autonomía política de los gobernadores"
 volanta: "PERONISMO DEL INTERIOR | DEBATE POLÍTICO"
 description: "La senadora jujeña defendió a Osvaldo Jaldo frente a los cuestionamientos de Teresa García y reabrió la discusión sobre el papel de los gobernadores, la conducción kirchnerista y las negociaciones con el Gobierno nacional."
-section: politica
+section: argentina
 author: "Diario Federal"
 pubDate: 2026-10-20T12:45:00-03:00
 tags: ["Carolina Moisés", "Osvaldo Jaldo", "Teresa García", "Kirchnerismo", "Peronismo", "Gobernadores"]
