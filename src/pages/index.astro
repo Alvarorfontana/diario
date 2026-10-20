@@ -10,11 +10,10 @@ import { getArticulos } from '../lib/articles';
 
 const articulos = await getArticulos();
 
-const alerta = articulos.find((a) => a.breaking) ?? null;
+const notaRiesgoPais = articulos.find((a) => a.slug === 'riesgo-pais-700-puntos-deuda-2027') ?? null;
+const alerta = notaRiesgoPais ?? articulos.find((a) => a.breaking) ?? null;
 const restoAlerta = alerta ? articulos.filter((a) => a.id !== alerta.id) : articulos;
-const notaRiesgoPais = restoAlerta.find((a) => a.slug === 'riesgo-pais-700-puntos-deuda-2027');
-const portadaOrdenada = notaRiesgoPais ? [notaRiesgoPais, ...restoAlerta.filter((a) => a.id !== notaRiesgoPais.id)] : restoAlerta;
-const [principal, ...resto] = portadaOrdenada;
+const [principal, ...resto] = restoAlerta;
 const ultimos = resto.slice(0, 6);
 const destacados = resto.slice(6, 12);
 const seccionesPortada = ['internacional', 'argentina', 'economia', 'deportes', 'cultura', 'tecnologia']
@@ -24,6 +23,38 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage="/images/diario-federal-whatsapp.jpg">
+
+
+	<!-- ÚLTIMO MOMENTO -->
+	{alerta && (
+		<article class="border-t-4 border-neutral-900">
+			<a href={`/articulo/${alerta.slug}/`} class="group block">
+				<p class="mt-4 inline-flex items-center gap-2 bg-neutral-900 px-3 py-2 text-xs font-bold text-white uppercase tracking-wider">
+					<span class="relative flex h-2 w-2">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+						<span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
+					</span>
+					Último momento
+				</p>
+				<h1 class="mt-4 font-serif text-4xl leading-[1.05] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-5xl lg:text-6xl">
+					{alerta.title}
+				</h1>
+				<p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600 sm:text-xl">
+					{alerta.excerpt}
+				</p>
+			</a>
+			{alerta.image_url && (
+				<a href={`/articulo/${alerta.slug}/`} class="mt-6 block overflow-hidden">
+					<img src={alerta.image_url} alt="" class="w-full object-cover" />
+				</a>
+			)}
+			<p class="mt-3 mb-8 text-xs tracking-wide text-neutral-400 uppercase">
+				<FormattedDate date={alerta.date} />
+			</p>
+		</article>
+	)}
+
+
 
 	<!-- LEAD STORY -->
 	{principal && (
@@ -67,35 +98,6 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 			</span>
 		</div>
 	</div>
-
-	<!-- ÚLTIMO MOMENTO -->
-	{alerta && (
-		<article class="border-t-4 border-neutral-900">
-			<a href={`/articulo/${alerta.slug}/`} class="group block">
-				<p class="mt-4 inline-flex items-center gap-2 bg-neutral-900 px-3 py-2 text-xs font-bold text-white uppercase tracking-wider">
-					<span class="relative flex h-2 w-2">
-						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-						<span class="relative inline-flex rounded-full h-2 w-2 bg-red-600"></span>
-					</span>
-					Último momento
-				</p>
-				<h1 class="mt-4 font-serif text-4xl leading-[1.05] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-5xl lg:text-6xl">
-					{alerta.title}
-				</h1>
-				<p class="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-600 sm:text-xl">
-					{alerta.excerpt}
-				</p>
-			</a>
-			{alerta.image_url && (
-				<a href={`/articulo/${alerta.slug}/`} class="mt-6 block overflow-hidden">
-					<img src={alerta.image_url} alt="" class="w-full object-cover" />
-				</a>
-			)}
-			<p class="mt-3 mb-8 text-xs tracking-wide text-neutral-400 uppercase">
-				<FormattedDate date={alerta.date} />
-			</p>
-		</article>
-	)}
 
 
 	<!-- SECUNDARIAS + SIDEBAR -->
