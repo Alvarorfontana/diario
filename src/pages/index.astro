@@ -25,6 +25,22 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage="/images/diario-federal-whatsapp.jpg">
 
 
+	<!-- TICKER -->
+	<div class="mb-6 -mx-4 flex items-stretch overflow-hidden bg-neutral-950 sm:-mx-6 lg:-mx-8">
+		<span class="flex flex-shrink-0 items-center gap-2 bg-neutral-900 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-white uppercase">
+			<span class="inline-block h-2 w-2 rounded-full bg-white animate-pulse"></span>
+			Último momento
+		</span>
+		<div class="flex flex-1 items-center overflow-hidden pl-4 text-[13px] font-medium text-neutral-200">
+			<span class="whitespace-nowrap">
+				{alerta ? `${alerta.title}  •  ` : ''}
+				{ultimos.slice(0, 3).map((a) => `${a.title}  •  `).join('')}
+			</span>
+		</div>
+	</div>
+
+
+
 	<!-- ÚLTIMO MOMENTO -->
 	{alerta && (
 		<article class="border-t-4 border-neutral-900">
@@ -84,20 +100,6 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 	)}
 
 
-
-	<!-- TICKER -->
-	<div class="mb-6 -mx-4 flex items-stretch overflow-hidden bg-neutral-950 sm:-mx-6 lg:-mx-8">
-		<span class="flex flex-shrink-0 items-center gap-2 bg-neutral-900 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-white uppercase">
-			<span class="inline-block h-2 w-2 rounded-full bg-white animate-pulse"></span>
-			Último momento
-		</span>
-		<div class="flex flex-1 items-center overflow-hidden pl-4 text-[13px] font-medium text-neutral-200">
-			<span class="whitespace-nowrap">
-				{alerta ? `${alerta.title}  •  ` : ''}
-				{ultimos.slice(0, 3).map((a) => `${a.title}  •  `).join('')}
-			</span>
-		</div>
-	</div>
 
 
 	<!-- SECUNDARIAS + SIDEBAR -->
