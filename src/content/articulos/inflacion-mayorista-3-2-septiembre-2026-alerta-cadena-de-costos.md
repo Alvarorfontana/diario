@@ -5,7 +5,7 @@ description: 'El diferencial entre la inflación al consumidor y al por mayor vu
 section: economia
 author: 'Redacción económica'
 pubDate: 2026-10-16T09:30:00
-ultimoMomento: true
+ultimoMomento: false
 tags: ['Inflación', 'Economía', 'INDEC']
 heroImage: '/uploads/2026-10-16-inflacion-mayorista-pyme-verduleria.jpg'
 imageCaption: 'Un comercio de barrio: la aceleración de costos mayoristas presiona sobre pymes y comercios. Foto: Fernando Martello / Wikimedia Commons (CC BY-SA 4.0).'
