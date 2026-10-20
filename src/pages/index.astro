@@ -25,6 +25,35 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage="/images/diario-federal-whatsapp.jpg">
 
+	<!-- LEAD STORY -->
+	{principal && (
+		<div class="grid items-start gap-8 border-t border-neutral-200 pt-8 pb-10 lg:grid-cols-2">
+			<a href={urlPrincipal} class="group block">
+				<p class="text-xs font-bold tracking-[0.2em] text-brand uppercase">
+					{nombreSeccion(principal.section)}
+				</p>
+				<h2 class="titular-link mt-3 font-serif text-3xl leading-[1.08] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-4xl lg:text-5xl">
+					{principal.title}
+				</h2>
+				<p class="mt-4 text-lg leading-relaxed text-neutral-600">{principal.excerpt}</p>
+				<p class="mt-4 text-xs font-medium tracking-wide text-neutral-400 uppercase">
+					<FormattedDate date={principal.date} />
+				</p>
+			</a>
+			<a href={urlPrincipal} class="block overflow-hidden">
+				{principal.image_url ? (
+					<img src={principal.image_url} alt="" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
+				) : (
+					<div class="flex aspect-[4/3] w-full items-center justify-center bg-neutral-100 font-serif text-6xl font-bold text-neutral-300">
+						EL DIARIO<span class="text-brand">.</span>
+					</div>
+				)}
+			</a>
+		</div>
+	)}
+
+
+
 	<!-- TICKER -->
 	<div class="mb-6 -mx-4 flex items-stretch overflow-hidden bg-neutral-950 sm:-mx-6 lg:-mx-8">
 		<span class="flex flex-shrink-0 items-center gap-2 bg-neutral-900 px-4 py-2 text-[11px] font-extrabold tracking-[0.15em] text-white uppercase">
@@ -68,32 +97,6 @@ const urlPrincipal = principal ? `/articulo/${principal.slug}/` : '/';
 		</article>
 	)}
 
-	<!-- LEAD STORY -->
-	{principal && (
-		<div class="grid items-start gap-8 border-t border-neutral-200 pt-8 pb-10 lg:grid-cols-2">
-			<a href={urlPrincipal} class="group block">
-				<p class="text-xs font-bold tracking-[0.2em] text-brand uppercase">
-					{nombreSeccion(principal.section)}
-				</p>
-				<h2 class="titular-link mt-3 font-serif text-3xl leading-[1.08] font-black tracking-tight text-neutral-900 transition-colors group-hover:text-brand sm:text-4xl lg:text-5xl">
-					{principal.title}
-				</h2>
-				<p class="mt-4 text-lg leading-relaxed text-neutral-600">{principal.excerpt}</p>
-				<p class="mt-4 text-xs font-medium tracking-wide text-neutral-400 uppercase">
-					<FormattedDate date={principal.date} />
-				</p>
-			</a>
-			<a href={urlPrincipal} class="block overflow-hidden">
-				{principal.image_url ? (
-					<img src={principal.image_url} alt="" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]" />
-				) : (
-					<div class="flex aspect-[4/3] w-full items-center justify-center bg-neutral-100 font-serif text-6xl font-bold text-neutral-300">
-						EL DIARIO<span class="text-brand">.</span>
-					</div>
-				)}
-			</a>
-		</div>
-	)}
 
 	<!-- SECUNDARIAS + SIDEBAR -->
 	<div class="grid gap-10 border-t border-neutral-200 pt-8 lg:grid-cols-3">
