@@ -5,7 +5,7 @@ description: "El indicador alcanzó los 710 puntos durante la jornada. Los inver
 section: economia
 author: "Redacción Diario Federal"
 pubDate: 2026-10-20T16:30:00-03:00
-heroImage: "/images/milei-caputo-rural-2025.jpg"
+heroImage: "https://www.argentina.gob.ar/sites/default/files/karinajavierrural2025.jpg"
 imageCaption: "Javier Milei y Luis Caputo junto a Karina Milei en una actividad oficial de julio de 2025. Foto de archivo: Gobierno argentino, CC BY 4.0, vía Wikimedia Commons."
 tags: ["Riesgo país", "Deuda externa", "Javier Milei", "Luis Caputo", "Economía"]
 draft: false
