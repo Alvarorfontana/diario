@@ -3,7 +3,7 @@ title: "La motosierra incomoda a Vox: Abascal evita recibir a Milei en plena cam
 volanta: "ESPAÑA | ELECCIONES DEL 29-N"
 description: "El presidente argentino llegó a Madrid para reencontrarse con sus aliados de la derecha española, pero Santiago Abascal no estará en la foto. Las pensiones, la vivienda y el temor a quedar asociado al ajuste argentino atraviesan la campaña de Vox."
 section: internacional
-author: "Álvaro Fontana"
+author: "Redacción"
 pubDate: 2026-10-20T23:55:00-03:00
 heroImage: "/images/milei-abascal-redes.jpg"
 imageCaption: "Javier Milei y Santiago Abascal en uno de sus encuentros anteriores. Esta vez, el líder de Vox no estará en la foto. Foto: redes sociales."
