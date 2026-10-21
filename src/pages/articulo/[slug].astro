@@ -109,7 +109,7 @@ const schema = {
 					{(author || 'R').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
 				</div>
 				<div>
-					<p class="text-sm font-semibold text-neutral-900">{author || 'Redacción'}</p>
+					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="text-sm font-semibold text-neutral-900 hover:text-brand">{author || 'Redacción'}</a>
 					<p class="text-xs text-neutral-500">
 						<FormattedDate date={fecha} />
 					</p>

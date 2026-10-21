@@ -55,3 +55,13 @@ export function slugify(texto: string): string {
 export const FOTOS_COLUMNISTAS: Record<string, string> = {
 	// 'Álvaro Fontana': '/columnistas/alvaro-fontana.jpg',
 };
+
+// Ficha de cada autor para su página (/autor/<nombre>/). Agregá una línea por autor con el nombre
+// tal cual figura en las notas. Todo es opcional: sin bio ni foto, la página muestra las iniciales.
+export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
+	// 'Álvaro Fontana': { bio: 'Periodista y especialista en políticas públicas.', foto: '/columnistas/alvaro-fontana.jpg' },
+};
+
+export function fotoAutor(nombre: string): string | undefined {
+	return AUTORES[nombre]?.foto ?? FOTOS_COLUMNISTAS[nombre];
+}

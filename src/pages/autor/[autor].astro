@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { SITE_TITLE, AUTORES, fotoAutor, slugify } from '../../consts';
+import { getArticulos } from '../../lib/articles';
+
+export const prerender = false;
+
+// Página de autor: foto, bio y todas sus notas (como en El País o el Guardian).
+const { autor } = Astro.params;
+const notas = (await getArticulos()).filter((a) => slugify(a.author || '') === autor);
+if (!autor || notas.length === 0) {
+	return Astro.redirect('/404');
+}
+
+const nombre = notas[0].author;
+const ficha = AUTORES[nombre] ?? {};
+const foto = fotoAutor(nombre);
+const iniciales = nombre.split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
+---
+
+<BaseLayout title={`${nombre} | ${SITE_TITLE}`} description={ficha.bio ?? `Todas las notas de ${nombre} en ${SITE_TITLE}.`}>
+	<section class="tarjeta flex flex-col items-start gap-5 p-6 sm:flex-row sm:items-center sm:p-8">
+		{foto ? (
+			<img src={foto} alt="" class="h-24 w-24 shrink-0 rounded-full object-cover" />
+		) : (
+			<span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-ink font-display text-3xl font-extrabold text-white" aria-hidden="true">{iniciales}</span>
+		)}
+		<div>
+			<p class="text-xs font-bold tracking-[0.12em] text-brand uppercase">Autor</p>
+			<h1 class="mt-1 font-display text-3xl font-extrabold tracking-[-0.015em] text-ink sm:text-4xl">{nombre}</h1>
+			{ficha.bio && <p class="mt-2 max-w-2xl text-neutral-600">{ficha.bio}</p>}
+			<p class="mt-2 text-sm text-neutral-500">{notas.length} {notas.length === 1 ? 'nota publicada' : 'notas publicadas'}</p>
+		</div>
+	</section>
+
+	<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+		{notas.map((articulo) => <ArticleCard article={articulo} />)}
+	</div>
+</BaseLayout>
