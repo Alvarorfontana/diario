@@ -18,6 +18,11 @@ if (!slug) {
 	return Astro.redirect('/404');
 }
 
+// La nota no cambia entre despliegues: la CDN de Vercel la guarda y la sirve al instante.
+// Cada despliegue nuevo invalida esta caché, así que una corrección aparece al publicarla.
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, must-revalidate');
+Astro.response.headers.set('CDN-Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+
 const todos = await getArticulos();
 const articulo = todos.find((a) => a.slug === slug);
 

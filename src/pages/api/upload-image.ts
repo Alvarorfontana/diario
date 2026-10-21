@@ -4,6 +4,7 @@ import { isAdmin } from '../../lib/auth';
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
 import { getRepo } from '../../lib/repo';
 import { getDataRepo, writeData } from '../../lib/datastore';
+import { optimizarSubida } from '../../lib/imagenes';
 
 const UPLOAD_DIR = 'public/uploads';
 const MAX_BYTES = 3_000_000;
@@ -47,7 +48,15 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		if (!file.type.startsWith('image/')) return json({ ok: false, error: 'El archivo no es una imagen' }, 400);
 		if (file.size > MAX_BYTES) return json({ ok: false, error: 'La imagen pesa demasiado (máx. 3 MB)' }, 400);
 
-		const ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+		// Fotos: se achican a 1600 px y se guardan en JPG (~200-400 KB). Así cargan rápido en el
+		// celular y WhatsApp no descarta la vista previa por peso. GIF y SVG quedan como vienen.
+		let bytes = new Uint8Array(await file.arrayBuffer());
+		let ext = (file.name.split('.').pop() || 'jpg').toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
+		const optimizada = await optimizarSubida(bytes, file.type);
+		if (optimizada) {
+			bytes = optimizada;
+			ext = 'jpg';
+		}
 		const base =
 			file.name
 				.replace(/\.[^.]+$/, '')
@@ -60,7 +69,6 @@ export const POST = async ({ request, locals }: ApiContext) => {
 		const fileName = `${Date.now()}-${base}.${ext}`;
 		const path = `${UPLOAD_DIR}/${fileName}`;
 
-		const bytes = new Uint8Array(await file.arrayBuffer());
 		// Con repo de datos privado: la foto va ahí y se sirve al instante por /media/,
 		// sin disparar un despliegue del sitio ni esperar a que se publique.
 		if (getDataRepo(env).separate) {

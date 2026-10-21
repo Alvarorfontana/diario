@@ -79,3 +79,21 @@ export async function redimensionarAncho(entrada: Buffer, ancho: number): Promis
 		.jpeg({ quality: 78, mozjpeg: true, chromaSubsampling: '4:2:0' })
 		.toBuffer();
 }
+
+// Foto subida desde el panel: máximo 1600 px de ancho, JPG de buena calidad.
+// Devuelve null si no conviene tocarla (GIF animado, SVG) o si sharp no puede leerla:
+// en ese caso se guarda el archivo original, como antes.
+export async function optimizarSubida(entrada: Uint8Array, tipo: string): Promise<Uint8Array | null> {
+	if (!/^image\/(jpe?g|png|webp|avif|heic|heif)$/i.test(tipo)) return null;
+	try {
+		const salida = await sharp(Buffer.from(entrada), { failOn: 'none' })
+			.rotate()
+			.resize(1600, null, { withoutEnlargement: true })
+			.flatten({ background: '#ffffff' })
+			.jpeg({ quality: 82, mozjpeg: true, progressive: true })
+			.toBuffer();
+		return new Uint8Array(salida);
+	} catch {
+		return null;
+	}
+}
