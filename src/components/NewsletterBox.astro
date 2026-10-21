@@ -32,6 +32,11 @@
 				Suscribirme
 			</button>
 		</div>
+		<!-- Boletines temáticos: aparecen solo los que están configurados en Brevo -->
+		<fieldset id="newsletter-temas" class="hidden text-left">
+			<legend class="mb-2 text-xs font-semibold text-neutral-300">Sumá también los boletines temáticos que quieras:</legend>
+			<div id="newsletter-temas-lista" class="grid gap-2 sm:grid-cols-3"></div>
+		</fieldset>
 		<label class="flex items-start gap-2 text-left text-xs leading-relaxed text-neutral-400">
 			<input type="checkbox" name="consent" required class="mt-0.5 h-4 w-4 shrink-0 accent-brand" />
 			<span>
@@ -46,6 +51,26 @@
 </section>
 
 <script is:inline>
+	fetch('/api/newsletter/temas')
+		.then(function (r) { return r.ok ? r.json() : null; })
+		.then(function (d) {
+			if (!d || !d.temas || !d.temas.length) return;
+			var lista = document.getElementById('newsletter-temas-lista');
+			d.temas.forEach(function (t) {
+				var label = document.createElement('label');
+				label.className = 'flex cursor-pointer items-start gap-2.5 rounded-xl border border-neutral-700 bg-[#232328] p-3 text-sm text-white';
+				var cb = document.createElement('input');
+				cb.type = 'checkbox'; cb.name = 'temas'; cb.value = t.id; cb.className = 'mt-0.5 h-4 w-4 shrink-0 accent-brand';
+				var txt = document.createElement('span');
+				var n = document.createElement('span'); n.className = 'block font-bold'; n.textContent = t.nombre;
+				var dd = document.createElement('span'); dd.className = 'mt-0.5 block text-xs text-neutral-400'; dd.textContent = t.descripcion;
+				txt.appendChild(n); txt.appendChild(dd); label.appendChild(cb); label.appendChild(txt);
+				lista.appendChild(label);
+			});
+			document.getElementById('newsletter-temas').classList.remove('hidden');
+		})
+		.catch(function () {});
+
 	document.getElementById('newsletter-form')?.addEventListener('submit', async (e) => {
 		e.preventDefault();
 		const form = e.target;
@@ -75,7 +100,7 @@
 			const res = await fetch('/api/newsletter/subscribe', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, consent, website }),
+				body: JSON.stringify({ email, consent, website, temas: data.getAll('temas').map(String) }),
 			});
 			const out = await res.json();
 

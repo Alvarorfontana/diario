@@ -38,7 +38,8 @@ export const POST = async ({ request, locals }: { request: Request; locals?: unk
 			return json({ ok: false, error: 'El boletín todavía no está configurado. Probá más tarde.' }, 503);
 		}
 
-		const r = await subscribe(cfg, email);
+		const temas = Array.isArray(body.temas) ? body.temas.map((t) => String(t)).slice(0, 5) : [];
+		const r = await subscribe(cfg, email, temas);
 
 		if (r.ok) {
 			return json({

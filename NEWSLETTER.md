@@ -58,3 +58,15 @@ del día y disparar el envío por API.
 - `src/pages/newsletter/confirmado.astro` — página al confirmar.
 - `src/pages/newsletter/baja.astro` — página de baja.
 - `.env.example` — variables de entorno.
+
+## Boletines temáticos (Mesa Política, Pulso Federal, Agenda Económica)
+Además del boletín general, el formulario ofrece boletines temáticos. Cada uno es una lista
+aparte en Brevo:
+1. En **Contacts > Lists**, crear una lista por boletín y anotar su ID.
+2. En Vercel, cargar las variables que correspondan y redeployar:
+   - `BREVO_LIST_MESA_POLITICA`
+   - `BREVO_LIST_PULSO_FEDERAL`
+   - `BREVO_LIST_AGENDA_ECONOMICA`
+3. Solo aparecen en el formulario los boletines que tienen su variable cargada. El lector
+   siempre queda en la lista general y, además, en los temáticos que marque.
+4. Para enviar uno, en **Campaigns** se elige como destinatario la lista de ese boletín.

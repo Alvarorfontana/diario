@@ -10,6 +10,7 @@ import FranjaMercados from '../components/FranjaMercados.astro';
 import BloqueEnVivo from '../components/BloqueEnVivo.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion, FOTOS_COLUMNISTAS } from '../consts';
 import { getArticulos } from '../lib/articles';
+import { masLeidas } from '../lib/visitas';
 
 const articulos = await getArticulos();
 
@@ -30,6 +31,13 @@ seccionesPortada.forEach((a) => yaMostradas.add(a.id));
 
 // Opinión con caras: las últimas columnas que no aparecieron más arriba.
 const opinion = articulos.filter((a) => a.section === 'opinion' && !yaMostradas.has(a.id)).slice(0, 3);
+// Lo más leído: ranking real de visitas (si la base de visitas está conectada en Vercel).
+const slugsMasLeidas = await masLeidas(8, Astro.locals);
+const masLeidasNotas = slugsMasLeidas
+	.map((s) => articulos.find((a) => a.slug === s))
+	.filter((a): a is NonNullable<typeof a> => Boolean(a))
+	.slice(0, 5);
+
 const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
 
 // Último momento: las notas marcadas en el panel, y si no hay, las más recientes.
@@ -104,6 +112,21 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 		</section>
 
 		<aside class="flex flex-col gap-6">
+			{masLeidasNotas.length >= 3 && (
+				<section class="tarjeta p-5">
+					<h2 class="titulo-seccion mb-2 text-xl">Lo más leído</h2>
+					<ol>
+						{masLeidasNotas.map((a, i) => (
+							<li class="border-b border-[#eeeeea] last:border-0">
+								<a href={`/articulo/${a.slug}/`} class="group flex items-start gap-3 py-3">
+									<span class="w-7 shrink-0 font-display text-[28px] leading-none font-extrabold text-brand">{i + 1}</span>
+									<span class="font-display text-[15px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
+								</a>
+							</li>
+						))}
+					</ol>
+				</section>
+			)}
 			<section class="tarjeta p-5">
 				<h2 class="titulo-seccion mb-2 text-xl">Lo último</h2>
 				<ol>
