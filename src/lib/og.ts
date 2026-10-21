@@ -21,7 +21,7 @@ export function ogVersion(seed: string): string {
 
 // Ruta relativa de la imagen de vista previa de una nota.
 export function ogImagePath(slug: string, imageUrl?: string | null): string {
-	const v = ogVersion(`${slug}|${imageUrl ?? ''}`);
+	const v = ogVersion(`${slug}|${imageUrl ?? ''}|og2`);
 	return `/api/og/${encodeURIComponent(slug)}.jpg?v=${v}`;
 }
 

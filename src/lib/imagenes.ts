@@ -44,21 +44,21 @@ export async function recortarPortada(entrada: Buffer): Promise<Buffer> {
 	const h = meta.height ?? 0;
 	if (!w || !h) throw new Error('sin dimensiones');
 
-	if (w >= OG_WIDTH || h >= OG_HEIGHT) {
+	// Fotos medianas o grandes (desde 600 px de ancho): ocupan toda la vista previa.
+	// Antes, las de menos de 1200 px quedaban chicas sobre un fondo difuminado, y en WhatsApp
+	// la nota se veía borrosa. Ampliar un poco una foto mediana se ve mucho mejor que ese marco.
+	if (w >= 600 || w >= OG_WIDTH || h >= OG_HEIGHT) {
 		return sharp(entrada, { failOn: 'none' })
 			.rotate()
-			.resize(OG_WIDTH, OG_HEIGHT, { fit: 'cover', position: 'attention' })
-			.jpeg({ quality: 80, mozjpeg: true, chromaSubsampling: '4:2:0' })
+			.resize(OG_WIDTH, OG_HEIGHT, { fit: 'cover', position: 'attention', kernel: 'lanczos3' })
+			.sharpen({ sigma: 0.6 })
+			.jpeg({ quality: 82, mozjpeg: true, chromaSubsampling: '4:2:0' })
 			.toBuffer();
 	}
 
-	// Foto más chica que la portada: fondo difuminado (cover) + foto centrada (contain).
-	const fondo = await sharp(entrada, { failOn: 'none' })
-		.rotate()
-		.resize(OG_WIDTH, OG_HEIGHT, { fit: 'cover' })
-		.blur(40)
-		.modulate({ brightness: 0.85 })
-		.jpeg({ quality: 70 })
+	// Foto muy chica: centrada sobre un fondo liso oscuro (sin difuminar).
+	const fondo = await sharp({ create: { width: OG_WIDTH, height: OG_HEIGHT, channels: 3, background: '#16161a' } })
+		.jpeg({ quality: 90 })
 		.toBuffer();
 	const foto = await sharp(entrada, { failOn: 'none' })
 		.rotate()

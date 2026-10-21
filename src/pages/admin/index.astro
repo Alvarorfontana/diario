@@ -565,10 +565,12 @@ if (Astro.request.method === 'POST') {
 				var img = new Image(); var url = URL.createObjectURL(file);
 				img.onload = async function () {
 					try {
+						// Primero se intenta mantener 1200 px de ancho bajando la calidad: una foto angosta
+						// se ve borrosa en la vista previa de WhatsApp.
 						var widths = [1200, 1000, 800];
 						var blob = null;
 						for (var w = 0; w < widths.length; w++) {
-							for (var q = 0.82; q >= 0.5; q -= 0.08) {
+							for (var q = 0.82; q >= 0.4; q -= 0.06) {
 								blob = await encodeJpeg(img, widths[w], q);
 								if (blob.size <= MAX_BYTES) { URL.revokeObjectURL(url); return resolve(blob); }
 							}
@@ -585,6 +587,8 @@ if (Astro.request.method === 'POST') {
 			var file = $('heroFile').files[0];
 			if (!file) return;
 			$('upload-status').textContent = 'Subiendo foto...';
+			var ancho = await new Promise(function (ok) { var i = new Image(); i.onload = function () { ok(i.naturalWidth); URL.revokeObjectURL(i.src); }; i.onerror = function () { ok(0); }; i.src = URL.createObjectURL(file); });
+			var avisoChica = ancho && ancho < 1000 ? ' Ojo: la foto es chica (' + ancho + ' px de ancho). Si podés, usá una de al menos 1200 px para que se vea nítida en WhatsApp.' : '';
 			try {
 				var blob = await resizeImage(file);
 				var fd = new FormData();
@@ -594,7 +598,7 @@ if (Astro.request.method === 'POST') {
 				if (r.ok) {
 					$('image_url').value = r.url;
 					$('hero-preview').src = URL.createObjectURL(blob); $('hero-preview').classList.remove('hidden');
-					$('upload-status').textContent = 'Foto subida (' + Math.round(blob.size / 1024) + ' KB). Ahora guardá la nota.';
+					$('upload-status').textContent = 'Foto subida (' + Math.round(blob.size / 1024) + ' KB). Ahora guardá la nota.' + avisoChica;
 				} else $('upload-status').textContent = 'No se pudo subir: ' + (r.error || r.detail || 'error desconocido');
 			} catch (err) { $('upload-status').textContent = 'No se pudo subir la foto. Probá de nuevo.'; }
 		});

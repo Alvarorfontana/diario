@@ -28,7 +28,9 @@ export const GET: APIRoute = async ({ params, url, request }) => {
 			: new URL(articulo.image_url, url.origin).href;
 	}
 
-	const bytes = (fuente ? await descargarImagen(fuente) : null) ?? portadaMarca();
+	// Sin foto (o si falla la descarga): la imagen de la marca que también usa la portada.
+	const marca = async () => (await descargarImagen(new URL('/images/diario-federal-portada.jpg', url.origin).href)) ?? portadaMarca();
+	const bytes = (fuente ? await descargarImagen(fuente) : null) ?? (await marca());
 
 	let salida: Buffer;
 	try {
