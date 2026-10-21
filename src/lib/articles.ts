@@ -13,6 +13,7 @@ export interface Articulo {
 	imageCaption?: string;
 	tags: string[];
 	puntosClave: string[];
+	resumenCompartir?: string;
 	breaking: boolean;
 	entry: any;
 }
@@ -47,6 +48,7 @@ export async function getArticulos(): Promise<Articulo[]> {
 				imageCaption: d.imageCaption,
 				tags: d.tags ?? [],
 				puntosClave: (d.puntosClave ?? []).filter(Boolean).slice(0, 3),
+				resumenCompartir: d.resumenCompartir?.trim() || undefined,
 				breaking: d.ultimoMomento === true,
 				entry,
 			};

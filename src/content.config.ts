@@ -27,6 +27,8 @@ const articulos = defineCollection({
 			tags: z.array(z.string()).default([]),
 			// "Lo que tenés que saber": hasta 3 puntos de resumen que se muestran al principio de la nota
 			puntosClave: z.array(z.string()).default([]),
+			// Resumen de un renglón para la tarjeta de WhatsApp y redes (si falta, se usa la bajada)
+			resumenCompartir: z.string().optional(),
 		}),
 });
 

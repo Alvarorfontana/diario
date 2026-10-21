@@ -25,7 +25,7 @@ if (!articulo) {
 	return Astro.redirect('/404');
 }
 
-const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags, puntosClave } = articulo;
+const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags, puntosClave, resumenCompartir } = articulo;
 const { Content } = await render(articulo.entry);
 
 // Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
@@ -68,7 +68,7 @@ const schema = {
 
 <BaseLayout
 	title={`${title} | ${SITE_TITLE}`}
-	description={excerpt}
+	description={resumenCompartir || excerpt}
 	image={image_url}
 	ogImage={ogImage}
 	publishedTime={fecha}

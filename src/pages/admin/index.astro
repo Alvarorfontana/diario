@@ -149,6 +149,11 @@ if (Astro.request.method === 'POST') {
 								<textarea id="excerpt" required></textarea>
 							</div>
 							<div class="form-group">
+								<label for="resumenCompartir">Resumen para compartir (opcional): un renglón para WhatsApp y redes</label>
+								<input type="text" id="resumenCompartir" maxlength="120" placeholder="Si lo dejás vacío, se usa la bajada" />
+								<p class="tip" id="resumenCompartir-cuenta" style="margin-top:4px">Hasta 90 caracteres se ve entero en WhatsApp.</p>
+							</div>
+							<div class="form-group">
 								<label for="section">Sección</label>
 								<select id="section">
 									{SECCIONES.map((s) => <option value={s.id}>{s.nombre}</option>)}
@@ -502,6 +507,7 @@ if (Astro.request.method === 'POST') {
 			$('date').value = new Date().toISOString().slice(0, 10);
 			$('author').value = 'Redacción';
 			$('hero-preview').classList.add('hidden'); $('upload-status').textContent = '';
+			$('resumenCompartir-cuenta').textContent = 'Hasta 90 caracteres se ve entero en WhatsApp.';
 			setContent('');
 		}
 		function abrirFormulario(titulo) {
@@ -528,6 +534,7 @@ if (Astro.request.method === 'POST') {
 				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
 				$('tags').value = (d.tags || []).join(', ');
 				$('puntosClave').value = (d.puntosClave || []).join('\n');
+				$('resumenCompartir').value = d.resumenCompartir || ''; $('resumenCompartir').dispatchEvent(new Event('input'));
 				if (d.image_url) { $('hero-preview').src = d.image_url; $('hero-preview').classList.remove('hidden'); }
 				setContent(r.body);
 				abrirFormulario('Editar nota');
@@ -603,6 +610,12 @@ if (Astro.request.method === 'POST') {
 			} catch (err) { $('upload-status').textContent = 'No se pudo subir la foto. Probá de nuevo.'; }
 		});
 
+		/* ---------- Resumen para compartir: contador de caracteres ---------- */
+		$('resumenCompartir').addEventListener('input', function () {
+			var n = $('resumenCompartir').value.length;
+			$('resumenCompartir-cuenta').textContent = n === 0 ? 'Hasta 90 caracteres se ve entero en WhatsApp.' : n + ' caracteres' + (n > 90 ? ' (WhatsApp puede cortarlo)' : ' (se ve entero en WhatsApp)');
+		});
+
 		/* ---------- Guardar ---------- */
 		$('create-form').addEventListener('submit', async function (e) {
 			e.preventDefault();
@@ -624,6 +637,7 @@ if (Astro.request.method === 'POST') {
 					breaking: $('breaking').checked, draft: $('draft').checked,
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
+					resumenCompartir: $('resumenCompartir').value.trim(),
 					puntosClave: $('puntosClave').value.split('\n').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3)
 				}
 			};

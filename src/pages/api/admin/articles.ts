@@ -83,6 +83,7 @@ export const GET = async ({ request, locals }: any) => {
 					imageCaption: data.imageCaption ?? '',
 					tags: Array.isArray(data.tags) ? data.tags : [],
 					puntosClave: Array.isArray(data.puntosClave) ? data.puntosClave : [],
+					resumenCompartir: data.resumenCompartir ?? '',
 				},
 				body: mdToHtml(body.trim()),
 			});
@@ -114,6 +115,8 @@ export const POST = async ({ request, locals }: any) => {
 		fm.tags = Array.isArray(data.tags) ? data.tags : [];
 		const puntos = Array.isArray(data.puntosClave) ? data.puntosClave.map((p: any) => String(p).trim()).filter(Boolean).slice(0, 3) : [];
 		if (puntos.length) fm.puntosClave = puntos;
+		const resumen = String(data.resumenCompartir ?? '').trim().slice(0, 140);
+		if (resumen) fm.resumenCompartir = resumen;
 
 		const texto = `---\n${stringify(fm, { lineWidth: 0 })}---\n\n${htmlParaArchivo(content || '')}\n`;
 
