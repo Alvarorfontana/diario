@@ -95,36 +95,10 @@ Sin embargo, la seguridad previsional, el precio de la vivienda, el acceso a la 
 
 En ambos escenarios, la figura de Milei dejó de funcionar exclusivamente como referencia ideológica para convertirse también en un elemento de confrontación electoral.
 
-## La fotografía que no habrá
-
 <figure>
 <img src="/images/milei-abascal-silla-vacia.jpg" alt="Ilustración de dos sillas: la de Milei ocupada y la de Abascal vacía" />
 <figcaption>La reunión del 21 de octubre en la Fundación Disenso, sin Abascal. Ilustración: Diario Federal.</figcaption>
 </figure>
-
-La ausencia de Abascal no significa necesariamente el final de una alianza. Tampoco permite afirmar, por sí sola, que el presidente argentino haya perdido el respaldo de los votantes españoles.
-
-Pero sí representa un cambio respecto de las visitas anteriores.
-
-Durante años, la cercanía con Milei fue exhibida como una fortaleza política. Ahora, cuando las pensiones y la vivienda ocupan el centro de la campaña, esa asociación se encuentra sometida a un examen diferente. Del lado del Partido Popular, la cara de la visita será Díaz Ayuso.
-
-La política internacional de Milei privilegió la construcción de relaciones con dirigentes ideológicamente próximos, incluso al margen de los canales diplomáticos habituales: en ninguna de sus visitas a España se reunió con Pedro Sánchez ni con miembros de su Gobierno. Su séptima visita reproduce esa orientación, pero también deja expuestas algunas de sus limitaciones.
-
-## La motosierra y sus límites políticos
-
-La motosierra fue concebida como una promesa de ruptura: reducir el Estado, eliminar gastos considerados innecesarios y enfrentar a lo que Milei denomina la casta política.
-
-Sin embargo, el símbolo adquiere significados distintos según el contexto. Para sus partidarios representa la disciplina fiscal y la eliminación de privilegios. Para sus críticos expresa el deterioro de prestaciones públicas y la transferencia de los costos del ajuste hacia los sectores vulnerables.
-
-Esa disputa atraviesa ahora las campañas de España y Brasil.
-
-La pregunta de Lula a Flávio Bolsonaro y la ausencia de Abascal durante la visita de Milei no constituyen pruebas de un rechazo electoral generalizado al mandatario argentino. Pero sí muestran cómo sus políticas pueden convertirse en un problema de comunicación y posicionamiento para dirigentes que históricamente lo respaldaron.
-
-La paradoja es que Milei viaja a Europa para proyectar internacionalmente su modelo, mientras algunos de sus aliados necesitan explicar ante sus votantes hasta dónde estarían dispuestos a reproducirlo.
-
-En Madrid, Abascal estará haciendo campaña. Milei será recibido por otros dirigentes de Vox. La relación institucional continuará, al menos por ahora.
-
-Pero esta vez no habrá abrazo entre los dos protagonistas de una alianza que hizo de la motosierra una bandera internacional. Y esa ausencia, en medio de una campaña dominada por la discusión sobre las pensiones y el costo de vida, constituye por sí misma una noticia política.
 
 ---
 
