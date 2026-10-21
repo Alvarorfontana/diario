@@ -12,6 +12,7 @@ export interface Articulo {
 	image_url: string;
 	imageCaption?: string;
 	tags: string[];
+	puntosClave: string[];
 	breaking: boolean;
 	entry: any;
 }
@@ -45,6 +46,7 @@ export async function getArticulos(): Promise<Articulo[]> {
 				image_url: imagen(d.heroImage),
 				imageCaption: d.imageCaption,
 				tags: d.tags ?? [],
+				puntosClave: (d.puntosClave ?? []).filter(Boolean).slice(0, 3),
 				breaking: d.ultimoMomento === true,
 				entry,
 			};

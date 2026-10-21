@@ -82,6 +82,7 @@ export const GET = async ({ request, locals }: any) => {
 					image_url: typeof data.heroImage === 'string' ? data.heroImage : '',
 					imageCaption: data.imageCaption ?? '',
 					tags: Array.isArray(data.tags) ? data.tags : [],
+					puntosClave: Array.isArray(data.puntosClave) ? data.puntosClave : [],
 				},
 				body: mdToHtml(body.trim()),
 			});
@@ -111,6 +112,8 @@ export const POST = async ({ request, locals }: any) => {
 		if (data.breaking) fm.ultimoMomento = true;
 		if (data.draft) fm.draft = true;
 		fm.tags = Array.isArray(data.tags) ? data.tags : [];
+		const puntos = Array.isArray(data.puntosClave) ? data.puntosClave.map((p: any) => String(p).trim()).filter(Boolean).slice(0, 3) : [];
+		if (puntos.length) fm.puntosClave = puntos;
 
 		const texto = `---\n${stringify(fm, { lineWidth: 0 })}---\n\n${htmlParaArchivo(content || '')}\n`;
 

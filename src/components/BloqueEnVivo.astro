@@ -1,0 +1,33 @@
+---
+// Bloque "En vivo" (estilo Guardian): aparece en la portada solo cuando el minuto a minuto
+// de Brasil 2026 tuvo una entrada en las últimas 6 horas. Se carga desde el panel, como siempre.
+---
+
+<a id="bloque-en-vivo" href="/brasil-2026/minuto-a-minuto/" class="mt-4 hidden rounded-2xl bg-brand px-5 py-4 text-white transition-opacity hover:opacity-95">
+	<span class="flex items-center gap-2 text-xs font-extrabold tracking-[0.1em] uppercase">
+		<span class="titila inline-block h-2 w-2 rounded-full bg-white" aria-hidden="true"></span>
+		En vivo · Brasil 2026
+	</span>
+	<span id="bloque-en-vivo-titulo" class="mt-1.5 block font-display text-lg leading-snug font-extrabold sm:text-xl">Seguí la cobertura minuto a minuto</span>
+	<span id="bloque-en-vivo-hora" class="mt-1 block text-xs text-white/85"></span>
+</a>
+
+<script is:inline>
+	(function () {
+		var bloque = document.getElementById('bloque-en-vivo');
+		if (!bloque) return;
+		fetch('/api/brasil2026-minuto')
+			.then(function (r) { return r.ok ? r.json() : null; })
+			.then(function (d) {
+				if (!d || !d.ok || !Array.isArray(d.items) || !d.items.length) return;
+				var ultimo = d.items.slice().sort(function (a, b) { return String(b.createdAt).localeCompare(String(a.createdAt)); })[0];
+				var cuando = new Date(ultimo.createdAt);
+				if (isNaN(cuando) || Date.now() - cuando.getTime() > 6 * 60 * 60 * 1000) return;
+				if (ultimo.titulo) document.getElementById('bloque-en-vivo-titulo').textContent = ultimo.titulo;
+				document.getElementById('bloque-en-vivo-hora').textContent = 'Última actualización: ' + (ultimo.hora || cuando.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
+				bloque.classList.remove('hidden');
+				bloque.classList.add('block');
+			})
+			.catch(function () {});
+	})();
+</script>

@@ -25,6 +25,8 @@ const articulos = defineCollection({
 			ultimoMomento: z.boolean().optional(),
 			// Etiquetas temáticas (p. ej. ['Clima', 'Economía'])
 			tags: z.array(z.string()).default([]),
+			// "Lo que tenés que saber": hasta 3 puntos de resumen que se muestran al principio de la nota
+			puntosClave: z.array(z.string()).default([]),
 		}),
 });
 

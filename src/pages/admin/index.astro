@@ -189,6 +189,10 @@ if (Astro.request.method === 'POST') {
 								<label for="tags">Etiquetas (separadas por comas)</label>
 								<input type="text" id="tags" placeholder="Política, Economía" />
 							</div>
+							<div class="form-group">
+								<label for="puntosClave">Lo que tenés que saber (opcional): hasta 3 puntos, uno por línea</label>
+								<textarea id="puntosClave" rows="3" placeholder="El riesgo país superó los 700 puntos&#10;Encarece refinanciar la deuda de 2027&#10;El Gobierno apuesta a señales fiscales"></textarea>
+							</div>
 						</div>
 					</div>
 
@@ -522,6 +526,7 @@ if (Astro.request.method === 'POST') {
 				$('breaking').checked = d.breaking; $('draft').checked = d.draft;
 				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
 				$('tags').value = (d.tags || []).join(', ');
+				$('puntosClave').value = (d.puntosClave || []).join('\n');
 				if (d.image_url) { $('hero-preview').src = d.image_url; $('hero-preview').classList.remove('hidden'); }
 				setContent(r.body);
 				abrirFormulario('Editar nota');
@@ -598,6 +603,10 @@ if (Astro.request.method === 'POST') {
 			e.preventDefault();
 			var contenido = getContent();
 			if (!contenido) { showMsg('La nota no tiene texto.', false); return; }
+			// El diseño de la portada se luce con fotos: avisar antes de publicar una nota sin foto.
+			if (!$('image_url').value.trim() && !$('draft').checked) {
+				if (!confirm('Esta nota no tiene foto. En la portada se va a ver un recuadro con la marca en lugar de la imagen.\n\n¿Querés publicarla igual?')) { $('heroFile').focus(); return; }
+			}
 			var btn = $('btn-guardar'); btn.disabled = true; btn.textContent = 'Guardando…';
 			var payload = {
 				slug: slugify($('slug').value),
@@ -609,7 +618,8 @@ if (Astro.request.method === 'POST') {
 					section: $('section').value, author: $('author').value.trim() || 'Redacción', date: $('date').value,
 					breaking: $('breaking').checked, draft: $('draft').checked,
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
-					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean)
+					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
+					puntosClave: $('puntosClave').value.split('\n').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3)
 				}
 			};
 			try {

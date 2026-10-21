@@ -1,0 +1,34 @@
+---
+// Franja de mercados (estilo Financial Times): dólar y riesgo país.
+// Los datos llegan de /api/mercados después de cargar la página, así la portada no se demora.
+// Si las fuentes no responden, la franja no aparece.
+---
+
+<div id="franja-mercados" class="no-scrollbar mb-3 hidden overflow-x-auto" aria-label="Mercados">
+	<div class="flex w-max gap-2" id="franja-mercados-items"></div>
+</div>
+
+<script is:inline>
+	(function () {
+		var caja = document.getElementById('franja-mercados');
+		var lista = document.getElementById('franja-mercados-items');
+		if (!caja || !lista) return;
+		fetch('/api/mercados')
+			.then(function (r) { return r.ok ? r.json() : null; })
+			.then(function (d) {
+				if (!d || !d.ok || !d.items || !d.items.length) return;
+				lista.innerHTML = '';
+				d.items.forEach(function (it) {
+					var el = document.createElement('div');
+					el.className = 'flex items-baseline gap-2 rounded-xl bg-white px-3.5 py-2 text-[13px] whitespace-nowrap shadow-[inset_0_0_0_1px_#e6e6e2]';
+					var n = document.createElement('span'); n.className = 'font-semibold text-neutral-600'; n.textContent = it.nombre;
+					var v = document.createElement('span'); v.className = 'font-display font-extrabold text-ink tabular-nums'; v.textContent = it.valor;
+					el.appendChild(n); el.appendChild(v);
+					if (it.detalle) { var t = document.createElement('span'); t.className = 'text-[11px] text-neutral-500'; t.textContent = it.detalle; el.appendChild(t); }
+					lista.appendChild(el);
+				});
+				caja.classList.remove('hidden');
+			})
+			.catch(function () {});
+	})();
+</script>

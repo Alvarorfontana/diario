@@ -48,3 +48,10 @@ export function slugify(texto: string): string {
 }
 
 // El newsletter se integra con Brevo (ver src/lib/brevo.ts y NEWSLETTER.md).
+
+// Fotos de los columnistas para la sección Opinión de la portada.
+// Agregá una línea por autor con el nombre tal cual figura en la nota y la ruta de la foto
+// (por ejemplo, subida a /public/columnistas/). Si un autor no tiene foto, se muestran sus iniciales.
+export const FOTOS_COLUMNISTAS: Record<string, string> = {
+	// 'Álvaro Fontana': '/columnistas/alvaro-fontana.jpg',
+};

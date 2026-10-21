@@ -25,7 +25,7 @@ if (!articulo) {
 	return Astro.redirect('/404');
 }
 
-const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags } = articulo;
+const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags, puntosClave } = articulo;
 const { Content } = await render(articulo.entry);
 
 // Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
@@ -141,6 +141,22 @@ const schema = {
 					<img src={fotoVisible} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
 					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
+			)
+		}
+
+		{
+			puntosClave && puntosClave.length > 0 && (
+				<section class="tarjeta mt-8 px-5 py-4 shadow-[inset_0_0_0_1px_#e6e6e2]" aria-label="Lo que tenés que saber">
+					<p class="font-display text-[15px] font-extrabold text-ink">Lo que tenés que saber</p>
+					<ul class="mt-3 flex flex-col gap-2.5">
+						{puntosClave.map((punto: string) => (
+							<li class="flex gap-2.5 text-[15px] leading-relaxed text-neutral-800">
+								<span class="mt-[9px] inline-block h-[7px] w-[7px] shrink-0 rounded-full bg-brand" aria-hidden="true"></span>
+								<span>{punto}</span>
+							</li>
+						))}
+					</ul>
+				</section>
 			)
 		}
 

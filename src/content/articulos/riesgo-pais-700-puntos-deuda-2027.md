@@ -8,6 +8,10 @@ pubDate: 2026-10-20T16:30:00-03:00
 heroImage: "https://www.argentina.gob.ar/sites/default/files/karinajavierrural2025.jpg"
 imageCaption: "Javier Milei y Luis Caputo junto a Karina Milei en una actividad oficial de julio de 2025. Foto de archivo: Gobierno argentino, CC BY 4.0, vía Wikimedia Commons."
 tags: ["Riesgo país", "Deuda externa", "Javier Milei", "Luis Caputo", "Economía"]
+puntosClave:
+  - "El riesgo país tocó los 710 puntos durante la jornada del 20 de octubre."
+  - "Las necesidades financieras de 2027 rondarían los US$29.000 millones, según FMyA."
+  - "El equilibrio fiscal ayuda, pero no garantiza los dólares para pagar."
 draft: false
 ---
 

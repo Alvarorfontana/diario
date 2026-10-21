@@ -6,7 +6,9 @@ import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterBox from '../components/NewsletterBox.astro';
 import AdBanner from '../components/AdBanner.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion } from '../consts';
+import FranjaMercados from '../components/FranjaMercados.astro';
+import BloqueEnVivo from '../components/BloqueEnVivo.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion, FOTOS_COLUMNISTAS } from '../consts';
 import { getArticulos } from '../lib/articles';
 
 const articulos = await getArticulos();
@@ -24,6 +26,11 @@ const yaMostradas = new Set([tapa?.id, ...laterales.map((a) => a.id), ...ultimos
 const seccionesPortada = ['internacional', 'argentina', 'economia', 'deportes', 'cultura', 'tecnologia']
 	.map((sec) => articulos.find((a) => a.section === sec && !yaMostradas.has(a.id)))
 	.filter((a): a is NonNullable<typeof a> => Boolean(a));
+seccionesPortada.forEach((a) => yaMostradas.add(a.id));
+
+// Opinión con caras: las últimas columnas que no aparecieron más arriba.
+const opinion = articulos.filter((a) => a.section === 'opinion' && !yaMostradas.has(a.id)).slice(0, 3);
+const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
 
 // Último momento: las notas marcadas en el panel, y si no hay, las más recientes.
 const marcadas = articulos.filter((a) => a.breaking);
@@ -31,6 +38,9 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage="/images/diario-federal-whatsapp.jpg">
+
+	<!-- MERCADOS -->
+	<FranjaMercados />
 
 	<!-- ÚLTIMO MOMENTO -->
 	{ticker.length > 0 && (
@@ -50,6 +60,9 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 			</div>
 		</div>
 	)}
+
+	<!-- EN VIVO (solo cuando hay cobertura activa) -->
+	<BloqueEnVivo />
 
 	<!-- TAPA: foto grande con el título encima, y dos destacadas al costado -->
 	{tapa && (
@@ -117,6 +130,31 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 			<h2 class="titulo-seccion mb-5">Por sección</h2>
 			<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 				{seccionesPortada.map((articulo) => <ArticleCard article={articulo} />)}
+			</div>
+		</section>
+	)}
+
+	<!-- OPINIÓN -->
+	{opinion.length > 0 && (
+		<section class="mt-8">
+			<div class="mb-5 flex items-baseline justify-between">
+				<h2 class="titulo-seccion">Opinión</h2>
+				<a href="/seccion/opinion/" class="text-sm font-semibold text-brand hover:underline">Ver todas</a>
+			</div>
+			<div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{opinion.map((a) => (
+					<a href={`/articulo/${a.slug}/`} class="tarjeta group flex items-start gap-4 p-5">
+						{FOTOS_COLUMNISTAS[a.author] ? (
+							<img src={FOTOS_COLUMNISTAS[a.author]} alt="" class="h-16 w-16 shrink-0 rounded-full object-cover" loading="lazy" />
+						) : (
+							<span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-ink font-display text-lg font-extrabold text-white" aria-hidden="true">{iniciales(a.author)}</span>
+						)}
+						<span class="min-w-0">
+							<span class="block text-sm font-bold text-brand">{a.author}</span>
+							<span class="mt-1 block font-display text-[17px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
+						</span>
+					</a>
+				))}
 			</div>
 		</section>
 	)}
