@@ -4,7 +4,7 @@ import { SITE_TITLE } from '../../consts';
 ---
 
 <BaseLayout title={`Resultados en vivo · Brasil 2026 | ${SITE_TITLE}`} description="Resultados del escrutinio en Brasil 2026, en vivo.">
-	<div class="mx-auto max-w-3xl" id="app">
+	<div class="mx-auto max-w-3xl" id="app" style="visibility:hidden">
 		<p class="um-banner mt-4"><span class="um-luz"></span>Resultados en vivo · Brasil 2026</p>
 		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
 			Elecciones en Brasil: seguí el escrutinio en vivo
@@ -49,6 +49,25 @@ import { SITE_TITLE } from '../../consts';
 		try {
 			const r = await fetch('/api/brasil2026', { cache: 'no-store' });
 			const d = await r.json();
+			document.getElementById('app').style.visibility = '';
+
+			// Si los datos son los de ejemplo de la plantilla ("Candidato 1", "Partido A"),
+			// no se muestran: se avisa que los resultados todavía no están cargados.
+			const esEjemplo = !Array.isArray(d.candidatos) || d.candidatos.length === 0 ||
+				d.candidatos.some((c) => /^Candidato \d/i.test(c.nombre || '') || /^Partido [A-Z]$/.test(c.partido || ''));
+			if (esEjemplo) {
+				document.getElementById('app').innerHTML = `
+					<div class="tarjeta mx-auto max-w-2xl p-7 text-center sm:p-10">
+						<p class="text-xs font-bold tracking-[0.12em] text-brand uppercase">Brasil 2026 · Resultados</p>
+						<h1 class="mt-3 font-display text-3xl font-extrabold text-ink">Los resultados todavía no están cargados</h1>
+						<p class="mt-3 text-neutral-600">Vamos a publicar el escrutinio con datos oficiales del Tribunal Superior Electoral (TSE) apenas estén disponibles.</p>
+						<div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+							<a href="/brasil-2026/minuto-a-minuto/" class="rounded-xl bg-brand px-5 py-3 font-bold text-white">Minuto a minuto</a>
+							<a href="/brasil-2026/candidatos/" class="rounded-xl bg-[#f0f0ec] px-5 py-3 font-bold text-ink">Los candidatos</a>
+						</div>
+					</div>`;
+				return;
+			}
 
 			document.getElementById('updated').textContent = new Date(d.updatedAt).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' });
 			document.getElementById('urnas').textContent = d.urnas;
@@ -78,6 +97,7 @@ import { SITE_TITLE } from '../../consts';
 				</div>
 			`).join('');
 		} catch (e) {
+			document.getElementById('app').style.visibility = '';
 			console.error('Error cargando resultados', e);
 		}
 	}

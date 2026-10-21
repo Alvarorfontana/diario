@@ -24,50 +24,28 @@ const [primero, ...resto] = articulos;
 ---
 
 <BaseLayout title={`${nombreSeccion} | ${SITE_TITLE}`} description={`Todas las noticias de ${nombreSeccion} en ${SITE_TITLE}.`} image={primero?.image_url}>
-	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
-		{nombreSeccion}
-	</h1>
+	<h1 class="titulo-seccion text-3xl sm:text-4xl">{nombreSeccion}</h1>
 
 	{
 		articulos.length === 0 ? (
-			<p class="py-12 text-center text-neutral-500">Todavía no hay noticias en esta sección.</p>
+			<p class="tarjeta mt-6 p-10 text-center text-neutral-500">Todavía no hay noticias en esta sección.</p>
 		) : (
 			<>
 				{primero && (
-					<div class="mx-auto max-w-3xl py-10">
-						<ArticleCard article={primero} variant="lead" />
-					</div>
+					<a href={`/articulo/${primero.slug}/`} class="group relative mt-6 block min-h-[340px] overflow-hidden rounded-2xl bg-ink text-white sm:min-h-[440px]">
+						{primero.image_url && <img src={primero.image_url} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" />}
+						<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black/85"></div>
+						<div class="absolute inset-x-5 bottom-5 sm:inset-x-8 sm:bottom-7">
+							{primero.volanta && <span class="inline-block rounded-full bg-brand px-3 py-1.5 text-xs font-bold">{primero.volanta}</span>}
+							<h2 class="mt-3 max-w-3xl font-display text-[1.7rem] leading-[1.12] font-extrabold tracking-[-0.015em] text-white sm:text-4xl">{primero.title}</h2>
+							<p class="mt-3 hidden max-w-2xl text-base leading-relaxed text-white/85 sm:block">{primero.excerpt}</p>
+							<p class="mt-3 text-xs text-white/80">{primero.author} · <FormattedDate date={primero.date} /></p>
+						</div>
+					</a>
 				)}
 				{resto.length > 0 && (
-					<div class="divide-y divide-neutral-200 border-t border-neutral-200">
-						{resto.map((articulo) => (
-							<article class="grid gap-4 py-8 sm:grid-cols-[auto_1fr] sm:items-start">
-							{articulo.image_url && (
-								<a href={`/articulo/${articulo.slug}/`} class="sm:w-48 shrink-0">
-									<img
-										src={articulo.image_url}
-										alt=""
-										width={192}
-										height={108}
-										class="aspect-video w-full object-cover"
-									/>
-								</a>
-							)}
-								<div>
-									<a href={`/articulo/${articulo.slug}/`} class="group block">
-										<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
-											{articulo.title}
-										</h2>
-										<p class="mt-2 text-sm leading-relaxed text-neutral-600">
-											{articulo.excerpt}
-										</p>
-										<p class="mt-2 text-xs text-neutral-400">
-											<FormattedDate date={articulo.date} /> · {articulo.author}
-										</p>
-									</a>
-								</div>
-							</article>
-						))}
+					<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+						{resto.map((articulo) => <ArticleCard article={articulo} />)}
 					</div>
 				)}
 			</>

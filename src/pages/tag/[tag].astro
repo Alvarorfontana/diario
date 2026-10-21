@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
 import { SITE_TITLE, slugify } from '../../consts';
 import { getArticulos } from '../../lib/articles';
 
@@ -33,30 +33,14 @@ const nombre = arts[0]
 ---
 
 <BaseLayout title={`#${nombre ?? tag} | ${SITE_TITLE}`} description={`Noticias etiquetadas como ${nombre ?? tag}.`} image={arts[0]?.image_url}>
-	<h1 class="border-b-2 border-neutral-900 pb-3 font-serif text-3xl font-bold sm:text-4xl">
-		<span class="text-brand">#</span>{nombre ?? tag}
-	</h1>
+	<h1 class="titulo-seccion text-3xl sm:text-4xl"><span><span class="text-brand">#</span>{nombre ?? tag}</span></h1>
 
 	{
 		arts.length === 0 ? (
-			<p class="py-12 text-center text-neutral-500">No hay noticias con esta etiqueta.</p>
+			<p class="tarjeta mt-6 p-10 text-center text-neutral-500">No hay noticias con esta etiqueta.</p>
 		) : (
-			<div class="divide-y divide-neutral-200 border-t border-neutral-200">
-				{arts.map((articulo: any) => (
-					<article class="py-8">
-						<a href={`/articulo/${articulo.slug}/`} class="group block">
-							<h2 class="font-serif text-2xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
-								{articulo.title}
-							</h2>
-							<p class="mt-2 text-sm leading-relaxed text-neutral-600">
-								{articulo.excerpt}
-							</p>
-							<p class="mt-2 text-xs text-neutral-400">
-								<FormattedDate date={articulo.date} /> · {articulo.author}
-							</p>
-						</a>
-					</article>
-				))}
+			<div class="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+				{arts.map((articulo: any) => <ArticleCard article={articulo} />)}
 			</div>
 		)
 	}

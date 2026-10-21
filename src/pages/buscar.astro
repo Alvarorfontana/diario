@@ -4,18 +4,18 @@ import { SITE_TITLE } from '../consts';
 ---
 
 <BaseLayout title={`Búsqueda | ${SITE_TITLE}`} description="Busca noticias en el archivo del diario.">
-	<h1 class="font-serif text-3xl font-bold sm:text-4xl">Búsqueda</h1>
+	<h1 class="titulo-seccion text-3xl sm:text-4xl">Búsqueda</h1>
 	<div class="mt-6">
 		<input
 			id="q"
 			type="search"
 			placeholder="Buscar noticias..."
 			autocomplete="off"
-			class="w-full rounded-sm border border-neutral-300 px-4 py-3 text-base focus:border-brand focus:outline-none"
+			class="w-full rounded-2xl border border-[#dcdcd6] bg-white px-5 py-4 text-base focus:border-brand focus:outline-none"
 		/>
 	</div>
 	<p id="estado" class="mt-4 text-sm text-neutral-500"></p>
-	<div id="resultados" class="mt-4 divide-y divide-neutral-200"></div>
+	<div id="resultados" class="mt-4 flex flex-col gap-3"></div>
 </BaseLayout>
 
 <script>
@@ -75,9 +75,9 @@ import { SITE_TITLE } from '../consts';
 		$resultados.innerHTML = coincidencias
 			.map(
 				(a: any) => `
-				<article class="py-5">
+				<article class="tarjeta p-5">
 					<a href="/articulo/${a.slug}/" class="group block">
-						<h2 class="font-serif text-xl leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">${escapar(a.title)}</h2>
+						<h2 class="font-display text-lg leading-snug font-extrabold text-ink transition-colors group-hover:text-brand">${escapar(a.title)}</h2>
 						<p class="mt-1 text-sm leading-relaxed text-neutral-600">${escapar(a.excerpt || '')}</p>
 					</a>
 				</article>`

@@ -210,3 +210,7 @@ img { background-color: #eeeeee; }
 
 /* Recuadros dentro de la nota ("Leé también"): sin el subrayado rojo de los enlaces del texto */
 .prose-articulo aside a { color: inherit; text-decoration: none; }
+
+/* Páginas internas (Brasil 2026, Contexto Político, legales, etc.): mismos titulares que la portada */
+main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
+.um-banner { border-radius: 999px; padding: 8px 16px; letter-spacing: 0.12em; }

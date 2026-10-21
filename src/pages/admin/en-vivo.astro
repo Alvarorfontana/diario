@@ -1,0 +1,127 @@
+---
+export const prerender = false;
+
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>En vivo - Admin</title>
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 30px auto; padding: 16px; background: #f5f5f5; color: #16161a; }
+		.card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 18px; }
+		.btn { padding: 11px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; }
+		.btn-primary { background: #d0021b; color: white; }
+		.btn-secondary { background: #6b7280; color: white; }
+		.btn-link { background: none; color: #d0021b; padding: 6px 0; }
+		label { display: block; font-weight: 600; font-size: 14px; margin-top: 14px; }
+		input, textarea { width: 100%; padding: 11px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
+		textarea { min-height: 110px; }
+		.check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 600; font-size: 14px; }
+		.check input { width: auto; margin: 0; }
+		.item { border-top: 1px solid #eee; padding: 14px 0; }
+		.item small { color: #666; }
+		.clave { display: inline-block; background: #d0021b; color: white; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 6px; }
+		#msg { margin-top: 12px; font-weight: 600; }
+	</style>
+</head>
+<body>
+	{!isAuthenticated ? (
+		<div class="card">
+			<h2>Acceso denegado</h2>
+			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+		</div>
+	) : (
+		<div>
+			<div class="card">
+				<h1 style="margin-top:0">🔴 Cobertura en vivo · Brasil 2026</h1>
+				<p>Cada actualización que publiques aparece en la página <a href="/brasil-2026/minuto-a-minuto/" target="_blank">minuto a minuto</a>. Durante 6 horas después de la última, la portada muestra el recuadro rojo de <strong>En vivo</strong>.</p>
+				<a href="/admin" class="btn btn-secondary">← Volver al panel</a>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0">Nueva actualización</h3>
+				<form id="form-vivo">
+					<label for="titulo">Título</label>
+					<input type="text" id="titulo" required maxlength="140" placeholder="Ej: Cerraron las urnas y arranca el conteo" />
+					<label for="texto">Texto</label>
+					<textarea id="texto" required placeholder="Lo que pasó, en dos o tres líneas."></textarea>
+					<label for="fuente">Fuente (opcional)</label>
+					<input type="text" id="fuente" placeholder="Diario Federal" />
+					<label class="check"><input type="checkbox" id="clave" /> Marcar como momento clave</label>
+					<button type="submit" class="btn btn-primary" id="btn-publicar" style="margin-top:16px">Publicar actualización</button>
+					<p id="msg"></p>
+				</form>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0">Actualizaciones publicadas</h3>
+				<div id="lista"><p>Cargando…</p></div>
+			</div>
+		</div>
+	)}
+
+	<script is:inline>
+		(function () {
+			var form = document.getElementById('form-vivo');
+			if (!form) return;
+			var lista = document.getElementById('lista');
+			var msg = document.getElementById('msg');
+
+			function esc(t) { var d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
+
+			async function cargar() {
+				try {
+					var r = await (await fetch('/api/brasil2026-minuto', { cache: 'no-store' })).json();
+					if (!r.ok) throw new Error(r.error || 'Error');
+					if (!r.items.length) { lista.innerHTML = '<p>Todavía no publicaste ninguna actualización.</p>'; return; }
+					lista.innerHTML = r.items.map(function (it) {
+						return '<div class="item"><strong>' + esc(it.hora) + ' · ' + esc(it.titulo) + '</strong>' + (it.clave ? '<span class="clave">Clave</span>' : '') +
+							'<p style="margin:6px 0">' + esc(it.texto) + '</p><small>' + esc(it.fecha) + ' · ' + esc(it.fuente) + '</small><br>' +
+							'<button type="button" class="btn btn-link" data-borrar="' + esc(it.id) + '">Eliminar</button></div>';
+					}).join('');
+				} catch (e) { lista.innerHTML = '<p>No se pudieron cargar las actualizaciones: ' + esc(e.message) + '</p>'; }
+			}
+
+			lista.addEventListener('click', async function (e) {
+				var id = e.target && e.target.getAttribute && e.target.getAttribute('data-borrar');
+				if (!id) return;
+				if (!confirm('¿Eliminar esta actualización?')) return;
+				var r = await (await fetch('/api/brasil2026-minuto?id=' + encodeURIComponent(id), { method: 'DELETE' })).json();
+				if (!r.ok) alert('No se pudo eliminar: ' + (r.error || 'error'));
+				cargar();
+			});
+
+			form.addEventListener('submit', async function (e) {
+				e.preventDefault();
+				var btn = document.getElementById('btn-publicar');
+				btn.disabled = true; btn.textContent = 'Publicando…'; msg.textContent = '';
+				try {
+					var r = await (await fetch('/api/brasil2026-minuto', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							titulo: document.getElementById('titulo').value.trim(),
+							texto: document.getElementById('texto').value.trim(),
+							fuente: document.getElementById('fuente').value.trim(),
+							clave: document.getElementById('clave').checked
+						})
+					})).json();
+					if (!r.ok) throw new Error(r.error || 'Error');
+					form.reset();
+					msg.style.color = '#15803d'; msg.textContent = 'Publicada. Ya se ve en el minuto a minuto.';
+					cargar();
+				} catch (err) { msg.style.color = '#b91c1c'; msg.textContent = 'No se pudo publicar: ' + err.message; }
+				btn.disabled = false; btn.textContent = 'Publicar actualización';
+			});
+
+			cargar();
+		})();
+	</script>
+</body>
+</html>
