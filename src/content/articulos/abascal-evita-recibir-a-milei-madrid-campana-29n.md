@@ -5,8 +5,8 @@ description: "El presidente argentino llegó a Madrid para reencontrarse con sus
 section: internacional
 author: "Álvaro Fontana"
 pubDate: 2026-10-20T23:55:00-03:00
-heroImage: "/images/milei-abascal-silla-vacia.jpg"
-imageCaption: "Abascal no estará en la reunión de Milei con la cúpula de Vox en la Fundación Disenso. Ilustración: Diario Federal."
+heroImage: "/images/milei-abascal-redes.jpg"
+imageCaption: "Javier Milei y Santiago Abascal en uno de sus encuentros anteriores. Esta vez, el líder de Vox no estará en la foto. Foto: redes sociales."
 tags: ["Javier Milei", "Santiago Abascal", "Vox", "España", "Elecciones en España", "Brasil 2026"]
 puntosClave:
   - "Abascal no recibirá a Milei en Madrid: lo harán Ignacio Garriga y la Fundación Disenso."
@@ -96,6 +96,11 @@ Sin embargo, la seguridad previsional, el precio de la vivienda, el acceso a la 
 En ambos escenarios, la figura de Milei dejó de funcionar exclusivamente como referencia ideológica para convertirse también en un elemento de confrontación electoral.
 
 ## La fotografía que no habrá
+
+<figure>
+<img src="/images/milei-abascal-silla-vacia.jpg" alt="Ilustración de dos sillas: la de Milei ocupada y la de Abascal vacía" />
+<figcaption>La reunión del 21 de octubre en la Fundación Disenso, sin Abascal. Ilustración: Diario Federal.</figcaption>
+</figure>
 
 La ausencia de Abascal no significa necesariamente el final de una alianza. Tampoco permite afirmar, por sí sola, que el presidente argentino haya perdido el respaldo de los votantes españoles.
 
