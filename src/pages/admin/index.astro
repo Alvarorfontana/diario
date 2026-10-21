@@ -188,8 +188,8 @@ if (Astro.request.method === 'POST') {
 								<input type="text" id="image_url" placeholder="/uploads/..." />
 							</div>
 							<div class="form-group">
-								<label for="imageCaption">Pie de foto (opcional)</label>
-								<input type="text" id="imageCaption" />
+								<label for="imageCaption">Pie de foto: qué muestra y de dónde es</label>
+								<input type="text" id="imageCaption" placeholder="Ej: Sesión en Diputados por la ley de discapacidad. Foto: Prensa HCDN" />
 							</div>
 							<div class="form-group">
 								<label for="tags">Etiquetas (separadas por comas)</label>
@@ -428,7 +428,7 @@ if (Astro.request.method === 'POST') {
 			$('img-file').click();
 		}
 		function ponerFoto(src) {
-			var pie = prompt('Pie de foto (opcional)') || '';
+			var pie = prompt('Pie de foto: qué muestra y de dónde es (ej: "Acto en Plaza de Mayo. Foto: Télam")') || '';
 			insertarBloque('<figure contenteditable="false"><img src="' + esc(src) + '" alt="' + esc(pie) + '">' + (pie ? '<figcaption>' + esc(pie) + '</figcaption>' : '') + '</figure>');
 		}
 		$('img-file').addEventListener('change', async function () {
@@ -624,6 +624,10 @@ if (Astro.request.method === 'POST') {
 			// El diseño de la portada se luce con fotos: avisar antes de publicar una nota sin foto.
 			if (!$('image_url').value.trim() && !$('draft').checked) {
 				if (!confirm('Esta nota no tiene foto. En la portada se va a ver un recuadro con la marca en lugar de la imagen.\n\n¿Querés publicarla igual?')) { $('heroFile').focus(); return; }
+			}
+			// Toda foto lleva epígrafe con lo que muestra y su fuente.
+			if ($('image_url').value.trim() && !$('imageCaption').value.trim() && !$('draft').checked) {
+				if (!confirm('La foto no tiene pie de foto.\n\nConviene contar qué muestra y de dónde es (por ejemplo: "Foto: Prensa Senado").\n\n¿Querés publicarla igual?')) { $('imageCaption').focus(); return; }
 			}
 			var btn = $('btn-guardar'); btn.disabled = true; btn.textContent = 'Guardando…';
 			var payload = {
