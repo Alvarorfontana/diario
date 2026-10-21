@@ -1,12 +1,13 @@
 ---
-// Bloque "En vivo" (estilo Guardian): aparece en la portada solo cuando el minuto a minuto
-// de Brasil 2026 tuvo una entrada en las últimas 6 horas. Se carga desde el panel, como siempre.
+// Bloque "En vivo" (estilo Guardian): aparece en la portada solo cuando hay una cobertura en vivo
+// con una entrada de las últimas 6 horas. Primero mira las coberturas generales (/admin/coberturas);
+// si no hay ninguna, mira el minuto a minuto de Brasil 2026. Se carga desde el panel, como siempre.
 ---
 
-<a id="bloque-en-vivo" href="/brasil-2026/minuto-a-minuto/" class="mt-4 hidden rounded-2xl bg-brand px-5 py-4 text-white transition-opacity hover:opacity-95">
+<a id="bloque-en-vivo" href="/minuto-a-minuto/" class="mt-4 hidden rounded-2xl bg-brand px-5 py-4 text-white transition-opacity hover:opacity-95">
 	<span class="flex items-center gap-2 text-xs font-extrabold tracking-[0.1em] uppercase">
 		<span class="titila inline-block h-2 w-2 rounded-full bg-white" aria-hidden="true"></span>
-		En vivo · Brasil 2026
+		<span id="bloque-en-vivo-etiqueta">En vivo</span>
 	</span>
 	<span id="bloque-en-vivo-titulo" class="mt-1.5 block font-display text-lg leading-snug font-extrabold sm:text-xl">Seguí la cobertura minuto a minuto</span>
 	<span id="bloque-en-vivo-hora" class="mt-1 block text-xs text-white/85"></span>
@@ -16,18 +17,34 @@
 	(function () {
 		var bloque = document.getElementById('bloque-en-vivo');
 		if (!bloque) return;
-		fetch('/api/brasil2026-minuto')
-			.then(function (r) { return r.ok ? r.json() : null; })
-			.then(function (d) {
-				if (!d || !d.ok || !Array.isArray(d.items) || !d.items.length) return;
-				var ultimo = d.items.slice().sort(function (a, b) { return String(b.createdAt).localeCompare(String(a.createdAt)); })[0];
-				var cuando = new Date(ultimo.createdAt);
-				if (isNaN(cuando) || Date.now() - cuando.getTime() > 6 * 60 * 60 * 1000) return;
-				if (ultimo.titulo) document.getElementById('bloque-en-vivo-titulo').textContent = ultimo.titulo;
-				document.getElementById('bloque-en-vivo-hora').textContent = 'Última actualización: ' + (ultimo.hora || cuando.toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' }));
-				bloque.classList.remove('hidden');
-				bloque.classList.add('block');
-			})
-			.catch(function () {});
+		var VENTANA = 6 * 60 * 60 * 1000;
+		function reciente(iso) { var t = new Date(iso).getTime(); return !isNaN(t) && Date.now() - t <= VENTANA; }
+		function mostrar(href, etiqueta, titulo, hora) {
+			bloque.href = href;
+			document.getElementById('bloque-en-vivo-etiqueta').textContent = etiqueta;
+			if (titulo) document.getElementById('bloque-en-vivo-titulo').textContent = titulo;
+			document.getElementById('bloque-en-vivo-hora').textContent = hora ? 'Última actualización: ' + hora : '';
+			bloque.classList.remove('hidden');
+			bloque.classList.add('block');
+		}
+		function json(u) { return fetch(u).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+
+		json('/api/en-vivo').then(function (d) {
+			var vivas = d && d.ok && Array.isArray(d.coberturas)
+				? d.coberturas.filter(function (c) { return c.estado === 'activa' && c.ultima && reciente(c.ultima.createdAt); })
+				: [];
+			if (vivas.length) {
+				var c = vivas[0];   // ya vienen ordenadas: la de la última entrada más nueva primero
+				mostrar('/en-vivo/' + encodeURIComponent(c.id) + '/', 'En vivo · ' + c.titulo, c.ultima.titulo, c.ultima.hora);
+				return;
+			}
+			// Respaldo: minuto a minuto de Brasil 2026.
+			return json('/api/brasil2026-minuto').then(function (b) {
+				if (!b || !b.ok || !Array.isArray(b.items) || !b.items.length) return;
+				var ultimo = b.items.slice().sort(function (x, y) { return String(y.createdAt).localeCompare(String(x.createdAt)); })[0];
+				if (!reciente(ultimo.createdAt)) return;
+				mostrar('/brasil-2026/minuto-a-minuto/', 'En vivo · Brasil 2026', ultimo.titulo, ultimo.hora);
+			});
+		});
 	})();
 </script>

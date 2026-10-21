@@ -1,0 +1,233 @@
+---
+export const prerender = false;
+
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { SECCIONES } from '../../consts';
+const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="robots" content="noindex" />
+	<title>Coberturas en vivo - Admin</title>
+	<style is:global>
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 820px; margin: 30px auto; padding: 16px; background: #f5f5f5; color: #16161a; }
+		.card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 18px; }
+		.btn { padding: 11px 18px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 15px; text-decoration: none; display: inline-block; }
+		.btn-primary { background: #d0021b; color: white; }
+		.btn-secondary { background: #6b7280; color: white; }
+		.btn-dark { background: #16161a; color: white; }
+		.btn-link { background: none; color: #d0021b; padding: 6px 0; }
+		.btn:disabled { opacity: .6; cursor: wait; }
+		label { display: block; font-weight: 600; font-size: 14px; margin-top: 14px; }
+		input, textarea, select { width: 100%; padding: 11px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; font-family: inherit; background: white; }
+		textarea { min-height: 110px; }
+		.check { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 600; font-size: 14px; }
+		.check input { width: auto; margin: 0; }
+		.item { border-top: 1px solid #eee; padding: 14px 0; }
+		.item small { color: #666; }
+		.pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 6px; color: white; }
+		.pill-vivo { background: #d0021b; } .pill-cerrada { background: #6b7280; } .pill-clave { background: #d0021b; }
+		.fila { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+		.msg { margin-top: 12px; font-weight: 600; }
+		.oculto { display: none; }
+		details summary { cursor: pointer; font-weight: 700; }
+	</style>
+</head>
+<body>
+	{!isAuthenticated ? (
+		<div class="card">
+			<h2>Acceso denegado</h2>
+			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+		</div>
+	) : (
+		<div>
+			<div class="card">
+				<h1 style="margin-top:0">🔴 Coberturas en vivo</h1>
+				<p>Abrí una cobertura para cualquier tema (una elección, un dato del Indec, un paro) y cargá las novedades a medida que pasan. Se ven al instante, sin esperar un despliegue. Mientras una cobertura activa tenga una entrada de las últimas 6 horas, la portada muestra el recuadro rojo de <strong>En vivo</strong>.</p>
+				<div class="fila">
+					<a href="/admin" class="btn btn-secondary">← Volver al panel</a>
+					<a href="/minuto-a-minuto/" target="_blank" class="btn btn-link">Ver la página pública ↗</a>
+				</div>
+			</div>
+
+			<div class="card">
+				<details id="nueva-box">
+					<summary>➕ Abrir una cobertura nueva</summary>
+					<form id="form-nueva">
+						<label for="n-titulo">Título de la cobertura</label>
+						<input type="text" id="n-titulo" required maxlength="120" placeholder="Ej: Inflación de octubre: el dato del Indec, minuto a minuto" />
+						<label for="n-bajada">Bajada (opcional)</label>
+						<textarea id="n-bajada" maxlength="300" style="min-height:70px" placeholder="Una o dos líneas que expliquen qué se cubre."></textarea>
+						<label for="n-seccion">Sección</label>
+						<select id="n-seccion">
+							{SECCIONES.map((s) => <option value={s.id} selected={s.id === 'argentina'}>{s.nombre}</option>)}
+						</select>
+						<button type="submit" class="btn btn-primary" style="margin-top:16px">Abrir cobertura</button>
+						<p class="msg" id="msg-nueva"></p>
+					</form>
+				</details>
+			</div>
+
+			<div class="card">
+				<label for="sel" style="margin-top:0">Cobertura</label>
+				<select id="sel"><option value="">Cargando…</option></select>
+				<div class="fila" id="acciones">
+					<a id="ver" href="#" target="_blank" class="btn btn-link">Ver página ↗</a>
+					<button type="button" id="btn-estado" class="btn btn-dark">Cerrar cobertura</button>
+				</div>
+			</div>
+
+			<div class="card" id="card-entrada">
+				<h3 style="margin-top:0">Nueva actualización</h3>
+				<form id="form-entrada">
+					<label for="titulo">Título</label>
+					<input type="text" id="titulo" required maxlength="140" placeholder="Ej: El Indec confirmó una inflación de 2,1%" />
+					<label for="texto">Texto</label>
+					<textarea id="texto" required placeholder="Lo que pasó, en dos o tres líneas."></textarea>
+					<label for="fuente">Fuente (opcional)</label>
+					<input type="text" id="fuente" placeholder="EL DIARIO" />
+					<label for="hora">Hora (opcional, si no se usa la hora actual)</label>
+					<input type="time" id="hora" />
+					<label class="check"><input type="checkbox" id="clave" /> Marcar como momento clave</label>
+					<button type="submit" class="btn btn-primary" id="btn-publicar" style="margin-top:16px">Publicar actualización</button>
+					<p class="msg" id="msg"></p>
+				</form>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0">Actualizaciones publicadas</h3>
+				<div id="lista"><p>Elegí una cobertura.</p></div>
+			</div>
+		</div>
+	)}
+
+	<script is:inline>
+		(function () {
+			var sel = document.getElementById('sel');
+			if (!sel) return;
+			var lista = document.getElementById('lista');
+			var actual = null;
+
+			function esc(t) { var d = document.createElement('div'); d.textContent = t == null ? '' : String(t); return d.innerHTML; }
+			function aviso(el, ok, t) { el.style.color = ok ? '#15803d' : '#b91c1c'; el.textContent = t; }
+			async function api(metodo, cuerpo, query) {
+				var r = await fetch('/api/en-vivo' + (query || ''), {
+					method: metodo, cache: 'no-store',
+					headers: cuerpo ? { 'Content-Type': 'application/json' } : undefined,
+					body: cuerpo ? JSON.stringify(cuerpo) : undefined
+				});
+				var j = await r.json().catch(function () { return { ok: false, error: 'Respuesta inválida (HTTP ' + r.status + ')' }; });
+				if (!j.ok) throw new Error(j.error || 'Error');
+				return j;
+			}
+
+			async function cargarCoberturas(elegir) {
+				var j = await api('GET');
+				var cs = j.coberturas;
+				if (!cs.length) {
+					sel.innerHTML = '<option value="">Todavía no hay coberturas: abrí una arriba</option>';
+					document.getElementById('nueva-box').open = true;
+					mostrar(null); return;
+				}
+				var previa = elegir || sel.value || (cs.find(function (c) { return c.estado === 'activa'; }) || cs[0]).id;
+				sel.innerHTML = cs.map(function (c) {
+					return '<option value="' + esc(c.id) + '">' + (c.estado === 'activa' ? '🔴 ' : '⏹ ') + esc(c.titulo) + ' (' + c.cantidad + ')</option>';
+				}).join('');
+				sel.value = cs.some(function (c) { return c.id === previa; }) ? previa : cs[0].id;
+				await cargarCobertura();
+			}
+
+			async function cargarCobertura() {
+				if (!sel.value) return mostrar(null);
+				lista.innerHTML = '<p>Cargando…</p>';
+				try { mostrar((await api('GET', null, '?id=' + encodeURIComponent(sel.value))).cobertura); }
+				catch (e) { lista.innerHTML = '<p>No se pudo cargar: ' + esc(e.message) + '</p>'; }
+			}
+
+			function mostrar(c) {
+				actual = c;
+				document.getElementById('acciones').classList.toggle('oculto', !c);
+				document.getElementById('card-entrada').classList.toggle('oculto', !c || c.estado !== 'activa');
+				if (!c) { lista.innerHTML = '<p>Elegí una cobertura.</p>'; return; }
+				document.getElementById('ver').href = '/en-vivo/' + encodeURIComponent(c.id) + '/';
+				document.getElementById('btn-estado').textContent = c.estado === 'activa' ? 'Cerrar cobertura' : 'Reabrir cobertura';
+				if (!c.entradas.length) { lista.innerHTML = '<p>Todavía no publicaste ninguna actualización en esta cobertura.</p>'; return; }
+				lista.innerHTML = (c.estado === 'cerrada' ? '<p><span class="pill pill-cerrada">Cerrada</span> Reabrila para sumar actualizaciones.</p>' : '') +
+					c.entradas.map(function (it) {
+						return '<div class="item"><strong>' + esc(it.hora) + ' · ' + esc(it.titulo) + '</strong>' + (it.clave ? '<span class="pill pill-clave">Clave</span>' : '') +
+							'<p style="margin:6px 0;white-space:pre-line">' + esc(it.texto) + '</p><small>' + esc(it.fecha) + ' · ' + esc(it.fuente) + '</small><br>' +
+							'<button type="button" class="btn btn-link" data-borrar="' + esc(it.id) + '">Eliminar</button></div>';
+					}).join('');
+			}
+
+			sel.addEventListener('change', cargarCobertura);
+
+			document.getElementById('form-nueva').addEventListener('submit', async function (e) {
+				e.preventDefault();
+				var msg = document.getElementById('msg-nueva'), btn = e.target.querySelector('button');
+				btn.disabled = true; msg.textContent = '';
+				try {
+					var j = await api('POST', {
+						accion: 'crear',
+						titulo: document.getElementById('n-titulo').value.trim(),
+						bajada: document.getElementById('n-bajada').value.trim(),
+						seccion: document.getElementById('n-seccion').value
+					});
+					e.target.reset();
+					document.getElementById('nueva-box').open = false;
+					await cargarCoberturas(j.cobertura.id);
+					aviso(document.getElementById('msg'), true, 'Cobertura abierta. Ya podés cargar la primera actualización.');
+				} catch (err) { aviso(msg, false, 'No se pudo abrir: ' + err.message); }
+				btn.disabled = false;
+			});
+
+			document.getElementById('form-entrada').addEventListener('submit', async function (e) {
+				e.preventDefault();
+				if (!actual) return;
+				var msg = document.getElementById('msg'), btn = document.getElementById('btn-publicar');
+				btn.disabled = true; btn.textContent = 'Publicando…'; msg.textContent = '';
+				try {
+					await api('POST', {
+						accion: 'agregar', cobertura: actual.id,
+						titulo: document.getElementById('titulo').value.trim(),
+						texto: document.getElementById('texto').value.trim(),
+						fuente: document.getElementById('fuente').value.trim(),
+						hora: document.getElementById('hora').value,
+						clave: document.getElementById('clave').checked
+					});
+					e.target.reset();
+					aviso(msg, true, 'Publicada. Ya se ve en la cobertura.');
+					await cargarCoberturas(actual.id);
+				} catch (err) { aviso(msg, false, 'No se pudo publicar: ' + err.message); }
+				btn.disabled = false; btn.textContent = 'Publicar actualización';
+			});
+
+			document.getElementById('btn-estado').addEventListener('click', async function () {
+				if (!actual) return;
+				var cerrar = actual.estado === 'activa';
+				if (cerrar && !confirm('¿Cerrar esta cobertura? Deja de aparecer como "En vivo" y pasa al archivo.')) return;
+				this.disabled = true;
+				try { await api('POST', { accion: cerrar ? 'cerrar' : 'reabrir', cobertura: actual.id }); await cargarCoberturas(actual.id); }
+				catch (err) { alert('No se pudo: ' + err.message); }
+				this.disabled = false;
+			});
+
+			lista.addEventListener('click', async function (e) {
+				var id = e.target && e.target.getAttribute && e.target.getAttribute('data-borrar');
+				if (!id || !actual) return;
+				if (!confirm('¿Eliminar esta actualización?')) return;
+				try { await api('DELETE', null, '?cobertura=' + encodeURIComponent(actual.id) + '&entrada=' + encodeURIComponent(id)); }
+				catch (err) { alert('No se pudo eliminar: ' + err.message); }
+				cargarCoberturas(actual.id);
+			});
+
+			cargarCoberturas().catch(function (e) { sel.innerHTML = '<option value="">No se pudieron cargar: ' + esc(e.message) + '</option>'; });
+		})();
+	</script>
+</body>
+</html>

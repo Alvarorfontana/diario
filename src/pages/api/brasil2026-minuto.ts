@@ -60,8 +60,8 @@ export const POST = async ({ request, locals }: any) => {
 		const actual = await readItems(cfg);
 		const item: Item = {
 			id: crypto.randomUUID(),
-			fecha: String(body.fecha || new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'short' })).toUpperCase(),
-			hora: String(body.hora || new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })),
+			fecha: String(body.fecha || new Date().toLocaleDateString('es-AR', { day: '2-digit', month: 'short', timeZone: 'America/Argentina/Buenos_Aires' })).toUpperCase(),
+			hora: String(body.hora || new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Argentina/Buenos_Aires' })),
 			titulo,
 			texto,
 			fuente: String(body.fuente || 'Diario Federal').trim(),
