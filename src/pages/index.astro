@@ -14,6 +14,9 @@ import { masLeidas } from '../lib/visitas';
 
 const articulos = await getArticulos();
 
+// Fecha de hoy en Argentina: el cartel de WhatsApp de la portada cambia una vez por día.
+const hoyAR = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString().slice(0, 10);
+
 // Nota de tapa: la de riesgo país (fijada a mano) o la marcada como "último momento" en el panel.
 const notaRiesgoPais = articulos.find((a) => a.slug === 'riesgo-pais-700-puntos-deuda-2027') ?? null;
 const tapa = notaRiesgoPais ?? articulos.find((a) => a.breaking) ?? articulos[0] ?? null;
@@ -45,7 +48,7 @@ const marcadas = articulos.filter((a) => a.breaking);
 const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].filter(Boolean)).slice(0, 6);
 ---
 
-<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage="/images/diario-federal-portada.jpg">
+<BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage={`/api/og-portada.jpg?d=${hoyAR}`}>
 
 	<!-- MERCADOS -->
 	<FranjaMercados />
