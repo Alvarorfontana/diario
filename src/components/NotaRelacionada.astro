@@ -8,15 +8,15 @@ interface Props {
 const { href, titulo, texto } = Astro.props;
 ---
 
-<aside class="my-8 border-l-4 border-brand bg-neutral-50 px-5 py-4">
-	<p class="text-xs font-semibold tracking-widest text-brand uppercase">Nota relacionada</p>
-	<a href={href} class="group mt-1 block">
-		<h4 class="font-serif text-lg leading-snug font-bold text-neutral-900 transition-colors group-hover:text-brand">
+<aside class="my-8 rounded-2xl bg-white px-5 py-4 font-sans shadow-[inset_0_0_0_1px_#e6e6e2]">
+	<p class="text-[11px] font-bold tracking-[0.08em] text-brand uppercase">Leé también</p>
+	<a href={href} class="group mt-1 block no-underline">
+		<h4 class="font-display text-lg leading-snug font-bold text-ink transition-colors group-hover:text-brand">
 			{titulo}
 		</h4>
 		{
 			texto && (
-				<p class="mt-1 text-sm leading-relaxed text-neutral-600 group-hover:text-neutral-800">
+				<p class="mt-1 text-sm leading-relaxed text-neutral-600">
 					{texto}
 				</p>
 			)

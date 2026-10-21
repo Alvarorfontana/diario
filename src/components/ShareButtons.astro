@@ -8,24 +8,41 @@ const texto = encodeURIComponent(title);
 const enlace = encodeURIComponent(url);
 ---
 
+<!-- Botones grandes para compartir (WhatsApp primero, que es lo que más se usa) -->
 <div class="flex items-center gap-2">
-	<span class="text-[11px] font-bold tracking-[0.15em] text-neutral-400 uppercase">Compartir</span>
-	<a
-		href={`https://twitter.com/intent/tweet?text=${texto}&url=${enlace}`}
-		target="_blank" rel="noopener"
-		aria-label="Compartir en X"
-		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
-	>𝕏</a>
 	<a
 		href={`https://wa.me/?text=${texto}%20${enlace}`}
 		target="_blank" rel="noopener"
-		aria-label="Compartir en WhatsApp"
-		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
-	>✆</a>
+		class="flex h-11 flex-1 items-center justify-center rounded-xl bg-[#1f8f4e] px-3 text-[13px] font-bold text-white transition-opacity hover:opacity-90"
+	>WhatsApp</a>
+	<a
+		href={`https://twitter.com/intent/tweet?text=${texto}&url=${enlace}`}
+		target="_blank" rel="noopener"
+		class="flex h-11 flex-1 items-center justify-center rounded-xl bg-white px-3 text-[13px] font-bold text-ink shadow-[inset_0_0_0_1px_#dcdcd6] transition-colors hover:bg-neutral-50"
+	>X</a>
 	<a
 		href={`https://www.facebook.com/sharer/sharer.php?u=${enlace}`}
 		target="_blank" rel="noopener"
-		aria-label="Compartir en Facebook"
-		class="flex h-8 w-8 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600 transition-colors hover:bg-brand hover:text-white"
-	>f</a>
+		class="flex h-11 flex-1 items-center justify-center rounded-xl bg-white px-3 text-[13px] font-bold text-ink shadow-[inset_0_0_0_1px_#dcdcd6] transition-colors hover:bg-neutral-50"
+	>Facebook</a>
+	<button
+		type="button"
+		data-copiar={url}
+		aria-label="Copiar enlace"
+		class="copiar-enlace flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-ink shadow-[inset_0_0_0_1px_#dcdcd6] transition-colors hover:bg-neutral-50"
+	>
+		<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"></path><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"></path></svg>
+	</button>
 </div>
+
+<script is:inline>
+	document.querySelectorAll('.copiar-enlace').forEach(function (btn) {
+		if (btn.dataset.listo) return;
+		btn.dataset.listo = '1';
+		btn.addEventListener('click', function () {
+			var url = btn.dataset.copiar;
+			var listo = function () { btn.setAttribute('aria-label', 'Enlace copiado'); btn.style.background = '#e8f5ee'; setTimeout(function () { btn.setAttribute('aria-label', 'Copiar enlace'); btn.style.background = ''; }, 1500); };
+			if (navigator.clipboard) navigator.clipboard.writeText(url).then(listo, function () {});
+		});
+	});
+</script>
