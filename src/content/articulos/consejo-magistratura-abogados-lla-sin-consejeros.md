@@ -3,7 +3,7 @@ title: "Consejo de la Magistratura: La Libertad Avanza debutó en la elección d
 volanta: "Justicia"
 description: "La lista libertaria sacó el 7,6% y quedó cuarta. Las cuatro bancas de la abogacía se las repartieron Daniel Angelici, con dos, y las dos listas del peronismo, con una cada una."
 section: argentina
-author: "Álvaro Fontana"
+author: "Redacción"
 pubDate: 2026-10-21
 heroImage: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1200&h=600&fit=crop&q=90"
 imageCaption: "Imagen ilustrativa de la Justicia. Foto: Unsplash."
