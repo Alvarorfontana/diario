@@ -3,7 +3,7 @@ title: "Trump desembarca en Itaipú: Estados Unidos avanza sobre la energía de 
 volanta: "Geopolítica · Energía · IA"
 description: "Washington anunció un acuerdo entre Crusoe y Araico para alimentar centros de datos de IA con electricidad de Itaipú. La movida llega en plena renegociación del tratado y a cuatro días del balotaje en Brasil."
 section: internacional
-author: Álvaro Fontana
+author: Emilio Lahitte
 pubDate: 2026-10-22
 heroImage: "/uploads/2026-10-22-itaipu-represa.jpg"
 imageCaption: "La represa de Itaipú, sobre el río Paraná, con el vertedero abierto. La central es administrada en partes iguales por Brasil y Paraguay. Foto: Diario ABC Color (Paraguay)."
