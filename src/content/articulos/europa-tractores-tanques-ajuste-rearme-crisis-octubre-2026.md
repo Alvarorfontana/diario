@@ -5,8 +5,6 @@ description: "La presión de Estados Unidos para elevar el gasto militar, la gue
 section: internacional
 author: "Álvaro Fontana"
 pubDate: 2026-10-21
-heroImage: "https://commons.wikimedia.org/wiki/Special:FilePath/Farmers%27_protest_in_Brussels_%2809%29.jpg"
-imageCaption: "Tractores durante las protestas agrarias en Bruselas, el 1 de febrero de 2024. Fotografía de archivo: Comisión Europea / Christophe Licoppe (CC BY 4.0)."
 ultimoMomento: true
 tags: ["Europa", "Agricultura", "Ucrania", "OTAN", "Francia", "Economía"]
 resumenCompartir: "Europa entre los tractores y los tanques: las guerras, el rearme y el ajuste fiscal ponen a prueba el modelo social europeo."
