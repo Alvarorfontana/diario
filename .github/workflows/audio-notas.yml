@@ -36,9 +36,12 @@ concurrency:
 jobs:
   audio:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
     steps:
+      # Siempre la última versión de main (incluye los audios de corridas anteriores)
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - uses: actions/setup-python@v5
         with:
@@ -50,7 +53,10 @@ jobs:
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
 
       - name: Generar audios
+        timeout-minutes: 40
+        continue-on-error: true
         env:
+          PYTHONUNBUFFERED: '1'
           VOZ: ${{ inputs.voz || 'es-AR-TomasNeural' }}
           TODAS: ${{ inputs.todas && '1' || '' }}
         run: python scripts/generar-audios.py

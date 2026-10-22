@@ -162,7 +162,8 @@ async def sintetizar(texto: str, destino: Path) -> None:
         ultimo_error = None
         for intento in range(3):
             try:
-                await edge_tts.Communicate(texto, VOZ).save(str(crudo))
+                # Límite por intento: si la conexión se cuelga, se corta y se reintenta
+                await asyncio.wait_for(edge_tts.Communicate(texto, VOZ).save(str(crudo)), timeout=240)
                 if crudo.exists() and crudo.stat().st_size > 1000:
                     break
             except Exception as e:  # la conexión a veces se corta: reintentar
@@ -192,6 +193,10 @@ def duracion(ruta: Path) -> int:
 
 
 # ── Programa ─────────────────────────────────────────────────────────────────
+
+def guardar(manifiesto: dict) -> None:
+    MANIFIESTO.write_text(json.dumps(dict(sorted(manifiesto.items())), ensure_ascii=False, indent=2) + "\n", "utf-8")
+
 
 def main() -> int:
     CARPETA_AUDIO.mkdir(parents=True, exist_ok=True)
@@ -234,6 +239,7 @@ def main() -> int:
             "voz": VOZ,
         }
         generados += 1
+        guardar(manifiesto)  # se guarda nota por nota: si el proceso se corta, no se pierde lo hecho
         print(f"  ✓ {archivo.name} · {manifiesto[slug]['duracion']} s · {archivo.stat().st_size // 1024} KB")
 
     # Notas borradas o pasadas a borrador: se va su audio
@@ -244,7 +250,7 @@ def main() -> int:
         del manifiesto[slug]
         print(f"− {slug} (audio eliminado)")
 
-    MANIFIESTO.write_text(json.dumps(dict(sorted(manifiesto.items())), ensure_ascii=False, indent=2) + "\n", "utf-8")
+    guardar(manifiesto)
     print(f"Listo: {generados} audio(s) nuevos, {errores} error(es), {len(manifiesto)} en total.")
     return 1 if errores and not generados else 0
 
