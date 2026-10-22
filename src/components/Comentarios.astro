@@ -7,14 +7,18 @@ interface Props {
 const { identifier, title } = Astro.props;
 ---
 
-<section class="tarjeta mx-auto mt-12 max-w-3xl p-5 sm:p-7">
+<section id="comentarios" class="tarjeta mx-auto mt-12 max-w-3xl scroll-mt-20 p-5 sm:p-7">
 	<h2 class="titulo-seccion">Comentarios</h2>
 	<p class="mt-1 text-sm text-neutral-500">
-		Opiná sobre este artículo. Sé respetuoso.
+		Opiná sobre este artículo. Los comentarios se publican después de que los revisa la redacción.
 	</p>
 
 	<form id="comment-form" class="mt-6 space-y-3">
 		<input type="hidden" name="articleId" value={identifier} />
+		<!-- Campo trampa para robots: invisible para las personas -->
+		<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+			<label>No completar <input type="text" name="web" tabindex="-1" autocomplete="off" /></label>
+		</div>
 		<div>
 			<input
 				type="text"
@@ -41,7 +45,7 @@ const { identifier, title } = Astro.props;
 				id="comment-btn"
 				class="rounded-sm bg-brand px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-brand-dark"
 			>
-				Publicar comentario
+				Enviar comentario
 			</button>
 			<span id="comment-status" class="text-sm hidden"></span>
 		</div>
@@ -53,13 +57,17 @@ const { identifier, title } = Astro.props;
 </section>
 
 <script is:inline define:vars={{ articleId: identifier }}>
+	function esc(t) {
+		return String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+	}
+
 	async function loadComments() {
 		const el = document.getElementById('comments-list');
 		try {
 			const res = await fetch('/api/comments?articleId=' + encodeURIComponent(articleId));
 			const comments = await res.json();
 
-			if (!comments.length) {
+			if (!Array.isArray(comments) || !comments.length) {
 				el.innerHTML = '<p class="text-sm text-neutral-400">No hay comentarios todavía. ¡Sé el primero!</p>';
 				return;
 			}
@@ -67,7 +75,7 @@ const { identifier, title } = Astro.props;
 			el.innerHTML = comments.map(c => {
 				const d = new Date(c.date);
 				const fecha = d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-				const initials = c.author.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+				const initials = esc(c.author.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2));
 				return `
 					<div class="flex gap-3 rounded-sm border border-neutral-100 bg-neutral-50 p-4">
 						<div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-neutral-200 text-xs font-bold text-neutral-600">
@@ -75,10 +83,10 @@ const { identifier, title } = Astro.props;
 						</div>
 						<div class="min-w-0 flex-1">
 							<div class="flex items-baseline gap-2">
-								<span class="text-sm font-semibold text-neutral-900">${c.author}</span>
+								<span class="text-sm font-semibold text-neutral-900">${esc(c.author)}</span>
 								<span class="text-xs text-neutral-400">${fecha}</span>
 							</div>
-							<p class="mt-1 text-sm leading-relaxed text-neutral-700 whitespace-pre-line">${c.text}</p>
+							<p class="mt-1 text-sm leading-relaxed text-neutral-700 whitespace-pre-line">${esc(c.text)}</p>
 						</div>
 					</div>
 				`;
@@ -95,6 +103,7 @@ const { identifier, title } = Astro.props;
 		const form = e.target;
 		const author = form.querySelector('input[name="author"]').value;
 		const text = form.querySelector('textarea[name="text"]').value;
+		const web = form.querySelector('input[name="web"]').value;
 
 		btn.disabled = true;
 		btn.textContent = 'Enviando...';
@@ -104,16 +113,15 @@ const { identifier, title } = Astro.props;
 			const res = await fetch('/api/comments', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ articleId, author, text }),
+				body: JSON.stringify({ articleId, author, text, web }),
 			});
 			const data = await res.json();
 
 			status.className = 'text-sm';
 			if (data.ok) {
-				status.textContent = '¡Comentario publicado!';
+				status.textContent = '¡Gracias! Tu comentario se va a publicar cuando lo revise la redacción.';
 				status.style.color = '#16a34a';
 				form.querySelector('textarea[name="text"]').value = '';
-				setTimeout(loadComments, 1000);
 			} else {
 				status.textContent = data.error || 'Error al publicar.';
 				status.style.color = '#dc2626';
@@ -125,7 +133,7 @@ const { identifier, title } = Astro.props;
 		}
 
 		btn.disabled = false;
-		btn.textContent = 'Publicar comentario';
+		btn.textContent = 'Enviar comentario';
 	});
 
 	loadComments();

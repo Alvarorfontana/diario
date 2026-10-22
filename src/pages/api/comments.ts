@@ -1,144 +1,97 @@
-import { readData, writeData } from '../../lib/datastore';
 export const prerender = false;
 
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { getArticulo } from '../../lib/articles';
 import { notifyNewComment } from '../../lib/email';
+import { estadoDe, leerComentarios, linkModeracion, modificarComentarios, type Comentario } from '../../lib/comentarios';
 
-const FILE_PATH = 'data/comments.json';
-
-// ─── Acceso portable a variables de entorno ────────────────────────────────
-// Cloudflare Workers expone las env vars en locals.runtime.env.
-// Vercel / Netlify / Node las exponen en import.meta.env.
-type RuntimeEnv = Record<string, string | undefined>;
-
-interface ApiContext {
-	request: Request;
-	locals?: { runtime?: { env?: RuntimeEnv } };
-}
-
-function getEnv(locals: ApiContext['locals']): RuntimeEnv {
-	const runtimeEnv = locals?.runtime?.env;
-	return runtimeEnv ?? (import.meta.env as unknown as RuntimeEnv);
-}
-
-function ghHeaders(token: string) {
-	return {
-		Authorization: `token ${token}`,
-		Accept: 'application/vnd.github+json',
-	};
-}
-
-// Base64 UTF-8 con APIs web (funciona en Node, Workers, Deno, etc.)
-function b64encodeUtf8(text: string): string {
-	return btoa(unescape(encodeURIComponent(text)));
-}
-
-function b64decodeUtf8(b64: string): string {
-	return decodeURIComponent(escape(atob(b64.replace(/\n/g, ''))));
-}
-
-// ─── Storage en GitHub (data/comments.json) ────────────────────────────────
-
-interface Comment {
-	id: string;
-	articleId: string;
-	author: string;
-	text: string;
-	date: string;
-}
-
-async function readCommentsFile(token: string): Promise<{ comments: Comment[]; sha: string | null }> {
-	try {
-		const { text, sha } = await readData(FILE_PATH, token);
-		return { comments: text ? JSON.parse(text) : [], sha };
-	} catch {
-		return { comments: [], sha: null };
-	}
-}
-
-async function writeCommentsFile(token: string, comments: Comment[], sha: string | null) {
-	try {
-		return await writeData(FILE_PATH, JSON.stringify(comments, null, 2), sha, 'Update comments', token);
-	} catch (e: any) {
-		return { message: e.message };
-	}
-}
-
-// ─── Handlers ──────────────────────────────────────────────────────────────
-
-export const GET = async ({ request, locals }: ApiContext) => {
-	const url = new URL(request.url);
-	const articleId = url.searchParams.get('articleId');
-	if (!articleId) return new Response('Missing articleId', { status: 400 });
-
-	const token = getEnv(locals).GITHUB_PAT;
-	if (!token) {
-		return new Response(JSON.stringify({ ok: false, error: 'GITHUB_PAT no configurado' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json' },
-		});
-	}
-
-	const { comments } = await readCommentsFile(token);
-	const filtered = comments.filter((c) => c.articleId === articleId);
-
-	return new Response(JSON.stringify(filtered), {
-		headers: { 'content-type': 'application/json' },
+const json = (body: unknown, status = 200) =>
+	new Response(JSON.stringify(body), {
+		status,
+		headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
 	});
+
+// Comentarios aprobados de una nota (lo que ve el público)
+export const GET = async ({ request, locals }: any) => {
+	const articleId = new URL(request.url).searchParams.get('articleId');
+	if (!articleId) return json({ ok: false, error: 'Falta articleId' }, 400);
+
+	const token = getRuntimeEnv(locals).GITHUB_PAT;
+	if (!token) return json({ ok: false, error: 'GITHUB_PAT no configurado' }, 500);
+
+	try {
+		const { comentarios } = await leerComentarios(token);
+		const visibles = comentarios
+			.filter((c) => c.articleId === articleId && estadoDe(c) === 'aprobado')
+			.map(({ id, author, text, date }) => ({ id, author, text, date }));
+		return json(visibles);
+	} catch {
+		return json([]);
+	}
 };
 
-export const POST = async ({ request, locals }: ApiContext) => {
+// Comentario nuevo: queda pendiente y se avisa por mail
+export const POST = async ({ request, locals }: any) => {
+	const env = getRuntimeEnv(locals);
+	const token = env.GITHUB_PAT;
+	if (!token) return json({ ok: false, error: 'GITHUB_PAT no configurado' }, 500);
+
+	let body: any;
 	try {
-		const token = getEnv(locals).GITHUB_PAT;
-		if (!token) {
-			return new Response(JSON.stringify({ ok: false, error: 'GITHUB_PAT no configurado' }), {
-				status: 500,
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-
-		const body = await request.json();
-		const { articleId, author, text } = body;
-
-		if (!articleId || !author || !text) {
-			return new Response(JSON.stringify({ ok: false, error: 'Faltan campos' }), {
-				status: 400,
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-
-		const { comments, sha } = await readCommentsFile(token);
-
-		const newComment: Comment = {
-			id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-			articleId,
-			author: author.slice(0, 50),
-			text: text.slice(0, 1000),
-			date: new Date().toISOString(),
-		};
-
-		comments.push(newComment);
-		const result = await writeCommentsFile(token, comments, sha);
-
-		if (result.commit) {
-			// Send email notification (non-blocking)
-			const articleUrl = `${new URL(request.url).origin}/articulo/${articleId}/`;
-			notifyNewComment(articleId, author, text, articleUrl, {
-				apiKey: getEnv(locals).RESEND_API_KEY,
-				notifyEmail: getEnv(locals).NOTIFY_EMAIL,
-			}).catch(() => {});
-
-			return new Response(JSON.stringify({ ok: true, comment: newComment }), {
-				headers: { 'content-type': 'application/json' },
-			});
-		}
-		return new Response(JSON.stringify({ ok: false, error: 'GitHub API error', detail: result.message }), {
-			status: 500,
-			headers: { 'content-type': 'application/json' },
-		});
-	} catch (e) {
-		return new Response(JSON.stringify({ ok: false, error: 'Error del servidor' }), {
-			status: 500,
-			headers: { 'content-type': 'application/json' },
-		});
+		body = await request.json();
+	} catch {
+		return json({ ok: false, error: 'Datos inválidos' }, 400);
 	}
+
+	// Campo trampa invisible: los robots lo llenan, las personas no
+	if (body.web) return json({ ok: true, pendiente: true });
+
+	const articleId = String(body.articleId ?? '').trim();
+	const author = String(body.author ?? '').trim().slice(0, 50);
+	const text = String(body.text ?? '').trim().slice(0, 1000);
+	if (!articleId || !author || !text) return json({ ok: false, error: 'Completá tu nombre y el comentario.' }, 400);
+
+	const nota = await getArticulo(articleId).catch(() => undefined);
+	if (!nota) return json({ ok: false, error: 'La nota no existe.' }, 404);
+
+	const nuevo: Comentario = {
+		id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+		articleId,
+		author,
+		text,
+		date: new Date().toISOString(),
+		estado: 'pendiente',
+	};
+
+	try {
+		await modificarComentarios(token, 'Comentario nuevo (pendiente)', (lista) => {
+			lista.push(nuevo);
+		});
+	} catch (e: any) {
+		console.error('No se pudo guardar el comentario:', e?.message);
+		return json({ ok: false, error: 'No se pudo enviar el comentario. Probá de nuevo en un rato.' }, 500);
+	}
+
+	// Aviso por mail (se espera: en Vercel, lo que queda corriendo después de responder se corta)
+	const origen = (env.SITE_URL || new URL(request.url).origin).replace(/\/$/, '');
+	if (env.ADMIN_PASSWORD) {
+		try {
+			await notifyNewComment(
+				{
+					tituloNota: nota.title,
+					autor: author,
+					texto: text,
+					urlNota: `${origen}/articulo/${articleId}/`,
+					urlAprobar: await linkModeracion(origen, env.ADMIN_PASSWORD, nuevo.id, 'aprobar'),
+					urlBorrar: await linkModeracion(origen, env.ADMIN_PASSWORD, nuevo.id, 'borrar'),
+					urlPanel: `${origen}/admin/comentarios/`,
+				},
+				{ apiKey: env.RESEND_API_KEY, notifyEmail: env.NOTIFY_EMAIL, from: env.RESEND_FROM },
+			);
+		} catch (e: any) {
+			console.error('Aviso de comentario:', e?.message);
+		}
+	}
+
+	return json({ ok: true, pendiente: true });
 };

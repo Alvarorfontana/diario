@@ -1,0 +1,160 @@
+---
+export const prerender = false;
+
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+const env = getRuntimeEnv(Astro.locals);
+const isAuthenticated = await isAdmin(Astro.request, env);
+const avisoMail = Boolean(env.RESEND_API_KEY);
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="robots" content="noindex" />
+	<title>Comentarios - Admin</title>
+	<style is:global>
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 30px auto; padding: 16px; background: #f5f5f5; color: #16161a; }
+		.card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 18px; }
+		.btn { padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; text-decoration: none; display: inline-block; }
+		.btn-secondary { background: #6b7280; color: white; }
+		.btn-ok { background: #1f8f4e; color: white; }
+		.btn-borrar { background: white; color: #d0021b; box-shadow: inset 0 0 0 1px #e5b3b9; }
+		.btn:disabled { opacity: .5; cursor: default; }
+		.tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+		.tab { padding: 8px 14px; border-radius: 99px; border: none; background: #ececea; font-weight: 700; font-size: 14px; cursor: pointer; color: #16161a; }
+		.tab.activa { background: #16161a; color: white; }
+		.cuenta { display: inline-block; min-width: 18px; padding: 0 6px; margin-left: 4px; border-radius: 99px; background: #d0021b; color: white; font-size: 12px; line-height: 18px; text-align: center; }
+		.tab.activa .cuenta { background: white; color: #16161a; }
+		.item { border-top: 1px solid #eee; padding: 16px 0; }
+		.item:first-child { border-top: none; }
+		.meta { font-size: 13px; color: #666; margin: 0 0 6px; }
+		.meta a { color: #16161a; font-weight: 600; }
+		.texto { white-space: pre-line; background: #f7f7f5; border-radius: 8px; padding: 12px 14px; margin: 0 0 10px; overflow-wrap: anywhere; }
+		.acciones { display: flex; gap: 8px; }
+		.aviso { background: #fff7e0; border: 1px solid #f0d58a; border-radius: 10px; padding: 12px 14px; font-size: 14px; margin-top: 14px; }
+		.vacio { color: #666; }
+		#msg { font-weight: 600; min-height: 1em; }
+	</style>
+</head>
+<body>
+	{!isAuthenticated ? (
+		<div class="card">
+			<h2>Acceso denegado</h2>
+			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+		</div>
+	) : (
+		<div>
+			<div class="card">
+				<h1 style="margin-top:0">💬 Comentarios</h1>
+				<p style="margin-bottom:16px">Los comentarios nuevos no se ven en el sitio hasta que los aprobás.</p>
+				<a href="/admin" class="btn btn-secondary">← Volver al panel</a>
+				{!avisoMail && (
+					<div class="aviso">
+						<strong>El aviso por mail todavía no está activo.</strong> Falta cargar <code>RESEND_API_KEY</code> en Vercel.
+						Mientras tanto, revisá los comentarios desde acá.
+					</div>
+				)}
+			</div>
+
+			<div class="card">
+				<div class="tabs">
+					<button class="tab activa" data-filtro="pendiente">Pendientes <span class="cuenta" id="cuenta-pendiente">0</span></button>
+					<button class="tab" data-filtro="aprobado">Publicados</button>
+				</div>
+				<p id="msg"></p>
+				<div id="lista"><p class="vacio">Cargando…</p></div>
+			</div>
+		</div>
+	)}
+
+	<script is:inline>
+		(function () {
+			var lista = document.getElementById('lista');
+			if (!lista) return;
+			var msg = document.getElementById('msg');
+			var cuenta = document.getElementById('cuenta-pendiente');
+			var filtro = 'pendiente';
+			var todos = [];
+
+			function esc(t) { var d = document.createElement('div'); d.textContent = t || ''; return d.innerHTML; }
+			function fecha(iso) {
+				return new Date(iso).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+			}
+
+			function pintar() {
+				var pendientes = todos.filter(function (c) { return c.estado === 'pendiente'; });
+				cuenta.textContent = pendientes.length;
+				cuenta.style.display = pendientes.length ? '' : 'none';
+				var visibles = todos.filter(function (c) { return c.estado === filtro; });
+				if (!visibles.length) {
+					lista.innerHTML = '<p class="vacio">' + (filtro === 'pendiente' ? 'No hay comentarios esperando aprobación. 👌' : 'Todavía no hay comentarios publicados.') + '</p>';
+					return;
+				}
+				lista.innerHTML = visibles.map(function (c) {
+					return '<div class="item" data-id="' + esc(c.id) + '">' +
+						'<p class="meta"><strong>' + esc(c.author) + '</strong> · ' + fecha(c.date) +
+						' · en <a href="/articulo/' + encodeURIComponent(c.articleId) + '/" target="_blank">' + esc(c.tituloNota) + '</a></p>' +
+						'<p class="texto">' + esc(c.text) + '</p>' +
+						'<div class="acciones">' +
+						(c.estado === 'pendiente' ? '<button class="btn btn-ok" data-accion="aprobar">✓ Aprobar</button>' : '') +
+						'<button class="btn btn-borrar" data-accion="borrar">✕ Borrar</button>' +
+						'</div></div>';
+				}).join('');
+			}
+
+			async function cargar() {
+				try {
+					var r = await (await fetch('/api/admin/comentarios', { cache: 'no-store' })).json();
+					if (!r.ok) throw new Error(r.error || 'Error');
+					todos = r.comentarios;
+					pintar();
+				} catch (e) {
+					lista.innerHTML = '<p class="vacio">No se pudieron cargar los comentarios: ' + esc(e.message) + '</p>';
+				}
+			}
+
+			document.querySelectorAll('.tab').forEach(function (t) {
+				t.addEventListener('click', function () {
+					document.querySelectorAll('.tab').forEach(function (x) { x.classList.remove('activa'); });
+					t.classList.add('activa');
+					filtro = t.getAttribute('data-filtro');
+					msg.textContent = '';
+					pintar();
+				});
+			});
+
+			lista.addEventListener('click', async function (e) {
+				var b = e.target.closest('[data-accion]');
+				if (!b) return;
+				var item = b.closest('.item');
+				var id = item.getAttribute('data-id');
+				var accion = b.getAttribute('data-accion');
+				if (accion === 'borrar' && !confirm('¿Borrar este comentario? No se puede deshacer.')) return;
+				item.querySelectorAll('button').forEach(function (x) { x.disabled = true; });
+				try {
+					var r = await (await fetch('/api/admin/comentarios', {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ id: id, accion: accion }),
+					})).json();
+					if (!r.ok) throw new Error(r.error || 'Error');
+					if (accion === 'borrar') todos = todos.filter(function (c) { return c.id !== id; });
+					else todos.forEach(function (c) { if (c.id === id) c.estado = 'aprobado'; });
+					msg.style.color = '#1f8f4e';
+					msg.textContent = accion === 'aprobar' ? 'Aprobado: ya se ve en el sitio.' : 'Comentario borrado.';
+					pintar();
+				} catch (err) {
+					msg.style.color = '#d0021b';
+					msg.textContent = 'No se pudo: ' + err.message;
+					item.querySelectorAll('button').forEach(function (x) { x.disabled = false; });
+				}
+			});
+
+			cargar();
+		})();
+	</script>
+</body>
+</html>
