@@ -5,8 +5,6 @@ description: "Los principales referentes del justicialismo volverán a encontrar
 section: argentina
 author: "Redacción de Diario Federal"
 pubDate: 2026-10-22T18:46:00-03:00
-heroImage: "/_vercel/image?url=https%3A%2F%2Fahoraonline.com.ar%2Fdownload%2Fmultimedia.normal.a6fa8007bba34ad3.bm9ybWFsLndlYnA%253D.webp&w=1200&q=75"
-imageCaption: "Axel Kicillof, Sergio Massa y Máximo Kirchner, en una fotografía de archivo. Imagen publicada por Ahora Online; autoría original por confirmar."
 draft: false
 ---
 
