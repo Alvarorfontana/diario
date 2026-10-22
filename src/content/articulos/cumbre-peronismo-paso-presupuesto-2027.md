@@ -6,6 +6,8 @@ section: argentina
 author: "Redacción de Diario Federal"
 pubDate: 2026-10-22T18:46:00-03:00
 draft: false
+heroImage: "/uploads/2026-10-22-cumbre-peronismo.webp"
+imageCaption: "Sergio Massa, Máximo Kirchner y Axel Kicillof, en una fotografía de archivo. Foto: archivo."
 ---
 
 El peronismo llega esta noche a una de sus reuniones políticas más significativas del año. Axel Kicillof, Sergio Massa y Máximo Kirchner volverán a compartir un encuentro con gobernadores y autoridades de los bloques legislativos de Unión por la Patria. La convocatoria reeditará el formato de la reunión celebrada el 11 de agosto en el Hotel Emperador, en la Ciudad de Buenos Aires.
