@@ -1,0 +1,74 @@
+name: Audio de las notas (Escuchá esta nota)
+
+# Cada vez que se publica o edita una nota, genera su versión en audio con voz
+# argentina y la guarda en public/audio/. Las notas que no cambiaron no se tocan.
+# También se puede correr a mano desde la pestaña Actions (por ejemplo, para
+# generar el audio de todas las notas viejas).
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/articulos/**'
+      - 'scripts/generar-audios.py'
+      - '.github/workflows/audio-notas.yml'
+  workflow_dispatch:
+    inputs:
+      todas:
+        description: 'Generar también las notas viejas (más de 7 días)'
+        type: boolean
+        default: false
+      voz:
+        description: 'Voz'
+        type: choice
+        default: es-AR-TomasNeural
+        options:
+          - es-AR-TomasNeural
+          - es-AR-ElenaNeural
+
+permissions:
+  contents: write
+
+# Si se publican varias notas seguidas, se procesan de a una
+concurrency:
+  group: audio-notas
+  cancel-in-progress: false
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar herramientas
+        run: |
+          pip install edge-tts pyyaml
+          which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+
+      - name: Generar audios
+        env:
+          VOZ: ${{ inputs.voz || 'es-AR-TomasNeural' }}
+          TODAS: ${{ inputs.todas && '1' || '' }}
+        run: python scripts/generar-audios.py
+
+      - name: Guardar en el repositorio
+        run: |
+          # Firmado como el dueño del repo: Vercel no publica commits de otros autores
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add -A public/audio data/audios.json
+          if git diff --cached --quiet; then
+            echo "No hay audios nuevos."
+            exit 0
+          fi
+          git commit -m "Audio de las notas"
+          # Si mientras tanto se publicó otra nota, sumarse a ese cambio y reintentar
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1

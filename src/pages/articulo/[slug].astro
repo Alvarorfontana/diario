@@ -4,6 +4,7 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import ArticleCard from '../../components/ArticleCard.astro';
 import Comentarios from '../../components/Comentarios.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
+import EscucharNota from '../../components/EscucharNota.astro';
 import AdBanner from '../../components/AdBanner.astro';
 import NewsletterBox from '../../components/NewsletterBox.astro';
 import { nombreSeccion, SITE_TITLE, slugify } from '../../consts';
@@ -118,6 +119,8 @@ const schema = {
 			<div class="mt-4">
 				<ShareButtons url={Astro.url.href} title={title} />
 			</div>
+
+			<EscucharNota slug={slug} title={title} />
 
 			{
 				tags && Array.isArray(tags) && tags.length > 0 && (

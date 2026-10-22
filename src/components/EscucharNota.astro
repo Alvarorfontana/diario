@@ -1,0 +1,243 @@
+---
+// Reproductor "Escuchá esta nota". El audio lo genera GitHub Actions
+// (scripts/generar-audios.py) y queda anotado en data/audios.json.
+// Si la nota todavía no tiene audio, no se muestra nada.
+import audios from '../../data/audios.json';
+
+interface Props {
+	slug: string;
+	title: string;
+}
+const { slug, title } = Astro.props;
+const audio = (audios as Record<string, { archivo: string; duracion: number }>)[slug];
+
+const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
+const minutos = audio ? Math.max(1, Math.round(audio.duracion / 60)) : 0;
+---
+
+{
+	audio && (
+		<div
+			id="escuchar"
+			class="escuchar tarjeta mt-6 scroll-mt-20 px-3 py-3 shadow-[inset_0_0_0_1px_#e6e6e2] transition-shadow sm:px-4"
+			data-escuchar
+			data-titulo={title}
+			data-slug={slug}
+		>
+			<div class="flex items-center gap-3">
+			<audio preload="none" src={audio.archivo} data-audio></audio>
+
+			<button
+				type="button"
+				class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+				aria-label="Escuchar la nota"
+				data-play
+			>
+				<svg data-icono-play viewBox="0 0 24 24" class="ml-0.5 h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
+				<svg data-icono-pausa viewBox="0 0 24 24" class="hidden h-5 w-5" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>
+			</button>
+
+			<div class="min-w-0 flex-1">
+				<div class="flex items-baseline justify-between gap-2">
+					<p class="truncate text-sm font-bold text-ink">Escuchá esta nota</p>
+					<p class="shrink-0 text-xs tabular-nums text-neutral-500"><span data-actual>0:00</span> / <span data-total>{mmss(audio.duracion)}</span></p>
+				</div>
+				<input
+					type="range" min="0" max={audio.duracion || 1} step="1" value="0"
+					class="barra mt-1.5 block w-full"
+					aria-label="Avanzar o retroceder"
+					data-barra
+				/>
+				<p class="mt-1 text-[11px] text-neutral-500">{minutos} min · Voz generada automáticamente</p>
+			</div>
+
+			<button
+				type="button"
+				class="h-8 shrink-0 rounded-full bg-white px-2.5 text-xs font-bold tabular-nums text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:bg-neutral-50"
+				aria-label="Cambiar velocidad"
+				data-velocidad
+			>1x</button>
+			</div>
+
+			<div class="mt-3 flex items-center gap-2 border-t border-neutral-200 pt-3">
+				<button
+					type="button"
+					class="flex h-9 flex-1 items-center justify-center gap-2 rounded-xl bg-[#1f8f4e] px-3 text-[13px] font-bold text-white transition-opacity hover:opacity-90"
+					data-compartir
+				>
+					<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" /><path d="M12 3v12" /><path d="m7 8 5-5 5 5" /></svg>
+					<span data-compartir-texto>Compartir audio</span>
+				</button>
+				<a
+					href={audio.archivo}
+					download
+					class="flex h-9 items-center justify-center rounded-xl bg-white px-3 text-[13px] font-bold text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:bg-neutral-50"
+				>Descargar</a>
+			</div>
+		</div>
+	)
+}
+
+<style>
+	.barra {
+		-webkit-appearance: none;
+		appearance: none;
+		height: 4px;
+		border-radius: 999px;
+		background: linear-gradient(to right, var(--color-brand) var(--avance, 0%), #e5e5e0 var(--avance, 0%));
+		cursor: pointer;
+	}
+	.barra::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		background: var(--color-brand);
+		border: 2px solid #fff;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+	}
+	.resaltado {
+		box-shadow: inset 0 0 0 2px var(--color-brand), 0 0 0 6px rgba(208, 2, 27, 0.12);
+	}
+	.barra::-moz-range-thumb {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--color-brand);
+		border: 2px solid #fff;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		document.querySelectorAll('[data-escuchar]').forEach(function (caja) {
+			var audio = caja.querySelector('[data-audio]');
+			var play = caja.querySelector('[data-play]');
+			var iPlay = caja.querySelector('[data-icono-play]');
+			var iPausa = caja.querySelector('[data-icono-pausa]');
+			var barra = caja.querySelector('[data-barra]');
+			var actual = caja.querySelector('[data-actual]');
+			var total = caja.querySelector('[data-total]');
+			var vel = caja.querySelector('[data-velocidad]');
+			var velocidades = [1, 1.25, 1.5, 0.85];
+			var iv = 0;
+			var arrastrando = false;
+
+			function mmss(s) {
+				s = Math.max(0, Math.floor(s || 0));
+				return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+			}
+			function pintar() {
+				var max = Number(barra.max) || 1;
+				barra.style.setProperty('--avance', (Number(barra.value) / max) * 100 + '%');
+			}
+			function estado(sonando) {
+				iPlay.classList.toggle('hidden', sonando);
+				iPausa.classList.toggle('hidden', !sonando);
+				play.setAttribute('aria-label', sonando ? 'Pausar' : 'Escuchar la nota');
+			}
+
+			play.addEventListener('click', function () {
+				if (audio.paused) {
+					// Si hay otra nota sonando en la página, se pausa
+					document.querySelectorAll('[data-audio]').forEach(function (a) { if (a !== audio) a.pause(); });
+					audio.play().catch(function () {});
+				} else {
+					audio.pause();
+				}
+			});
+			audio.addEventListener('play', function () { estado(true); });
+			audio.addEventListener('pause', function () { estado(false); });
+			audio.addEventListener('ended', function () { estado(false); audio.currentTime = 0; });
+			audio.addEventListener('loadedmetadata', function () {
+				if (isFinite(audio.duration)) {
+					barra.max = Math.round(audio.duration);
+					total.textContent = mmss(audio.duration);
+				}
+			});
+			audio.addEventListener('timeupdate', function () {
+				if (arrastrando) return;
+				barra.value = Math.floor(audio.currentTime);
+				actual.textContent = mmss(audio.currentTime);
+				pintar();
+			});
+
+			barra.addEventListener('input', function () {
+				arrastrando = true;
+				actual.textContent = mmss(barra.value);
+				pintar();
+			});
+			barra.addEventListener('change', function () {
+				arrastrando = false;
+				audio.currentTime = Number(barra.value);
+				if (audio.paused) audio.play().catch(function () {});
+			});
+
+			vel.addEventListener('click', function () {
+				iv = (iv + 1) % velocidades.length;
+				audio.playbackRate = velocidades[iv];
+				vel.textContent = String(velocidades[iv]).replace('.', ',') + 'x';
+			});
+
+			// ── Compartir ──────────────────────────────────────────────
+			// 1) Celular: manda el archivo de audio (WhatsApp, Telegram...) con el link de la nota.
+			// 2) Si no se pueden mandar archivos: comparte el link que abre la nota en el reproductor.
+			// 3) Compu sin menú de compartir: copia ese link.
+			var btn = caja.querySelector('[data-compartir]');
+			var btnTexto = caja.querySelector('[data-compartir-texto]');
+			var titulo = caja.getAttribute('data-titulo') || document.title;
+			var link = location.origin + location.pathname + '#escuchar';
+			var archivo = null;
+
+			function aviso(t) {
+				btnTexto.textContent = t;
+				setTimeout(function () { btnTexto.textContent = 'Compartir audio'; }, 2500);
+			}
+
+			btn.addEventListener('click', function () {
+				var texto = '🎧 ' + titulo + '\nEscuchala en Diario Federal: ' + link;
+				var conArchivo = archivo
+					? Promise.resolve(archivo)
+					: fetch(audio.currentSrc || audio.getAttribute('src'))
+						.then(function (r) { return r.blob(); })
+						.then(function (b) {
+							archivo = new File([b], (caja.getAttribute('data-slug') || 'nota') + '.mp3', { type: 'audio/mpeg' });
+							return archivo;
+						});
+
+				if (navigator.share) {
+					btnTexto.textContent = 'Preparando…';
+					conArchivo
+						.then(function (f) {
+							if (navigator.canShare && navigator.canShare({ files: [f] })) {
+								return navigator.share({ files: [f], title: titulo, text: texto });
+							}
+							return navigator.share({ title: titulo, text: texto, url: link });
+						})
+						.catch(function (e) {
+							if (e && e.name === 'AbortError') return; // el lector canceló
+							return navigator.share({ title: titulo, text: texto, url: link }).catch(function () {});
+						})
+						.then(function () { btnTexto.textContent = 'Compartir audio'; });
+					return;
+				}
+
+				if (navigator.clipboard) {
+					navigator.clipboard.writeText(link).then(function () { aviso('Link copiado'); }, function () { prompt('Copiá el link:', link); });
+				} else {
+					prompt('Copiá el link:', link);
+				}
+			});
+
+			// Quien entra por un link compartido (#escuchar) cae directo en el reproductor
+			if (location.hash === '#escuchar') {
+				setTimeout(function () {
+					caja.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					caja.classList.add('resaltado');
+					play.focus({ preventScroll: true });
+					setTimeout(function () { caja.classList.remove('resaltado'); }, 4000);
+				}, 300);
+			}
+		});
+	})();
+</script>
