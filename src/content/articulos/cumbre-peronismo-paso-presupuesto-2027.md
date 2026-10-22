@@ -6,8 +6,6 @@ section: argentina
 author: "Redacción de Diario Federal"
 pubDate: 2026-10-22T18:46:00-03:00
 draft: false
-heroImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/Creaci%C3%B3n_de_Fondo_de_Fortalecimiento_Fiscal.jpg/1280px-Creaci%C3%B3n_de_Fondo_de_Fortalecimiento_Fiscal.jpg"
-imageCaption: "Dirigentes del peronismo bonaerense, entre ellos Axel Kicillof, en un acto en la Quinta de Olivos en septiembre de 2020. Imagen de archivo. Foto: Esteban Collazo / Presidencia de la Nación (CC BY 2.5 AR), vía Wikimedia Commons."
 ---
 
 El peronismo llega esta noche a una de sus reuniones políticas más significativas del año. Axel Kicillof, Sergio Massa y Máximo Kirchner volverán a compartir un encuentro con gobernadores y autoridades de los bloques legislativos de Unión por la Patria. La convocatoria reeditará el formato de la reunión celebrada el 11 de agosto en el Hotel Emperador, en la Ciudad de Buenos Aires.
