@@ -5,6 +5,8 @@ description: "La presión de Estados Unidos para elevar el gasto militar, la gue
 section: internacional
 author: "Álvaro Fontana"
 pubDate: 2026-10-21
+heroImage: "https://cdn-acn.watchity.net/acn/images/d9b1baa8-9ba4-4ce4-a45d-a4cf5eb4e5aa/b1ca12b8-7a09-4d19-a071-5094244f46bb/b1ca12b8-7a09-4d19-a071-5094244f46bb_medium.jpeg"
+imageCaption: "Barcelona, 14 de octubre de 2026. Tractores frente a la Casa Batlló durante la protesta agraria por el aumento de los costos de producción. Foto: Aina Martí / Maria Asmarat / Catalan News."
 ultimoMomento: true
 tags: ["Europa", "Agricultura", "Ucrania", "OTAN", "Francia", "Economía"]
 resumenCompartir: "Europa entre los tractores y los tanques: las guerras, el rearme y el ajuste fiscal ponen a prueba el modelo social europeo."
