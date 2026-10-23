@@ -18,3 +18,21 @@ export const CLIPS: VideoCanal[] = [];
 
 // Si hay una transmisión en vivo, pegá acá su código; si no, dejalo vacío.
 export const VIVO_ID = '';
+
+// Señales de otros medios que se muestran en el Canal, siempre con su nombre.
+// Se insertan con el reproductor oficial de YouTube: los videos quedan alojados en su canal.
+export interface Senal {
+	nombre: string;
+	descripcion: string;
+	listaYoutube: string; // lista de últimos videos del canal ("UU" + el código del canal sin "UC")
+	enlace: string;
+}
+
+export const SENALES: Senal[] = [
+	{
+		nombre: 'DW Español',
+		descripcion: 'Últimos videos de Deutsche Welle en castellano',
+		listaYoutube: 'UUT4Jg8h03dD0iN3Pb5L0PMA',
+		enlace: 'https://www.youtube.com/@dwespanol',
+	},
+];
