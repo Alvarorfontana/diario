@@ -1,0 +1,37 @@
+---
+// Bloque "Encuestas" (como Letra P y LPO): junta solas las notas sobre encuestas y sondeos
+// de las últimas semanas. Aparece solo si hay al menos una.
+import FormattedDate from './FormattedDate.astro';
+import type { Articulo } from '../lib/articles';
+
+interface Props {
+	articulos: Articulo[];
+}
+const { articulos } = Astro.props;
+
+const ES_ENCUESTA = /\b(encuestas?|sondeos?|intenci[oó]n de voto|imagen positiva|aprobaci[oó]n)\b/i;
+const limite = Date.now() - 45 * 24 * 60 * 60 * 1000;
+const encuestas = articulos
+	.filter((a) => a.date.valueOf() >= limite)
+	.filter((a) => ES_ENCUESTA.test([a.volanta, a.title, ...a.tags].filter(Boolean).join(' ')))
+	.slice(0, 4);
+---
+
+{encuestas.length > 0 && (
+	<section class="tarjeta p-5">
+		<h2 class="titulo-seccion mb-2 flex items-center gap-2 text-xl">
+			<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" class="text-brand" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>
+			Encuestas
+		</h2>
+		<ul>
+			{encuestas.map((a) => (
+				<li class="border-b border-[#eeeeea] last:border-0">
+					<a href={`/articulo/${a.slug}/`} class="group block py-3">
+						<span class="block font-display text-[15px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
+						<span class="mt-1 block text-xs text-neutral-500"><FormattedDate date={a.date} /></span>
+					</a>
+				</li>
+			))}
+		</ul>
+	</section>
+)}

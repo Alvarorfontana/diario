@@ -8,6 +8,7 @@ const CASAS: Record<string, string> = {
 	blue: 'Dólar blue',
 	bolsa: 'Dólar MEP',
 	contadoconliqui: 'Dólar CCL',
+	tarjeta: 'Dólar tarjeta',
 };
 
 async function traer(url: string) {
@@ -25,9 +26,10 @@ async function traer(url: string) {
 }
 
 export const GET = async () => {
-	const [dolares, riesgo] = await Promise.all([
+	const [dolares, riesgo, euro] = await Promise.all([
 		traer('https://dolarapi.com/v1/dolares'),
 		traer('https://api.argentinadatos.com/v1/finanzas/indices/riesgo-pais/ultimo'),
+		traer('https://dolarapi.com/v1/cotizaciones/eur'),
 	]);
 
 	const items: { nombre: string; valor: string; detalle?: string }[] = [];
@@ -38,6 +40,9 @@ export const GET = async () => {
 				items.push({ nombre: CASAS[casa], valor: `$${d.venta.toLocaleString('es-AR')}`, detalle: 'venta' });
 			}
 		}
+	}
+	if (euro && typeof euro.venta === 'number') {
+		items.push({ nombre: 'Euro', valor: `$${euro.venta.toLocaleString('es-AR')}`, detalle: 'venta' });
 	}
 	if (riesgo && typeof riesgo.valor === 'number') {
 		items.push({ nombre: 'Riesgo país', valor: `${riesgo.valor.toLocaleString('es-AR')}`, detalle: 'puntos' });

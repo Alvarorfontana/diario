@@ -1,6 +1,6 @@
 ---
 import FormattedDate from './FormattedDate.astro';
-import { nombreSeccion, SITE_TITLE } from '../consts';
+import { nombreSeccion, SITE_TITLE, volantaFuerte } from '../consts';
 
 const { article } = Astro.props;
 
@@ -30,7 +30,9 @@ const volanta = data.volanta;
 		<div class="p-4">
 			<p class="text-[11px] font-bold tracking-[0.1em] uppercase">
 				<span class="text-brand">{nombreSeccion(section)}</span>
-				{volanta && <span class="font-semibold tracking-normal text-neutral-500 normal-case"> · {volanta}</span>}
+				{volanta && (volantaFuerte(volanta)
+					? <span class="ml-1.5 inline-block rounded bg-brand px-1.5 py-0.5 text-[10px] font-extrabold tracking-[0.08em] text-white uppercase">{volanta}</span>
+					: <span class="font-semibold tracking-normal text-neutral-500 normal-case"> · {volanta}</span>)}
 			</p>
 			<h3 class="mt-1.5 font-display text-[1.15rem] leading-[1.25] font-bold text-ink transition-colors group-hover:text-brand sm:text-[1.25rem]">
 				{title}

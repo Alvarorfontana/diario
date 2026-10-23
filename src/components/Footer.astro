@@ -1,11 +1,15 @@
 ---
-import { SITE_TITLE, SECCIONES } from '../consts';
+import { SITE_TITLE, SECCIONES, SOCIAL_LINKS } from '../consts';
+import { REGIONES } from '../lib/regiones';
+import SocialIcons from './SocialIcons.astro';
+
+const hayRedes = SOCIAL_LINKS.some((r) => (r.url as string) !== '#');
 
 const year = new Date().getFullYear();
 ---
 
 <footer class="mt-12 border-t border-[#e6e6e2] bg-white">
-	<div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-3">
+	<div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
 		<div>
 			<p class="flex items-center gap-2 font-display text-2xl font-extrabold tracking-[-0.02em]">
 				<span class="inline-block h-3 w-3 rounded-[3px] bg-brand" aria-hidden="true"></span>{SITE_TITLE}
@@ -13,6 +17,7 @@ const year = new Date().getFullYear();
 			<p class="mt-2 text-sm text-neutral-500">
 				&copy; {year}. Todos los derechos reservados.
 			</p>
+			{hayRedes && <div class="mt-4"><SocialIcons /></div>}
 		</div>
 		<nav>
 			<h2 class="text-xs font-bold tracking-widest text-neutral-500 uppercase">Secciones</h2>
@@ -26,6 +31,14 @@ const year = new Date().getFullYear();
 						</li>
 					))
 				}
+			</ul>
+		</nav>
+		<nav>
+			<h2 class="text-xs font-bold tracking-widest text-neutral-500 uppercase">Regiones</h2>
+			<ul class="mt-3 space-y-1.5 text-sm">
+				{REGIONES.map((r) => (
+					<li><a href={`/region/${r.id}/`} class="text-neutral-700 hover:text-brand">{r.nombre}</a></li>
+				))}
 			</ul>
 		</nav>
 		<nav>

@@ -31,7 +31,13 @@ export const SOCIAL_LINKS = [
 	{ nombre: 'Facebook', url: '#', icono: 'facebook' },
 	{ nombre: 'Instagram', url: '#', icono: 'instagram' },
 	{ nombre: 'YouTube', url: '#', icono: 'youtube' },
+	{ nombre: 'Canal de WhatsApp', url: '#', icono: 'whatsapp' },
 ] as const;
+
+// Volantas que se destacan en rojo, como en LPO ("Exclusivo", "Urgente").
+export function volantaFuerte(volanta?: string): boolean {
+	return !!volanta && /^(exclusivo|urgente|último momento|ultimo momento|primicia)$/i.test(volanta.trim());
+}
 
 export function nombreSeccion(id: string): string {
 	return SECCIONES.find((s) => s.id === id)?.nombre ?? id;
