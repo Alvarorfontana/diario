@@ -7,10 +7,20 @@ export const GET: APIRoute = async ({request,locals})=>{
  const env=getRuntimeEnv(locals);
  if(!await isAdmin(request,env))return response({error:'No autorizado'},401);
  if(!env.BREVO_API_KEY)return response({error:'Falta configurar BREVO_API_KEY en Vercel'},503);
- const r=await fetch('https://api.brevo.com/v3/contacts/lists?limit=50&offset=0',{headers:{'api-key':env.BREVO_API_KEY,accept:'application/json'}});
+ const headers={'api-key':env.BREVO_API_KEY,accept:'application/json'};
+ const r=await fetch('https://api.brevo.com/v3/contacts/lists?limit=50&offset=0',{headers});
  const data=await r.json().catch(()=>({}));
- if(!r.ok)return response({error:'Brevo no respondió correctamente'},502);
- return response({lists:(data.lists||[]).map((l:any)=>({id:l.id,name:l.name,totalSubscribers:typeof l.totalSubscribers==='number'?l.totalSubscribers:null}))});
+ if(!r.ok)return response({error:'Brevo rechazó la consulta de listas',detail:data?.message||r.status},502);
+ const lists=await Promise.all((data.lists||[]).map(async(l:any)=>{
+   const id=Number(l.id);
+   if(!Number.isSafeInteger(id)||id<=0)return null;
+   const detailRes=await fetch('https://api.brevo.com/v3/contacts/lists/'+id,{headers});
+   const detail=detailRes.ok?await detailRes.json().catch(()=>({})):{};
+   const count=typeof detail.totalSubscribers==='number'?detail.totalSubscribers:typeof l.totalSubscribers==='number'?l.totalSubscribers:null;
+   return {id,name:String(l.name||detail.name||'Lista '+id),totalSubscribers:count,verified:detailRes.ok};
+ }));
+ return response({lists:lists.filter(Boolean)});
+
 };
 export const POST: APIRoute = async ({request,locals})=>{
  const env=getRuntimeEnv(locals);
