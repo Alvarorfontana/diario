@@ -39,6 +39,9 @@ export const POST = async ({ request, locals }: { request: Request; locals?: unk
 		}
 
 		const temas = Array.isArray(body.temas) ? body.temas.map((t) => String(t)).slice(0, 5) : [];
+		if (!cfg.doiTemplateId) {
+			return json({ ok: false, error: 'La confirmación por correo todavía no está configurada.' }, 503);
+		}
 		const r = await subscribe(cfg, email, temas);
 
 		if (r.ok) {
