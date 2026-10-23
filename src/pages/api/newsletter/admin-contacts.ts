@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({request,locals})=>{
  const r=await fetch('https://api.brevo.com/v3/contacts/lists?limit=50&offset=0',{headers:{'api-key':env.BREVO_API_KEY,accept:'application/json'}});
  const data=await r.json().catch(()=>({}));
  if(!r.ok)return response({error:'Brevo no respondió correctamente'},502);
- return response({lists:(data.lists||[]).map((l:any)=>({id:l.id,name:l.name,totalSubscribers:l.totalSubscribers}))});
+ return response({lists:(data.lists||[]).map((l:any)=>({id:l.id,name:l.name,totalSubscribers:typeof l.totalSubscribers==='number'?l.totalSubscribers:null}))});
 };
 export const POST: APIRoute = async ({request,locals})=>{
  const env=getRuntimeEnv(locals);
