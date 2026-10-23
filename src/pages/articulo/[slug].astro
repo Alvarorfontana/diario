@@ -5,6 +5,7 @@ import ArticleCard from '../../components/ArticleCard.astro';
 import Comentarios from '../../components/Comentarios.astro';
 import ShareButtons from '../../components/ShareButtons.astro';
 import EscucharNota from '../../components/EscucharNota.astro';
+import ImprimirNota from '../../components/ImprimirNota.astro';
 import AdBanner from '../../components/AdBanner.astro';
 import NewsletterBox from '../../components/NewsletterBox.astro';
 import { nombreSeccion, SITE_TITLE, slugify } from '../../consts';
@@ -91,6 +92,12 @@ import { nombreRegion } from '../../lib/regiones';
 	</div>
 
 	<article class="mx-auto max-w-[680px]" data-pagefind-body>
+		<!-- Solo en la versión impresa / PDF -->
+		<div class="solo-impresion encabezado-impresion" aria-hidden="true">
+			<span class="marca-impresion">{SITE_TITLE}</span>
+			<span class="sitio-impresion">diariofederal.com.ar</span>
+		</div>
+
 		<header>
 			<div class="flex items-center gap-3">
 				<a href={`/seccion/${section}/`} class="rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white" data-pagefind-filter="Sección">{nombreSeccion(section || '')}</a>
@@ -117,15 +124,18 @@ import { nombreRegion } from '../../lib/regiones';
 					</p>
 				</div>
 			</div>
-			<div class="mt-4">
+			<div class="mt-4" data-no-imprimir>
 				<ShareButtons url={Astro.url.href} title={title} />
+				<ImprimirNota />
 			</div>
 
-			<EscucharNota slug={slug} title={title} />
+			<div data-no-imprimir>
+				<EscucharNota slug={slug} title={title} />
+			</div>
 
 			{
 				tags && Array.isArray(tags) && tags.length > 0 && (
-					<div class="mt-4 flex flex-wrap gap-2">
+					<div class="mt-4 flex flex-wrap gap-2" data-no-imprimir>
 						{tags.map((etiqueta: string) => (
 							<a
 								href={`/tag/${slugify(etiqueta)}/`}
@@ -176,6 +186,10 @@ import { nombreRegion } from '../../lib/regiones';
 				</aside>
 			)
 		}
+
+		<div class="solo-impresion pie-impresion" aria-hidden="true">
+			Nota publicada en {SITE_TITLE} · {new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()}
+		</div>
 	</article>
 
 	<AdBanner position="in-article" maxAds={1} />
