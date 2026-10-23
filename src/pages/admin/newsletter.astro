@@ -47,7 +47,8 @@ button.secondary{background:#292929}button:disabled{opacity:.4}
 <label for="list">Noticias publicadas (ordenadas por fecha)</label><div id="list"></div>
 <h2>Suscriptores y listas</h2><p class="muted">Agregá un correo con su autorización. Brevo enviará una confirmación antes de incorporarlo.</p><label for="contactEmail">Correo electrónico</label><input type="email" id="contactEmail" placeholder="correo@ejemplo.com"/><label for="contactList">Lista</label><select id="contactList"><option value="">Cargando listas…</option></select><button id="addContact" type="button">Solicitar suscripción</button><p id="contactStatus" role="status"></p><h2>Orden de portada</h2><div id="selected" class="muted">Elegí noticias de la lista.</div>
 <button id="previewBtn">Actualizar vista previa</button>
-<button id="download" class="secondary">Descargar HTML para Brevo</button>\n<button id="brevoDraft" type="button">Crear borrador en Brevo (sin enviar)</button>
+<button id="download" class="secondary">Descargar HTML para Brevo</button>
+<button id="brevoDraft" type="button">Crear borrador en Brevo (sin enviar)</button>
 <p id="status" role="status">Borrador local: no se envía ni se guarda una campaña.</p>
 <p class="muted">El HTML incluye el enlace de baja de Brevo. Verificá el enlace y el contenido en la vista previa de Brevo antes de enviar.</p>
 </section>
@@ -68,7 +69,7 @@ function renderList(){
  $('list').querySelectorAll('input').forEach(el=>el.addEventListener('change',()=>{
  if(el.checked&&!chosen.includes(el.dataset.id)&&chosen.length<6)chosen.push(el.dataset.id);
  if(!el.checked)chosen.splice(chosen.indexOf(el.dataset.id),1);
- $('brevoDraft').onclick=async()=>{\n if(!chosen.length){$('status').textContent='Seleccioná noticias primero.';return;}\n if(!confirm('Crear un borrador en Brevo sin enviarlo a ningún destinatario?'))return;\n const btn=$('brevoDraft');btn.disabled=true;$('status').textContent='Creando borrador...';\n try{const r=await fetch('/api/newsletter/draft',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({ids:chosen,subject:$('subject').value})});const data=await r.json();\n $('status').textContent=r.ok?'Borrador creado en Brevo (ID '+data.id+'). NO se envió ningún correo.':('No se creó el borrador: '+(data.error||'Error')+(data.detail?' — '+data.detail:''));\n }catch(e){$('status').textContent='Error de conexión: '+e.message;}finally{btn.disabled=false;}\n};\nasync function loadLists(){try{const r=await fetch('/api/newsletter/admin-contacts');const d=await r.json();if(!r.ok)throw Error(d.error);$('contactList').innerHTML=(d.lists||[]).map(l=>'<option value="'+Number(l.id)+'">'+esc(l.name)+' ('+Number(l.totalSubscribers||0)+')</option>').join('');}catch(e){$('contactStatus').textContent=e.message;$('contactList').innerHTML='<option value="">Sin conexión</option>';}}\n$('addContact').onclick=async()=>{const email=$('contactEmail').value.trim();if(!email||!$('contactList').value)return;$('contactStatus').textContent='Solicitando confirmación…';try{const r=await fetch('/api/newsletter/admin-contacts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,listId:Number($('contactList').value)})});const d=await r.json();$('contactStatus').textContent=r.ok?d.message:d.error;}catch(e){$('contactStatus').textContent='Error de conexión';}};\nloadLists();renderList();renderChosen();preview();
+ renderChosen();preview();renderList();
  }));
 }
 function renderChosen(){
@@ -109,6 +110,10 @@ $('download').onclick=()=>{
  const blob=new Blob([build()],{type:'text/html;charset=utf-8'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='diario-federal-newsletter.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 };
+$('brevoDraft').onclick=async()=>{if(!chosen.length){$('status').textContent='Seleccioná noticias primero.';return;}if(!confirm('Crear borrador en Brevo sin enviar correos?'))return;const btn=$('brevoDraft');btn.disabled=true;try{const r=await fetch('/api/newsletter/draft',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({ids:chosen,subject:$('subject').value})});const d=await r.json();$('status').textContent=r.ok?'Borrador creado en Brevo (ID '+d.id+'). No se envió ningún correo.':d.error+(d.detail?' — '+d.detail:'');}catch(e){$('status').textContent='Error de conexión';}finally{btn.disabled=false;}};
+async function loadLists(){try{const r=await fetch('/api/newsletter/admin-contacts');const d=await r.json();if(!r.ok)throw Error(d.error);$('contactList').innerHTML=(d.lists||[]).map(l=>'<option value="'+Number(l.id)+'">'+esc(l.name)+' ('+Number(l.totalSubscribers||0)+')</option>').join('');}catch(e){$('contactStatus').textContent=e.message;$('contactList').innerHTML='<option value="">Sin conexión</option>';}}
+$('addContact').onclick=async()=>{const email=$('contactEmail').value.trim();if(!email||!$('contactList').value)return;$('contactStatus').textContent='Solicitando confirmación…';try{const r=await fetch('/api/newsletter/admin-contacts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,listId:Number($('contactList').value)})});const d=await r.json();$('contactStatus').textContent=r.ok?d.message:d.error;}catch(e){$('contactStatus').textContent='Error de conexión';}};
+loadLists();
 renderList();renderChosen();preview();
 })();
 </script>
