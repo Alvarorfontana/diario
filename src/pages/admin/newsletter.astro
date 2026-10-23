@@ -79,9 +79,7 @@ function renderChosen(){
  $('selected').querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.move);[chosen[i-1],chosen[i]]=[chosen[i],chosen[i-1]];renderChosen();preview()});
 }
 function story(a,hero){
- const url='https://www.diariofederal.com.ar/';
- // Se enlaza a la búsqueda del sitio hasta verificar la ruta canónica por artículo.
- const link=url+'?s='+encodeURIComponent(a.title);
+ const link='https://www.diariofederal.com.ar/articulo/'+encodeURIComponent(a.id)+'/';
  const img=abs(a.image);
  return '<tr><td style="padding:'+(hero?'22px 30px':'18px 30px')+';border-bottom:1px solid #ddd">'+
  (a.volanta?'<p style="font:700 12px Arial;color:#9c1821;letter-spacing:1px">'+esc(a.volanta.toUpperCase())+'</p>':'')+
