@@ -3,22 +3,32 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
 ---
 
-<BaseLayout title={`Acerca de | ${SITE_TITLE}`} description="Quiénes somos y qué hacemos.">
+<BaseLayout title={`Quiénes somos | ${SITE_TITLE}`} description="Periodistas, escritores y pensadores de todo el país con una mirada nacional y federal de la Argentina.">
 	<article class="prose-articulo mx-auto max-w-2xl">
-		<h1 class="font-serif text-4xl font-bold">Acerca de</h1>
+		<h1 class="font-serif text-4xl font-bold">Quiénes somos</h1>
 		<p>
-			<strong>{SITE_TITLE}</strong> es un proyecto de periódico digital construido con
-			<a href="https://astro.build">Astro</a>. Esta página es un contenido de ejemplo: edítala en
-			<code>src/pages/about.astro</code> para presentar a tu equipo y tu proyecto.
+			<strong>{SITE_TITLE}</strong> es un diario hecho por periodistas, escritores y pensadores de
+			todo el país. Nos une una conciencia nacional y federal: la idea de que la Argentina no se
+			explica solo desde Buenos Aires.
 		</p>
 		<p>
-			Para publicar noticias, añade archivos Markdown en <code>src/content/articulos/</code>. Cada
-			artículo define su titular, descripción, sección, autor y fecha en el encabezado (frontmatter).
+			Escribimos desde el Norte Grande y desde la Patagonia, desde Cuyo, el Litoral, el centro y el
+			conurbano. Cada provincia tiene su historia, su economía, su forma de hablar y sus urgencias.
+			Queremos que esas particularidades se lean acá, contadas por quienes las viven.
 		</p>
-		<h2>Secciones</h2>
 		<p>
-			Las secciones del diario se configuran en <code>src/consts.ts</code>. Al añadir o renombrar una
-			sección, la navegación, las páginas de sección y el esquema de validación se actualizan solos.
+			Porque la nación es la suma de todas esas voces. Y un país que se escucha entero se entiende
+			mejor.
+		</p>
+
+		<h2>Cómo trabajamos</h2>
+		<p>
+			Contamos lo que pasa con datos y con fuentes. Cada foto lleva su epígrafe y su origen. Cuando
+			nos equivocamos lo corregimos y lo decimos al pie de la nota, en la fe de erratas.
+		</p>
+		<p>
+			Separamos la información de la opinión. Las columnas de opinión van firmadas y expresan la
+			mirada de su autor.
 		</p>
 	</article>
 </BaseLayout>
