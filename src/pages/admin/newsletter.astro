@@ -106,7 +106,7 @@ function build(){
  '<tr><td style="background:#f6f4ef;text-align:center;padding:26px 20px;font:12px/1.8 Arial;color:#555"><b>DIARIO FEDERAL</b><br/><a href="https://www.diariofederal.com.ar" style="color:#9c1821">www.diariofederal.com.ar</a><br/>Recibís este correo por haberte suscripto al boletín.<br/><a href="{{ unsubscribe }}" style="color:#555;text-decoration:underline">Cancelar suscripción</a></td></tr>'+
  '</table></td></tr></table></body></html>';
 }
-function preview(){ currentDraft=null;draftList=null;const b=$('sendCampaign');if(b)b.disabled=true;const d=$('draftInfo');if(d)d.textContent='Los cambios requieren crear un nuevo borrador antes de enviar.'; $('frame').srcdoc=build();$('status').textContent='Vista previa actualizada · '+chosen.length+' noticias · sin envío.' }
+function preview(){ currentDraft=null;draftList=null;const d=$('draftInfo');if(d)d.textContent='Vista previa lista. Al pulsar Enviar se preparará un borrador nuevo y se pedirá confirmación.'; $('frame').srcdoc=build();$('status').textContent='Vista previa actualizada · '+chosen.length+' noticias · sin envío.' }
 $('filter').addEventListener('input',renderList);
 $('previewBtn').onclick=preview;
 $('download').onclick=()=>{
