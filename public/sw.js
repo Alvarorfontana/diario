@@ -1,7 +1,7 @@
 // Service worker de EL DIARIO: hace que el sitio se pueda instalar como app.
 // Regla de oro: las noticias SIEMPRE se piden frescas a internet.
 // Solo se guardan en el celular la página "sin conexión" y los archivos de diseño.
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = `eldiario-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
 const PRECACHE = [OFFLINE_URL, '/icons/icon-192.png'];
