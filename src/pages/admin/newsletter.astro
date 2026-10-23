@@ -48,7 +48,8 @@ button.secondary{background:#292929}button:disabled{opacity:.4}
 <h2>Suscriptores y listas</h2><p class="muted">Agregá un correo con su autorización. Brevo enviará una confirmación antes de incorporarlo.</p><label for="contactEmail">Correo electrónico</label><input type="email" id="contactEmail" placeholder="correo@ejemplo.com"/><label for="contactList">Lista</label><select id="contactList"><option value="">Cargando listas…</option></select><button id="addContact" type="button">Solicitar suscripción</button><p id="contactStatus" role="status"></p><h2>Orden de portada</h2><div id="selected" class="muted">Elegí noticias de la lista.</div>
 <button id="previewBtn">Actualizar vista previa</button>
 <button id="download" class="secondary">Descargar HTML para Brevo</button>
-<button id="brevoDraft" type="button">Crear borrador en Brevo (sin enviar)</button>\n<label for="testEmail">Destinatario de prueba</label><input id="testEmail" type="email" value="alvarorfontana@gmail.com" placeholder="correo@ejemplo.com"/><button id="sendTest" type="button">Enviar prueba a este correo</button>
+<button id="brevoDraft" type="button">Crear borrador en Brevo (sin enviar)</button>
+<label for="testEmail">Destinatario de prueba</label><input id="testEmail" type="email" value="alvarorfontana@gmail.com" placeholder="correo@ejemplo.com"/><button id="sendTest" type="button">Enviar prueba a este correo</button>
 <h2>Distribución a suscriptores</h2><p class="muted">El envío general utiliza únicamente la lista general configurada en Brevo. No incluye automáticamente la lista de prensa. Primero creá el borrador y revisalo.</p><p id="draftInfo" role="status">Todavía no hay borrador creado en esta sesión.</p><label><input id="consentConfirmed" type="checkbox"/> Confirmo que la lista general contiene únicamente destinatarios que autorizaron recibir este boletín.</label><button id="sendCampaign" type="button" disabled>Enviar a suscriptores confirmados</button><p id="status" role="status">Borrador local: no se envía ni se guarda una campaña.</p>
 <p class="muted">El HTML incluye el enlace de baja de Brevo. Verificá el enlace y el contenido en la vista previa de Brevo antes de enviar.</p>
 </section>
@@ -58,7 +59,8 @@ button.secondary{background:#292929}button:disabled{opacity:.4}
 <script is:inline>
 (function(){
 const articles=JSON.parse(document.getElementById('articles-data').textContent);
-const chosen=[];\nlet currentDraft=null;
+const chosen=[];
+let currentDraft=null;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const abs=s=>{try{const u=new URL(s,'https://www.diariofederal.com.ar');return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}};
