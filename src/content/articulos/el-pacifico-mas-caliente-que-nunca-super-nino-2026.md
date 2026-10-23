@@ -7,7 +7,7 @@ region: nacional
 author: "Emilio Lahitte"
 pubDate: 2026-10-23T18:30:00
 heroImage: "/images/nino-2026-temperatura-mar.jpg"
-imageCaption: "Cada línea gris es un año desde 1981. En rojo, 2026: el Pacífico ecuatorial nunca había estado tan por encima de lo normal en esta serie. Fuente: NOAA OISST 2.1 vía Climate Reanalyzer. Elaboración: EL DIARIO."
+imageCaption: "Cada línea gris es un año desde 1981. En rojo, 2026: el Pacífico ecuatorial nunca había estado tan por encima de lo normal en esta serie. Fuente: DOTS, con datos NOAA OISST 2.1 vía Climate Reanalyzer."
 tags: ["Clima", "El Niño", "Litoral", "Crecidas", "Campo", "Río Paraná"]
 puntosClave:
   - "El 22 de octubre el agua de la región Niño 3.4 estaba a 30,1 °C: 3,4 °C por encima del promedio 1991-2020, el valor más alto desde que hay registros satelitales diarios (1981)."
@@ -27,6 +27,8 @@ La temperatura del mar se mide con satélites que leen el calor de la superficie
 La región Niño 3.4 es un rectángulo del Pacífico ecuatorial, entre los 5° de latitud norte y sur y entre los 170° y 120° de longitud oeste. Es el termómetro que el mundo usa para saber si hay El Niño: cuando el agua de ahí se calienta más de lo normal durante varios meses, cambia la circulación de la atmósfera en medio planeta.
 
 Para saber si un día es "normal", se compara cada día con el promedio de ese mismo día entre 1991 y 2020. Es lo que muestra el gráfico principal de esta nota: cada línea gris es un año, y la roja es 2026.
+
+> **Fuente de este análisis: DOTS.** Los cálculos y los gráficos de esta nota los elaboró **DOTS** (Datos · Observación · Territorio · Satélite), un observatorio territorial argentino que reúne en un solo lugar lo que miden los satélites, las estaciones meteorológicas y los modelos de clima, suelo y ríos. Sigue El Niño, las crecidas de la Cuenca del Plata, la lluvia, la sequía, los incendios y los desmontes, y lo ordena alrededor del lugar donde se toman las decisiones: el campo, el lote, la localidad. Una regla lo distingue: cada número dice de dónde viene, cuándo se midió y si es una observación, un cálculo o un pronóstico. Cuando una fuente no responde, DOTS lo declara en lugar de completar el hueco con un valor supuesto.
 
 ## Más que en 1983, 1998 y 2016
 
@@ -78,7 +80,8 @@ Lo que sí se sabe es que el Pacífico entra al verano en un estado que no tiene
 
 ## Fuentes
 
-- NOAA, serie diaria OISST 2.1 de temperatura del mar, región Niño 3.4, vía [Climate Reanalyzer](https://climatereanalyzer.org/clim/sst_daily/) (Universidad de Maine). Cálculos y gráficos: elaboración propia.
+- **DOTS** (Datos · Observación · Territorio · Satélite), [observatorio territorial](https://observatorio-agro.vercel.app/): cálculos, comparaciones históricas y gráficos.
+- NOAA, serie diaria OISST 2.1 de temperatura del mar, región Niño 3.4, vía [Climate Reanalyzer](https://climatereanalyzer.org/clim/sst_daily/) (Universidad de Maine).
 - NOAA, Centro de Predicción Climática, [Discusión diagnóstica ENSO del 8 de octubre de 2026](https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_disc_oct2026/ensodisc.shtml).
 - Servicio Meteorológico Nacional, pronóstico climático trimestral octubre-diciembre 2026, según [Perfil](https://www.perfil.com/noticias/nea/el-nino-el-smn-anticipo-lluvias-superiores-a-lo-normal-para-octubre-noviembre-y-diciembre-de-2026.phtml) e [Infobae](https://www.infobae.com/america/medio-ambiente/2026/10/01/el-nino-se-intensifica-las-zonas-de-argentina-donde-se-esperan-mas-lluvias-y-temperaturas-inferiores-a-lo-normal-en-el-ultimo-trimestre-del-ano/).
 - Crecida del Paraná, octubre de 2026: Defensa Civil de Corrientes y Secretaría de Emergencia Nacional de Paraguay, según [Filo.news](https://www.filo.news/noticia/2026/10/18/crecida-del-parana-por-el-nino-deja-evacuados-en-argentina-y-paraguay-y-buscan-a-tres-desaparecidos).
