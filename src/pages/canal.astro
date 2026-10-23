@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+import { VIDEOS, CLIPS, VIVO_ID } from '../lib/canal';
+
+const principalId = VIVO_ID || VIDEOS[0]?.id || '';
+const principal = VIVO_ID ? { id: VIVO_ID, titulo: 'Transmisión en vivo', volanta: 'En vivo' } : VIDEOS[0];
+const siguientes = VIVO_ID ? VIDEOS.slice(0, 6) : VIDEOS.slice(1, 7);
+const hayVideos = Boolean(principalId);
+const muestra = [1, 2, 3];
+---
+
+<BaseLayout title={`Canal | ${SITE_TITLE}`} description="Videos, análisis y clips de EL DIARIO.">
+	<div class="-mx-4 bg-[#111111] px-4 pt-6 pb-10 text-[#f2f2f0] sm:rounded-[4px]">
+		<div class="flex flex-wrap items-baseline justify-between gap-2">
+			<h1 class="font-display text-3xl font-bold text-white">{SITE_TITLE} <span class="font-normal italic">Canal</span></h1>
+			{VIVO_ID && (
+				<span class="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.08em] text-[#ff5a6e]">
+					<span class="titila inline-block h-2 w-2 rounded-full bg-[#ff5a6e]" aria-hidden="true"></span>EN VIVO AHORA
+				</span>
+			)}
+		</div>
+
+		<div class="mt-5 grid gap-7 lg:grid-cols-3">
+			<div class="min-w-0 lg:col-span-2">
+				<div class="relative aspect-video w-full overflow-hidden bg-[#2a2a2a]">
+					{hayVideos ? (
+						<iframe
+							src={`https://www.youtube-nocookie.com/embed/${principalId}`}
+							title={principal?.titulo ?? 'Video'}
+							class="absolute inset-0 h-full w-full border-0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen
+						></iframe>
+					) : (
+						<div class="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center text-sm text-[#b8b8b4]">
+							<span class="flex h-16 w-16 items-center justify-center rounded-full bg-white" aria-hidden="true">
+								<svg width="24" height="24" viewBox="0 0 24 24" fill="#111111"><path d="M7 4l13 8-13 8z"></path></svg>
+							</span>
+							Acá va el video principal
+						</div>
+					)}
+				</div>
+				<p class="mt-4 text-[11px] font-bold tracking-[0.1em] text-[#b8b8b4] uppercase">{principal?.volanta ?? 'Análisis en video'}</p>
+				<h2 class="mt-1 font-display text-2xl leading-tight font-bold text-white sm:text-[1.7rem]">{principal?.titulo ?? 'Título del video principal'}</h2>
+				{principal && 'nota' in principal && principal.nota && (
+					<a href={`/articulo/${principal.nota}/`} class="mt-3 inline-flex min-h-11 items-center border border-[#6a6a66] px-4 text-sm font-semibold text-white hover:bg-white hover:text-ink">Leer la nota</a>
+				)}
+			</div>
+
+			<aside class="min-w-0">
+				<h2 class="border-b-2 border-white pb-2 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Siguientes</h2>
+				{siguientes.length > 0 ? siguientes.map((v) => (
+					<a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener" class="flex gap-3 border-b border-[#333333] py-3 text-[#f2f2f0] last:border-0">
+						<img src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt="" class="aspect-video w-28 shrink-0 object-cover" loading="lazy" />
+						<span>
+							<span class="block font-display text-base leading-snug font-bold text-white">{v.titulo}</span>
+							{v.duracion && <span class="mt-1 block text-xs text-[#b8b8b4]">{v.duracion}</span>}
+						</span>
+					</a>
+				)) : muestra.map(() => (
+					<div class="flex gap-3 border-b border-[#333333] py-3 last:border-0">
+						<span class="aspect-video w-28 shrink-0 bg-[#2a2a2a]"></span>
+						<span class="text-sm text-[#b8b8b4]">Próximo video</span>
+					</div>
+				))}
+			</aside>
+		</div>
+
+		<h2 class="mt-10 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Clips cortos</h2>
+		<div class="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
+			{CLIPS.length > 0 ? CLIPS.map((c) => (
+				<a href={`https://www.youtube.com/shorts/${c.id}`} target="_blank" rel="noopener" class="w-36 shrink-0 text-[#f2f2f0]">
+					<img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} alt="" class="aspect-[9/16] w-full object-cover" loading="lazy" />
+					<span class="mt-1.5 block text-sm leading-snug">{c.titulo}</span>
+				</a>
+			)) : [1, 2, 3, 4].map(() => (
+				<div class="w-36 shrink-0">
+					<div class="aspect-[9/16] w-full bg-[#2a2a2a]"></div>
+					<span class="mt-1.5 block text-sm text-[#b8b8b4]">Clip vertical</span>
+				</div>
+			))}
+		</div>
+	</div>
+</BaseLayout>

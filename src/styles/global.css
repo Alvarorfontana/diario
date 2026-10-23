@@ -214,3 +214,36 @@ img { background-color: #eeeeee; }
 /* Páginas internas (Brasil 2026, Contexto Político, legales, etc.): mismos titulares que la portada */
 main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .um-banner { border-radius: 999px; padding: 8px 16px; letter-spacing: 0.12em; }
+
+/* ───────── Estilo editorial (ideas de Die Zeit, NYT, La Nación y El País) ─────────
+   Capa agregada al final: solo cambia el aspecto. No toca el orden ni los bloques.
+   Para volver al estilo anterior alcanza con borrar desde este comentario hasta el final. */
+:root { --font-display: 'Newsreader', Georgia, 'Times New Roman', serif; }
+html, body { background-color: #ffffff; }
+
+/* Titulares en serif, con peso firme pero sin empastar */
+.font-display { font-optical-sizing: auto; letter-spacing: -0.01em; }
+.font-display.font-extrabold, .font-display.font-bold { font-weight: 650; }
+
+/* Tarjetas sin recuadro: papel blanco, separadas por filetes finos */
+.tarjeta { background: transparent; border-radius: 0; }
+section.tarjeta { padding-left: 0; padding-right: 0; padding-top: 0; }
+article.tarjeta { border-bottom: 1px solid #dcdcd8; padding-bottom: 6px; }
+article.tarjeta > a > .p-4 { padding-left: 0; padding-right: 0; }
+a.tarjeta { border-bottom: 1px solid #dcdcd8; padding-left: 0; padding-right: 0; }
+
+/* Rótulos de sección: línea negra arriba y nombre en versalitas (como El País y el NYT) */
+.titulo-seccion { display: block; border-top: 2px solid var(--color-ink); padding-top: 10px;
+	font: 800 13px/1 var(--font-sans); letter-spacing: 0.14em; text-transform: uppercase; }
+.titulo-seccion::before { content: none; }
+
+/* Esquinas casi rectas en fotos y bloques de la portada */
+main .rounded-2xl, main .rounded-xl { border-radius: 4px; }
+main img.rounded-2xl, main img.rounded-xl { border-radius: 2px; }
+
+/* Cuerpo de la nota en serif, más cómodo para leer */
+.prose-articulo { font-family: 'Newsreader', Georgia, serif; font-size: 1.2rem; line-height: 1.65; }
+.prose-articulo blockquote { background: transparent; color: #111111; border-radius: 0; border-top: 1px solid #111111; border-bottom: 1px solid #111111; padding: 1.25rem 0; text-align: center; font-family: 'Newsreader', Georgia, serif; font-style: italic; font-weight: 500; font-size: 1.5rem; }
+.prose-articulo blockquote strong { color: #111111; }
+.prose-articulo blockquote::before { content: none; }
+.prose-articulo figure img { border-radius: 2px; }
