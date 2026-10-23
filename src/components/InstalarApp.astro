@@ -1,0 +1,77 @@
+---
+// Aviso para instalar la app (solo en el celular). Aparece una vez; si se cierra, no vuelve.
+// En Android usa el instalador del navegador; en iPhone explica los dos toques de Safari.
+---
+
+<div id="instalar-app" class="fixed inset-x-3 z-50 md:hidden" style="bottom: calc(12px + env(safe-area-inset-bottom, 0px));" hidden>
+	<div class="relative flex items-center gap-3 rounded-2xl bg-ink p-3 pr-11 text-white shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
+		<img src="/icons/icon-192.png?v=2" alt="" width="48" height="48" class="h-12 w-12 shrink-0 rounded-xl" />
+		<div class="min-w-0 flex-1">
+			<p class="text-sm font-bold">Instalá la app de EL DIARIO</p>
+			<p id="instalar-ios" class="mt-0.5 text-xs leading-snug text-white/75" hidden>
+				Tocá
+				<svg class="mx-0.5 inline-block align-[-2px]" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-label="Compartir"><path d="M12 3v12M7 8l5-5 5 5M5 12v8h14v-8"></path></svg>
+				y después «Agregar a inicio».
+			</p>
+			<p id="instalar-texto" class="mt-0.5 text-xs text-white/75">Las noticias a un toque, como una app.</p>
+		</div>
+		<button id="instalar-boton" type="button" class="min-h-11 shrink-0 rounded-full bg-white px-4 text-sm font-bold text-ink" hidden>Instalar</button>
+		<button id="instalar-cerrar" type="button" aria-label="Cerrar aviso" class="absolute top-1/2 right-1.5 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full text-white/80 hover:bg-white/10">
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"></path></svg>
+		</button>
+	</div>
+</div>
+
+<script is:inline>
+	(function () {
+		var CLAVE = 'eldiario-instalar-cerrado';
+		var caja = document.getElementById('instalar-app');
+		if (!caja) return;
+		var boton = document.getElementById('instalar-boton');
+		var ios = document.getElementById('instalar-ios');
+		var texto = document.getElementById('instalar-texto');
+		var pedido = null;
+
+		var instalada = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+		var esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+		var cerrado = false;
+		try { cerrado = localStorage.getItem(CLAVE) === '1'; } catch (e) {}
+
+		function mostrar(forzar) {
+			if (instalada || (cerrado && !forzar)) return;
+			if (pedido) { boton.hidden = false; ios.hidden = true; texto.hidden = false; }
+			else if (esIOS) { boton.hidden = true; ios.hidden = false; texto.hidden = true; }
+			else if (!forzar) return;
+			caja.hidden = false;
+		}
+		function cerrar() {
+			caja.hidden = true;
+			try { localStorage.setItem(CLAVE, '1'); } catch (e) {}
+		}
+
+		window.addEventListener('beforeinstallprompt', function (e) {
+			e.preventDefault();
+			pedido = e;
+			setTimeout(function () { mostrar(false); }, 3000);
+		});
+		if (esIOS) setTimeout(function () { mostrar(false); }, 3000);
+
+		boton.addEventListener('click', function () {
+			if (!pedido) return;
+			pedido.prompt();
+			pedido.userChoice.finally(function () { pedido = null; cerrar(); });
+		});
+		document.getElementById('instalar-cerrar').addEventListener('click', cerrar);
+		window.addEventListener('appinstalled', cerrar);
+
+		// El botón del pie también abre el aviso, aunque se haya cerrado antes.
+		document.querySelectorAll('[data-instalar-app]').forEach(function (b) {
+			b.addEventListener('click', function (ev) {
+				ev.preventDefault();
+				if (pedido) { boton.click(); return; }
+				if (!esIOS) { texto.textContent = 'Abrí el menú del navegador (⋮) y tocá «Instalar app».'; }
+				mostrar(true);
+			});
+		});
+	})();
+</script>

@@ -21,7 +21,12 @@ const year = new Date().getFullYear();
 					<span class="block text-sm text-white/70">Señales de noticias en vivo: DW, C5N, Página/12 y más</span>
 				</span>
 			</a>
-			<a href="/fin-de-semana/" class="inline-flex min-h-11 items-center rounded-full border border-white/40 px-4 text-sm font-semibold hover:bg-white hover:text-ink">Edición de fin de semana →</a>
+			<div class="flex flex-wrap gap-2">
+				<a href="/fin-de-semana/" class="inline-flex min-h-11 items-center rounded-full border border-white/40 px-4 text-sm font-semibold hover:bg-white hover:text-ink">Edición de fin de semana →</a>
+				<button type="button" data-instalar-app class="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-ink md:hidden">
+					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Instalá la app
+				</button>
+			</div>
 		</div>
 	</div>
 	<div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
