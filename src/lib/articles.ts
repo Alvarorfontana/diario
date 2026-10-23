@@ -18,6 +18,7 @@ export interface Articulo {
 	tags: string[];
 	puntosClave: string[];
 	resumenCompartir?: string;
+	correccion?: string;
 	breaking: boolean;
 	entry: any;
 }
@@ -60,6 +61,7 @@ export async function getArticulos(): Promise<Articulo[]> {
 				tags: d.tags ?? [],
 				puntosClave: (d.puntosClave ?? []).filter(Boolean).slice(0, 3),
 				resumenCompartir: d.resumenCompartir?.trim() || undefined,
+				correccion: d.correccion?.trim() || undefined,
 				breaking: d.ultimoMomento === true,
 				entry,
 			};

@@ -33,6 +33,8 @@ const articulos = defineCollection({
 			puntosClave: z.array(z.string()).default([]),
 			// Resumen de un renglón para la tarjeta de WhatsApp y redes (si falta, se usa la bajada)
 			resumenCompartir: z.string().optional(),
+			// Fe de erratas: si se corrige algo de la nota, se explica acá y se muestra al pie
+			correccion: z.string().optional(),
 		}),
 });
 

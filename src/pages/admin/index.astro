@@ -213,6 +213,11 @@ if (Astro.request.method === 'POST') {
 								<label for="puntosClave">Lo que tenés que saber (opcional): hasta 3 puntos, uno por línea</label>
 								<textarea id="puntosClave" rows="3" placeholder="El riesgo país superó los 700 puntos&#10;Encarece refinanciar la deuda de 2027&#10;El Gobierno apuesta a señales fiscales"></textarea>
 							</div>
+							<div class="form-group">
+								<label for="correccion">Fe de erratas (opcional): si corregiste algo, contá qué</label>
+								<textarea id="correccion" rows="2" placeholder="Ej: Una versión anterior decía que el riesgo país cerró en 710 puntos. Ese fue el valor intradiario."></textarea>
+								<p class="tip" style="margin-top:4px">Se muestra al pie de la nota. Si queda vacío, no aparece nada.</p>
+							</div>
 						</div>
 					</div>
 
@@ -549,6 +554,7 @@ if (Astro.request.method === 'POST') {
 				$('tags').value = (d.tags || []).join(', ');
 				$('puntosClave').value = (d.puntosClave || []).join('\n');
 				$('resumenCompartir').value = d.resumenCompartir || ''; $('resumenCompartir').dispatchEvent(new Event('input'));
+				$('correccion').value = d.correccion || '';
 				if (d.image_url) { $('hero-preview').src = d.image_url; $('hero-preview').classList.remove('hidden'); }
 				setContent(r.body);
 				abrirFormulario('Editar nota');
@@ -656,6 +662,7 @@ if (Astro.request.method === 'POST') {
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
 					resumenCompartir: $('resumenCompartir').value.trim(),
+					correccion: $('correccion').value.trim(),
 					puntosClave: $('puntosClave').value.split('\n').map(function (t) { return t.trim(); }).filter(Boolean).slice(0, 3)
 				}
 			};
