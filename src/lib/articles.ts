@@ -48,10 +48,12 @@ export async function getArticulos(): Promise<Articulo[]> {
 				section: d.section,
 				author: d.author,
 				ciudad: d.ciudad?.trim() || undefined,
+				// Internacionales nunca se deducen (La Rioja de España, Santa Cruz de Bolivia...):
+				// solo entran a una región si se elige a mano en el panel.
 				region:
 					d.region === 'nacional'
 						? undefined
-						: (d.region ?? deducirRegion([d.volanta, d.title, d.description, d.ciudad, ...(d.tags ?? [])].filter(Boolean).join(' . '))),
+						: d.region ?? (d.section === 'internacional' ? undefined : deducirRegion([d.volanta, d.title, d.description, d.ciudad, ...(d.tags ?? [])].filter(Boolean).join(' . '))),
 				date: d.pubDate as Date,
 				image_url: imagen(d.heroImage),
 				imageCaption: d.imageCaption,

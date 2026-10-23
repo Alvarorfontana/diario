@@ -164,7 +164,7 @@ if (Astro.request.method === 'POST') {
 							<div class="form-group">
 								<label for="region">Región (para la portada regional)</label>
 								<select id="region">
-									<option value="">Automática (la deduce el diario)</option>
+									<option value="">Automática (la deduce el diario; las internacionales no entran)</option>
 									<option value="nacional">Nacional (no va a ninguna región)</option>
 									{REGIONES.map((r) => <option value={r.id}>{r.nombre} · {r.descripcion}</option>)}
 								</select>
