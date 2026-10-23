@@ -206,6 +206,9 @@ img { background-color: #eeeeee; }
 /* Fotos y videos dentro de la nota */
 .prose-articulo figure.video { position: relative; aspect-ratio: 16 / 9; width: 100%; margin: 2em 0; background: #000; }
 .prose-articulo figure.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.prose-articulo figure.grafico { margin: 2em 0; }
+.prose-articulo figure.grafico iframe { display: block; width: 100%; height: 600px; max-height: 80vh; border: 1px solid #e3e3de; border-radius: 8px; background: #fff; }
+.prose-articulo figure.grafico figcaption { margin-top: .5em; font-size: .85em; color: #6b6b66; }
 .prose-articulo figure img { width: 100%; height: auto; display: block; border-radius: 14px; }
 
 /* Recuadros dentro de la nota ("Leé también"): sin el subrayado rojo de los enlaces del texto */

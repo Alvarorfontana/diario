@@ -243,6 +243,7 @@ if (Astro.request.method === 'POST') {
 							<span class="sep"></span>
 							<button type="button" data-cmd="imagen" title="Insertar foto (por link o subiendo una)">🖼 Foto</button>
 							<button type="button" data-cmd="video" title="Insertar video de YouTube (pegando el link)">▶ YouTube</button>
+							<button type="button" data-cmd="grafico" title="Insertar gráfico interactivo de Our World in Data (pegando el link)">📊 Gráfico</button>
 							<span class="sep"></span>
 							<button type="button" data-cmd="clear" title="Quitar formato">Limpiar</button>
 							<button type="button" data-cmd="undo" title="Deshacer">↶</button>
@@ -322,9 +323,11 @@ if (Astro.request.method === 'POST') {
 				case 'P': return '<p' + (n.classList.contains('destacado') ? ' class="destacado"' : '') + '>' + inner + '</p>';
 				case 'DIV': return hasBlock(n) ? inner : '<p>' + inner + '</p>';
 				case 'A': return safeHref(n.getAttribute('href')) ? '<a href="' + esc(n.getAttribute('href')) + '">' + inner + '</a>' : inner;
-				case 'FIGURE': return '<figure' + (n.classList.contains('video') ? ' class="video"' : '') + '>' + inner + '</figure>';
+				case 'FIGURE': return '<figure' + (n.classList.contains('video') ? ' class="video"' : n.classList.contains('grafico') ? ' class="grafico"' : '') + '>' + inner + '</figure>';
 				case 'IFRAME': {
 					var ysrc = n.getAttribute('src') || '';
+					if (/^https:\/\/ourworldindata\.org\/grapher\/[a-z0-9-]+(\?[\w=&%.,+:~-]*)?$/.test(ysrc))
+						return '<iframe src="' + esc(ysrc) + '" title="Gráfico de Our World in Data" loading="lazy"></iframe>';
 					return /^https:\/\/www\.youtube(-nocookie)?\.com\/embed\/[\w-]{11}$/.test(ysrc)
 						? '<iframe src="' + ysrc + '" title="Video de YouTube" loading="lazy" allowfullscreen></iframe>' : '';
 				}
@@ -403,6 +406,8 @@ if (Astro.request.method === 'POST') {
 				insertarFoto();
 			} else if (cmd === 'video') {
 				insertarVideo();
+			} else if (cmd === 'grafico') {
+				insertarGrafico();
 			} else if (cmd === 'clear') {
 				document.execCommand('removeFormat');
 				document.execCommand('formatBlock', false, 'p');
@@ -433,6 +438,21 @@ if (Astro.request.method === 'POST') {
 			var id = youtubeId(url);
 			if (!id) { showMsg('No reconozco ese link de YouTube. Probá copiando la dirección desde el botón Compartir del video.', false); return; }
 			insertarBloque('<figure class="video" contenteditable="false"><iframe src="https://www.youtube-nocookie.com/embed/' + id + '" title="Video de YouTube" allowfullscreen></iframe></figure>');
+		}
+		// Gráficos de Our World in Data (datos abiertos, licencia CC BY): se pega el link del gráfico.
+		function insertarGrafico() {
+			guardarSeleccion();
+			var url = prompt('Pegá el link del gráfico de Our World in Data (ourworldindata.org/grapher/...)');
+			if (!url) return;
+			var u;
+			try { u = new URL(url.trim()); } catch (e) { u = null; }
+			if (!u || u.hostname !== 'ourworldindata.org' || !/^\/grapher\/[a-z0-9-]+$/.test(u.pathname)) {
+				showMsg('Ese link no es un gráfico de Our World in Data. Abrí el gráfico y copiá la dirección: tiene que decir ourworldindata.org/grapher/...', false); return;
+			}
+			u.hash = ''; if (!u.searchParams.get('tab')) u.searchParams.set('tab', 'chart');
+			var src = 'https://ourworldindata.org' + u.pathname + '?' + u.searchParams.toString();
+			if (!/^https:\/\/ourworldindata\.org\/grapher\/[a-z0-9-]+(\?[\w=&%.,+:~-]*)?$/.test(src)) { showMsg('No pude usar ese link. Probá copiándolo de nuevo desde el gráfico.', false); return; }
+			insertarBloque('<figure class="grafico" contenteditable="false"><iframe src="' + src + '" title="Gráfico de Our World in Data" loading="lazy"></iframe><figcaption>Fuente: Our World in Data (CC BY)</figcaption></figure>');
 		}
 		function insertarFoto() {
 			guardarSeleccion();

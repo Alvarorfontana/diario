@@ -37,7 +37,8 @@ export function htmlParaArchivo(html: string): string {
 		.replace(/<script[\s\S]*?<\/script>/gi, '')
 		.replace(/\son\w+="[^"]*"/gi, '')
 		.replace(/<iframe\b[^>]*>[\s\S]*?<\/iframe>/gi, (m) =>
-			/src="https:\/\/www\.youtube(-nocookie)?\.com\/embed\/[\w-]{11}"/.test(m) ? m : ''
+			/src="https:\/\/www\.youtube(-nocookie)?\.com\/embed\/[\w-]{11}"/.test(m) ||
+			/src="https:\/\/ourworldindata\.org\/grapher\/[a-z0-9-]+(\?[\w=&%.,+:;~-]*)?"/.test(m) ? m : ''
 		)
 		.replace(/(<\/(?:p|h2|h3|ul|ol|li|blockquote|figure|figcaption)>|<hr\s*\/?>)\s*/gi, '$1\n')
 		.replace(/\n{2,}/g, '\n')
