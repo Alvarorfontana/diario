@@ -76,6 +76,8 @@ export const GET = async ({ request, locals }: any) => {
 					excerpt: data.description ?? '',
 					section: data.section ?? 'argentina',
 					author: data.author ?? 'Redacción',
+					ciudad: data.ciudad ?? '',
+					region: data.region ?? '',
 					date: fechaISO(data.pubDate),
 					breaking: data.ultimoMomento === true,
 					draft: data.draft === true,
@@ -107,6 +109,8 @@ export const POST = async ({ request, locals }: any) => {
 		fm.description = data.excerpt;
 		fm.section = data.section || 'argentina';
 		fm.author = data.author || 'Redacción';
+		if (String(data.ciudad ?? '').trim()) fm.ciudad = String(data.ciudad).trim().slice(0, 60);
+		if (['norte-grande', 'centro', 'cuyo', 'patagonia', 'buenos-aires', 'nacional'].includes(data.region)) fm.region = data.region;
 		fm.pubDate = data.date || new Date().toISOString().slice(0, 10);
 		if (data.image_url) fm.heroImage = data.image_url;
 		if (data.imageCaption) fm.imageCaption = data.imageCaption;

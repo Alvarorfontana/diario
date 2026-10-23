@@ -1,0 +1,78 @@
+---
+// Portada regional (estilo Letra P): pestañas por región del país.
+// El lector elige su región una vez y el diario la recuerda en su celular.
+import FormattedDate from './FormattedDate.astro';
+import { REGIONES } from '../lib/regiones';
+import type { Articulo } from '../lib/articles';
+
+interface Props {
+	articulos: Articulo[];
+}
+const { articulos } = Astro.props;
+
+const porRegion = REGIONES.map((r) => ({ ...r, notas: articulos.filter((a) => a.region === r.id).slice(0, 4) })).filter(
+	(r) => r.notas.length > 0,
+);
+---
+
+{porRegion.length > 0 && (
+	<section id="portada-regional" class="tarjeta mt-8 p-4 sm:p-6">
+		<div class="mb-4 flex flex-wrap items-baseline justify-between gap-2">
+			<h2 class="titulo-seccion">Tu región</h2>
+			<p class="text-xs text-neutral-500">Elegí una vez y la recordamos</p>
+		</div>
+		<div role="tablist" aria-label="Regiones" class="mb-5 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+			{porRegion.map((r, i) => (
+				<button
+					type="button"
+					role="tab"
+					data-region={r.id}
+					aria-selected={i === 0 ? 'true' : 'false'}
+					class="pestana-region shrink-0 rounded-full border px-4 py-2 text-sm font-bold whitespace-nowrap transition-colors"
+				>
+					{r.nombre}
+				</button>
+			))}
+		</div>
+		{porRegion.map((r, i) => (
+			<div role="tabpanel" data-panel={r.id} class={i === 0 ? '' : 'hidden'}>
+				<div class="grid gap-4 sm:grid-cols-2">
+					{r.notas.map((a) => (
+						<a href={`/articulo/${a.slug}/`} class="group flex gap-3">
+							{a.image_url && <img src={a.image_url} alt="" class="h-20 w-28 shrink-0 rounded-lg object-cover" loading="lazy" />}
+							<span class="min-w-0">
+								{a.volanta && <span class="block text-[10.5px] font-bold tracking-[0.08em] text-brand uppercase">{a.volanta}</span>}
+								<span class="mt-0.5 block font-display text-[15px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
+								<span class="mt-1 block text-xs text-neutral-500">{a.ciudad ? `${a.ciudad} · ` : ''}<FormattedDate date={a.date} /></span>
+							</span>
+						</a>
+					))}
+				</div>
+				<a href={`/region/${r.id}/`} class="mt-4 inline-block text-sm font-semibold text-brand hover:underline">Todas las notas de {r.nombre} →</a>
+			</div>
+		))}
+	</section>
+)}
+
+<style>
+	.pestana-region { border-color: #e2e2dc; background: #fff; color: #16161a; }
+	.pestana-region[aria-selected='true'] { border-color: #16161a; background: #16161a; color: #fff; }
+</style>
+
+<script is:inline>
+	(function () {
+		var raiz = document.getElementById('portada-regional');
+		if (!raiz) return;
+		var tabs = raiz.querySelectorAll('[data-region]');
+		function elegir(id, guardar) {
+			var hay = false;
+			tabs.forEach(function (t) { if (t.getAttribute('data-region') === id) hay = true; });
+			if (!hay) return;
+			tabs.forEach(function (t) { t.setAttribute('aria-selected', t.getAttribute('data-region') === id ? 'true' : 'false'); });
+			raiz.querySelectorAll('[data-panel]').forEach(function (p) { p.classList.toggle('hidden', p.getAttribute('data-panel') !== id); });
+			if (guardar) { try { localStorage.setItem('eldiario-region', id); } catch (e) {} }
+		}
+		tabs.forEach(function (t) { t.addEventListener('click', function () { elegir(t.getAttribute('data-region'), true); }); });
+		try { var guardada = localStorage.getItem('eldiario-region'); if (guardada) elegir(guardada, false); } catch (e) {}
+	})();
+</script>

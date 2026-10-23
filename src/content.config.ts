@@ -13,6 +13,10 @@ const articulos = defineCollection({
 				description: z.string(),
 			section: z.enum(SECCIONES.map((s) => s.id) as [string, ...string[]]),
 			author: z.string().default('Redacción'),
+			// Ciudad desde donde escribe el corresponsal: se muestra en la firma ("Por X (Corrientes)")
+			ciudad: z.string().optional(),
+			// Región para la portada regional. Si falta, se deduce sola (ver src/lib/regiones.ts)
+			region: z.enum(['norte-grande', 'centro', 'cuyo', 'patagonia', 'buenos-aires', 'nacional']).optional(),
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			// Rutas públicas (/uploads/...) y URLs externas se usan tal cual; solo las rutas relativas del repo pasan por image()

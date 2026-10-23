@@ -1,0 +1,47 @@
+---
+// "Temas del día" (estilo Letra P): las etiquetas más usadas en las notas de los últimos días.
+// Se arma sola: no hay que cargar nada en el panel. Cada tema lleva a su página de etiqueta.
+import { slugify } from '../consts';
+import type { Articulo } from '../lib/articles';
+
+interface Props {
+	articulos: Articulo[];
+	max?: number;
+}
+const { articulos, max = 6 } = Astro.props;
+
+// Etiquetas demasiado generales que no sirven como "tema".
+const GENERICAS = new Set(['politica', 'economia', 'argentina', 'internacional', 'opinion', 'actualidad', 'sociedad', 'nacionales']);
+
+const hace3dias = Date.now() - 3 * 24 * 60 * 60 * 1000;
+let base = articulos.filter((a) => a.date.valueOf() >= hace3dias);
+if (base.length < 8) base = articulos.slice(0, 20);
+
+const cuenta = new Map<string, { nombre: string; n: number; ultima: number }>();
+for (const a of base) {
+	for (const t of new Set(a.tags.map((x) => x.trim()).filter(Boolean))) {
+		const k = slugify(t);
+		if (!k || GENERICAS.has(k)) continue;
+		const prev = cuenta.get(k);
+		if (prev) {
+			prev.n++;
+			prev.ultima = Math.max(prev.ultima, a.date.valueOf());
+		} else cuenta.set(k, { nombre: t, n: 1, ultima: a.date.valueOf() });
+	}
+}
+const temas = [...cuenta.entries()]
+	.sort((x, y) => y[1].n - x[1].n || y[1].ultima - x[1].ultima)
+	.slice(0, max)
+	.map(([slug, v]) => ({ slug, nombre: v.nombre }));
+---
+
+{temas.length >= 3 && (
+	<nav aria-label="Temas del día" class="mt-4 flex items-center gap-2 overflow-x-auto pb-1 [scrollbar-width:none]">
+		<span class="shrink-0 text-[11px] font-extrabold tracking-[0.1em] text-neutral-500 uppercase">Temas del día</span>
+		{temas.map((t) => (
+			<a href={`/tag/${t.slug}/`} class="shrink-0 rounded-full border border-[#e2e2dc] bg-white px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap text-ink transition-colors hover:border-brand hover:text-brand">
+				{t.nombre.charAt(0).toUpperCase() + t.nombre.slice(1)}
+			</a>
+		))}
+	</nav>
+)}

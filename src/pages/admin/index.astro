@@ -4,6 +4,7 @@ export const prerender = false;
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
 import { isAdmin, loginCookie } from '../../lib/auth';
 import { SECCIONES } from '../../consts';
+import { REGIONES } from '../../lib/regiones';
 
 const env = getRuntimeEnv(Astro.locals);
 const PASSWORD = env.ADMIN_PASSWORD;
@@ -160,11 +161,23 @@ if (Astro.request.method === 'POST') {
 									{SECCIONES.map((s) => <option value={s.id}>{s.nombre}</option>)}
 								</select>
 							</div>
+							<div class="form-group">
+								<label for="region">Región (para la portada regional)</label>
+								<select id="region">
+									<option value="">Automática (la deduce el diario)</option>
+									<option value="nacional">Nacional (no va a ninguna región)</option>
+									{REGIONES.map((r) => <option value={r.id}>{r.nombre} · {r.descripcion}</option>)}
+								</select>
+							</div>
 						</div>
 						<div>
 							<div class="form-group">
 								<label for="author">Autor</label>
 								<input type="text" id="author" value="Redacción" />
+							</div>
+							<div class="form-group">
+								<label for="ciudad">Ciudad del autor (opcional): sale en la firma, "Por X (Corrientes)"</label>
+								<input type="text" id="ciudad" placeholder="Ej: Corrientes" />
 							</div>
 							<div class="form-group">
 								<label for="date">Fecha de publicación</label>
@@ -530,7 +543,7 @@ if (Astro.request.method === 'POST') {
 				$('edit-sha').value = r.sha; $('edit-filename').value = r.filename;
 				$('slug').value = r.filename.replace(/\.(md|mdx)$/, ''); $('slug').disabled = true;
 				$('title').value = d.title; $('volanta').value = d.volanta; $('excerpt').value = d.excerpt;
-				$('section').value = d.section; $('author').value = d.author; $('date').value = d.date;
+				$('section').value = d.section; $('author').value = d.author; $('region').value = d.region || ''; $('ciudad').value = d.ciudad || ''; $('date').value = d.date;
 				$('breaking').checked = d.breaking; $('draft').checked = d.draft;
 				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
 				$('tags').value = (d.tags || []).join(', ');
@@ -638,7 +651,7 @@ if (Astro.request.method === 'POST') {
 				content: contenido,
 				data: {
 					title: $('title').value.trim(), volanta: $('volanta').value.trim(), excerpt: $('excerpt').value.trim(),
-					section: $('section').value, author: $('author').value.trim() || 'Redacción', date: $('date').value,
+					section: $('section').value, author: $('author').value.trim() || 'Redacción', region: $('region').value, ciudad: $('ciudad').value.trim(), date: $('date').value,
 					breaking: $('breaking').checked, draft: $('draft').checked,
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),

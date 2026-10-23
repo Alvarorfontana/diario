@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { SITE_TITLE } from '../../consts';
+import { getArticulos } from '../../lib/articles';
+import { REGIONES } from '../../lib/regiones';
+
+export const prerender = false;
+
+const { region } = Astro.params;
+const info = REGIONES.find((r) => r.id === region);
+if (!info) return Astro.redirect('/404');
+
+const articulos = (await getArticulos()).filter((a) => a.region === info.id);
+---
+
+<BaseLayout
+	title={`${info.nombre} | ${SITE_TITLE}`}
+	description={`Noticias de ${info.nombre} (${info.descripcion}) en ${SITE_TITLE}.`}
+	image={articulos[0]?.image_url || undefined}
+>
+	<p class="text-xs font-bold tracking-[0.12em] text-brand uppercase">Región</p>
+	<h1 class="titulo-seccion mt-1 text-3xl sm:text-4xl">{info.nombre}</h1>
+	<p class="mt-2 text-neutral-600">{info.descripcion}</p>
+
+	<nav aria-label="Otras regiones" class="mt-4 flex flex-wrap gap-2">
+		{REGIONES.map((r) => (
+			<a
+				href={`/region/${r.id}/`}
+				class={`rounded-full border px-3 py-1.5 text-sm font-semibold ${r.id === info.id ? 'border-ink bg-ink text-white' : 'border-[#e2e2dc] bg-white text-ink hover:border-brand hover:text-brand'}`}
+			>
+				{r.nombre}
+			</a>
+		))}
+	</nav>
+
+	{articulos.length === 0 ? (
+		<p class="mt-10 text-neutral-600">Todavía no hay notas de esta región.</p>
+	) : (
+		<div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+			{articulos.map((a) => <ArticleCard article={a} />)}
+		</div>
+	)}
+</BaseLayout>

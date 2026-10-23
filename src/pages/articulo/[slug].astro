@@ -26,7 +26,7 @@ if (!articulo) {
 	return Astro.redirect('/404');
 }
 
-const { title, volanta, excerpt, section, author, date, image_url, imageCaption, tags, puntosClave, resumenCompartir } = articulo;
+const { title, volanta, excerpt, section, author, ciudad, region, date, image_url, imageCaption, tags, puntosClave, resumenCompartir } = articulo;
 const { Content } = await render(articulo.entry);
 
 // Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
@@ -65,6 +65,7 @@ const schema = {
 	},
 	mainEntityOfPage: { '@type': 'WebPage', '@id': Astro.url.href },
 };
+import { nombreRegion } from '../../lib/regiones';
 ---
 
 <BaseLayout
@@ -110,9 +111,9 @@ const schema = {
 					{(author || 'R').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
 				</div>
 				<div>
-					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="text-sm font-semibold text-neutral-900 hover:text-brand">{author || 'Redacción'}</a>
+					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="text-sm font-semibold text-neutral-900 hover:text-brand">{author || 'Redacción'}</a>{ciudad && <span class="text-sm text-neutral-600"> ({ciudad})</span>}
 					<p class="text-xs text-neutral-500">
-						<FormattedDate date={fecha} />
+						<FormattedDate date={fecha} />{region && <> · <a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a></>}
 					</p>
 				</div>
 			</div>

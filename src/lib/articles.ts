@@ -1,4 +1,5 @@
 import { getCollection } from 'astro:content';
+import { deducirRegion, type RegionId } from './regiones';
 
 export interface Articulo {
 	id: string;
@@ -8,6 +9,9 @@ export interface Articulo {
 	excerpt: string;
 	section: string;
 	author: string;
+	ciudad?: string;
+	// Región de la nota (elegida en el panel o deducida). undefined = nacional.
+	region?: RegionId;
 	date: Date;
 	image_url: string;
 	imageCaption?: string;
@@ -43,6 +47,11 @@ export async function getArticulos(): Promise<Articulo[]> {
 				excerpt: d.description,
 				section: d.section,
 				author: d.author,
+				ciudad: d.ciudad?.trim() || undefined,
+				region:
+					d.region === 'nacional'
+						? undefined
+						: (d.region ?? deducirRegion([d.volanta, d.title, d.description, d.ciudad, ...(d.tags ?? [])].filter(Boolean).join(' . '))),
 				date: d.pubDate as Date,
 				image_url: imagen(d.heroImage),
 				imageCaption: d.imageCaption,
