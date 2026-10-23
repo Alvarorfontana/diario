@@ -1,0 +1,117 @@
+---
+export const prerender = false;
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { isAdmin } from '../../lib/auth';
+import { getArticulos } from '../../lib/articles';
+
+const authorized = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
+if (!authorized) return Astro.redirect('/admin/');
+const articles = (await getArticulos()).slice(0, 80).map(a => ({
+  id: a.slug, title: a.title, volanta: a.volanta || '', excerpt: a.excerpt || '',
+  section: a.section || '', author: a.author || '', image: a.image_url || '',
+  caption: a.imageCaption || '', date: a.date.toISOString()
+}));
+const safeData = JSON.stringify(articles).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Newsletter editorial | Diario Federal</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0eee9;color:#222;font-family:Arial,sans-serif}
+header{background:#9c1821;color:white;padding:22px 5%;display:flex;align-items:center;justify-content:space-between}
+header strong{font: bold 30px Georgia,serif}header a{color:white}
+main{max-width:1360px;margin:auto;padding:25px;display:grid;grid-template-columns:380px minmax(0,1fr);gap:24px}
+.panel,.preview{background:white;border:1px solid #ddd;padding:20px;border-radius:8px}
+h1{font:30px Georgia,serif;margin:0 0 10px}h2{font:22px Georgia,serif}
+small,.muted{color:#666}label{display:block;font-weight:bold;margin:14px 0 6px}
+input[type=text],select{width:100%;padding:11px;border:1px solid #bbb;border-radius:4px}
+#list{max-height:430px;overflow:auto;border:1px solid #ddd;margin-top:12px}
+.article{display:flex;gap:9px;padding:10px;border-bottom:1px solid #eee;font-size:13px;align-items:flex-start}
+.article input{margin-top:3px}.article span{line-height:1.4}
+button{background:#a51c25;color:white;border:0;border-radius:4px;padding:11px 15px;cursor:pointer;margin:5px 4px 5px 0;font-weight:bold}
+button.secondary{background:#292929}button:disabled{opacity:.4}
+#status{font-size:13px;color:#555}iframe{width:100%;height:1000px;border:1px solid #ddd;background:white}
+@media(max-width:850px){main{display:block}.preview{margin-top:20px}header strong{font-size:22px}}
+</style>
+</head>
+<body>
+<header><strong>DIARIO FEDERAL · Newsletter</strong><a href="/admin/">Volver al panel</a></header>
+<main>
+<section class="panel">
+<h1>Edición del boletín</h1>
+<p class="muted">Seleccioná hasta seis noticias publicadas. La primera será la portada. No se envía ningún correo desde este panel.</p>
+<label for="subject">Asunto del correo</label><input id="subject" type="text" value="Diario Federal | Las noticias del día"/>
+<label for="filter">Buscar noticia</label><input id="filter" type="text" placeholder="Título, sección, autor..."/>
+<label for="list">Noticias publicadas (ordenadas por fecha)</label><div id="list"></div>
+<h2>Orden de portada</h2><div id="selected" class="muted">Elegí noticias de la lista.</div>
+<button id="previewBtn">Actualizar vista previa</button>
+<button id="download" class="secondary">Descargar HTML para Brevo</button>
+<p id="status" role="status">Borrador local: no se envía ni se guarda una campaña.</p>
+<p class="muted">El HTML incluye el enlace de baja de Brevo. Verificá el enlace y el contenido en la vista previa de Brevo antes de enviar.</p>
+</section>
+<section class="preview"><h2>Vista previa editorial</h2><iframe id="frame" title="Vista previa del newsletter" sandbox="allow-same-origin"></iframe></section>
+</main>
+<script type="application/json" id="articles-data" set:html={safeData}></script>
+<script is:inline>
+(function(){
+const articles=JSON.parse(document.getElementById('articles-data').textContent);
+const chosen=[];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const abs=s=>{try{const u=new URL(s,'https://www.diariofederal.com.ar');return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}};
+function renderList(){
+ const q=$('filter').value.toLowerCase();
+ $('list').innerHTML=articles.filter(a=>(a.title+' '+a.section+' '+a.author).toLowerCase().includes(q)).map(a=>
+ '<label class="article"><input type="checkbox" data-id="'+esc(a.id)+'" '+(chosen.includes(a.id)?'checked':'')+' '+(!chosen.includes(a.id)&&chosen.length>=6?'disabled':'')+'/><span><b>'+esc(a.title)+'</b><br/><small>'+esc(a.section)+' · '+esc(new Date(a.date).toLocaleDateString('es-AR'))+'</small></span></label>').join('');
+ $('list').querySelectorAll('input').forEach(el=>el.addEventListener('change',()=>{
+ if(el.checked&&!chosen.includes(el.dataset.id)&&chosen.length<6)chosen.push(el.dataset.id);
+ if(!el.checked)chosen.splice(chosen.indexOf(el.dataset.id),1);
+ renderList();renderChosen();preview();
+ }));
+}
+function renderChosen(){
+ $('selected').innerHTML=chosen.map((id,i)=>{
+ const a=articles.find(x=>x.id===id);
+ return '<div style="padding:7px;border-bottom:1px solid #ddd">'+(i===0?'PORTADA · ':'')+esc(a.title)+' <button type="button" data-move="'+i+'" '+(i===0?'disabled':'')+' style="padding:3px 7px">↑</button></div>';
+ }).join('')||'Elegí noticias de la lista.';
+ $('selected').querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.move);[chosen[i-1],chosen[i]]=[chosen[i],chosen[i-1]];renderChosen();preview()});
+}
+function story(a,hero){
+ const url='https://www.diariofederal.com.ar/';
+ // Se enlaza a la búsqueda del sitio hasta verificar la ruta canónica por artículo.
+ const link=url+'?s='+encodeURIComponent(a.title);
+ const img=abs(a.image);
+ return '<tr><td style="padding:'+(hero?'22px 30px':'18px 30px')+';border-bottom:1px solid #ddd">'+
+ (a.volanta?'<p style="font:700 12px Arial;color:#9c1821;letter-spacing:1px">'+esc(a.volanta.toUpperCase())+'</p>':'')+
+ (img?'<a href="'+esc(link)+'"><img src="'+esc(img)+'" alt="'+esc(a.title)+'" width="600" style="display:block;width:100%;height:auto;border:0"/></a>':'')+
+ (img&&a.caption?'<p style="font:11px Arial;color:#777;margin:6px 0">'+esc(a.caption)+'</p>':'')+
+ '<h2 style="font:bold '+(hero?'34':'25')+'px/1.13 Georgia,serif;margin:14px 0"><a style="color:#181818;text-decoration:none" href="'+esc(link)+'">'+esc(a.title)+'</a></h2>'+
+ '<p style="font:16px/1.55 Georgia,serif;color:#444">'+esc(a.excerpt)+'</p>'+
+ '<p style="font:12px Arial;color:#777">'+esc(a.author)+' · '+esc(a.section)+'</p>'+
+ '<a style="font:bold 13px Arial;color:#9c1821" href="'+esc(link)+'">Leer en Diario Federal →</a></td></tr>';
+}
+function build(){
+ const picked=chosen.map(id=>articles.find(a=>a.id===id)).filter(Boolean);
+ const date=new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc($('subject').value)+'</title></head>'+
+ '<body style="margin:0;padding:0;background:#f1eee9"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f1eee9"><tr><td align="center" style="padding:18px 8px">'+
+ '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:660px;background:white"><tr><td style="background:#9c1821;color:white;text-align:center;padding:28px 15px"><div style="font:700 38px Georgia,serif">DIARIO FEDERAL</div><div style="font:12px Arial;letter-spacing:2px;margin-top:8px">POLÍTICA · ECONOMÍA · INTERNACIONALES</div></td></tr>'+
+ '<tr><td style="padding:16px 30px;border-bottom:3px double #333;font:12px Arial;color:#555">EDICIÓN DIGITAL · '+esc(date)+'</td></tr>'+
+ (picked.length?picked.map((a,i)=>story(a,i===0)).join(''):'<tr><td style="padding:50px 30px;text-align:center;font:20px Georgia,serif">Seleccioná noticias reales del diario para construir esta edición.</td></tr>')+
+ '<tr><td style="background:#f6f4ef;text-align:center;padding:26px 20px;font:12px/1.8 Arial;color:#555"><b>DIARIO FEDERAL</b><br/><a href="https://www.diariofederal.com.ar" style="color:#9c1821">www.diariofederal.com.ar</a><br/>Recibís este correo por haberte suscripto al boletín.<br/><a href="{{ unsubscribe }}" style="color:#555;text-decoration:underline">Cancelar suscripción</a></td></tr>'+
+ '</table></td></tr></table></body></html>';
+}
+function preview(){ $('frame').srcdoc=build();$('status').textContent='Vista previa actualizada · '+chosen.length+' noticias · sin envío.' }
+$('filter').addEventListener('input',renderList);
+$('previewBtn').onclick=preview;
+$('download').onclick=()=>{
+ if(!chosen.length){$('status').textContent='Seleccioná al menos una noticia antes de descargar.';return}
+ const blob=new Blob([build()],{type:'text/html;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='diario-federal-newsletter.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+renderList();renderChosen();preview();
+})();
+</script>
+</body></html>
