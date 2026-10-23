@@ -21,18 +21,20 @@ export const VIVO_ID = '';
 
 // Señales de otros medios que se muestran en el Canal, siempre con su nombre.
 // Se insertan con el reproductor oficial de YouTube: los videos quedan alojados en su canal.
+// Para cambiar según la ocasión: reordená la lista (la primera es la que se ve al entrar),
+// borrá o agregá señales. El código del canal empieza con "UC"; la lista de últimos videos
+// se arma sola cambiando "UC" por "UU".
 export interface Senal {
 	nombre: string;
 	descripcion: string;
-	listaYoutube: string; // lista de últimos videos del canal ("UU" + el código del canal sin "UC")
-	enlace: string;
+	canal: string; // código del canal de YouTube (empieza con "UC")
+	usuario: string; // el @ del canal, para el botón "Ver en vivo"
 }
 
 export const SENALES: Senal[] = [
-	{
-		nombre: 'DW Español',
-		descripcion: 'Últimos videos de Deutsche Welle en castellano',
-		listaYoutube: 'UUT4Jg8h03dD0iN3Pb5L0PMA',
-		enlace: 'https://www.youtube.com/@dwespanol',
-	},
+	{ nombre: 'DW Español', descripcion: 'Deutsche Welle en castellano', canal: 'UCT4Jg8h03dD0iN3Pb5L0PMA', usuario: 'dwespanol' },
+	{ nombre: 'France 24 Español', descripcion: 'Noticias internacionales desde París', canal: 'UCUdOoVWuWmgo1wByzcsyKDQ', usuario: 'France24_es' },
+	{ nombre: 'Euronews en español', descripcion: 'Europa y el mundo, al minuto', canal: 'UCyoGb3SMlTlB8CLGVH4c8Rw', usuario: 'euronewses' },
 ];
+
+export const listaUltimos = (canal: string) => 'UU' + canal.slice(2);

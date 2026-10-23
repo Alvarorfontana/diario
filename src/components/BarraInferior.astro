@@ -1,0 +1,32 @@
+---
+// Barra fija abajo, solo en el celular (como LPO y El País): accesos rápidos.
+const { pathname } = Astro.url;
+const items = [
+	{ href: '/', label: 'Portada', activo: pathname === '/', icono: 'M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z' },
+	{ href: '/minuto-a-minuto/', label: 'En vivo', activo: pathname.startsWith('/minuto-a-minuto'), vivo: true },
+	{ href: '/canal/', label: 'Canal', activo: pathname.startsWith('/canal'), icono: 'M3 6h18v12H3zM10 9.5v5l4.5-2.5z' },
+	{ href: '/fin-de-semana/', label: 'Finde', activo: pathname.startsWith('/fin-de-semana'), icono: 'M5 4h14v16H5zM8 8h8M8 12h8M8 16h5' },
+	{ href: '/#newsletter', label: 'Boletines', activo: false, icono: 'M3 6h18v12H3zM3 7l9 6 9-6' },
+];
+---
+
+<nav aria-label="Accesos rápidos" class="barra-inferior fixed inset-x-0 bottom-0 z-40 border-t border-[#dcdcd8] bg-white md:hidden">
+	<ul class="grid grid-cols-5">
+		{items.map((it) => (
+			<li>
+				<a
+					href={it.href}
+					class={`flex min-h-14 flex-col items-center justify-center gap-1 text-[10.5px] font-semibold ${it.activo ? 'text-ink' : 'text-neutral-500'}`}
+					aria-current={it.activo ? 'page' : undefined}
+				>
+					{it.vivo ? (
+						<span class="flex h-5 items-center" aria-hidden="true"><span class="titila inline-block h-2.5 w-2.5 rounded-full bg-brand"></span></span>
+					) : (
+						<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d={it.icono}></path></svg>
+					)}
+					{it.label}
+				</a>
+			</li>
+		))}
+	</ul>
+</nav>

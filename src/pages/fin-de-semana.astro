@@ -1,0 +1,103 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import NewsletterBox from '../components/NewsletterBox.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_TITLE, nombreSeccion, FOTOS_COLUMNISTAS } from '../consts';
+import { getArticulos } from '../lib/articles';
+
+// Edición de fin de semana: una portada más pausada, para leer con tiempo.
+// Toma las notas de los últimos 7 días; la de tapa es la más larga con foto.
+const articulos = await getArticulos();
+const haceUnaSemana = Date.now() - 7 * 24 * 60 * 60 * 1000;
+const semana = articulos.filter((a) => new Date(a.date).getTime() >= haceUnaSemana);
+const base = semana.length >= 4 ? semana : articulos.slice(0, 20);
+const largo = (a: (typeof articulos)[number]) => (a.excerpt?.length ?? 0) + (a.title?.length ?? 0);
+const conFoto = base.filter((a) => a.image_url && a.section !== 'opinion').sort((x, y) => largo(y) - largo(x));
+const tapa = conFoto[0] ?? base[0] ?? null;
+const lecturas = conFoto.filter((a) => a.id !== tapa?.id).slice(0, 3);
+const opinion = articulos.filter((a) => a.section === 'opinion').slice(0, 3);
+const resto = base.filter((a) => a.id !== tapa?.id && !lecturas.some((l) => l.id === a.id) && a.section !== 'opinion').slice(0, 6);
+
+const hoy = new Date(Date.now() - 3 * 60 * 60 * 1000);
+const inicio = new Date(hoy.getTime() - 6 * 24 * 60 * 60 * 1000);
+const f = (d: Date, mes: boolean) => new Intl.DateTimeFormat('es-AR', mes ? { day: 'numeric', month: 'long', timeZone: 'UTC' } : { day: 'numeric', timeZone: 'UTC' }).format(d);
+const fechaEdicion = `Semana del ${f(inicio, inicio.getUTCMonth() !== hoy.getUTCMonth())} al ${f(hoy, true)}`;
+const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
+---
+
+<BaseLayout title={`Edición de fin de semana | ${SITE_TITLE}`} description="Las notas de la semana para leer con tiempo: informes, crónicas, entrevistas y opinión.">
+	<div class="finde -mx-4 bg-[#f7f6f2] px-4 pt-2 pb-12">
+		<header class="text-center">
+			<p class="border-y border-ink py-2.5 text-[11px] font-semibold tracking-[0.16em] text-ink uppercase">Edición de fin de semana · {fechaEdicion}</p>
+		</header>
+
+		{tapa && (
+			<a href={`/articulo/${tapa.slug}/`} class="group mt-10 grid items-center gap-8 md:grid-cols-2 md:gap-12">
+				<div class="min-w-0">
+					<p class="text-xs font-bold tracking-[0.12em] text-neutral-600 uppercase">{tapa.volanta || 'Informe especial'}</p>
+					<h1 class="mt-3 font-display text-[2rem] leading-[1.06] font-semibold tracking-[-0.02em] text-ink text-balance sm:text-[2.6rem] lg:text-[3rem]">{tapa.title}</h1>
+					<p class="mt-5 font-display text-xl leading-relaxed text-neutral-700">{tapa.excerpt}</p>
+					<p class="mt-5 text-sm text-ink">Por <b>{tapa.author}</b> <span class="text-neutral-500">· <FormattedDate date={tapa.date} /></span></p>
+				</div>
+				<figure class="min-w-0">
+					<img src={tapa.image_url} alt="" class="aspect-[4/5] w-full object-cover" />
+				</figure>
+			</a>
+		)}
+
+		{lecturas.length > 0 && (
+			<section class="mt-16">
+				<h2 class="titulo-seccion">Para leer con tiempo</h2>
+				<div class="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+					{lecturas.map((a) => (
+						<a href={`/articulo/${a.slug}/`} class="group block min-w-0">
+							<img src={a.image_url} alt="" class="aspect-[3/2] w-full object-cover" loading="lazy" />
+							<p class="mt-4 text-[11px] font-bold tracking-[0.1em] text-neutral-600 uppercase">{a.volanta || nombreSeccion(a.section)}</p>
+							<h3 class="mt-1.5 font-display text-2xl leading-[1.15] font-semibold text-ink group-hover:underline">{a.title}</h3>
+							<p class="mt-2 line-clamp-3 font-display text-[17px] leading-relaxed text-neutral-700">{a.excerpt}</p>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		{opinion.length > 0 && (
+			<section class="mt-16 bg-ink px-5 py-8 text-[#f7f6f2] sm:px-8">
+				<p class="text-xs font-extrabold tracking-[0.14em] uppercase">Opinión del fin de semana</p>
+				<div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+					{opinion.map((a) => (
+						<a href={`/articulo/${a.slug}/`} class="group flex items-start gap-4">
+							{FOTOS_COLUMNISTAS[a.author] ? (
+								<img src={FOTOS_COLUMNISTAS[a.author]} alt="" class="h-16 w-16 shrink-0 rounded-full object-cover grayscale" loading="lazy" />
+							) : (
+								<span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#f7f6f2] font-display text-lg" aria-hidden="true">{iniciales(a.author)}</span>
+							)}
+							<span class="min-w-0">
+								<span class="block text-sm font-semibold">{a.author}</span>
+								<span class="mt-1 block font-display text-xl leading-snug italic group-hover:underline">{a.title}</span>
+							</span>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		{resto.length > 0 && (
+			<section class="mt-16">
+				<h2 class="titulo-seccion">Lo que pasó en la semana</h2>
+				<div class="mt-2 grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
+					{resto.map((a) => (
+						<a href={`/articulo/${a.slug}/`} class="group block border-b border-[#dcdcd8] py-4">
+							<p class="text-[11px] font-bold tracking-[0.1em] text-neutral-600 uppercase">{nombreSeccion(a.section)}</p>
+							<h3 class="mt-1 font-display text-lg leading-snug font-semibold text-ink group-hover:underline">{a.title}</h3>
+						</a>
+					))}
+				</div>
+			</section>
+		)}
+
+		<NewsletterBox />
+	</div>
+</BaseLayout>

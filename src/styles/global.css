@@ -247,3 +247,7 @@ main img.rounded-2xl, main img.rounded-xl { border-radius: 2px; }
 .prose-articulo blockquote strong { color: #111111; }
 .prose-articulo blockquote::before { content: none; }
 .prose-articulo figure img { border-radius: 2px; }
+
+/* Barra inferior del celular: deja lugar abajo para que no tape el pie */
+.barra-inferior { padding-bottom: env(safe-area-inset-bottom, 0px); box-shadow: 0 -4px 14px rgba(0,0,0,0.05); }
+@media (max-width: 767px) { body { padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px)); } }
