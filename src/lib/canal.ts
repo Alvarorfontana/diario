@@ -32,6 +32,8 @@ export interface Senal {
 }
 
 export const SENALES: Senal[] = [
+	{ nombre: 'C5N', descripcion: 'Noticias de Argentina, en vivo', canal: 'UCFgk2Q2mVO1BklRQhSv6p0w', usuario: 'c5n' },
+	{ nombre: 'Página/12', descripcion: 'Entrevistas y análisis de Página/12', canal: 'UCJNDedOnljCssaiRZqg8-Dg', usuario: 'pagina12' },
 	{ nombre: 'DW Español', descripcion: 'Deutsche Welle en castellano', canal: 'UCT4Jg8h03dD0iN3Pb5L0PMA', usuario: 'dwespanol' },
 	{ nombre: 'France 24 Español', descripcion: 'Noticias internacionales desde París', canal: 'UCUdOoVWuWmgo1wByzcsyKDQ', usuario: 'France24_es' },
 	{ nombre: 'Euronews en español', descripcion: 'Europa y el mundo, al minuto', canal: 'UCyoGb3SMlTlB8CLGVH4c8Rw', usuario: 'euronewses' },

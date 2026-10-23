@@ -51,6 +51,13 @@ const esPortada = pathname === '/';
 					class={`block rounded-full border-2 border-brand px-3.5 py-1.5 font-bold transition-colors ${pathname.startsWith('/brasil-2026') ? 'bg-brand text-white' : 'text-brand hover:bg-brand hover:text-white'}`}
 				>Brasil 2026</a>
 			</li>
+			<li>
+				<a
+					href="/canal/"
+					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/canal') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/canal') ? 'page' : undefined}
+				><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM10 9.5v5l4.5-2.5z"></path></svg>Canal</a>
+			</li>
 		</ul>
 	</nav>
 </header>
