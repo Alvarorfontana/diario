@@ -3,7 +3,7 @@
 // En Android usa el instalador del navegador; en iPhone explica los dos toques de Safari.
 ---
 
-<div id="instalar-app" class="fixed inset-x-3 z-50 md:hidden" style="bottom: calc(12px + env(safe-area-inset-bottom, 0px));" hidden>
+<div id="instalar-app" class="fixed inset-x-3 z-50 md:right-6 md:left-auto md:w-[380px]" style="bottom: calc(12px + env(safe-area-inset-bottom, 0px));" hidden>
 	<div class="relative flex items-center gap-3 rounded-2xl bg-ink p-3 pr-11 text-white shadow-[0_8px_30px_rgba(0,0,0,0.25)]">
 		<img src="/icons/icon-192.png?v=2" alt="" width="48" height="48" class="h-12 w-12 shrink-0 rounded-xl" />
 		<div class="min-w-0 flex-1">
@@ -37,8 +37,10 @@
 		var cerrado = false;
 		try { cerrado = localStorage.getItem(CLAVE) === '1'; } catch (e) {}
 
+		var celular = window.matchMedia('(max-width: 767px)').matches;
 		function mostrar(forzar) {
-			if (instalada || (cerrado && !forzar)) return;
+			if (!forzar && (!celular || instalada || cerrado)) return;
+			if (instalada) { boton.hidden = true; ios.hidden = true; texto.hidden = false; texto.textContent = 'Ya la tenés instalada en este teléfono.'; caja.hidden = false; return; }
 			if (pedido) { boton.hidden = false; ios.hidden = true; texto.hidden = false; }
 			else if (esIOS) { boton.hidden = true; ios.hidden = false; texto.hidden = true; }
 			else if (!forzar) return;
@@ -69,7 +71,7 @@
 			b.addEventListener('click', function (ev) {
 				ev.preventDefault();
 				if (pedido) { boton.click(); return; }
-				if (!esIOS) { texto.textContent = 'Abrí el menú del navegador (⋮) y tocá «Instalar app».'; }
+				if (!esIOS && !instalada) { texto.textContent = celular ? 'Abrí el menú del navegador (⋮) y tocá «Instalar app».' : 'Abrí esta página en tu celular para instalar la app.'; }
 				mostrar(true);
 			});
 		});

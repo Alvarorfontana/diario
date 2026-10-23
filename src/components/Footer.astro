@@ -23,7 +23,7 @@ const year = new Date().getFullYear();
 			</a>
 			<div class="flex flex-wrap gap-2">
 				<a href="/fin-de-semana/" class="inline-flex min-h-11 items-center rounded-full border border-white/40 px-4 text-sm font-semibold hover:bg-white hover:text-ink">Edición de fin de semana →</a>
-				<button type="button" data-instalar-app class="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-ink md:hidden">
+				<button type="button" data-instalar-app class="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 text-sm font-semibold text-ink">
 					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Instalá la app
 				</button>
 			</div>
@@ -59,6 +59,7 @@ const year = new Date().getFullYear();
 				{REGIONES.map((r) => (
 					<li><a href={`/region/${r.id}/`} class="text-neutral-700 hover:text-brand">{r.nombre}</a></li>
 				))}
+				<li><a href="/seccion/internacional/" class="text-neutral-700 hover:text-brand">Internacional</a></li>
 			</ul>
 		</nav>
 		<nav>
@@ -67,6 +68,7 @@ const year = new Date().getFullYear();
 				<li><a href="/about/" class="text-neutral-700 hover:text-brand">Acerca de</a></li>
 				<li><a href="/canal/" class="text-neutral-700 hover:text-brand">Canal</a></li>
 				<li><a href="/fin-de-semana/" class="text-neutral-700 hover:text-brand">Edición de fin de semana</a></li>
+				<li><button type="button" data-instalar-app class="text-left text-neutral-700 hover:text-brand">Bajá la app</button></li>
 				<li><a href="/#newsletter" class="text-neutral-700 hover:text-brand">Boletín</a></li>
 				<li><a href="/rss.xml" class="text-neutral-700 hover:text-brand">RSS</a></li>
 				<li><a href="/legal/aviso-legal/" class="text-neutral-700 hover:text-brand">Aviso legal</a></li>
