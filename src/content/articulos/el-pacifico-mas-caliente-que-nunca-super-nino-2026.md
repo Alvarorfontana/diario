@@ -34,7 +34,7 @@ Para saber si un día es "normal", se compara cada día con el promedio de ese m
 
 Los tres grandes Niño que dejaron marca en la Argentina fueron los de 1982-83, 1997-98 y 2015-16. Los tres trajeron crecidas históricas en el Litoral. Ninguno llegó tan alto como este.
 
-![Gráfico de barras: calentamiento máximo diario de la región Niño 3.4 en cada gran El Niño. 1982-83: +2,8 °C; 1997-98: +2,5 °C; 2015-16: +3,0 °C; 2023-24: +2,2 °C; 2026: +3,5 °C](/images/nino-2026-records.png)
+![Gráfico de barras: calentamiento máximo diario de la región Niño 3.4 en cada gran El Niño. 1982-83: +2,8 °C en diciembre de 1982; 1997-98: +2,5 °C en febrero de 1998; 2015-16: +3,0 °C en noviembre de 2015; 2023-24: +2,2 °C en enero de 2024; 2026: +3,5 °C en octubre, y sigue subiendo](/images/nino-2026-records.png)
 
 Hay un dato que agrava el cuadro: los Niño anteriores alcanzaron su punto máximo entre noviembre y diciembre. El de 2026 ya superó a todos en octubre, y los pronósticos indican que sigue creciendo hasta fin de año.
 
