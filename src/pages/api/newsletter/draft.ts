@@ -37,13 +37,16 @@ export const POST: APIRoute = async ({ request, locals }) => {
       '<a href="'+esc(link)+'" style="font:bold 13px Arial;color:#a31b25">Leer nota completa →</a></td></tr>';
   }).join('');
   const html = '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:#f1eee9"><table role="presentation" width="100%" cellspacing="0" cellpadding="0"><tr><td align="center"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:660px;background:#fff"><tr><td style="padding:28px;text-align:center;background:#9c1821;color:white;font:bold 38px Georgia,serif">DIARIO FEDERAL</td></tr><tr><td style="padding:15px 30px;font:12px Arial;border-bottom:3px double #333">EDICIÓN DIGITAL · '+esc(new Date().toLocaleDateString('es-AR'))+'</td></tr>'+stories+'<tr><td style="padding:28px;text-align:center;background:#f6f4ef;font:12px Arial"><a href="'+origin+'">Diario Federal</a><p>Recibís este correo porque te suscribiste al boletín.</p><a href="{{ unsubscribe }}">Cancelar suscripción</a></td></tr></table></td></tr></table></body></html>';
+  const listId = Number(body?.listId || env.BREVO_LIST_ID || 3);
+  const allowed = [Number(env.BREVO_LIST_ID || 3), Number(env.BREVO_PRESS_LIST_ID || 4)];
+  if (!allowed.includes(listId)) return new Response(JSON.stringify({error:'Lista no permitida'}),{status:400});
   // Solo crear borrador, nunca enviar ni programar.
   const senderEmail = env.BREVO_SENDER_EMAIL || 'boletin@diariofederal.com.ar';
   const senderName = env.BREVO_SENDER_NAME || 'Diario Federal';
   const response = await fetch('https://api.brevo.com/v3/emailCampaigns',{
     method:'POST',
     headers:{'api-key':env.BREVO_API_KEY,'content-type':'application/json',accept:'application/json'},
-    body:JSON.stringify({name:'Borrador Diario Federal · '+new Date().toISOString().slice(0,10),subject,sender:{name:senderName,email:senderEmail},htmlContent:html,recipients:{listIds:[Number(env.BREVO_LIST_ID || 3)]},type:'classic'})
+    body:JSON.stringify({name:'Borrador Diario Federal · '+new Date().toISOString().slice(0,10),subject,sender:{name:senderName,email:senderEmail},htmlContent:html,recipients:{listIds:[listId]},type:'classic'})
   });
   const data = await response.json().catch(()=>({}));
   if (!response.ok) return new Response(JSON.stringify({error:'Brevo rechazó el borrador',detail:data?.message || response.status}),{status:502});
