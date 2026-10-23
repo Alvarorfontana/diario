@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sin conexión | EL DIARIO</title>
+<style>
+  body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Inter, Arial, sans-serif; background: #fff; color: #16161a; text-align: center; padding: 24px; }
+  img { width: 72px; height: 72px; border-radius: 16px; }
+  h1 { font-size: 22px; margin: 20px 0 8px; }
+  p { color: #555; margin: 0 0 20px; line-height: 1.5; }
+  button { background: #16161a; color: #fff; border: 0; border-radius: 8px; padding: 12px 20px; font-size: 15px; cursor: pointer; }
+</style>
+</head>
+<body>
+  <div>
+    <img src="/icons/icon-192.png" alt="EL DIARIO" />
+    <h1>No hay conexión</h1>
+    <p>Revisá tu internet. Cuando vuelva, las noticias se cargan solas.</p>
+    <button onclick="location.reload()">Reintentar</button>
+  </div>
+  <script>window.addEventListener('online', function () { location.reload(); });</script>
+</body>
+</html>

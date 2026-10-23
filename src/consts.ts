@@ -47,6 +47,10 @@ export function slugify(texto: string): string {
 		.replace(/^-+|-+$/g, '');
 }
 
+// Google Analytics 4 (gratis). Pegá acá el ID de medición que empieza con "G-"
+// (analytics.google.com → Administrar → Flujos de datos). Vacío = desactivado.
+export const GA_ID = '';
+
 // El newsletter se integra con Brevo (ver src/lib/brevo.ts y NEWSLETTER.md).
 
 // Fotos de los columnistas para la sección Opinión de la portada.
