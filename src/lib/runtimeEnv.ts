@@ -1,15 +1,14 @@
 type RuntimeEnv = Record<string, string | undefined>;
 
 export function getRuntimeEnv(locals?: any): RuntimeEnv {
-	// 1. Cloudflare (locals.runtime.env)
-	const runtimeEnv = (locals as any)?.runtime?.env;
-	if (runtimeEnv && typeof runtimeEnv === 'object') return runtimeEnv;
-
-	// 2. Node / Vercel (process.env) ← ESTA PARTE ES LA QUE FALTA
-	if (typeof process !== 'undefined' && process.env) {
-		return process.env as RuntimeEnv;
-	}
-
-	// 3. Fallback a import.meta.env
-	return import.meta.env as unknown as RuntimeEnv;
+  // Vercel/Node: las variables de entorno se leen en cada solicitud.
+  const nodeEnv: RuntimeEnv =
+    typeof process !== 'undefined' && process.env ? process.env as RuntimeEnv : {};
+  const runtimeEnv = (locals as any)?.runtime?.env;
+  // Algunas integraciones exponen runtime.env sin todas las variables.
+  // No debe ocultar ADMIN_PASSWORD ni BREVO_* definidas en Vercel.
+  if (runtimeEnv && typeof runtimeEnv === 'object') {
+    return { ...import.meta.env, ...nodeEnv, ...runtimeEnv };
+  }
+  return { ...import.meta.env, ...nodeEnv };
 }

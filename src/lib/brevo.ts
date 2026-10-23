@@ -87,6 +87,9 @@ export async function subscribe(cfg: BrevoConfig, email: string, temas: string[]
 	// Siempre el boletín general, más los temáticos que eligió el lector.
 	const listas = [cfg.listId, ...temas.map((t) => cfg.temas[t]).filter((n): n is number => Boolean(n))];
 	const listIds = [...new Set(listas)];
+	if (!cfg.doiTemplateId) {
+		return { ok: false, status: 503, mode: 'doi', data: { code: 'doi_not_configured' } };
+	}
 	if (cfg.doiTemplateId) {
 		const r = await call(cfg, '/contacts/doubleOptinConfirmation', 'POST', {
 			email,
@@ -96,12 +99,7 @@ export async function subscribe(cfg: BrevoConfig, email: string, temas: string[]
 		});
 		return { ...r, mode: 'doi' };
 	}
-	const r = await call(cfg, '/contacts', 'POST', {
-		email,
-		listIds,
-		updateEnabled: true,
-	});
-	return { ...r, mode: 'direct' };
+
 }
 
 /** Baja: marca el correo como bloqueado y lo saca de la lista. */

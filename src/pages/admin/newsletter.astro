@@ -1,0 +1,128 @@
+---
+export const prerender = false;
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { isAdmin } from '../../lib/auth';
+import { getArticulos } from '../../lib/articles';
+
+const authorized = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
+if (!authorized) return Astro.redirect('/admin/');
+const articles = (await getArticulos()).slice(0, 80).map(a => ({
+  id: a.slug, title: a.title, volanta: a.volanta || '', excerpt: a.excerpt || '',
+  section: a.section || '', author: a.author || '', image: a.image_url || '',
+  caption: a.imageCaption || '', date: a.date.toISOString()
+}));
+const safeData = JSON.stringify(articles).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Newsletter editorial | Diario Federal</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0eee9;color:#222;font-family:Arial,sans-serif}
+header{background:#9c1821;color:white;padding:22px 5%;display:flex;align-items:center;justify-content:space-between}
+header strong{font: bold 30px Georgia,serif}header a{color:white}
+main{max-width:1360px;margin:auto;padding:25px;display:grid;grid-template-columns:380px minmax(0,1fr);gap:24px}
+.panel,.preview{background:white;border:1px solid #ddd;padding:20px;border-radius:8px}
+h1{font:30px Georgia,serif;margin:0 0 10px}h2{font:22px Georgia,serif}
+small,.muted{color:#666}label{display:block;font-weight:bold;margin:14px 0 6px}
+input[type=text],select{width:100%;padding:11px;border:1px solid #bbb;border-radius:4px}
+#list{max-height:430px;overflow:auto;border:1px solid #ddd;margin-top:12px}
+.article{display:flex;gap:9px;padding:10px;border-bottom:1px solid #eee;font-size:13px;align-items:flex-start}
+.article input{margin-top:3px}.article span{line-height:1.4}
+button{background:#a51c25;color:white;border:0;border-radius:4px;padding:11px 15px;cursor:pointer;margin:5px 4px 5px 0;font-weight:bold}
+button.secondary{background:#292929}button:disabled{opacity:.4}
+#status{font-size:13px;color:#555}iframe{width:100%;height:1000px;border:1px solid #ddd;background:white}
+@media(max-width:850px){main{display:block}.preview{margin-top:20px}header strong{font-size:22px}}
+</style>
+</head>
+<body>
+<header><strong>DIARIO FEDERAL · Newsletter</strong><a href="/admin/">Volver al panel</a></header>
+<main>
+<section class="panel">
+<h1>Edición del boletín</h1>
+<p class="muted">Seleccioná hasta seis noticias publicadas. La primera será la portada. Podés enviar una prueba a una sola dirección.</p>
+<label for="subject">Asunto del correo</label><input id="subject" type="text" value="Diario Federal | Las noticias del día"/>
+<label for="filter">Buscar noticia</label><input id="filter" type="text" placeholder="Título, sección, autor..."/>
+<label for="list">Noticias publicadas (ordenadas por fecha)</label><div id="list"></div>
+<h2>Suscriptores y listas</h2><p class="muted">Agregá un correo con su autorización. Brevo enviará una confirmación antes de incorporarlo.</p><label for="contactEmail">Correo electrónico</label><input type="email" id="contactEmail" placeholder="correo@ejemplo.com"/><label for="contactList">Lista</label><select id="contactList"><option value="">Cargando listas…</option></select><button id="addContact" type="button">Solicitar suscripción</button><p id="contactStatus" role="status"></p><h2>Orden de portada</h2><div id="selected" class="muted">Elegí noticias de la lista.</div>
+<button id="previewBtn">Actualizar vista previa</button>
+<button id="download" class="secondary">Descargar HTML para Brevo</button>
+<button id="brevoDraft" type="button">Crear borrador en Brevo (sin enviar)</button>
+<label for="testEmail">Destinatario de prueba</label><input id="testEmail" type="email" value="alvarorfontana@gmail.com" placeholder="correo@ejemplo.com"/><button id="sendTest" type="button">Enviar prueba a este correo</button>
+<h2>Distribución del boletín</h2><label for="sendList">Destinatarios</label><select id="sendList"><option value="4" selected>Contactos de prensa · lista 4</option><option value="3">Newsletter general · lista 3</option></select><p id="sendListCount" role="status" class="muted">Consultando contactos de Brevo…</p><button id="refreshLists" type="button" class="secondary">Actualizar contactos y listas</button><p class="muted">Elegí expresamente la lista. La lista de prensa no se combina con la general. Creá el borrador y revisalo antes de enviar.</p><p id="draftInfo" role="status">Todavía no hay borrador creado en esta sesión.</p><label><input id="consentConfirmed" type="checkbox"/> Confirmo que los destinatarios de la lista elegida están habilitados para recibir esta comunicación y que se respetan las bajas.</label><button id="sendCampaign" type="button">Enviar a la lista seleccionada</button><p id="status" role="status">Borrador local: no se envía ni se guarda una campaña.</p>
+<p class="muted">El HTML incluye el enlace de baja de Brevo. Verificá el enlace y el contenido en la vista previa de Brevo antes de enviar.</p>
+</section>
+<section class="preview"><h2>Vista previa editorial</h2><iframe id="frame" title="Vista previa del newsletter" sandbox="allow-same-origin"></iframe></section>
+</main>
+<script type="application/json" id="articles-data" set:html={safeData}></script>
+<script is:inline>
+(function(){
+const articles=JSON.parse(document.getElementById('articles-data').textContent);
+const chosen=[];
+let currentDraft=null;
+let draftList=null;
+const $=id=>document.getElementById(id);
+$('subject').addEventListener('input',()=>{currentDraft=null;draftList=null;$('draftInfo').textContent='Cambió el asunto. Se preparará un nuevo borrador al enviar.';});
+const esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const abs=s=>{try{const u=new URL(s,'https://www.diariofederal.com.ar');return ['https:','http:'].includes(u.protocol)?u.href:''}catch{return ''}};
+function renderList(){
+ const q=$('filter').value.toLowerCase();
+ $('list').innerHTML=articles.filter(a=>(a.title+' '+a.section+' '+a.author).toLowerCase().includes(q)).map(a=>
+ '<label class="article"><input type="checkbox" data-id="'+esc(a.id)+'" '+(chosen.includes(a.id)?'checked':'')+' '+(!chosen.includes(a.id)&&chosen.length>=6?'disabled':'')+'/><span><b>'+esc(a.title)+'</b><br/><small>'+esc(a.section)+' · '+esc(new Date(a.date).toLocaleDateString('es-AR'))+'</small></span></label>').join('');
+ $('list').querySelectorAll('input').forEach(el=>el.addEventListener('change',()=>{
+ if(el.checked&&!chosen.includes(el.dataset.id)&&chosen.length<6)chosen.push(el.dataset.id);
+ if(!el.checked)chosen.splice(chosen.indexOf(el.dataset.id),1);
+ renderChosen();preview();renderList();
+ }));
+}
+function renderChosen(){
+ $('selected').innerHTML=chosen.map((id,i)=>{
+ const a=articles.find(x=>x.id===id);
+ return '<div style="padding:7px;border-bottom:1px solid #ddd">'+(i===0?'PORTADA · ':'')+esc(a.title)+' <button type="button" data-move="'+i+'" '+(i===0?'disabled':'')+' style="padding:3px 7px">↑</button></div>';
+ }).join('')||'Elegí noticias de la lista.';
+ $('selected').querySelectorAll('[data-move]').forEach(b=>b.onclick=()=>{const i=Number(b.dataset.move);[chosen[i-1],chosen[i]]=[chosen[i],chosen[i-1]];renderChosen();preview()});
+}
+function story(a,hero){
+ const link='https://www.diariofederal.com.ar/articulo/'+encodeURIComponent(a.id)+'/';
+ const img=abs(a.image);
+ return '<tr><td style="padding:'+(hero?'22px 30px':'18px 30px')+';border-bottom:1px solid #ddd">'+
+ (a.volanta?'<p style="font:700 12px Arial;color:#9c1821;letter-spacing:1px">'+esc(a.volanta.toUpperCase())+'</p>':'')+
+ (img?'<a href="'+esc(link)+'"><img src="'+esc(img)+'" alt="'+esc(a.title)+'" width="600" style="display:block;width:100%;height:auto;border:0"/></a>':'')+
+ (img&&a.caption?'<p style="font:11px Arial;color:#777;margin:6px 0">'+esc(a.caption)+'</p>':'')+
+ '<h2 style="font:bold '+(hero?'34':'25')+'px/1.13 Georgia,serif;margin:14px 0"><a style="color:#181818;text-decoration:none" href="'+esc(link)+'">'+esc(a.title)+'</a></h2>'+
+ '<p style="font:16px/1.55 Georgia,serif;color:#444">'+esc(a.excerpt)+'</p>'+
+ '<p style="font:12px Arial;color:#777">'+esc(a.author)+' · '+esc(a.section)+'</p>'+
+ '<a style="font:bold 13px Arial;color:#9c1821" href="'+esc(link)+'">Leer en Diario Federal →</a></td></tr>';
+}
+function build(){
+ const picked=chosen.map(id=>articles.find(a=>a.id===id)).filter(Boolean);
+ const date=new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc($('subject').value)+'</title></head>'+
+ '<body style="margin:0;padding:0;background:#f1eee9"><table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f1eee9"><tr><td align="center" style="padding:18px 8px">'+
+ '<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:660px;background:white"><tr><td style="background:#9c1821;color:white;text-align:center;padding:28px 15px"><div style="font:700 38px Georgia,serif">DIARIO FEDERAL</div><div style="font:12px Arial;letter-spacing:2px;margin-top:8px">POLÍTICA · ECONOMÍA · INTERNACIONALES</div></td></tr>'+
+ '<tr><td style="padding:16px 30px;border-bottom:3px double #333;font:12px Arial;color:#555">EDICIÓN DIGITAL · '+esc(date)+'</td></tr>'+
+ (picked.length?picked.map((a,i)=>story(a,i===0)).join(''):'<tr><td style="padding:50px 30px;text-align:center;font:20px Georgia,serif">Seleccioná noticias reales del diario para construir esta edición.</td></tr>')+
+ '<tr><td style="background:#f6f4ef;text-align:center;padding:26px 20px;font:12px/1.8 Arial;color:#555"><b>DIARIO FEDERAL</b><br/><a href="https://www.diariofederal.com.ar" style="color:#9c1821">www.diariofederal.com.ar</a><br/>Recibís este correo por haberte suscripto al boletín.<br/><a href="{{ unsubscribe }}" style="color:#555;text-decoration:underline">Cancelar suscripción</a></td></tr>'+
+ '</table></td></tr></table></body></html>';
+}
+function preview(){ currentDraft=null;draftList=null;const d=$('draftInfo');if(d)d.textContent='Vista previa lista. Al pulsar Enviar se preparará un borrador nuevo y se pedirá confirmación.'; $('frame').srcdoc=build();$('status').textContent='Vista previa actualizada · '+chosen.length+' noticias · sin envío.' }
+$('filter').addEventListener('input',renderList);
+$('previewBtn').onclick=preview;
+$('download').onclick=()=>{
+ if(!chosen.length){$('status').textContent='Seleccioná al menos una noticia antes de descargar.';return}
+ const blob=new Blob([build()],{type:'text/html;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='diario-federal-newsletter.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+$('sendTest').onclick=async()=>{const email=$('testEmail').value.trim();if(!chosen.length){$('status').textContent='Seleccioná noticias primero.';return;}if(!email||!$('testEmail').checkValidity()){$('status').textContent='Ingresá un correo válido.';return;}if(!confirm('¿Enviar SOLO una prueba a '+email+'?'))return;const btn=$('sendTest');btn.disabled=true;$('status').textContent='Enviando prueba a '+email+'…';try{const r=await fetch('/api/newsletter/test',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({ids:chosen,subject:$('subject').value,email})});const d=await r.json();$('status').textContent=r.ok?'Brevo aceptó la prueba para '+email+'. ID: '+(d.messageId||'sin ID'):(d.error||'Error')+(d.detail?' — '+d.detail:'');}catch(e){$('status').textContent='Error de conexión';}finally{btn.disabled=false;}};
+$('sendList').addEventListener('change',()=>{currentDraft=null;draftList=null;$('draftInfo').textContent='La lista cambió. Creá un nuevo borrador para esta lista.';});
+$('sendCampaign').onclick=async()=>{if(!chosen.length){$('status').textContent='Seleccioná al menos una noticia antes de enviar.';return;}if(!$('consentConfirmed').checked){$('status').textContent='Debés confirmar el consentimiento de los destinatarios.';return;}if(!currentDraft||draftList!==Number($('sendList').value)){const btn=$('sendCampaign');btn.disabled=true;$('status').textContent='Preparando campaña para la lista seleccionada…';try{const r=await fetch('/api/newsletter/draft',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({ids:chosen,subject:$('subject').value,listId:Number($('sendList').value)})});const d=await r.json();if(!r.ok||!d.id){$('status').textContent='No se pudo preparar el envío: '+(d.error||'Error')+(d.detail?' — '+d.detail:'');return;}currentDraft=d.id;draftList=Number($('sendList').value);$('draftInfo').textContent='Campaña '+d.id+' preparada para lista '+draftList+'.';}catch(e){$('status').textContent='No se pudo conectar con Brevo.';return;}finally{btn.disabled=false;}}if(!confirm('¿Confirmás el ENVÍO del borrador '+currentDraft+' a la lista '+draftList+'? Esta acción no se puede deshacer.'))return;const typed=prompt('Escribí ENVIAR para confirmar la distribución:');if(typed!=='ENVIAR')return;const btn=$('sendCampaign');btn.disabled=true;$('status').textContent='Solicitando envío a Brevo…';try{const r=await fetch('/api/newsletter/send',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({campaignId:currentDraft,listId:draftList,confirmation:'ENVIAR',consentConfirmed:true})});const d=await r.json();$('status').textContent=r.ok?'Brevo aceptó la solicitud de envío de la campaña '+currentDraft+'.':(d.error||'Error')+(d.detail?' — '+d.detail:'');if(r.ok){currentDraft=null;$('draftInfo').textContent='Envío solicitado. Consultá el estado de entrega en Brevo.';}else btn.disabled=false;}catch(e){$('status').textContent='Error de conexión; verificá en Brevo antes de reintentar.';}};
+$('brevoDraft').onclick=async()=>{if(!chosen.length){$('status').textContent='Seleccioná noticias primero.';return;}if(!confirm('Crear borrador en Brevo sin enviar correos?'))return;const btn=$('brevoDraft');btn.disabled=true;try{const r=await fetch('/api/newsletter/draft',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({ids:chosen,subject:$('subject').value,listId:Number($('sendList').value)})});const d=await r.json();$('status').textContent=r.ok?'Borrador creado en Brevo (ID '+d.id+'). No se envió ningún correo.':d.error+(d.detail?' — '+d.detail:'');if(r.ok){currentDraft=d.id;draftList=Number($('sendList').value);$('draftInfo').textContent='Borrador '+d.id+' listo. Marcá la confirmación de destinatarios y pulsá Enviar a la lista seleccionada.';}}catch(e){$('status').textContent='Error de conexión';}finally{btn.disabled=false;}};
+async function loadLists(){try{const r=await fetch('/api/newsletter/admin-contacts');const d=await r.json();if(!r.ok)throw Error(d.error);const press=(d.lists||[]).find(l=>Number(l.id)===4);const general=(d.lists||[]).find(l=>Number(l.id)===3);$('sendList').querySelectorAll('option').forEach(o=>{const l=Number(o.value)===4?press:general;if(l)o.textContent=l.name+' · '+(l.totalSubscribers===null||l.totalSubscribers===undefined?'cantidad sin verificar':l.totalSubscribers+' contactos');});$('sendListCount').textContent=press?'Lista de prensa seleccionada. '+(press.totalSubscribers===null||press.totalSubscribers===undefined?'Cantidad pendiente de verificar.':press.totalSubscribers+' contactos registrados.'):'Brevo no devolvió la lista de prensa n.º 4. Revisar el ID.';$('contactList').innerHTML=(d.lists||[]).map(l=>'<option value="'+Number(l.id)+'">'+esc(l.name)+' ('+(Number.isFinite(Number(l.totalSubscribers))?Number(l.totalSubscribers):'sin dato')+')</option>').join('');}catch(e){$('contactStatus').textContent=e.message;$('sendListCount').textContent='Error al consultar Brevo: '+e.message;$('contactList').innerHTML='<option value="">Sin conexión</option>';}}
+$('addContact').onclick=async()=>{const email=$('contactEmail').value.trim();if(!email||!$('contactList').value)return;$('contactStatus').textContent='Solicitando confirmación…';try{const r=await fetch('/api/newsletter/admin-contacts',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({email,listId:Number($('contactList').value)})});const d=await r.json();$('contactStatus').textContent=r.ok?d.message:d.error;}catch(e){$('contactStatus').textContent='Error de conexión';}};
+$('refreshLists').onclick=async()=>{const btn=$('refreshLists');btn.disabled=true;$('sendListCount').textContent='Actualizando listas…';try{await loadLists();}finally{btn.disabled=false;}};
+loadLists();
+renderList();renderChosen();preview();
+})();
+</script>
+</body></html>
