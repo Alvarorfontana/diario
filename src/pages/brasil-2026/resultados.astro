@@ -1,106 +1,111 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../../consts';
+
+const resultadosUrl = 'https://resultados.tse.jus.br/oficial/app/index.html#/eleicao/6258/uf/br/cargo/1/vis/nominal/resultados';
 ---
 
-<BaseLayout title={`Resultados en vivo · Brasil 2026 | ${SITE_TITLE}`} description="Resultados del escrutinio en Brasil 2026, en vivo.">
-	<div class="mx-auto max-w-3xl" id="app" style="visibility:hidden">
-		<p class="um-banner mt-4"><span class="um-luz"></span>Resultados en vivo · Brasil 2026</p>
-		<h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
-			Elecciones en Brasil: seguí el escrutinio en vivo
-		</h1>
-		<p class="mt-3 text-sm text-neutral-500">
-			Actualizado: <span id="updated">—</span> · Fuente: Tribunal Superior Electoral (TSE)
-		</p>
+<BaseLayout
+  title={`Brasil 2026: resultados oficiales en vivo | ${SITE_TITLE}`}
+  description="Seguimiento electoral de Diario Federal con acceso directo a los resultados oficiales del Tribunal Superior Electoral de Brasil (TSE) y contexto periodístico."
+>
+  <article class="mx-auto max-w-4xl">
+    <p class="um-banner mt-4"><span class="um-luz"></span>Cobertura electoral · Fuente oficial</p>
+    <h1 class="mt-4 font-serif text-4xl leading-[1.08] font-black tracking-tight sm:text-5xl">
+      Brasil: resultados electorales en vivo
+    </h1>
+    <p class="mt-3 text-sm text-neutral-500">
+      Diario Federal · Fuente primaria: Tribunal Superior Electoral (TSE) de Brasil
+    </p>
 
-		<!-- Tarjetas principales -->
-		<div class="mt-6 grid grid-cols-2 gap-4 border-y-2 border-neutral-900 py-5">
-			<div class="text-center">
-				<span class="block font-serif text-3xl font-black" id="urnas">—</span>
-				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">urnas escrutadas</span>
-			</div>
-			<div class="text-center">
-				<span class="block font-serif text-3xl font-black" id="participacion">—</span>
-				<span class="text-[11px] tracking-wide text-neutral-500 uppercase">participación</span>
-			</div>
-		</div>
+    <section class="mt-6 border-y-2 border-neutral-900 py-5">
+      <h2 class="font-serif text-2xl font-extrabold">Consultá el escrutinio oficial</h2>
+      <p class="mt-3 leading-relaxed text-neutral-700">
+        Los votos, porcentajes y avance de la totalización deben leerse directamente en la aplicación oficial del TSE. Esta página no reproduce cifras estimadas ni reemplaza la fuente electoral.
+      </p>
+      <div class="mt-4 flex flex-col gap-3 sm:flex-row">
+        <a id="open-tse" href={resultadosUrl} target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center justify-center bg-neutral-900 px-5 py-3 font-bold text-white hover:bg-neutral-700">
+          Abrir resultados oficiales del TSE ↗
+        </a>
+        <button id="reload-tse" type="button"
+          class="inline-flex items-center justify-center border border-neutral-400 px-5 py-3 font-bold hover:bg-neutral-100">
+          Actualizar vista
+        </button>
+      </div>
+      <p class="mt-3 text-xs text-neutral-500">
+        La vista se recarga cada 60 segundos. Si el TSE impide mostrar su aplicación dentro de esta página, usá el botón para abrir el sitio oficial.
+      </p>
+    </section>
 
-		<!-- Barras de candidatos -->
-		<div id="candidatos" class="mt-6 space-y-5"></div>
+    <section class="mt-6" aria-label="Aplicación oficial de resultados electorales">
+      <div class="flex items-center justify-between gap-3 border border-neutral-300 bg-neutral-50 px-4 py-3">
+        <p class="text-sm font-bold">Aplicación oficial del TSE</p>
+        <p class="text-xs text-neutral-500">Consulta directa</p>
+      </div>
+      <div class="border-x border-b border-neutral-300 bg-white">
+        <iframe
+          id="tse-frame"
+          src={resultadosUrl}
+          title="Resultados electorales oficiales del Tribunal Superior Electoral de Brasil"
+          loading="eager"
+          referrerpolicy="strict-origin-when-cross-origin"
+          class="block w-full"
+          style="height: min(78vh, 900px); min-height: 620px; border: 0;"
+        ></iframe>
+      </div>
+    </section>
 
-		<!-- Minuto a minuto -->
-		<div class="mt-10 flex items-center justify-between">
-			<h2 class="font-serif text-2xl font-extrabold">Minuto a minuto</h2>
-			<span class="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1.5 text-[11px] font-bold text-white">
-				<span class="luz-parpadeante inline-block h-1.5 w-1.5 rounded-full bg-white"></span>
-				Auto-actualización
-			</span>
-		</div>
-		<div id="timeline" class="mt-4 ml-1.5 border-l-[3px] border-neutral-900"></div>
+    <section class="mt-10 border-t-2 border-neutral-900 pt-6">
+      <p class="text-xs font-bold tracking-[0.16em] text-neutral-500 uppercase">La clave de la jornada</p>
+      <h2 class="mt-2 font-serif text-2xl font-extrabold">Qué muestran los resultados y cómo leerlos</h2>
+      <p class="mt-3 leading-relaxed text-neutral-700">
+        La plataforma de resultados del Tribunal Superior Electoral (TSE) permite consultar la totalización oficial de los votos por elección, cargo y ámbito geográfico. El escrutinio se actualiza a medida que se procesan los datos recibidos; por eso, el porcentaje de avance y la posición de las candidaturas pueden cambiar durante el recuento.
+      </p>
+      <p class="mt-3 leading-relaxed text-neutral-700">
+        Para interpretar correctamente la tendencia, es importante observar tanto los votos y porcentajes de cada candidatura como el avance de la totalización. Un resultado parcial no equivale por sí solo a una proclamación definitiva.
+      </p>
+      <p class="mt-3 leading-relaxed text-neutral-700">
+        Para Argentina, la elección brasileña tiene especial relevancia por el peso de Brasil en el Mercosur, el comercio bilateral, la coordinación regional y las negociaciones económicas y ambientales sudamericanas.
+      </p>
+      <p class="mt-4 text-sm text-neutral-500">
+        Criterio editorial: Diario Federal enlaza a la fuente primaria y no publica cifras que no hayan podido verificarse en el sistema oficial.
+      </p>
+    </section>
 
-		<div class="mt-8 border border-neutral-300 bg-neutral-50 p-5 text-sm text-neutral-600">
-			<strong>Nota metodológica:</strong> los datos provienen del escrutinio provisorio del TSE. Los resultados definitivos se publican tras la jornada de totalización.
-		</div>
-	</div>
+    <section class="mt-8 border border-neutral-300 p-5">
+      <h2 class="font-serif text-xl font-extrabold">Fuente y verificación</h2>
+      <p class="mt-2 text-sm leading-relaxed text-neutral-600">
+        Tribunal Superior Electoral de Brasil (TSE), aplicación oficial de resultados.
+      </p>
+      <a href={resultadosUrl} target="_blank" rel="noopener noreferrer" class="mt-3 inline-block break-all text-sm font-bold underline underline-offset-4">
+        {resultadosUrl}
+      </a>
+      <p class="mt-3 text-xs text-neutral-500">Última recarga de esta vista: <time id="last-refresh">al abrir la página</time></p>
+    </section>
+  </article>
 </BaseLayout>
 
 <script>
-	async function cargar() {
-		try {
-			const r = await fetch('/api/brasil2026', { cache: 'no-store' });
-			const d = await r.json();
-			document.getElementById('app').style.visibility = '';
-
-			// Si los datos son los de ejemplo de la plantilla ("Candidato 1", "Partido A"),
-			// no se muestran: se avisa que los resultados todavía no están cargados.
-			const esEjemplo = !Array.isArray(d.candidatos) || d.candidatos.length === 0 ||
-				d.candidatos.some((c) => /^Candidato \d/i.test(c.nombre || '') || /^Partido [A-Z]$/.test(c.partido || ''));
-			if (esEjemplo) {
-				document.getElementById('app').innerHTML = `
-					<div class="tarjeta mx-auto max-w-2xl p-7 text-center sm:p-10">
-						<p class="text-xs font-bold tracking-[0.12em] text-brand uppercase">Brasil 2026 · Resultados</p>
-						<h1 class="mt-3 font-display text-3xl font-extrabold text-ink">Los resultados todavía no están cargados</h1>
-						<p class="mt-3 text-neutral-600">Vamos a publicar el escrutinio con datos oficiales del Tribunal Superior Electoral (TSE) apenas estén disponibles.</p>
-						<div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-							<a href="/brasil-2026/minuto-a-minuto/" class="rounded-xl bg-brand px-5 py-3 font-bold text-white">Minuto a minuto</a>
-							<a href="/brasil-2026/candidatos/" class="rounded-xl bg-[#f0f0ec] px-5 py-3 font-bold text-ink">Los candidatos</a>
-						</div>
-					</div>`;
-				return;
-			}
-
-			document.getElementById('updated').textContent = new Date(d.updatedAt).toLocaleString('es-AR', { dateStyle: 'short', timeStyle: 'short' });
-			document.getElementById('urnas').textContent = d.urnas;
-			document.getElementById('participacion').textContent = d.participacion;
-
-			const cont = document.getElementById('candidatos');
-			cont.innerHTML = d.candidatos.map((c) => `
-				<div>
-					<div class="flex items-baseline justify-between">
-						<p class="font-serif text-lg font-extrabold">${c.nombre} <span class="text-sm font-semibold text-neutral-500">${c.partido}</span></p>
-						<p class="font-serif text-xl font-black">${c.pct}%</p>
-					</div>
-					<div class="mt-1.5 h-3.5 w-full bg-neutral-200">
-						<div class="h-3.5" style="width:${c.pct}%; background:${c.color}"></div>
-					</div>
-					<p class="mt-1 text-xs text-neutral-500">${c.votos} votos</p>
-				</div>
-			`).join('');
-
-			document.getElementById('timeline').innerHTML = d.posts.map((p) => `
-				<div class="relative border-b border-neutral-200 py-5 pl-6">
-					<span class="absolute top-6 -left-[7px] h-[11px] w-[11px] rounded-full border-[3px] ${p.clave ? 'border-brand bg-brand' : 'border-neutral-900'} bg-[#f6efdf]"></span>
-					<p class="font-serif text-lg font-black">${p.hora}</p>
-					${p.clave ? '<span class="mt-1 inline-block rounded-full border border-brand px-3 py-0.5 text-[10px] font-extrabold tracking-wider uppercase text-brand">Evento clave</span>' : ''}
-					<p class="mt-2 text-[15px] leading-relaxed text-neutral-800">${p.texto}</p>
-					<p class="mt-2 text-xs font-semibold text-neutral-500">${p.autor} <span class="font-normal text-neutral-400">· ${p.lugar}</span></p>
-				</div>
-			`).join('');
-		} catch (e) {
-			document.getElementById('app').style.visibility = '';
-			console.error('Error cargando resultados', e);
-		}
-	}
-	cargar();
-	setInterval(cargar, 60000);
+  const frame = document.getElementById('tse-frame');
+  const refreshLabel = document.getElementById('last-refresh');
+  const refresh = () => {
+    if (frame) frame.src = frame.src;
+    if (refreshLabel) {
+      refreshLabel.textContent = new Date().toLocaleString('es-AR', {
+        dateStyle: 'short',
+        timeStyle: 'medium',
+        timeZone: 'America/Argentina/Buenos_Aires'
+      });
+    }
+  };
+  document.getElementById('reload-tse')?.addEventListener('click', refresh);
+  if (refreshLabel) {
+    refreshLabel.textContent = new Date().toLocaleString('es-AR', {
+      dateStyle: 'short',
+      timeStyle: 'medium',
+      timeZone: 'America/Argentina/Buenos_Aires'
+    });
+  }
+  window.setInterval(refresh, 60000);
 </script>
