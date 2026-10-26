@@ -189,6 +189,10 @@ if (Astro.request.method === 'POST') {
 									<label for="breaking">Último momento</label>
 								</div>
 								<div class="checkbox-wrapper">
+									<input type="checkbox" id="tapa" />
+									<label for="tapa">Nota principal de Home (tarjeta grande)</label>
+								</div>
+								<div class="checkbox-wrapper">
 									<input type="checkbox" id="draft" />
 									<label for="draft">Borrador (no se muestra en el sitio)</label>
 								</div>
@@ -519,7 +523,7 @@ if (Astro.request.method === 'POST') {
 					return '<tr><td>' + esc(a.title) + '</td>' +
 						'<td><span class="badge badge-section">' + esc(SECCION_NOMBRE[a.section] || a.section || '-') + '</span></td>' +
 						'<td>' + (a.date ? a.date.split('-').reverse().join('/') : '-') + '</td>' +
-						'<td>' + (a.draft ? '<span class="badge badge-draft">Borrador</span> ' : '') + (a.breaking ? '<span class="badge badge-ultimo">Último momento</span>' : '') + '</td>' +
+						'<td>' + (a.draft ? '<span class="badge badge-draft">Borrador</span> ' : '') + (a.breaking ? '<span class="badge badge-ultimo">Último momento</span> ' : '') + (a.tapa ? '<span class="badge badge-section">Principal de Home</span>' : '') + '</td>' +
 						'<td class="actions">' +
 						(/\.mdx$/.test(a.filename) ? '' : '<button class="btn btn-primary" data-act="edit" data-file="' + esc(a.filename) + '">Editar</button>') +
 						'<button class="btn btn-danger" data-act="delete" data-file="' + esc(a.filename) + '" data-sha="' + esc(a.sha) + '">Eliminar</button></td></tr>';
@@ -570,6 +574,7 @@ if (Astro.request.method === 'POST') {
 				$('title').value = d.title; $('volanta').value = d.volanta; $('excerpt').value = d.excerpt;
 				$('section').value = d.section; $('author').value = d.author; $('region').value = d.region || ''; $('ciudad').value = d.ciudad || ''; $('date').value = d.date;
 				$('breaking').checked = d.breaking; $('draft').checked = d.draft;
+				$('tapa').checked = d.tapa;
 				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
 				$('tags').value = (d.tags || []).join(', ');
 				$('puntosClave').value = (d.puntosClave || []).join('\n');
@@ -678,7 +683,7 @@ if (Astro.request.method === 'POST') {
 				data: {
 					title: $('title').value.trim(), volanta: $('volanta').value.trim(), excerpt: $('excerpt').value.trim(),
 					section: $('section').value, author: $('author').value.trim() || 'Redacción', region: $('region').value, ciudad: $('ciudad').value.trim(), date: $('date').value,
-					breaking: $('breaking').checked, draft: $('draft').checked,
+					breaking: $('breaking').checked, draft: $('draft').checked, tapa: $('tapa').checked,
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
 					resumenCompartir: $('resumenCompartir').value.trim(),

@@ -14,6 +14,7 @@ import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion, FOTOS_COLUMNISTAS, volanta
 import BloqueEncuestas from '../components/BloqueEncuestas.astro';
 import { getArticulos } from '../lib/articles';
 import { masLeidas } from '../lib/visitas';
+import { seleccionarTapa } from '../lib/portada';
 
 const articulos = await getArticulos();
 
@@ -22,7 +23,7 @@ const hoyAR = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString().slice(0, 1
 
 // Nota de tapa: la de riesgo país (fijada a mano) o la marcada como "último momento" en el panel.
 const notaRiesgoPais = articulos.find((a) => a.slug === 'riesgo-pais-700-puntos-deuda-2027') ?? null;
-const tapa = notaRiesgoPais ?? articulos.find((a) => a.breaking) ?? articulos[0] ?? null;
+const tapa = seleccionarTapa(articulos);
 const resto = articulos.filter((a) => a.id !== tapa?.id);
 
 // Cada nota aparece una sola vez en la portada.

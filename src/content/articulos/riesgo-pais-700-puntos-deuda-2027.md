@@ -3,6 +3,7 @@ title: "El riesgo país supera los 700 puntos y expone las dificultades del Gobi
 volanta: "ECONOMÍA | MERCADOS Y DEUDA"
 description: "El indicador alcanzó los 710 puntos durante la jornada. Los inversores reclaman dólares disponibles y un programa de financiamiento para los vencimientos de 2027, mientras el Gobierno reivindica el equilibrio fiscal."
 section: economia
+tapa: true
 author: "Redacción Diario Federal"
 pubDate: 2026-10-20T16:30:00-03:00
 heroImage: "https://www.argentina.gob.ar/sites/default/files/karinajavierrural2025.jpg"
