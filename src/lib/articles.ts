@@ -20,6 +20,7 @@ export interface Articulo {
 	resumenCompartir?: string;
 	correccion?: string;
 	breaking: boolean;
+	tapa: boolean;
 	entry: any;
 }
 
@@ -63,6 +64,7 @@ export async function getArticulos(): Promise<Articulo[]> {
 				resumenCompartir: d.resumenCompartir?.trim() || undefined,
 				correccion: d.correccion?.trim() || undefined,
 				breaking: d.ultimoMomento === true,
+				tapa: d.tapa === true,
 				entry,
 			};
 		})

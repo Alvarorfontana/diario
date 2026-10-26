@@ -50,6 +50,7 @@ export const GET = async ({ request, locals }: any) => {
 						section: data.section ?? '',
 						date: fechaISO(data.pubDate),
 						breaking: data.ultimoMomento === true,
+						tapa: data.tapa === true,
 						draft: data.draft === true,
 					};
 				})
@@ -80,6 +81,7 @@ export const GET = async ({ request, locals }: any) => {
 					region: data.region ?? '',
 					date: fechaISO(data.pubDate),
 					breaking: data.ultimoMomento === true,
+					tapa: data.tapa === true,
 					draft: data.draft === true,
 					image_url: typeof data.heroImage === 'string' ? data.heroImage : '',
 					imageCaption: data.imageCaption ?? '',
@@ -116,6 +118,7 @@ export const POST = async ({ request, locals }: any) => {
 		if (data.image_url) fm.heroImage = data.image_url;
 		if (data.imageCaption) fm.imageCaption = data.imageCaption;
 		if (data.breaking) fm.ultimoMomento = true;
+		if (data.tapa) fm.tapa = true;
 		if (data.draft) fm.draft = true;
 		fm.tags = Array.isArray(data.tags) ? data.tags : [];
 		const puntos = Array.isArray(data.puntosClave) ? data.puntosClave.map((p: any) => String(p).trim()).filter(Boolean).slice(0, 3) : [];
