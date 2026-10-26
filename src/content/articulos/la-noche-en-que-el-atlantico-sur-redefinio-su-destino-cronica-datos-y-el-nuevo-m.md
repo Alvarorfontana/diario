@@ -9,6 +9,7 @@ pubDate: 2026-10-26
 heroImage: /media/1792977339516-lula-da-silva-2339703.jpg
 imageCaption: "Lula em São Paulo: O Brasil Pronto Pra Mais24.10.2026 - Presidente da República, Luiz Inácio Lula da Silva, durante ato de campanha no Rio de Janeiro: o evento 'Lula em São Paulo: O Brasil Pronto Pra Mais', realizado na Avenida Paulista, São Paulo (SP). — Foto: Foto: Ricardo Stuckert"
 ultimoMomento: true
+tapa: true
 tags:
   - politica
   - elecciones
