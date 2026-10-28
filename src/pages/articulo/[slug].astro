@@ -116,7 +116,7 @@ import { nombreRegion } from '../../lib/regiones';
 			<p class="mt-4 max-w-[1050px] text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
 			{image_url && (
 				<figure class="mt-6 max-w-[1050px]">
-					<img src={fotoVisible} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
+					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
 					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
 			)}
@@ -253,6 +253,14 @@ import { nombreRegion } from '../../lib/regiones';
 </script>
 
 <script is:inline>
+	// Si la imagen procesada falla, intentar la URL original una sola vez.
+	document.addEventListener('error', function (event) {
+		var img = event.target;
+		if (img instanceof HTMLImageElement && img.dataset.fallbackSrc && !img.dataset.fallbackTried) {
+			img.dataset.fallbackTried = '1';
+			img.src = img.dataset.fallbackSrc;
+		}
+	}, true);
 	(function () {
 		var barraFija = document.getElementById('barra-fija');
 		var progreso = document.getElementById('progreso-lectura');
