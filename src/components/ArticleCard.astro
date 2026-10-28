@@ -49,13 +49,3 @@ const volanta = data.volanta;
 	</a>
 </article>
 
-<script is:inline>
-	// Recuperación de fotos externas si falla la ruta optimizada del sitio.
-	document.addEventListener('error', function (event) {
-		var img = event.target;
-		if (img instanceof HTMLImageElement && img.dataset.fallbackSrc && !img.dataset.fallbackTried) {
-			img.dataset.fallbackTried = '1';
-			img.src = img.dataset.fallbackSrc;
-		}
-	}, true);
-</script>

@@ -60,6 +60,16 @@ const { title, description, image, ogImage, publishedTime, author, section } = A
 				});
 			}
 		</script>
+		<!-- Fotos: si la versión optimizada falla, se prueba una vez con la original -->
+		<script is:inline>
+			document.addEventListener('error', function (e) {
+				var img = e.target;
+				if (img && img.tagName === 'IMG' && img.dataset && img.dataset.fallbackSrc && !img.dataset.fallbackTried) {
+					img.dataset.fallbackTried = '1';
+					img.src = img.dataset.fallbackSrc;
+				}
+			}, true);
+		</script>
 	</head>
 	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased">
 		<Header />

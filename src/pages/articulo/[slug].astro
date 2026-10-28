@@ -85,7 +85,7 @@ import { nombreRegion } from '../../lib/regiones';
 
 	<!-- Barra fija con el titular: aparece al scrollear (estilo El País / Washington Post) -->
 	<div id="barra-fija" class="fixed inset-x-0 top-0 z-50 -translate-y-full border-b border-neutral-200 bg-white/95 shadow-sm backdrop-blur transition-transform duration-200">
-		<div class="mx-auto flex max-w-[680px] items-center gap-3 px-4 py-2.5">
+		<div class="mx-auto flex max-w-[1100px] items-center gap-3 px-4 py-2.5">
 			<span class="shrink-0 text-[11px] font-bold uppercase tracking-widest text-brand">{nombreSeccion(section || '')}</span>
 			<span class="h-4 w-px shrink-0 bg-neutral-300"></span>
 			<span class="truncate text-sm font-semibold text-neutral-900">{title}</span>
@@ -110,12 +110,12 @@ import { nombreRegion } from '../../lib/regiones';
 					<p class="mt-3 text-sm font-bold tracking-wide text-neutral-800 uppercase">{volanta}</p>
 				)
 			}
-			<h1 class="mt-3 max-w-[1050px] font-display text-[1.85rem] leading-[1.14] font-extrabold tracking-[-0.015em] text-ink sm:text-[2.6rem]">
+			<h1 class="mt-3 font-display text-[1.85rem] leading-[1.14] font-extrabold tracking-[-0.015em] text-ink sm:text-[2.6rem]">
 				{title}
 			</h1>
-			<p class="mt-4 max-w-[1050px] text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
+			<p class="mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
 			{image_url && (
-				<figure class="mt-6 max-w-[1050px]">
+				<figure class="mt-6">
 					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
 					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
@@ -158,10 +158,10 @@ import { nombreRegion } from '../../lib/regiones';
 		</header>
 
 		<div class="mt-8 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,760px)_minmax(260px,320px)] lg:justify-between">
-		<main class="min-w-0">
+		<div class="min-w-0">
 		{
 			puntosClave && puntosClave.length > 0 && (
-				<section class="tarjeta mt-8 px-5 py-4 shadow-[inset_0_0_0_1px_#e6e6e2]" aria-label="Lo que tenés que saber">
+				<section class="tarjeta px-5 py-4 shadow-[inset_0_0_0_1px_#e6e6e2]" aria-label="Lo que tenés que saber">
 					<p class="font-display text-[15px] font-extrabold text-ink">Lo que tenés que saber</p>
 					<ul class="mt-3 flex flex-col gap-2.5">
 						{puntosClave.map((punto: string) => (
@@ -188,8 +188,8 @@ import { nombreRegion } from '../../lib/regiones';
 			)
 		}
 
-		</main>
-		<aside class="min-w-0 space-y-6" aria-label="Más noticias y publicidad">
+		</div>
+		<aside class="min-w-0 space-y-6 lg:sticky lg:top-20" aria-label="Más noticias y publicidad" data-no-imprimir>
 			<section class="tarjeta p-5">
 				<h2 class="titulo-seccion mb-3 text-xl">Últimas noticias</h2>
 				<ol>
@@ -206,9 +206,7 @@ import { nombreRegion } from '../../lib/regiones';
 					))}
 				</ol>
 			</section>
-			<div class="tarjeta p-3">
-				<AdBanner position="sidebar" maxAds={1} />
-			</div>
+			<AdBanner position="sidebar" maxAds={1} />
 		</aside>
 		</div>
 
@@ -217,13 +215,17 @@ import { nombreRegion } from '../../lib/regiones';
 		</div>
 	</article>
 
-	<AdBanner position="in-article" maxAds={1} />
-
-	<Comentarios
-		identifier={slug}
-		url={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()}
-		title={title}
-	/>
+	<!-- Publicidad y comentarios alineados con la columna del texto -->
+	<div class="mx-auto w-full max-w-[1100px]" data-no-imprimir>
+		<div class="lg:max-w-[760px]">
+			<AdBanner position="in-article" maxAds={1} />
+			<Comentarios
+				identifier={slug}
+				url={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()}
+				title={title}
+			/>
+		</div>
+	</div>
 
 	{
 		relacionados.length > 0 && (
@@ -253,14 +255,6 @@ import { nombreRegion } from '../../lib/regiones';
 </script>
 
 <script is:inline>
-	// Si la imagen procesada falla, intentar la URL original una sola vez.
-	document.addEventListener('error', function (event) {
-		var img = event.target;
-		if (img instanceof HTMLImageElement && img.dataset.fallbackSrc && !img.dataset.fallbackTried) {
-			img.dataset.fallbackTried = '1';
-			img.src = img.dataset.fallbackSrc;
-		}
-	}, true);
 	(function () {
 		var barraFija = document.getElementById('barra-fija');
 		var progreso = document.getElementById('progreso-lectura');
