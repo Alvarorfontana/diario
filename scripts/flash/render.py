@@ -80,7 +80,7 @@ def buscar_commons(consulta, destino):
             meta = ii.get("extmetadata", {})
             autor = meta.get("Artist", {}).get("value", "")
             import re
-            autor = re.sub("<[^>]+>", "", autor).strip()[:60]
+            autor = " ".join(re.sub("<[^>]+>", " ", autor).split())[:60]
             lic = meta.get("LicenseShortName", {}).get("value", "")
             req = urllib.request.Request(url, headers={"User-Agent": "DiarioFederalFlash/1.0"})
             with open(destino, "wb") as f:
