@@ -47,6 +47,8 @@ const minutosLectura = Math.max(1, Math.round(palabras / 200));
 
 // Artículos relacionados de la misma sección (máximo 3)
 const relacionados = todos.filter((a) => a.section === section && a.slug !== slug).slice(0, 3);
+// Noticias recientes para la columna lateral, excluyendo la nota que se está leyendo.
+const ultimasRelacionadas = todos.filter((a) => a.slug !== slug).slice(0, 5);
 
 // Datos estructurados para Google (Schema.org NewsArticle)
 const siteOrigin = Astro.site ?? Astro.url.origin;
@@ -149,6 +151,8 @@ import { nombreRegion } from '../../lib/regiones';
 			}
 		</header>
 
+		<div class="mt-8 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,760px)_minmax(260px,320px)] lg:justify-between">
+		<main class="min-w-0">
 		{
 			image_url && (
 				<figure class="mt-8">
@@ -186,6 +190,30 @@ import { nombreRegion } from '../../lib/regiones';
 				</aside>
 			)
 		}
+
+		</main>
+		<aside class="min-w-0 space-y-6" aria-label="Más noticias y publicidad">
+			<section class="tarjeta p-5">
+				<h2 class="titulo-seccion mb-3 text-xl">Últimas noticias</h2>
+				<ol>
+					{ultimasRelacionadas.map((nota, i) => (
+						<li class="border-b border-[#eeeeea] last:border-0">
+							<a href={`/articulo/${nota.slug}/`} class="group flex items-start gap-3 py-3">
+								<span class="w-6 shrink-0 font-display text-xl leading-none font-extrabold text-brand">{i + 1}</span>
+								<span>
+									<span class="block text-[10px] font-bold tracking-wider text-brand uppercase">{nombreSeccion(nota.section || '')}</span>
+									<span class="mt-1 block font-display text-sm leading-snug font-bold text-ink group-hover:text-brand">{nota.title}</span>
+								</span>
+							</a>
+						</li>
+					))}
+				</ol>
+			</section>
+			<div class="tarjeta p-3">
+				<AdBanner position="sidebar" maxAds={1} />
+			</div>
+		</aside>
+		</div>
 
 		<div class="solo-impresion pie-impresion" aria-hidden="true">
 			Nota publicada en {SITE_TITLE} · {new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()}
