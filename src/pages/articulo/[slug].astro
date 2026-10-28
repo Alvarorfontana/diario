@@ -110,10 +110,16 @@ import { nombreRegion } from '../../lib/regiones';
 					<p class="mt-3 text-sm font-bold tracking-wide text-neutral-800 uppercase">{volanta}</p>
 				)
 			}
-			<h1 class="mt-3 font-display text-[1.85rem] leading-[1.14] font-extrabold tracking-[-0.015em] text-ink sm:text-[2.6rem]">
+			<h1 class="mt-3 max-w-[1050px] font-display text-[1.85rem] leading-[1.14] font-extrabold tracking-[-0.015em] text-ink sm:text-[2.6rem]">
 				{title}
 			</h1>
-			<p class="mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
+			<p class="mt-4 max-w-[1050px] text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
+			{image_url && (
+				<figure class="mt-6 max-w-[1050px]">
+					<img src={fotoVisible} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
+					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
+				</figure>
+			)}
 
 			<div class="mt-6 flex items-center gap-3">
 				<div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink font-display text-sm font-extrabold text-white">
@@ -153,15 +159,6 @@ import { nombreRegion } from '../../lib/regiones';
 
 		<div class="mt-8 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,760px)_minmax(260px,320px)] lg:justify-between">
 		<main class="min-w-0">
-		{
-			image_url && (
-				<figure class="mt-8">
-					<img src={fotoVisible} alt={title} class="w-full h-auto rounded-2xl object-cover object-center" loading="eager" />
-					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
-				</figure>
-			)
-		}
-
 		{
 			puntosClave && puntosClave.length > 0 && (
 				<section class="tarjeta mt-8 px-5 py-4 shadow-[inset_0_0_0_1px_#e6e6e2]" aria-label="Lo que tenés que saber">
