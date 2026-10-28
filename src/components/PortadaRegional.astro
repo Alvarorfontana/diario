@@ -3,12 +3,14 @@
 // El lector elige su región una vez y el diario la recuerda en su celular.
 import FormattedDate from './FormattedDate.astro';
 import { REGIONES } from '../lib/regiones';
+import { imagenNotaPath } from '../lib/og';
 import type { Articulo } from '../lib/articles';
 
 interface Props {
 	articulos: Articulo[];
 }
 const { articulos } = Astro.props;
+const fotoRegional = (a: (typeof articulos)[number]) => /^https?:\/\//i.test(a.image_url || '') ? imagenNotaPath(a.slug, a.image_url, 480) : a.image_url;
 
 const porRegion = REGIONES.map((r) => ({ ...r, notas: articulos.filter((a) => a.region === r.id).slice(0, 4) })).filter(
 	(r) => r.notas.length > 0,
@@ -39,7 +41,7 @@ const porRegion = REGIONES.map((r) => ({ ...r, notas: articulos.filter((a) => a.
 				<div class="grid gap-4 sm:grid-cols-2">
 					{r.notas.map((a) => (
 						<a href={`/articulo/${a.slug}/`} class="group flex gap-3">
-							{a.image_url && <img src={a.image_url} alt="" class="h-20 w-28 shrink-0 rounded-lg object-cover" loading="lazy" />}
+							{a.image_url && <img src={fotoRegional(a)} alt="" class="h-20 w-28 shrink-0 rounded-lg object-cover" loading="lazy" />}
 							<span class="min-w-0">
 								{a.volanta && <span class="block text-[10.5px] font-bold tracking-[0.08em] text-brand uppercase">{a.volanta}</span>}
 								<span class="mt-0.5 block font-display text-[15px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
