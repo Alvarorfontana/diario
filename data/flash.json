@@ -1,4 +1,7 @@
 {
+  "musica": "breaking-news.mp3",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": "+14%",
   "titulo": "Flash informativo",
   "subtitulo": "Lo más importante de la semana",
   "fecha": "Semana del 21 al 27 de octubre de 2026",
@@ -10,35 +13,45 @@
       "titulo": "Serbia fue a las urnas en elecciones anticipadas",
       "texto": "Serbia votó el domingo en unas elecciones parlamentarias anticipadas, marcadas por meses de protestas estudiantiles contra el gobierno de Aleksandar Vučić.",
       "buscar": "Belgrade National Assembly",
-      "color": "#1f3a68"
+      "color": "#1f3a68",
+      "imagen": "",
+      "fuente": ""
     },
     {
       "volanta": "BRASIL",
       "titulo": "Brasil definió su presidente en segunda vuelta",
       "texto": "Brasil eligió presidente en un balotaje entre Lula da Silva y Flávio Bolsonaro. El resultado sacude el mapa político de la región.",
       "buscar": "Luiz Inácio Lula da Silva",
-      "color": "#1d5a3a"
+      "color": "#1d5a3a",
+      "imagen": "",
+      "fuente": ""
     },
     {
       "volanta": "ARGENTINA",
       "titulo": "Tensión diplomática entre la Casa Rosada y Brasilia",
       "texto": "El gobierno de Javier Milei marcó distancia con el resultado brasileño y abrió un nuevo capítulo de tensión con el principal socio del Mercosur.",
       "buscar": "Casa Rosada Buenos Aires",
-      "color": "#3a5f86"
+      "color": "#3a5f86",
+      "imagen": "",
+      "fuente": ""
     },
     {
       "volanta": "ISRAEL",
       "titulo": "Israel vota con Netanyahu bajo presión",
       "texto": "Israel celebra elecciones legislativas con Benjamín Netanyahu enfrentando una oposición fuerte y un electorado cansado tras dos años de guerra.",
       "buscar": "Knesset Jerusalem",
-      "color": "#28406e"
+      "color": "#28406e",
+      "imagen": "",
+      "fuente": ""
     },
     {
       "volanta": "ESTADOS UNIDOS",
       "titulo": "Estados Unidos encara las elecciones de medio término",
       "texto": "A pocos días de las elecciones de medio término, demócratas y republicanos se disputan el control del Congreso en Washington.",
       "buscar": "United States Capitol",
-      "color": "#5a1f2a"
+      "color": "#5a1f2a",
+      "imagen": "",
+      "fuente": ""
     }
   ]
 }

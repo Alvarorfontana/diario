@@ -118,7 +118,7 @@ def placa_generada(nota, idx):
 
 
 def preparar_fondo(nota, idx, tmpdir):
-    img, credito = None, nota.get("credito")
+    img, credito = None, nota.get("credito") or (("Foto: " + nota["fuente"]) if nota.get("fuente") else None)
     if nota.get("imagen"):
         p = nota["imagen"]
         if p.startswith("http"):
@@ -295,7 +295,20 @@ def main():
     entrada = args[0] if args else os.path.join(BASE, "flash.json")
     salida = args[1] if len(args) > 1 else os.path.join(BASE, "flash.mp4")
     datos = json.load(open(entrada, encoding="utf-8"))
-    musica = os.path.join(BASE, datos.get("musica", "musica.mp3"))
+    # música: nombre de un archivo de scripts/flash/musica/ (o "azar" para elegir una cualquiera)
+    elegida = datos.get("musica", "breaking-news.mp3")
+    carpeta = os.path.join(BASE, "musica")
+    if elegida == "azar":
+        import random
+        elegida = random.choice(sorted(f for f in os.listdir(carpeta) if f.endswith(".mp3")))
+    musica = os.path.join(carpeta, elegida)
+    print("Música:", elegida)
+    if datos.get("voz"):
+        os.environ["FLASH_VOZ"] = datos["voz"]
+    if os.environ.get("FLASH_VOZ_MANUAL"):
+        os.environ["FLASH_VOZ"] = os.environ["FLASH_VOZ_MANUAL"]
+    if datos.get("velocidad"):
+        os.environ["FLASH_VELOCIDAD"] = datos["velocidad"]
     tmp = tempfile.mkdtemp()
 
     print("Generando voces…")

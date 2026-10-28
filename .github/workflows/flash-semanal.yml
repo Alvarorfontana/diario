@@ -50,7 +50,7 @@ jobs:
       - name: Armar el video
         env:
           PYTHONUNBUFFERED: '1'
-          FLASH_VOZ: ${{ inputs.voz || 'es-AR-TomasNeural' }}
+          FLASH_VOZ_MANUAL: ${{ inputs.voz }}
         run: |
           mkdir -p public/flash
           python scripts/flash/render.py data/flash.json public/flash/flash-semanal.mp4 ${{ inputs.vertical && '--vertical' || '' }}
