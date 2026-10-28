@@ -1,0 +1,75 @@
+name: Flash informativo semanal (video)
+
+# Arma el video "Flash informativo" con las notas cargadas en data/flash.json:
+# voz neural argentina, fotos libres de Wikimedia Commons y la cortina musical.
+# El video queda en public/flash/flash-semanal.mp4 (y para bajar en Actions).
+on:
+  push:
+    branches: [main, flash-semanal]
+    paths:
+      - 'data/flash.json'
+      - 'scripts/flash/**'
+      - '.github/workflows/flash-semanal.yml'
+  workflow_dispatch:
+    inputs:
+      voz:
+        description: 'Voz'
+        type: choice
+        default: es-AR-TomasNeural
+        options:
+          - es-AR-TomasNeural
+          - es-AR-ElenaNeural
+      vertical:
+        description: 'Formato vertical (celular, historias, reels)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: flash-semanal-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  video:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar herramientas
+        run: |
+          pip install edge-tts numpy pillow
+          which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+
+      - name: Armar el video
+        env:
+          PYTHONUNBUFFERED: '1'
+          FLASH_VOZ: ${{ inputs.voz || 'es-AR-TomasNeural' }}
+        run: |
+          mkdir -p public/flash
+          python scripts/flash/render.py data/flash.json public/flash/flash-semanal.mp4 ${{ inputs.vertical && '--vertical' || '' }}
+          ffmpeg -y -loglevel error -ss 8 -i public/flash/flash-semanal.mp4 -frames:v 1 -vf scale=1280:-1 public/flash/flash-semanal.jpg
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: flash-semanal
+          path: public/flash/
+
+      - name: Guardar en el repositorio
+        run: |
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add public/flash
+          git diff --cached --quiet && exit 0
+          git commit -m "Flash informativo semanal (video)"
+          for i in 1 2 3; do
+            git pull --rebase origin ${{ github.ref_name }} && git push && exit 0
+            sleep 5
+          done
+          exit 1
