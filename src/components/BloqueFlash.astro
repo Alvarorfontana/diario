@@ -1,0 +1,25 @@
+---
+// Recuadro chico de la portada con el último video Flash publicado (si no hay, no se muestra).
+import { ultimoFlash, miniUrl, mmss, etiqueta } from '../lib/flash';
+const f = ultimoFlash();
+---
+
+{f && (
+	<a href={`/flash/${f.id}/`} class="group block overflow-hidden rounded-2xl bg-ink text-white">
+		<span class="relative block aspect-video bg-[#2a2a2a]">
+			{miniUrl(f) && <img src={miniUrl(f)} alt="" class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100" loading="lazy" />}
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="flex h-14 w-14 items-center justify-center rounded-full bg-brand shadow-lg" aria-hidden="true">
+					<svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff"><path d="M7 4l13 8-13 8z"></path></svg>
+				</span>
+			</span>
+			{f.duracion && <span class="absolute right-2 bottom-2 rounded bg-black/75 px-1.5 py-0.5 text-[11px] font-bold">{mmss(f.duracion)}</span>}
+		</span>
+		<span class="block p-4">
+			<span class="inline-flex items-center gap-1.5 text-[10.5px] font-extrabold tracking-[0.1em] text-[#ff5a6e] uppercase">
+				<span class={`inline-block h-2 w-2 rounded-full bg-[#ff5a6e] ${f.tipo === 'ultimo' ? 'titila' : ''}`} aria-hidden="true"></span>{f.tipo === 'ultimo' ? etiqueta(f) : 'Flash de la semana'}
+			</span>
+			<span class="mt-1 block font-display text-[17px] leading-snug font-bold group-hover:underline">{f.titulo}</span>
+		</span>
+	</a>
+)}

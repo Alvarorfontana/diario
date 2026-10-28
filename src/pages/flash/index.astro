@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FlashReproductor from '../../components/FlashReproductor.astro';
+import { SITE_TITLE } from '../../consts';
+import { FLASHES, miniUrl, mmss, fechaLarga, etiqueta } from '../../lib/flash';
+
+const [principal, ...anteriores] = FLASHES;
+const url = new URL(principal ? `/flash/${principal.id}/` : '/flash/', Astro.site).href;
+---
+
+<BaseLayout
+	title={`Flash | ${SITE_TITLE}`}
+	description="Las noticias de la semana en un minuto y medio, y los informes de último momento de Diario Federal."
+	image={principal ? miniUrl(principal) : undefined}
+>
+	<div class="-mx-4 bg-[#111111] px-4 pt-6 pb-10 text-[#f2f2f0] sm:rounded-[4px]">
+		<div class="flex flex-wrap items-baseline justify-between gap-2">
+			<h1 class="font-display text-3xl font-bold text-white">{SITE_TITLE} <span class="font-normal italic">Flash</span></h1>
+			<span class="text-xs text-[#b8b8b4]">La semana en un minuto y medio</span>
+		</div>
+
+		{principal ? (
+			<div class="mt-5 grid gap-7 lg:grid-cols-3">
+				<div class="min-w-0 lg:col-span-2">
+					<FlashReproductor flash={principal} url={url} nivel="h2" />
+				</div>
+				<aside class="min-w-0">
+					<h2 class="border-b-2 border-white pb-2 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Anteriores</h2>
+					{anteriores.length > 0 ? anteriores.slice(0, 12).map((f) => (
+						<a href={`/flash/${f.id}/`} class="flex gap-3 border-b border-[#333333] py-3 text-[#f2f2f0] last:border-0">
+							{miniUrl(f) ? <img src={miniUrl(f)} alt="" class="aspect-video w-28 shrink-0 object-cover" loading="lazy" /> : <span class="aspect-video w-28 shrink-0 bg-[#2a2a2a]"></span>}
+							<span>
+								<span class={`block text-[10px] font-bold tracking-[0.1em] uppercase ${f.tipo === 'ultimo' ? 'text-[#ff5a6e]' : 'text-[#b8b8b4]'}`}>{etiqueta(f)}</span>
+								<span class="block font-display text-base leading-snug font-bold text-white">{f.titulo}</span>
+								<span class="mt-1 block text-xs text-[#b8b8b4]">{fechaLarga(f.fecha)}{f.duracion ? ` · ${mmss(f.duracion)}` : ''}</span>
+							</span>
+						</a>
+					)) : <p class="py-3 text-sm text-[#b8b8b4]">Acá van a aparecer los flashes anteriores.</p>}
+				</aside>
+			</div>
+		) : (
+			<p class="mt-8 text-[#b8b8b4]">Muy pronto, el primer flash de noticias.</p>
+		)}
+	</div>
+</BaseLayout>

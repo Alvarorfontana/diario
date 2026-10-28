@@ -1,0 +1,33 @@
+---
+// Reproductor y texto de un video Flash (lo usan /flash y /flash/<id>).
+import ShareButtons from './ShareButtons.astro';
+import { type Flash, videoUrl, miniUrl, mmss, fechaLarga, etiqueta } from '../lib/flash';
+interface Props { flash: Flash; url: string; nivel?: 'h1' | 'h2' }
+const { flash, url, nivel = 'h1' } = Astro.props;
+const Titulo = nivel;
+const urgente = flash.tipo === 'ultimo';
+---
+
+<div class="relative aspect-video w-full overflow-hidden rounded-[4px] bg-black">
+	<video class="absolute inset-0 h-full w-full" src={videoUrl(flash)} poster={miniUrl(flash)} controls playsinline preload="metadata"></video>
+</div>
+<p class={`mt-4 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase ${urgente ? 'text-[#ff5a6e]' : 'text-[#b8b8b4]'}`}>
+	{urgente && <span class="titila inline-block h-2 w-2 rounded-full bg-[#ff5a6e]" aria-hidden="true"></span>}
+	{etiqueta(flash)} · {fechaLarga(flash.fecha)}{flash.duracion ? ` · ${mmss(flash.duracion)}` : ''}
+</p>
+<Titulo class="mt-1 font-display text-2xl leading-tight font-bold text-white sm:text-[1.9rem]">{flash.titulo}</Titulo>
+<div class="mt-4 max-w-md"><ShareButtons url={url} title={`${etiqueta(flash)}: ${flash.titulo}`} /></div>
+
+<details class="mt-6 border-t border-[#333333] pt-4" open={nivel === 'h1'}>
+	<summary class="cursor-pointer text-xs font-extrabold tracking-[0.14em] text-white uppercase">Lo que dice el video</summary>
+	<ol class="mt-3 space-y-5">
+		{flash.bloques.filter((b) => b.texto).map((b) => (
+			<li>
+				{b.kicker && <p class="text-[11px] font-bold tracking-[0.1em] text-[#ff5a6e] uppercase">{b.kicker}</p>}
+				{b.titulo && <h3 class="font-display text-lg leading-snug font-bold text-white">{b.titulo}</h3>}
+				<p class="mt-1 leading-relaxed text-[#d8d8d4]">{b.texto}</p>
+				{(b.epigrafe || b.fuente) && <p class="mt-1 text-xs text-[#8f8f8b]">{[b.epigrafe, b.fuente].filter(Boolean).join(' · ')}</p>}
+			</li>
+		))}
+	</ol>
+</details>

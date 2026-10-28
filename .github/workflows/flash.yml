@@ -1,0 +1,65 @@
+name: Video flash
+
+# Arma los videos "Flash" (semanal o de último momento) que se cargan desde
+# /admin/flash. El panel guarda el flash con estado "generar" y este proceso
+# lo convierte en video (voz neural, placas del diario, fotos, videos y música).
+# Tarda unos minutos. El resultado queda en public/flash/<id>.mp4.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'data/flash/*.json'
+  workflow_dispatch:
+    inputs:
+      id:
+        description: 'Id del flash a regenerar (vacío = los que esperan)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: video-flash
+  cancel-in-progress: false
+
+jobs:
+  flash:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar herramientas
+        run: |
+          pip install edge-tts pillow numpy
+          which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+
+      - name: Generar videos
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/flash/generar-flash.py ${{ inputs.id }}
+
+      - name: Guardar en el repositorio
+        if: always()
+        run: |
+          # Firmado como el dueño del repo: Vercel no publica commits de otros autores
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add -A public/flash data/flash/*.json
+          if git diff --cached --quiet; then
+            echo "No hay videos nuevos."
+            exit 0
+          fi
+          git commit -m "Video flash generado"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1

@@ -12,6 +12,7 @@ import TemasDelDia from '../components/TemasDelDia.astro';
 import PortadaRegional from '../components/PortadaRegional.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, nombreSeccion, FOTOS_COLUMNISTAS, volantaFuerte } from '../consts';
 import BloqueEncuestas from '../components/BloqueEncuestas.astro';
+import BloqueFlash from '../components/BloqueFlash.astro';
 import { getArticulos } from '../lib/articles';
 import { masLeidas } from '../lib/visitas';
 import { seleccionarTapa } from '../lib/portada';
@@ -156,6 +157,8 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 					))}
 				</ol>
 			</section>
+			<!-- FLASH: último video de la semana (solo si hay uno publicado) -->
+			<BloqueFlash />
 			<BloqueEncuestas articulos={articulos} />
 			<AdBanner position="sidebar" maxAds={1} />
 		</aside>

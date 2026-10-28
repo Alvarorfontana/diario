@@ -1,0 +1,35 @@
+---
+export const prerender = false;
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FlashReproductor from '../../components/FlashReproductor.astro';
+import { SITE_TITLE } from '../../consts';
+import { FLASHES, miniUrl, etiqueta } from '../../lib/flash';
+
+const flash = FLASHES.find((f) => f.id === Astro.params.id);
+if (!flash) return Astro.redirect('/flash/', 302);
+const url = new URL(`/flash/${flash.id}/`, Astro.site).href;
+const otros = FLASHES.filter((f) => f.id !== flash.id).slice(0, 4);
+const descripcion = flash.bloques.map((b) => b.titulo).filter(Boolean).join(' · ').slice(0, 200) || 'Video de Diario Federal';
+---
+
+<BaseLayout title={`${etiqueta(flash)}: ${flash.titulo} | ${SITE_TITLE}`} description={descripcion} image={miniUrl(flash)}>
+	<div class="-mx-4 bg-[#111111] px-4 pt-6 pb-10 text-[#f2f2f0] sm:rounded-[4px]">
+		<a href="/flash/" class="text-xs font-bold tracking-[0.1em] text-[#b8b8b4] uppercase hover:text-white">← Todos los flashes</a>
+		<div class="mx-auto mt-4 max-w-4xl">
+			<FlashReproductor flash={flash} url={url} />
+			{otros.length > 0 && (
+				<div class="mt-10">
+					<h2 class="border-b-2 border-white pb-2 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Más flashes</h2>
+					<div class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
+						{otros.map((f) => (
+							<a href={`/flash/${f.id}/`} class="text-[#f2f2f0]">
+								{miniUrl(f) ? <img src={miniUrl(f)} alt="" class="aspect-video w-full object-cover" loading="lazy" /> : <span class="block aspect-video w-full bg-[#2a2a2a]"></span>}
+								<span class="mt-1.5 block text-sm leading-snug font-semibold">{f.titulo}</span>
+							</a>
+						))}
+					</div>
+				</div>
+			)}
+		</div>
+	</div>
+</BaseLayout>

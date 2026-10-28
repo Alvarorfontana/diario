@@ -53,6 +53,13 @@ const esPortada = pathname === '/';
 			</li>
 			<li>
 				<a
+					href="/flash/"
+					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/flash') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/flash') ? 'page' : undefined}
+				><span class="inline-block h-2 w-2 rounded-full bg-brand" aria-hidden="true"></span>Flash</a>
+			</li>
+			<li>
+				<a
 					href="/canal/"
 					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/canal') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
 					aria-current={pathname.startsWith('/canal') ? 'page' : undefined}

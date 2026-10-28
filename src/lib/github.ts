@@ -76,3 +76,25 @@ export async function deleteFile(cfg: GhConfig, path: string, sha: string, messa
 	});
 	if (!res.ok) throw new Error(`GitHub ${res.status}: ${((await res.json()).message) ?? ''}`);
 }
+
+// Sube un archivo binario (ya en base64). Lo usa el panel de Video flash para fotos y videos.
+export async function putBase64(cfg: GhConfig, path: string, contentB64: string, message: string, sha?: string) {
+	const res = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${enc(path)}`, {
+		method: 'PUT',
+		headers: headers(cfg, { 'Content-Type': 'application/json' }),
+		body: JSON.stringify({ message, content: contentB64, branch: cfg.branch, ...(sha ? { sha } : {}) }),
+	});
+	const j = await res.json();
+	if (!res.ok) throw new Error(`GitHub ${res.status}: ${j.message ?? ''}`);
+	return j.content?.sha as string;
+}
+
+export async function listDirAll(cfg: GhConfig, dir: string): Promise<{ name: string; path: string; sha: string; size: number; type: string }[]> {
+	const res = await fetch(`https://api.github.com/repos/${cfg.repo}/contents/${enc(dir)}?ref=${cfg.branch}`, {
+		headers: headers(cfg),
+		cache: 'no-store',
+	});
+	if (res.status === 404) return [];
+	if (!res.ok) throw new Error(`GitHub ${res.status}: ${(await res.text()).slice(0, 200)}`);
+	return res.json();
+}
