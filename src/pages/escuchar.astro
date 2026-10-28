@@ -1,0 +1,246 @@
+---
+// Escuchar: todas las notas con audio en una lista que se reproduce de corrido,
+// como un podcast. El mismo listado sale como feed en /podcast.xml.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE, nombreSeccion } from '../consts';
+import { PODCAST, getEpisodios, hhmmss } from '../lib/podcast';
+
+export const prerender = false;
+
+const episodios = await getEpisodios();
+const totalMin = Math.round(episodios.reduce((s, e) => s + e.duracion, 0) / 60);
+const fecha = (d: Date) => d.toLocaleDateString('es-AR', { day: 'numeric', month: 'short', timeZone: 'America/Argentina/Buenos_Aires' });
+const lista = episodios.map((e) => ({
+	slug: e.articulo.slug,
+	titulo: e.articulo.title,
+	seccion: nombreSeccion(e.articulo.section || ''),
+	archivo: e.archivo,
+	duracion: e.duracion,
+}));
+const feed = new URL('/podcast.xml', Astro.site ?? Astro.url.origin).href;
+---
+
+<BaseLayout title={`Escuchar | ${SITE_TITLE}`} description="Las notas de EL DIARIO para escuchar, una detrás de otra, como un podcast.">
+	<div class="mx-auto max-w-3xl">
+		<header class="flex items-center gap-4 sm:gap-5">
+			<img src={PODCAST.portada} alt="" width="112" height="112" class="h-20 w-20 shrink-0 rounded-2xl sm:h-28 sm:w-28" />
+			<div class="min-w-0">
+				<p class="text-xs font-bold tracking-[0.08em] text-brand uppercase">Podcast</p>
+				<h1 class="mt-1 font-display text-[1.7rem] leading-tight font-extrabold text-ink sm:text-4xl">Las notas, en voz</h1>
+				<p class="mt-1 text-sm text-neutral-600">{episodios.length} notas · {totalMin} min para escuchar de corrido</p>
+			</div>
+		</header>
+
+		<div class="mt-4 flex flex-wrap gap-2">
+			<button type="button" class="inline-flex h-9 items-center gap-2 rounded-full bg-white px-3.5 text-[13px] font-bold text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:bg-neutral-50" data-copiar-feed={feed}>
+				<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M5 11a8 8 0 0 1 8 8M5 5a14 14 0 0 1 14 14" /><circle cx="6" cy="18" r="1.6" fill="currentColor" /></svg>
+				<span data-copiar-texto>Copiar enlace del podcast</span>
+			</button>
+		</div>
+
+		{lista.length === 0 ? (
+			<p class="mt-10 text-neutral-600">Todavía no hay notas con audio.</p>
+		) : (
+			<Fragment>
+				<!-- Reproductor de la lista -->
+				<section id="lista-reproductor" class="tarjeta sticky z-30 mt-6 px-4 py-3 shadow-[0_6px_20px_rgba(0,0,0,0.08),inset_0_0_0_1px_#e6e6e2]" style="top: 110px" aria-label="Reproductor">
+					<audio preload="none" data-audio></audio>
+					<div class="flex items-center gap-2 sm:gap-3">
+						<button type="button" class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-full text-ink hover:bg-neutral-100 sm:flex" aria-label="Nota anterior" data-anterior>
+							<svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 6.2v11.6a1 1 0 0 1-1.5.86L9.6 13a1.2 1.2 0 0 1 0-2l8.9-5.66A1 1 0 0 1 20 6.2Z" /></svg>
+						</button>
+						<button type="button" class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-white hover:bg-brand-dark" aria-label="Reproducir" data-play>
+							<svg data-icono-play viewBox="0 0 24 24" class="ml-0.5 h-6 w-6" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
+							<svg data-icono-pausa viewBox="0 0 24 24" class="hidden h-6 w-6" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>
+						</button>
+						<button type="button" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-ink hover:bg-neutral-100" aria-label="Nota siguiente" data-siguiente>
+							<svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 6.2v11.6a1 1 0 0 0 1.5.86L14.4 13a1.2 1.2 0 0 0 0-2L5.5 5.34A1 1 0 0 0 4 6.2Z" /></svg>
+						</button>
+						<div class="min-w-0 flex-1">
+							<div class="flex items-baseline justify-between gap-2">
+								<p class="truncate text-sm font-bold text-ink" data-titulo-actual>{lista[0].titulo}</p>
+								<p class="shrink-0 text-xs tabular-nums text-neutral-500"><span data-actual>0:00</span> / <span data-total>{hhmmss(lista[0].duracion)}</span></p>
+							</div>
+							<input type="range" min="0" max={lista[0].duracion || 1} step="1" value="0" class="barra mt-1.5 block w-full" aria-label="Avanzar o retroceder" data-barra />
+						</div>
+						<button type="button" class="h-8 shrink-0 rounded-full bg-white px-2.5 text-xs font-bold tabular-nums text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:bg-neutral-50" aria-label="Cambiar velocidad" data-velocidad>1x</button>
+					</div>
+				</section>
+
+				<ol class="mt-4 flex flex-col">
+					{episodios.map((e, i) => (
+						<li class="border-b border-[#e6e6e2] last:border-0">
+							<div class="episodio flex items-center gap-3 rounded-xl px-2 py-3" data-episodio={i}>
+								<button type="button" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:text-brand" aria-label={`Escuchar: ${e.articulo.title}`} data-elegir={i}>
+									<span class="numero text-sm font-extrabold tabular-nums">{i + 1}</span>
+									<svg viewBox="0 0 24 24" class="sonando hidden h-4 w-4 text-brand" fill="currentColor" aria-hidden="true"><rect x="4" y="9" width="3" height="10" rx="1" /><rect x="10.5" y="5" width="3" height="14" rx="1" /><rect x="17" y="11" width="3" height="8" rx="1" /></svg>
+								</button>
+								<div class="min-w-0 flex-1">
+									<p class="text-[10.5px] font-bold tracking-[0.08em] text-brand uppercase">{nombreSeccion(e.articulo.section || '')} <span class="font-semibold text-neutral-500 normal-case tracking-normal">· {fecha(e.articulo.date)} · {Math.max(1, Math.round(e.duracion / 60))} min</span></p>
+									<button type="button" class="mt-0.5 block text-left font-display text-[15px] leading-snug font-bold text-ink hover:text-brand" data-elegir={i}>{e.articulo.title}</button>
+								</div>
+								<a href={`/articulo/${e.articulo.slug}/`} class="shrink-0 text-xs font-semibold text-neutral-500 hover:text-brand">Leer</a>
+							</div>
+						</li>
+					))}
+				</ol>
+			</Fragment>
+		)}
+
+		<p class="mt-8 text-xs text-neutral-500">Voz generada automáticamente a partir del texto de cada nota.</p>
+	</div>
+</BaseLayout>
+
+<style>
+	.barra {
+		-webkit-appearance: none;
+		appearance: none;
+		height: 4px;
+		border-radius: 999px;
+		background: linear-gradient(to right, var(--color-brand) var(--avance, 0%), #e5e5e0 var(--avance, 0%));
+		cursor: pointer;
+	}
+	.barra::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		width: 14px;
+		height: 14px;
+		border-radius: 50%;
+		background: var(--color-brand);
+		border: 2px solid #fff;
+		box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12);
+	}
+	.barra::-moz-range-thumb {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background: var(--color-brand);
+		border: 2px solid #fff;
+	}
+	.episodio.activo {
+		background: #fff;
+		box-shadow: inset 0 0 0 1px #e6e6e2;
+	}
+	.episodio.activo .numero { display: none; }
+	.episodio.activo .sonando { display: block; }
+</style>
+
+<script is:inline define:vars={{ lista }}>
+	(function () {
+		var caja = document.getElementById('lista-reproductor');
+		if (!caja || !lista.length) return;
+		var audio = caja.querySelector('[data-audio]');
+		var play = caja.querySelector('[data-play]');
+		var icPlay = caja.querySelector('[data-icono-play]');
+		var icPausa = caja.querySelector('[data-icono-pausa]');
+		var barra = caja.querySelector('[data-barra]');
+		var actual = caja.querySelector('[data-actual]');
+		var total = caja.querySelector('[data-total]');
+		var titulo = caja.querySelector('[data-titulo-actual]');
+		var vel = caja.querySelector('[data-velocidad]');
+		var velocidades = [1, 1.25, 1.5, 1.75, 2, 0.75];
+		var iv = 0;
+		var i = -1;
+
+		// El reproductor queda pegado justo debajo del encabezado del diario.
+		var cab = document.querySelector('body > header');
+		function ubicar() { caja.style.top = ((cab ? cab.offsetHeight : 0) + 8) + 'px'; }
+		ubicar();
+		window.addEventListener('resize', ubicar);
+
+		function mmss(s) {
+			s = Math.max(0, Math.floor(s || 0));
+			var h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), ss = String(s % 60).padStart(2, '0');
+			return h ? h + ':' + String(m).padStart(2, '0') + ':' + ss : m + ':' + ss;
+		}
+		function iconos() {
+			var sonando = !audio.paused;
+			icPlay.classList.toggle('hidden', sonando);
+			icPausa.classList.toggle('hidden', !sonando);
+			play.setAttribute('aria-label', sonando ? 'Pausar' : 'Reproducir');
+		}
+		function pintarBarra() {
+			var max = Number(barra.max) || 1;
+			barra.style.setProperty('--avance', (Number(barra.value) / max) * 100 + '%');
+		}
+		function cargar(n, arrancar) {
+			if (n < 0 || n >= lista.length) return;
+			i = n;
+			var e = lista[n];
+			audio.src = e.archivo;
+			audio.playbackRate = velocidades[iv];
+			titulo.textContent = e.titulo;
+			total.textContent = mmss(e.duracion);
+			barra.max = e.duracion || 1;
+			barra.value = 0;
+			actual.textContent = '0:00';
+			pintarBarra();
+			document.querySelectorAll('[data-episodio]').forEach(function (el) {
+				el.classList.toggle('activo', Number(el.dataset.episodio) === n);
+			});
+			if ('mediaSession' in navigator) {
+				try {
+					navigator.mediaSession.metadata = new MediaMetadata({ title: e.titulo, artist: 'EL DIARIO', album: e.seccion, artwork: [{ src: '/podcast/portada.jpg', sizes: '3000x3000', type: 'image/jpeg' }] });
+				} catch (err) {}
+			}
+			if (arrancar) audio.play().catch(function () {});
+		}
+
+		play.addEventListener('click', function () {
+			if (i < 0) return cargar(0, true);
+			if (audio.paused) audio.play().catch(function () {}); else audio.pause();
+		});
+		caja.querySelector('[data-siguiente]').addEventListener('click', function () { cargar(Math.min(i + 1, lista.length - 1), true); });
+		caja.querySelector('[data-anterior]').addEventListener('click', function () {
+			if (audio.currentTime > 5 || i <= 0) { audio.currentTime = 0; return; }
+			cargar(i - 1, true);
+		});
+		document.querySelectorAll('[data-elegir]').forEach(function (b) {
+			b.addEventListener('click', function () {
+				var n = Number(b.dataset.elegir);
+				if (n === i) { if (audio.paused) audio.play().catch(function () {}); else audio.pause(); return; }
+				cargar(n, true);
+			});
+		});
+		vel.addEventListener('click', function () {
+			iv = (iv + 1) % velocidades.length;
+			audio.playbackRate = velocidades[iv];
+			vel.textContent = String(velocidades[iv]).replace('.', ',') + 'x';
+		});
+		barra.addEventListener('input', function () {
+			if (i < 0) cargar(0, false);
+			audio.currentTime = Number(barra.value);
+			pintarBarra();
+		});
+		audio.addEventListener('timeupdate', function () {
+			barra.value = Math.floor(audio.currentTime);
+			actual.textContent = mmss(audio.currentTime);
+			pintarBarra();
+		});
+		audio.addEventListener('loadedmetadata', function () {
+			if (isFinite(audio.duration)) { barra.max = Math.floor(audio.duration); total.textContent = mmss(audio.duration); }
+		});
+		audio.addEventListener('play', iconos);
+		audio.addEventListener('pause', iconos);
+		// Al terminar una nota, sigue la próxima.
+		audio.addEventListener('ended', function () {
+			if (i < lista.length - 1) cargar(i + 1, true); else iconos();
+		});
+		if ('mediaSession' in navigator) {
+			try {
+				navigator.mediaSession.setActionHandler('nexttrack', function () { cargar(Math.min(i + 1, lista.length - 1), true); });
+				navigator.mediaSession.setActionHandler('previoustrack', function () { cargar(Math.max(i - 1, 0), true); });
+			} catch (err) {}
+		}
+
+		var copiar = document.querySelector('[data-copiar-feed]');
+		if (copiar) copiar.addEventListener('click', function () {
+			var txt = copiar.querySelector('[data-copiar-texto]');
+			var url = copiar.dataset.copiarFeed;
+			(navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(
+				function () { txt.textContent = '¡Enlace copiado!'; },
+				function () { window.prompt('Copiá este enlace:', url); }
+			);
+			setTimeout(function () { txt.textContent = 'Copiar enlace del podcast'; }, 2500);
+		});
+	})();
+</script>
