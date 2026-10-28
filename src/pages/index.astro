@@ -16,6 +16,7 @@ import BloqueFlash from '../components/BloqueFlash.astro';
 import { getArticulos } from '../lib/articles';
 import { masLeidas } from '../lib/visitas';
 import { seleccionarTapa } from '../lib/portada';
+import { imagenNotaPath } from '../lib/og';
 
 const articulos = await getArticulos();
 
@@ -45,6 +46,8 @@ const masLeidasNotas = slugsMasLeidas
 	.map((s) => articulos.find((a) => a.slug === s))
 	.filter((a): a is NonNullable<typeof a> => Boolean(a))
 	.slice(0, 5);
+
+const fotoPortada = (a: (typeof articulos)[number], ancho = 1200) => a.image_url && /^https?:\/\//i.test(a.image_url) ? imagenNotaPath(a.slug, a.image_url, ancho) : a.image_url;
 
 const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
 
@@ -87,7 +90,7 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 	{tapa && (
 		<section class="mt-5 grid gap-4 lg:grid-cols-3">
 			<a href={`/articulo/${tapa.slug}/`} class="group relative block min-h-[360px] overflow-hidden rounded-2xl bg-ink text-white lg:col-span-2 lg:min-h-[500px]">
-				{tapa.image_url && <img src={tapa.image_url} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" />}
+				{tapa.image_url && <img src={fotoPortada(tapa)} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" />}
 				<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/20 to-black/85"></div>
 				<div class="absolute inset-x-5 bottom-5 sm:inset-x-8 sm:bottom-7">
 					<span class="inline-flex items-center gap-2 rounded-full bg-brand px-3 py-1.5 text-xs font-bold">
@@ -102,7 +105,7 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 			<div class="grid gap-4">
 				{laterales.map((a) => (
 					<a href={`/articulo/${a.slug}/`} class="group relative block min-h-[220px] overflow-hidden rounded-2xl bg-ink text-white">
-						{a.image_url && <img src={a.image_url} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />}
+						{a.image_url && <img src={fotoPortada(a, 640)} alt="" class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" loading="lazy" />}
 						<div class="absolute inset-0 bg-gradient-to-b from-black/0 via-black/10 to-black/85"></div>
 						<div class="absolute inset-x-5 bottom-4">
 							<span class="inline-block rounded-full bg-white px-2.5 py-1 text-[11px] font-bold text-ink">{nombreSeccion(a.section)}</span>
