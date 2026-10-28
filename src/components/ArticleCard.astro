@@ -22,7 +22,7 @@ const volanta = data.volanta;
 	<a href={`/articulo/${articleSlug}/`} class="group block">
 		<div class="overflow-hidden">
 			{img ? (
-				<img src={fotoVisible} alt="" class="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+				<img src={fotoVisible} data-fallback-src={img && /^https?:\/\//i.test(img) ? img : undefined} alt="" class="aspect-[3/2] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
 			) : (
 				<div class="flex aspect-[3/2] w-full items-center justify-center gap-2 bg-[#ececE8] font-display text-2xl font-extrabold text-neutral-400">
 					<span class="inline-block h-3 w-3 rounded-[3px] bg-brand" aria-hidden="true"></span>{SITE_TITLE}
@@ -48,3 +48,14 @@ const volanta = data.volanta;
 		</div>
 	</a>
 </article>
+
+<script is:inline>
+	// Recuperación de fotos externas si falla la ruta optimizada del sitio.
+	document.addEventListener('error', function (event) {
+		var img = event.target;
+		if (img instanceof HTMLImageElement && img.dataset.fallbackSrc && !img.dataset.fallbackTried) {
+			img.dataset.fallbackTried = '1';
+			img.src = img.dataset.fallbackSrc;
+		}
+	}, true);
+</script>
