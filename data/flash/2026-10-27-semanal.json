@@ -88,6 +88,19 @@
       }
     }
   ],
-  "estado": "generar",
-  "publicado": false
+  "estado": "listo",
+  "publicado": false,
+  "rotulo": "SEMANA DEL 27 DE OCTUBRE DE 2026",
+  "duracion": 93.5,
+  "duraciones": [
+    15.3,
+    14.2,
+    14.8,
+    13.5,
+    15.1
+  ],
+  "video": "/flash/2026-10-27-semanal.mp4",
+  "miniatura": "/flash/2026-10-27-semanal.jpg",
+  "version": "20261028013925",
+  "generado": "2026-10-28T01:39:25+00:00"
 }
