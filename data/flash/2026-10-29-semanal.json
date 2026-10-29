@@ -33,8 +33,8 @@
       "dato": "investigacion federal",
       "bajada": "Capuchetti ordenó una serie de informes a Migraciones",
       "texto": "La situación judicial del excandidato presidencial brasileño Jair Bolsonaro atraviesa un punto de inflexión en Argentina, donde dos instancias judiciales avanzan con criterios opuestos: el fiscal de Puerto Iguazú, en Misiones, entiende que no existía ningún impedimento legal o judicial para impedir el ingreso de Bolsonaro al país y por ello pide desestimar la denuncia contra el Gobierno nacional por presunta complicidad en su ruta",
-      "epigrafe": "",
-      "fuente": "",
+      "epigrafe": "Bolsonaro llegando a Miami",
+      "fuente": "BBC",
       "media": {
         "tipo": "video",
         "archivo": "data/flash/media/2026-10-29-semanal/b2-mvtz5gr6.mp4",
@@ -42,13 +42,21 @@
       }
     },
     {
-      "kicker": "",
-      "titulo": "",
-      "dato": "",
-      "bajada": "",
-      "texto": "",
+      "kicker": "Argentina: FMI presiona",
+      "titulo": "El FMI presiona",
+      "dato": "REVISION",
+      "bajada": "mas corredores y desregulacion laboral",
+      "texto": "El Fondo Monetario Internacional le requirió a la Argentina mayores avances en la desregulación laboral y la privatización de los corredores viales como parte de las condiciones asociadas a la revisión del programa stand-by, en una exigencia que apunta al núcleo del modelo económico que el gobierno busca implementar.",
       "epigrafe": "",
-      "fuente": ""
+      "fuente": "",
+      "media": {
+        "tipo": "foto",
+        "archivo": "data/flash/media/2026-10-29-semanal/b3-mvtzcthv.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
     },
     {
       "kicker": "",
