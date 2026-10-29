@@ -76,18 +76,18 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": true,
   "video": "/flash/2026-10-29-semanal.mp4",
   "miniatura": "/flash/2026-10-29-semanal.jpg",
-  "version": "20261029203753",
-  "duracion": 115.9,
+  "version": "20261029204353",
+  "duracion": 105.0,
   "duraciones": [
-    41.3,
-    21.7,
-    15.7,
-    17.7
+    37.3,
+    19.6,
+    14.2,
+    15.4
   ],
-  "generado": "2026-10-29T20:37:53+00:00",
-  "rotulo": "SEMANA DEL 29 DE OCTUBRE DE 2026"
+  "generado": "2026-10-29T20:43:53+00:00",
+  "rotulo": "29 DE OCTUBRE DE 2026"
 }
