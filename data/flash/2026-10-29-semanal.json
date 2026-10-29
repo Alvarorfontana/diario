@@ -15,7 +15,7 @@
       "titulo": "Crisis política",
       "dato": "Sin mayorias absolutas",
       "bajada": "ningún bloque logra las 61 bancas necesarias para la mayoría en la Knéset",
-      "texto": "Netanyahu apunta contra Qatar tras el fuerte avance de los partidos árabes en Israel.\n apuntó contra Qatar como responsable de la inesperada performance de los partidos árabes en las elecciones legislativas israelíes, después de que su bloque obtuviera 53 de las 120 bancas del Parlamento , muy por debajo de las 61 necesarias para gobernar en solitario y obligándolo a negociar alianzas incómodas para conservar el poder. Netanyahu denunció presunta injerencia de Doha mediante financiamiento a formaciones árabes y campañas de movilización del voto, en un intento por explicar la derrota estratégica que sufrió su coalición y desplazar el eje del debate desde el desgaste de su liderazgo hacia la narrativa de una conspiración externa, mientras la oposición encabezada por Yair Lapid busca tejer acuerdos con partidos árabes",
+      "texto": "Netanyahu apunta contra Qatar tras el fuerte avance de los partidos árabes en Israel.\n apuntó contra Qatar como responsable de la inesperada performance de los partidos árabes en las elecciones legislativas israelíes, después de que su bloque obtuviera 53 de las 120 bancas del Parlamento , muy por debajo de las 61 necesarias para gobernar en solitario y obligándolo a negociar alianzas incómodas para conservar el poder. Netanyahu denunció presunta injerencia de Doha mediante financiamiento a formaciones árabes, en un intento por explicar la derrota estratégica que sufrió su coalición y desplazar el eje del debate desde el desgaste de su liderazgo hacia la narrativa de una conspiración externa, mientras la oposición encabezada por Yair Lapid busca tejer acuerdos con partidos árabes",
       "epigrafe": "Benjamin Netanyahu",
       "fuente": "Diario Federal",
       "media": {
@@ -47,8 +47,8 @@
       "dato": "REVISION",
       "bajada": "mas corredores y desregulacion laboral",
       "texto": "El Fondo Monetario Internacional le requirió a la Argentina mayores avances en la desregulación laboral y la privatización de los corredores viales como parte de las condiciones asociadas a la revisión del programa stand-by, en una exigencia que apunta al núcleo del modelo económico que el gobierno busca implementar.",
-      "epigrafe": "",
-      "fuente": "",
+      "epigrafe": "El FMI ordenas el plan argentino",
+      "fuente": "Reuters",
       "media": {
         "tipo": "foto",
         "archivo": "data/flash/media/2026-10-29-semanal/b3-mvtzcthv.jpg",
@@ -59,15 +59,15 @@
       }
     },
     {
-      "kicker": "",
-      "titulo": "",
-      "dato": "",
-      "bajada": "",
-      "texto": "",
-      "epigrafe": "",
-      "fuente": ""
+      "kicker": "Argentina-Política",
+      "titulo": "Lula, Macri y Milei: un cruce de gestos y dis",
+      "dato": "cruces",
+      "bajada": "intercambios políticos",
+      "texto": "Lula da Silva agradeció públicamente el mensaje de felicitación que le envió Mauricio Macri tras su victoria electoral, y aprovechó la ocasión para enviarle un saludo a Javier Milei, en un gesto que se interpreta como una señal de apertura del presidente brasileño hacia el nuevo gobierno argentino, pese a las profundas diferencias ideológicas que los separan.",
+      "epigrafe": "Macri y Lula",
+      "fuente": "Clarin"
     }
   ],
-  "estado": "borrador",
+  "estado": "generar",
   "publicado": false
 }
