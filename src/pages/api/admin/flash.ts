@@ -62,6 +62,8 @@ function limpiar(f: any, previo: any = {}) {
 		velocidad: Math.max(-20, Math.min(30, Math.round(Number(f.velocidad) || 0))),
 		musica,
 		volumenMusica: Math.max(-30, Math.min(-6, Number(f.volumenMusica) || -17)),
+		estilo: f.estilo === 'clasico' ? 'clasico' : 'noticiero',
+		subtitulos: f.subtitulos !== false,
 		...(corto(f.intro, 200) ? { intro: corto(f.intro, 200) } : {}),
 		...(corto(f.cierre, 200) ? { cierre: corto(f.cierre, 200) } : {}),
 		bloques,

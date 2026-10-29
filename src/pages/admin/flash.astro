@@ -136,7 +136,19 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 							<input type="range" id="f-volm" min="-26" max="-10" step="1" value="-17" style="width:100%;margin-top:12px" />
 						</div>
 					</div>
-					<label for="f-musica">Música</label>
+					<div class="fila">
+							<div>
+								<label for="f-estilo">Diseño del video</label>
+								<select id="f-estilo">
+									<option value="noticiero">Noticiero · foto a pantalla completa y zócalo</option>
+									<option value="clasico">Clásico · placa con la foto al costado</option>
+								</select>
+							</div>
+							<div>
+								<label for="f-subs" style="display:flex;gap:8px;align-items:center;margin-top:30px;font-weight:500"><input type="checkbox" id="f-subs" style="width:auto" checked /> Subtítulos palabra por palabra (diseño Noticiero)</label>
+							</div>
+						</div>
+						<label for="f-musica">Música</label>
 					<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
 						<select id="f-musica" style="flex:1;min-width:220px"></select>
 						<button type="button" class="btn btn-ghost" id="btn-escuchar">▶ Escuchar</button>
@@ -349,6 +361,8 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				$('f-voz').value = f.voz || 'es-AR-TomasNeural';
 				$('f-vel').value = f.velocidad != null ? f.velocidad : 8;
 				$('f-volm').value = f.volumenMusica != null ? f.volumenMusica : -17;
+				$('f-estilo').value = f.estilo || 'noticiero';
+				$('f-subs').checked = f.subtitulos !== false;
 				pintarMusica(estado.propias || [], f.musica);
 				$('f-intro').value = f.intro || '';
 				$('f-cierre').value = f.cierre || '';
@@ -407,6 +421,8 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			$('editor').addEventListener('change', async function (e) {
 				var t = e.target, f = estado.flash;
 				if (t.id === 'f-voz') { f.voz = t.value; actualizar(); }
+				if (t.id === 'f-estilo') { f.estilo = t.value; }
+				if (t.id === 'f-subs') { f.subtitulos = t.checked; }
 				if (t.id === 'f-musica') f.musica = t.value;
 				if (t.dataset.archivo != null) {
 					var i = +t.dataset.archivo, file = t.files[0]; if (!file) return;

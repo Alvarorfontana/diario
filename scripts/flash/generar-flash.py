@@ -58,6 +58,17 @@ inter = lambda w, s: fuente(f"inter-latin-{w}-normal", s)
 serif = lambda s: fuente("newsreader-latin-700-normal", s)
 serif_it = lambda s: fuente("newsreader-latin-400-italic", s)
 
+# Diseño "noticiero": tipografías completas (incluyen č, ć, ş, ł…)
+_cache_ttf = {}
+def _ttf(nombre, tam):
+    k = (nombre, tam)
+    if k not in _cache_ttf:
+        _cache_ttf[k] = ImageFont.truetype(str(FUENTES / f"{nombre}.ttf"), tam)
+    return _cache_ttf[k]
+ss = lambda w, s: _ttf(f"source-serif-4-{w}-completa", s)
+it = lambda w, s: _ttf(f"inter-{w}-completa", s)
+ROJO_N = (200, 16, 46); NEGRO_N = (17, 17, 17)
+
 
 def pantalla(txt):
     """Las tipografías cubren el alfabeto latino básico: č, ć, ş… se muestran sin el signo."""
@@ -138,32 +149,59 @@ def panel_marca(kicker):
     return im
 
 
-def preparar_medio(b, dur, tmp, idx):
+def fondo_tema(kicker):
+    """Diseño noticiero sin foto: el país o tema en grande, sobrio."""
+    im = Image.new("RGB", (W, H), (28, 28, 28))
+    d = ImageDraw.Draw(im)
+    palabra = (str(kicker or "").split("·")[0].strip() or "Diario Federal")
+    for tam in (450, 380, 320, 260, 200):
+        f = ss(700, tam)
+        if d.textlength(palabra, font=f) < W * 1.05: break
+    d.text((-18, 225), palabra, font=f, fill=(38, 38, 38))
+    d.rectangle([90, 180, 420, 189], fill=(46, 46, 46))
+    return im
+
+
+def preparar_medio(b, dur, tmp, idx, pw=PW, ph=PH, nuevo=False):
     m = b.get("media") or {}
     ruta = reunir(m.get("archivo"), tmp)
     if not ruta:
-        fondo = panel_marca(b.get("kicker", ""))
+        fondo = fondo_tema(b.get("kicker", "")) if nuevo else panel_marca(b.get("kicker", ""))
         return lambda t: fondo
     es_video = m.get("tipo") == "video" or ruta.suffix.lower() in (".mp4", ".mov", ".webm", ".m4v")
     if not es_video:
         img = Image.open(ruta).convert("RGB")
         foco = tuple(m.get("foco") or (0.5, 0.4))
+        if nuevo:
+            # zoom lento: se escala una vez y en cada cuadro sólo se recorta
+            Z = 1.07
+            big = cover(img, int(pw * Z), int(ph * Z), foco)
+            def f(t, big=big):
+                z = 1 + (Z - 1) * min(1.0, t / max(dur, 0.1))
+                cw, ch = big.width / z, big.height / z
+                x, y = (big.width - cw) / 2, (big.height - ch) / 2
+                return big.resize((pw, ph), Image.BILINEAR, box=(x, y, x + cw, y + ch))
+            return f
         def f(t, img=img):
             z = 1 + 0.06 * (t / max(dur, 0.1))
-            big = cover(img, int(PW * z), int(PH * z), foco)
-            x, y = (big.width - PW) // 2, (big.height - PH) // 2
-            return big.crop((x, y, x + PW, y + PH))
+            big = cover(img, int(pw * z), int(ph * z), foco)
+            x, y = (big.width - pw) // 2, (big.height - ph) // 2
+            return big.crop((x, y, x + pw, y + ph))
         return f
     raw = Path(tmp) / f"medio{idx}.rgb"
     n = int(dur * FPS) + 2
-    vf = (f"[0:v]fps={FPS},split[a][b];[a]scale={PW}:{PH}:force_original_aspect_ratio=increase,crop={PW}:{PH},"
-          f"boxblur=25:2,eq=brightness=-0.25[bg];[b]scale={PW}:{PH}:force_original_aspect_ratio=decrease[fg];"
+    # el video se decodifica a un tamaño menor y se agranda al dibujar (ocupa menos disco)
+    rw, rh = (pw, ph) if not nuevo else (pw * 2 // 3 // 2 * 2, ph * 2 // 3 // 2 * 2)
+    vf = (f"[0:v]fps={FPS},split[a][b];[a]scale={rw}:{rh}:force_original_aspect_ratio=increase,crop={rw}:{rh},"
+          f"boxblur=25:2,eq=brightness=-0.25[bg];[b]scale={rw}:{rh}:force_original_aspect_ratio=decrease[fg];"
           f"[bg][fg]overlay=(W-w)/2:(H-h)/2")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-stream_loop", "-1", "-ss", str(float(m.get("inicio") or 0)),
                     "-i", str(ruta), "-filter_complex", vf, "-frames:v", str(n), "-an",
                     "-f", "rawvideo", "-pix_fmt", "rgb24", str(raw)], check=True)
-    mm = np.memmap(raw, dtype=np.uint8, mode="r").reshape(-1, PH, PW, 3)
-    return lambda t: Image.fromarray(np.array(mm[min(int(t * FPS), len(mm) - 1)]))
+    mm = np.memmap(raw, dtype=np.uint8, mode="r").reshape(-1, rh, rw, 3)
+    if (rw, rh) == (pw, ph):
+        return lambda t: Image.fromarray(np.array(mm[min(int(t * FPS), len(mm) - 1)]))
+    return lambda t: Image.fromarray(np.array(mm[min(int(t * FPS), len(mm) - 1)])).resize((pw, ph), Image.BILINEAR)
 
 
 # ── Placas ──────────────────────────────────────────────────────────────────
@@ -242,6 +280,237 @@ def placa_cierre(t):
     return im
 
 
+# ── Diseño "noticiero": foto a pantalla completa, zócalo y subtítulos ──────────
+
+M_N = 72  # margen lateral
+
+
+def espaciado(d, xy, txt, font, fill, esp, anchor_y="m"):
+    """Texto con espacio entre letras (para rótulos en mayúscula). Devuelve el ancho."""
+    x, y = xy
+    for ch in txt:
+        d.text((x, y), ch, font=font, fill=fill, anchor="l" + anchor_y)
+        x += d.textlength(ch, font=font) + esp
+    return x - xy[0] - esp
+
+
+def ancho_esp(d, txt, font, esp):
+    return sum(d.textlength(ch, font=font) for ch in txt) + esp * max(0, len(txt) - 1)
+
+
+def partir_n(d, texto, font, ancho):
+    words, lines, cur = str(texto or "").split(), [], ""
+    for wd in words:
+        test = (cur + " " + wd).strip()
+        if cur and d.textlength(test, font=font) > ancho:
+            lines.append(cur); cur = wd
+        else:
+            cur = test
+    if cur: lines.append(cur)
+    return lines
+
+
+def recortar(d, texto, font, ancho):
+    texto = str(texto or "")
+    if d.textlength(texto, font=font) <= ancho: return texto
+    while texto and d.textlength(texto + "…", font=font) > ancho: texto = texto[:-1]
+    return texto.rstrip() + "…"
+
+
+def fecha_corta(flash):
+    try: f = dt.date.fromisoformat(str(flash.get("fecha"))[:10])
+    except Exception: f = dt.date.today()
+    return f"{f.day:02d}.{f.month:02d}.{f.year}"
+
+
+def tiempos_palabras(texto, habladas, dur_voz):
+    """Reparte las palabras que se ven en pantalla sobre los tiempos de la voz.
+    Si la voz informó sus palabras, se usan esos tiempos; si no, se reparte por largo."""
+    vis = str(texto or "").split()
+    if not vis: return []
+    hab = [h for h in habladas if str(h[2]).strip()]
+    if len(hab) >= 2:
+        n, out = len(hab), []
+        for i, w in enumerate(vis):
+            j0 = min(n - 1, int(i * n / len(vis)))
+            j1 = min(n - 1, max(j0, int((i + 1) * n / len(vis)) - 1))
+            out.append((w, hab[j0][0], hab[j1][1]))
+        return out
+    ini, fin = 0.15, max(0.65, dur_voz - 0.1)
+    pesos = [len(w) + 1.5 for w in vis]; tot = sum(pesos); a = ini; out = []
+    for w, p in zip(vis, pesos):
+        b = a + (fin - ini) * p / tot; out.append((w, a, b)); a = b
+    return out
+
+
+def armar_trozos(palabras, maximo=7):
+    """Agrupa en renglones de hasta 7 palabras, cortando en los puntos."""
+    oraciones, cur = [], []
+    for p in palabras:
+        cur.append(p)
+        if re.search(r"[.!?:;]$", p[0]): oraciones.append(cur); cur = []
+    if cur: oraciones.append(cur)
+    trozos = []
+    for o in oraciones:
+        k = max(1, -(-len(o) // maximo)); tam = -(-len(o) // k)
+        trozos += [o[i:i + tam] for i in range(0, len(o), tam)]
+    return trozos
+
+
+def subtitulo_en(trozos, t):
+    """Renglón y palabra resaltada en el segundo t (relativo al inicio de la voz)."""
+    actual, hi = None, -1
+    for tr in trozos:
+        for j, (w, a, b) in enumerate(tr):
+            if a <= t:
+                actual, hi = tr, (j if t <= b + 0.08 else -1)
+    if actual and hi == -1 and t > actual[-1][2] + 0.6:
+        # silencio largo después del renglón: se mantiene salvo al final del bloque
+        if actual is trozos[-1]: return None, -1
+    return actual, hi
+
+
+def placa_bloque_nuevo(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
+    im = medio(t).copy()
+    if im.size != (W, H): im = im.resize((W, H), Image.BILINEAR)
+    d = ImageDraw.Draw(im, "RGBA")
+    urgente = flash.get("tipo") == "ultimo"
+    M = M_N
+
+    # barra superior: marca, FLASH y fecha
+    fn = ss(700, 39); nom = "Diario Federal"; wn = d.textlength(nom, font=fn)
+    d.rectangle([M, 54, M + wn + 42, 129], fill=NEGRO_N + (220,))
+    d.text((M + 21, 91), nom, font=fn, fill=WHITE, anchor="lm")
+    tag = "ÚLTIMO MOMENTO" if urgente else "FLASH"; ft = it(700, 21)
+    wt = ancho_esp(d, tag, ft, 3.5)
+    x0 = M + wn + 42 + 18
+    d.rectangle([x0, 66, x0 + wt + 36, 117], fill=ROJO_N)
+    if urgente and int(t * 2) % 2 == 0:
+        d.ellipse([x0 + wt + 46, 84, x0 + wt + 60, 98], fill=ROJO_N)
+    espaciado(d, (x0 + 18, 92), tag, ft, WHITE, 3.5)
+    der = fecha_corta(flash) + ("" if urgente or n < 2 else f"   |   Tema {idx + 1} de {n}")
+    fr = it(500, 21); wd = d.textlength(der, font=fr)
+    d.rectangle([W - M - wd - 42, 66, W - M, 117], fill=NEGRO_N + (220,))
+    d.text((W - M - 21, 92), der, font=fr, fill=(230, 230, 230), anchor="rm")
+
+    # de abajo hacia arriba: progreso, subtítulos, franja negra, antetítulo, crédito
+    sube = int(60 * (1 - ease(t / 0.5)))
+    y = H - 9
+    d.rectangle([0, y, W, H], fill=(255, 255, 255, 46))
+    d.rectangle([0, y, int(W * prog), H], fill=ROJO_N)
+    subs = flash.get("subtitulos", True) is not False
+    if subs:
+        y -= 104
+        d.rectangle([0, y, W, y + 104], fill=(0, 0, 0, 150))
+        tr, hi = subtitulo_en(trozos, t - t_voz)
+        if tr:
+            fs = it(600, 42); esp = d.textlength(" ", font=fs)
+            ws = [w for w, a, bb in tr]
+            total_w = sum(d.textlength(w, font=fs) for w in ws) + esp * (len(ws) - 1)
+            while total_w > W - 160 and fs.size > 28:
+                fs = it(600, fs.size - 2); esp = d.textlength(" ", font=fs)
+                total_w = sum(d.textlength(w, font=fs) for w in ws) + esp * (len(ws) - 1)
+            x = (W - total_w) / 2; cy = y + 52
+            for j, w in enumerate(ws):
+                ww = d.textlength(w, font=fs)
+                if j == hi:
+                    d.rectangle([x - 9, cy - fs.size * 0.72, x + ww + 9, cy + fs.size * 0.62], fill=ROJO_N)
+                else:
+                    d.text((x + 2, cy + 3), w, font=fs, fill=(0, 0, 0, 160), anchor="lm")
+                d.text((x, cy), w, font=fs, fill=WHITE, anchor="lm")
+                x += ww + esp
+    else:
+        y -= 30
+
+    # franja con título y bajada
+    ancho_t = W - 2 * M - 72
+    for tam in (60, 54, 48, 42):
+        tf = ss(700, tam); lineas = partir_n(d, b.get("titulo", ""), tf, ancho_t)
+        if len(lineas) <= 2: break
+    lineas = lineas[:2]
+    alto = 27 + len(lineas) * int(tam * 1.14) + (44 if (b.get("dato") or b.get("bajada")) else 0) + 27
+    yb = y - alto + sube
+    d.rectangle([M, yb, W - M, y + sube if not subs else y + sube], fill=NEGRO_N)
+    ty = yb + 27
+    for ln in lineas:
+        d.text((M + 36, ty), ln, font=tf, fill=WHITE); ty += int(tam * 1.14)
+    if b.get("dato") or b.get("bajada"):
+        x = M + 36; ty += 6
+        if b.get("dato"):
+            fd = it(700, 27)
+            d.text((x, ty), b["dato"], font=fd, fill=(255, 92, 102)); x += d.textlength(b["dato"], font=fd) + 22
+        if b.get("bajada"):
+            fb = it(500, 25)
+            d.text((x, ty + 2), recortar(d, b["bajada"], fb, W - M - 36 - x), font=fb, fill=(195, 195, 195))
+
+    # antetítulo en rojo, pegado a la franja
+    if b.get("kicker"):
+        fk = it(700, 22); k = str(b["kicker"]).upper(); wk = ancho_esp(d, k, fk, 3)
+        d.rectangle([M, yb - 52, M + wk + 48, yb], fill=ROJO_N)
+        espaciado(d, (M + 24, yb - 26), k, fk, WHITE, 3)
+    # crédito de la foto o el video
+    cred = " · ".join(x for x in (b.get("epigrafe"), b.get("fuente")) if x)
+    if cred:
+        fc = it(500, 19); cred = recortar(d, cred, fc, W / 2)
+        wc = d.textlength(cred, font=fc)
+        d.rectangle([W - M - wc - 24, yb - 50, W - M, yb - 14], fill=NEGRO_N + (190,))
+        d.text((W - M - 12, yb - 32), cred, font=fc, fill=(232, 232, 232), anchor="rm")
+    return im
+
+
+def placa_intro_nueva(t, flash, bloques):
+    im = Image.new("RGB", (W, H), NEGRO_N)
+    urgente = flash.get("tipo") == "ultimo"
+    rot = "ÚLTIMO MOMENTO" if urgente else "FLASH SEMANAL"
+    def izq(d, a):
+        espaciado(d, (210, 400), rot, it(700, 22), (230, 230, 230, a), 4.5)
+        d.text((120, 440), "Diario Federal", font=ss(700, 104), fill=WHITE + (a,))
+        d.text((120, 600), flash["rotulo"].capitalize() if not urgente else fecha_corta(flash), font=it(500, 24), fill=(168, 168, 168, a))
+    d = ImageDraw.Draw(im)
+    d.rectangle([120, 396, 120 + int(72 * ease(t / 0.5)), 405], fill=ROJO_N)
+    con_alfa(im, izq, ease((t - 0.1) / 0.5))
+    x = 1010; y0 = 330
+    if urgente:
+        b0 = bloques[0] if bloques else {}
+        con_alfa(im, lambda d, a: espaciado(d, (x, y0), str(b0.get("kicker", "")).upper(), it(700, 20), (255, 92, 102, a), 3), ease((t - 0.4) / 0.5))
+        for i, ln in enumerate(partir_n(ImageDraw.Draw(im), b0.get("titulo", ""), ss(700, 64), 790)[:3]):
+            con_alfa(im, lambda d, a, i=i, ln=ln: d.text((x, y0 + 40 + i * 74), ln, font=ss(700, 64), fill=WHITE + (a,)), ease((t - 0.6) / 0.5))
+    else:
+        con_alfa(im, lambda d, a: (espaciado(d, (x, y0), "EN ESTE FLASH", it(700, 20), (168, 168, 168, a), 3.5),
+                                   d.line([x, y0 + 34, W - 120, y0 + 34], fill=(58, 58, 58, a), width=2)), ease((t - 0.3) / 0.4))
+        lista = bloques[:6]; paso = 104 if len(lista) <= 4 else 80
+        for i, b in enumerate(lista):
+            yy = y0 + 34 + i * paso
+            def fila(d, a, i=i, b=b, yy=yy):
+                tf = ss(600, 40 if len(lista) <= 4 else 34)
+                d.text((x, yy + paso / 2), str(i + 1), font=ss(700, 42), fill=(255, 90, 95, a), anchor="lm")
+                d.text((x + 84, yy + paso / 2), recortar(d, b.get("titulo", ""), tf, W - 120 - x - 84), font=tf, fill=WHITE + (a,), anchor="lm")
+                d.line([x, yy + paso, W - 120, yy + paso], fill=(58, 58, 58, a), width=2)
+            con_alfa(im, fila, ease((t - 0.5 - i * 0.18) / 0.4))
+    ImageDraw.Draw(im).rectangle([0, H - 9, W, H], fill=ROJO_N)
+    return im
+
+
+def placa_cierre_nueva(t):
+    im = Image.new("RGB", (W, H), NEGRO_N)
+    d = ImageDraw.Draw(im)
+    d.rectangle([W / 2 - 48, 300, W / 2 - 48 + int(96 * ease(t / 0.5)), 309], fill=ROJO_N)
+    con_alfa(im, lambda d, a: d.text((W / 2, 420), "Diario Federal", font=ss(700, 144), fill=WHITE + (a,), anchor="mm"), ease(t / 0.6))
+    con_alfa(im, lambda d, a: (d.text((W / 2, 545), "Periodistas, escritores y pensadores", font=it(500, 33), fill=(207, 207, 207, a), anchor="mm"),
+                               d.text((W / 2, 593), "de todo el país", font=it(500, 33), fill=(207, 207, 207, a), anchor="mm")), ease((t - 0.3) / 0.5))
+    def boton(d, a):
+        f1, f2 = it(700, 22), it(600, 33)
+        w1 = ancho_esp(d, "SEGUÍ LEYENDO", f1, 3.2) + 48; w2 = d.textlength("diariofederal.com.ar", font=f2) + 60
+        x = (W - w1 - w2) / 2; y = 660
+        d.rectangle([x, y, x + w1, y + 64], fill=ROJO_N + (a,))
+        espaciado(d, (x + 24, y + 32), "SEGUÍ LEYENDO", f1, WHITE + (a,), 3.2)
+        d.rectangle([x + w1, y, x + w1 + w2, y + 64], fill=WHITE + (a,))
+        d.text((x + w1 + 30, y + 32), "diariofederal.com.ar", font=f2, fill=NEGRO_N + (a,), anchor="lm")
+    con_alfa(im, boton, ease((t - 0.6) / 0.5))
+    ImageDraw.Draw(im).rectangle([0, H - 9, W, H], fill=ROJO_N)
+    return im
+
+
 # ── Voz ─────────────────────────────────────────────────────────────────────
 
 def cargar_json(ruta, defecto):
@@ -259,10 +528,24 @@ def pronunciar(texto, dicc):
 async def _edge(texto, voz, vel, destino):
     import edge_tts
     rate = f"{'+' if vel >= 0 else ''}{int(vel)}%"
-    await edge_tts.Communicate(texto, voz, rate=rate).save(destino)
+    try:
+        com = edge_tts.Communicate(texto, voz, rate=rate, boundary="WordBoundary")
+    except TypeError:
+        com = edge_tts.Communicate(texto, voz, rate=rate)
+    palabras = []
+    with open(destino, "wb") as fh:
+        async for ch in com.stream():
+            if ch["type"] == "audio":
+                fh.write(ch["data"])
+            elif ch["type"] == "WordBoundary":
+                a = ch["offset"] / 1e7
+                palabras.append((a, a + ch["duration"] / 1e7, ch.get("text", "")))
+    return palabras
 
 
 def sintetizar(texto, voz, vel, destino_wav, tmp):
+    """Devuelve los tiempos de cada palabra dicha (inicio, fin, palabra), si la voz los informa."""
+    palabras = []
     if os.environ.get("MOTOR") == "kokoro":
         from kokoro_onnx import Kokoro
         k = Kokoro(os.environ["KOKORO_MODELO"], os.environ["KOKORO_VOCES"])
@@ -273,7 +556,7 @@ def sintetizar(texto, voz, vel, destino_wav, tmp):
         mp3 = Path(tmp) / (Path(destino_wav).stem + ".mp3")
         for intento in range(3):
             try:
-                asyncio.run(_edge(texto, voz, vel, str(mp3))); break
+                palabras = asyncio.run(_edge(texto, voz, vel, str(mp3))) or []; break
             except Exception:
                 if intento == 2: raise
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(mp3), "-ar", "24000", "-ac", "1", destino_wav], check=True)
@@ -282,6 +565,7 @@ def sintetizar(texto, voz, vel, destino_wav, tmp):
                     "areverse,silenceremove=start_periods=1:start_threshold=-45dB,areverse,adelay=150",
                     "-ar", "24000", "-ac", "1", destino_wav + ".t.wav"], check=True)
     os.replace(destino_wav + ".t.wav", destino_wav)
+    return [(a + 0.15, b + 0.15, w) for a, b, w in palabras]
 
 
 def dur_wav(p):
@@ -310,10 +594,10 @@ def generar(flash):
 
     with tempfile.TemporaryDirectory() as tmp:
         segs = [("intro", intro)] + [(f"b{i}", b["texto"]) for i, b in enumerate(bloques)] + [("cierre", cierre)]
-        voces = {}
+        voces, habladas = {}, {}
         for k, txt in segs:
             p = str(Path(tmp) / f"{k}.wav")
-            sintetizar(pronunciar(txt, dicc), voz, vel, p, tmp)
+            habladas[k] = sintetizar(pronunciar(txt, dicc), voz, vel, p, tmp) or []
             voces[k] = p
             print(f"  voz {k}: {dur_wav(p):.1f} s", flush=True)
 
@@ -338,10 +622,27 @@ def generar(flash):
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
             w.writeframes((np.clip(pista[:int(total * sr)], -1, 1) * 32767).astype(np.int16).tobytes())
 
+        nuevo = flash.get("estilo", "noticiero") != "clasico"
         medios = {}
-        for i, b in enumerate(bloques):
-            dur = next(d for k, s, d, v in linea if k == f"b{i}")
-            medios[i] = preparar_medio(b, dur, tmp, i)
+        if not nuevo:
+            for i, b in enumerate(bloques):
+                dur = next(d for k, s, d, v in linea if k == f"b{i}")
+                medios[i] = preparar_medio(b, dur, tmp, i)
+        trozos = {}
+        if nuevo:
+            for i, b in enumerate(bloques):
+                pal = tiempos_palabras(b["texto"], habladas.get(f"b{i}", []), dur_wav(voces[f"b{i}"]))
+                trozos[i] = armar_trozos(pal)
+
+        def medio_de(i):
+            # diseño noticiero: cada medio se prepara al llegar a su bloque y se libera el anterior
+            if i not in medios:
+                for j in list(medios):
+                    medios.pop(j)
+                    for r in Path(tmp).glob(f"medio{j}.rgb"): r.unlink(missing_ok=True)
+                dur = next(d for k, s, d, v in linea if k == f"b{i}")
+                medios[i] = preparar_medio(bloques[i], dur, tmp, i, W, H, nuevo=True)
+            return medios[i]
 
         mudo = Path(tmp) / "mudo.mp4"
         ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
@@ -353,7 +654,14 @@ def generar(flash):
             for k, st, dur, vs in linea:
                 if st <= tt < st + dur: break
             lt = tt - st
-            if k == "intro": im = placa_intro(lt, flash)
+            if nuevo:
+                if k == "intro": im = placa_intro_nueva(lt, flash, bloques)
+                elif k == "cierre": im = placa_cierre_nueva(lt)
+                else:
+                    i = int(k[1:])
+                    im = placa_bloque_nuevo(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
+                                            trozos[i], vs - st, tt / total)
+            elif k == "intro": im = placa_intro(lt, flash)
             elif k == "cierre": im = placa_cierre(lt)
             else:
                 i = int(k[1:]); im = placa_bloque(bloques[i], lt, dur, i, len(bloques), medios[i], flash)
