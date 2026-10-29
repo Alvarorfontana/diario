@@ -68,18 +68,18 @@
       "fuente": "Clarin"
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": true,
   "video": "/flash/2026-10-29-semanal.mp4",
   "miniatura": "/flash/2026-10-29-semanal.jpg",
-  "version": "20261029201800",
-  "duracion": 111.5,
+  "version": "20261029202853",
+  "duracion": 115.9,
   "duraciones": [
-    39.9,
-    21,
-    14.5,
-    16.9
+    41.3,
+    21.7,
+    15.7,
+    17.7
   ],
-  "generado": "2026-10-29T20:18:00+00:00",
+  "generado": "2026-10-29T20:28:53+00:00",
   "rotulo": "SEMANA DEL 29 DE OCTUBRE DE 2026"
 }
