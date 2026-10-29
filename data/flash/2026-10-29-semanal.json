@@ -3,10 +3,10 @@
   "tipo": "semanal",
   "titulo": "",
   "fecha": "2026-10-29",
-  "voz": "es-AR-TomasNeural",
-  "velocidad": 8,
-  "musica": "/flash/musica/paulyudin.mp3",
-  "volumenMusica": -17,
+  "voz": "es-AR-ElenaNeural",
+  "velocidad": 10,
+  "musica": "/flash/musica/krasnoshchok.mp3",
+  "volumenMusica": -16,
   "estilo": "noticiero",
   "subtitulos": true,
   "bloques": [
@@ -46,7 +46,7 @@
       "titulo": "El FMI presiona",
       "dato": "REVISION",
       "bajada": "mas corredores y desregulacion laboral",
-      "texto": "El Fondo Monetario Internacional le requirió a la Argentina mayores avances en la desregulación laboral y la privatización de los corredores viales como parte de las condiciones asociadas a la revisión del programa stand-by, en una exigencia que apunta al núcleo del modelo económico que el gobierno busca implementar.",
+      "texto": "El Fondo Monetario Internacional le requirió a la Argentina mayores avances en la desregulación laboral y la privatización de los corredores viales como parte de las condiciones asociadas a la revisión del programa stand-by de Argentina, en una exigencia que apunta al núcleo del modelo económico que el gobierno busca implementar.",
       "epigrafe": "El FMI ordenas el plan argentino",
       "fuente": "Reuters",
       "media": {
@@ -63,14 +63,16 @@
       "titulo": "Lula, Macri y Milei: un cruce de gestos y dis",
       "dato": "cruces",
       "bajada": "intercambios políticos",
-      "texto": "Lula da Silva agradeció públicamente el mensaje de felicitación que le envió Mauricio Macri tras su victoria electoral, y aprovechó la ocasión para enviarle un saludo a Javier Milei, en un gesto que se interpreta como una señal de apertura del presidente brasileño hacia el nuevo gobierno argentino, pese a las profundas diferencias ideológicas que los separan.",
+      "texto": "Lula da Silva agradeció públicamente el mensaje de felicitación que le envió Mauricio Macri tras su victoria electoral, y aprovechó la ocasión para enviarle un saludo a Javier Milei, en un gesto que se interpreta como una señal de apertura del presidente brasileño hacia otros sectores politicos, pese a las profundas diferencias ideológicas que los separan.",
       "epigrafe": "Macri y Lula",
       "fuente": "Clarin"
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": true,
-  "rotulo": "SEMANA DEL 29 DE OCTUBRE DE 2026",
+  "video": "/flash/2026-10-29-semanal.mp4",
+  "miniatura": "/flash/2026-10-29-semanal.jpg",
+  "version": "20261029201800",
   "duracion": 111.5,
   "duraciones": [
     39.9,
@@ -78,9 +80,6 @@
     14.5,
     16.9
   ],
-  "video": "/flash/2026-10-29-semanal.mp4",
-  "miniatura": "/flash/2026-10-29-semanal.jpg",
-  "version": "20261029201800",
   "generado": "2026-10-29T20:18:00+00:00",
-  "publicadoEl": "2026-10-29T20:18:25.760Z"
+  "rotulo": "SEMANA DEL 29 DE OCTUBRE DE 2026"
 }
