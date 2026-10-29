@@ -65,7 +65,7 @@
       "bajada": "intercambios políticos",
       "texto": "Lula da Silva agradeció públicamente el mensaje de felicitación que le envió Mauricio Macri tras su victoria electoral, y aprovechó la ocasión para enviarle un saludo a Javier Milei, en un gesto que se interpreta como una señal de apertura del presidente brasileño hacia otros sectores politicos, pese a las profundas diferencias ideológicas que los separan.",
       "epigrafe": "Macri y Lula",
-      "fuente": "Clarin",
+      "fuente": "Diario Federal",
       "media": {
         "tipo": "foto",
         "archivo": "data/flash/media/2026-10-29-semanal/b4-mvu06c0q.jpg",
@@ -76,7 +76,7 @@
       }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": true,
   "video": "/flash/2026-10-29-semanal.mp4",
   "miniatura": "/flash/2026-10-29-semanal.jpg",
