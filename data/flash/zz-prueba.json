@@ -88,10 +88,22 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "rotulo": "SEMANA DEL 27 DE OCTUBRE DE 2026",
   "publicadoEl": "2026-10-28T14:16:02.310Z",
   "estilo": "noticiero",
-  "subtitulos": true
+  "subtitulos": true,
+  "duracion": 93.4,
+  "duraciones": [
+    15.3,
+    14.2,
+    14.8,
+    13.5,
+    15.1
+  ],
+  "video": "/flash/zz-prueba.mp4",
+  "miniatura": "/flash/zz-prueba.jpg",
+  "version": "20261029192827",
+  "generado": "2026-10-29T19:28:27+00:00"
 }
