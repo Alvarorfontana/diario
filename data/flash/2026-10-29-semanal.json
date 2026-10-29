@@ -13,11 +13,11 @@
     {
       "kicker": "Israel, elecciones",
       "titulo": "Crisis política",
-      "dato": "",
-      "bajada": "",
-      "texto": "Netanyahu apunta contra Qatar tras el fuerte avance de los partidos árabes en Israel\nEl primer ministro Benjamin Netanyahu apuntó contra Qatar como responsable de la inesperada performance de los partidos árabes en las elecciones legislativas israelíes, después de que su bloque obtuviera 53 de las 120 bancas del Parlamento (Knesset), muy por debajo de las 61 necesarias para gobernar en solitario y obligándolo a negociar alianzas incómodas para conservar el poder. Netanyahu denunció presunta injerencia de Doha mediante financiamiento a formaciones árabes y campañas de movilización del voto, en un intento por explicar la derrota estratégica que sufrió su coalición y desplazar el eje del debate desde el desgaste de su liderazgo hacia la narrativa de una conspiración externa, mientras la oposición encabezada por Yair Lapid busca tejer acuerdos con partidos árabes",
-      "epigrafe": "",
-      "fuente": "",
+      "dato": "Sin mayorias absolutas",
+      "bajada": "ningún bloque logra las 61 bancas necesarias para la mayoría en la Knéset",
+      "texto": "Netanyahu apunta contra Qatar tras el fuerte avance de los partidos árabes en Israel.\n apuntó contra Qatar como responsable de la inesperada performance de los partidos árabes en las elecciones legislativas israelíes, después de que su bloque obtuviera 53 de las 120 bancas del Parlamento , muy por debajo de las 61 necesarias para gobernar en solitario y obligándolo a negociar alianzas incómodas para conservar el poder. Netanyahu denunció presunta injerencia de Doha mediante financiamiento a formaciones árabes y campañas de movilización del voto, en un intento por explicar la derrota estratégica que sufrió su coalición y desplazar el eje del debate desde el desgaste de su liderazgo hacia la narrativa de una conspiración externa, mientras la oposición encabezada por Yair Lapid busca tejer acuerdos con partidos árabes",
+      "epigrafe": "Benjamin Netanyahu",
+      "fuente": "Diario Federal",
       "media": {
         "tipo": "foto",
         "archivo": "data/flash/media/2026-10-29-semanal/b1-mvtyqdw4.jpg",
@@ -28,13 +28,18 @@
       }
     },
     {
-      "kicker": "",
-      "titulo": "",
-      "dato": "",
-      "bajada": "",
-      "texto": "",
+      "kicker": "Bolsonaro",
+      "titulo": "Bolsonaro atraviesa un punto de inflexión",
+      "dato": "investigacion federal",
+      "bajada": "Capuchetti ordenó una serie de informes a Migraciones",
+      "texto": "La situación judicial del excandidato presidencial brasileño Jair Bolsonaro atraviesa un punto de inflexión en Argentina, donde dos instancias judiciales avanzan con criterios opuestos: el fiscal de Puerto Iguazú, en Misiones, entiende que no existía ningún impedimento legal o judicial para impedir el ingreso de Bolsonaro al país y por ello pide desestimar la denuncia contra el Gobierno nacional por presunta complicidad en su ruta",
       "epigrafe": "",
-      "fuente": ""
+      "fuente": "",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-10-29-semanal/b2-mvtz5gr6.mp4",
+        "inicio": 0
+      }
     },
     {
       "kicker": "",
