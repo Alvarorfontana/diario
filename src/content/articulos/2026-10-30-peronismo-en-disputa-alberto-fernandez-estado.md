@@ -19,7 +19,7 @@ puntosClave:
 ---
 
 <figure class="articulo-imagen-principal">
-  <img src="https://media.tycsports.com/files/2020/10/09/125630/alberto-fernandez.jpg" alt="Alberto Fernández" loading="eager" fetchpriority="high" />
+  <img src="/images/alberto-fernandez-conferencia-covid.jpg" alt="Alberto Fernández" loading="eager" fetchpriority="high" />
 </figure>
 
 El expresidente Alberto Fernández volvió a intervenir en el debate político del peronismo con un planteo dirigido a la disputa por la conducción y la representación del espacio. En una entrevista con CódigoBAIRES, sostuvo que el movimiento necesita discutir su identidad y resolver sus diferencias con participación de sus afiliados, en lugar de dejar las decisiones en manos de un grupo reducido de dirigentes.
