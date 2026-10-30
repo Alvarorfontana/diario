@@ -5,8 +5,8 @@ description: "Itamaraty recibió a la encargada de negocios argentina después d
 section: internacional
 author: "Redacción"
 pubDate: 2026-10-30T15:45:00
-heroImage: "https://www.lapoliticaonline.com/files/image/303/303703/6adccae1ba78f_798_501!.jpg?s=323359d9591924ff303da06cafc47654&d=1793382891"
-imageCaption: "Flávio Bolsonaro. Foto: Juanca Casas / La Política Online."
+heroImage: "https://upload.wikimedia.org/wikipedia/commons/2/22/Fl%C3%A1vio_Bolsonaro_01.09.26.jpg"
+imageCaption: "Flávio Bolsonaro durante un discurso en el Senado brasileño, el 1 de septiembre de 2026. Foto: Carlos Moura / Agência Senado. Licencia CC BY-SA 4.0, vía Wikimedia Commons."
 tapa: true
 tags: ["Brasil", "Argentina", "Javier Milei", "Lula da Silva", "Flávio Bolsonaro", "Diplomacia"]
 puntosClave:
