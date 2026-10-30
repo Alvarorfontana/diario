@@ -32,7 +32,7 @@ const { Content } = await render(articulo.entry);
 
 // Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
 // La genera src/pages/api/og/[slug].ts a partir de la foto de la nota.
-const ogImage = image_url?.startsWith('/images/') ? image_url : ogImagePath(slug, image_url);
+const ogImage = ogImagePath(slug, image_url);
 
 // La foto que se ve dentro de la nota también se sirve desde nuestro dominio
 // (ver src/pages/api/img/[slug].ts). Si ya es propia, se usa tal cual.
