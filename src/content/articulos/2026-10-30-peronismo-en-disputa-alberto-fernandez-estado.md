@@ -18,6 +18,10 @@ puntosClave:
   - "Defendió el papel de hospitales y trabajadores de la salud durante la pandemia."
 ---
 
+<figure class="articulo-imagen-principal">
+  <img src="https://media.tycsports.com/files/2020/10/09/125630/alberto-fernandez.jpg" alt="Alberto Fernández" loading="eager" fetchpriority="high" />
+</figure>
+
 El expresidente Alberto Fernández volvió a intervenir en el debate político del peronismo con un planteo dirigido a la disputa por la conducción y la representación del espacio. En una entrevista con CódigoBAIRES, sostuvo que el movimiento necesita discutir su identidad y resolver sus diferencias con participación de sus afiliados, en lugar de dejar las decisiones en manos de un grupo reducido de dirigentes.
 
 “El peronismo necesita un proceso de debate interno muy fuerte”, afirmó. Y puso en el centro de la discusión las distintas referencias que conviven dentro del espacio: “¿Qué es el peronismo? ¿Es lo que dice Cristina o es lo que dice Pichetto?”.
@@ -33,6 +37,10 @@ En ese marco, mencionó a distintos dirigentes que expresan posiciones y lideraz
 Y cuestionó las definiciones tomadas en ámbitos cerrados: “Resolvámoslo de un modo, no entre cuatro paredes y cinco dirigentes. Ya nos fue mal con eso. Resolvámoslo de un modo que la gente se pueda expresar”.
 
 La intervención vuelve a poner sobre la mesa una de las discusiones centrales del espacio opositor: quién tiene legitimidad para conducirlo después de la derrota electoral de 2023 y cómo se construye una representación capaz de reunir a sus distintas corrientes.
+
+<h2>La publicación de Alberto Fernández en X</h2>
+<blockquote class="twitter-tweet"><a href="https://twitter.com/alferdezprensa/status/2116168258130784706">Ver la publicación de Alberto Fernández en X</a></blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ## La defensa de la salud pública
 
@@ -70,6 +78,3 @@ En un escenario de reordenamiento opositor, el expresidente planteó que tanto l
 
 **Elaboración periodística: Diario Federal.**
 
-<h2>La publicación de Alberto Fernández en X</h2>
-<blockquote class="twitter-tweet"><a href="https://twitter.com/alferdezprensa/status/2116168258130784706">Ver la publicación de Alberto Fernández en X</a></blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
