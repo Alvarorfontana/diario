@@ -36,19 +36,18 @@ const imageURL = esDeOtroSitio
 	? new URL(`/_vercel/image?url=${encodeURIComponent(rawImageURL.href)}&w=1200&q=75`, baseURL)
 	: rawImageURL;
 
-// Para redes usamos primero la imagen optimizada por Vercel (o el archivo local).
-// Es una URL pública de imagen directa y evita que WhatsApp dependa de una función
-// dinámica adicional para poder descargar la vista previa. La ruta 1200x630 queda
-// como alternativa secundaria para los clientes que admiten varias og:image.
+// Para las redes sociales priorizamos la URL explícita de Open Graph de cada nota.
+// En artículos con foto externa es /api/og/<slug>.jpg, una imagen JPEG propia
+// de 1200x630; no dependemos del optimizador de Vercel para WhatsApp.
 const tieneOgImage = typeof ogImage === 'string' && ogImage.length > 0;
-const previewURL = imageURL;
-const backupPreviewURL = tieneOgImage ? new URL(ogImage as string, baseURL) : undefined;
+const previewURL = tieneOgImage ? new URL(ogImage as string, baseURL) : imageURL;
+const backupPreviewURL = previewURL.href !== imageURL.href ? imageURL : undefined;
 
-const imageFormat = tieneOgImage
-	? 'jpeg'
-	: isExternalImage
-		? (imageURL.pathname.endsWith('.png') ? 'png' : 'jpeg')
-		: (image.format === 'jpg' ? 'jpeg' : image.format);
+const imageFormat = previewURL.pathname.toLowerCase().endsWith('.png')
+	? 'png'
+	: previewURL.pathname.toLowerCase().endsWith('.webp')
+		? 'webp'
+		: 'jpeg';
 // Para fotos subidas desde el panel no se conocen las medidas reales: mejor no declararlas
 // que declarar unas falsas (WhatsApp puede deformar o descartar la imagen).
 // Con la imagen propia (ogImage) sí conocemos las medidas exactas: 1200x630.
@@ -130,12 +129,7 @@ const imageHeight = !esDeOtroSitio && !isExternalImage ? String(image.height) : 
 <meta property="og:image" content={previewURL.href} />
 {backupPreviewURL && <meta property="og:image" content={backupPreviewURL.href} />}
 <meta property="og:image:alt" content={description} />
-{!esDeOtroSitio ? (
-	<meta
-		property="og:image:type"
-		content={`image/${imageFormat}`}
-	/>
-) : null}
+<meta property="og:image:type" content={`image/${imageFormat}`} />
 <meta property="og:image:secure_url" content={previewURL.href} />
 {imageWidth && <meta property="og:image:width" content={imageWidth} />}
 {imageHeight && <meta property="og:image:height" content={imageHeight} />}
