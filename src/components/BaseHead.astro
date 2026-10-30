@@ -36,11 +36,13 @@ const imageURL = esDeOtroSitio
 	? new URL(`/_vercel/image?url=${encodeURIComponent(rawImageURL.href)}&w=1200&q=75`, baseURL)
 	: rawImageURL;
 
-// Imagen de vista previa propia, recortada a 1200x630 por /api/og/<slug>.jpg.
-// Es la que se usa para og:image / twitter:image porque WhatsApp, Facebook y X
-// exigen ese formato y no conviene depender de servidores de terceros.
+// Para redes usamos primero la imagen optimizada por Vercel (o el archivo local).
+// Es una URL pública de imagen directa y evita que WhatsApp dependa de una función
+// dinámica adicional para poder descargar la vista previa. La ruta 1200x630 queda
+// como alternativa secundaria para los clientes que admiten varias og:image.
 const tieneOgImage = typeof ogImage === 'string' && ogImage.length > 0;
-const previewURL = tieneOgImage ? new URL(ogImage as string, baseURL) : imageURL;
+const previewURL = imageURL;
+const backupPreviewURL = tieneOgImage ? new URL(ogImage as string, baseURL) : undefined;
 
 const imageFormat = tieneOgImage
 	? 'jpeg'
@@ -84,8 +86,8 @@ const jsonLd = publishedTime
 			],
 		};
 const jsonLdText = JSON.stringify(jsonLd).replace(/</g, '\\u003c');
-const imageWidth = tieneOgImage ? '1200' : isExternalImage ? undefined : String(image.width);
-const imageHeight = tieneOgImage ? '630' : isExternalImage ? undefined : String(image.height);
+const imageWidth = !esDeOtroSitio && !isExternalImage ? String(image.width) : undefined;
+const imageHeight = !esDeOtroSitio && !isExternalImage ? String(image.height) : undefined;
 ---
 
 <!-- Global Metadata -->
@@ -113,7 +115,7 @@ const imageHeight = tieneOgImage ? '630' : isExternalImage ? undefined : String(
 
 
 <!-- Canonical URL -->
-<link rel="canonical" href={canonicalURL} />
+<link rel="canonical" href={canonicalURL.href} />
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -121,19 +123,20 @@ const imageHeight = tieneOgImage ? '630' : isExternalImage ? undefined : String(
 
 <!-- Open Graph / Facebook / WhatsApp / Telegram -->
 <meta property="og:type" content={publishedTime ? 'article' : 'website'} />
-<meta property="og:url" content={canonicalURL} />
+<meta property="og:url" content={canonicalURL.href} />
 <meta property="og:site_name" content={SITE_TITLE} />
 <meta property="og:title" content={tituloLimpio} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={previewURL} />
+<meta property="og:image" content={previewURL.href} />
+{backupPreviewURL && <meta property="og:image" content={backupPreviewURL.href} />}
 <meta property="og:image:alt" content={description} />
-{tieneOgImage || !esDeOtroSitio ? (
+{!esDeOtroSitio ? (
 	<meta
 		property="og:image:type"
 		content={`image/${imageFormat}`}
 	/>
 ) : null}
-<meta property="og:image:secure_url" content={previewURL} />
+<meta property="og:image:secure_url" content={previewURL.href} />
 {imageWidth && <meta property="og:image:width" content={imageWidth} />}
 {imageHeight && <meta property="og:image:height" content={imageHeight} />}
 {
@@ -153,4 +156,4 @@ const imageHeight = tieneOgImage ? '630' : isExternalImage ? undefined : String(
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-<meta name="twitter:image" content={previewURL} />
+<meta name="twitter:image" content={previewURL.href} />
