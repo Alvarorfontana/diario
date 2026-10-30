@@ -215,6 +215,32 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 		<a href="/contexto-politico/" class="inline-flex items-center justify-center rounded-xl bg-brand px-5 py-4 text-center text-sm font-bold text-white hover:bg-brand-dark">Explorar los artículos →</a>
 	</section>
 
+	<!-- COMUNIDAD EN FACEBOOK -->
+	<section class="mt-8 rounded-2xl border border-[#e6e6e2] bg-white p-5 shadow-sm sm:p-7">
+		<div class="mb-5 flex flex-wrap items-end justify-between gap-3">
+			<div>
+				<p class="text-xs font-extrabold tracking-[0.12em] text-brand uppercase">Comunidad</p>
+				<h2 class="titulo-seccion mt-1">Diario Federal en Facebook</h2>
+				<p class="mt-2 max-w-2xl text-sm text-neutral-600">Seguí nuestras publicaciones y compartí la actualidad con nuestra comunidad.</p>
+			</div>
+			<a href="https://www.facebook.com/profile.php?id=61595974264717" target="_blank" rel="noopener noreferrer" class="inline-flex min-h-10 items-center rounded-full bg-[#1877F2] px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-[#1668d4]">Seguir en Facebook ↗</a>
+		</div>
+		<div class="mx-auto w-full max-w-[500px] overflow-hidden rounded-xl border border-[#e6e6e2] bg-[#f7f7f5]">
+			<iframe
+				title="Publicaciones de Diario Federal en Facebook"
+				src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61595974264717&tabs=timeline&width=500&height=600&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
+				width="500"
+				height="600"
+				style="border:none;overflow:hidden;width:100%;max-width:500px"
+				scrolling="no"
+				frameborder="0"
+				allowfullscreen="true"
+				allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+				loading="lazy"
+			></iframe>
+		</div>
+	</section>
+
 	<!-- BOLETÍN -->
 	<NewsletterBox />
 </BaseLayout>
