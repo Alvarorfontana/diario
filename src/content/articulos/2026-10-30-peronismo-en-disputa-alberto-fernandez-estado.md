@@ -3,7 +3,8 @@ title: "Peronismo en disputa: Alberto Fernández cuestionó los acuerdos de cond
 volanta: El expresidente reclamó que la representación del peronismo se defina con participación de sus afiliados y defendió el sistema público de salud durante la pandemia
 description: "En una entrevista radial, Alberto Fernández planteó abrir el debate interno del peronismo, cuestionó las decisiones tomadas entre pocos dirigentes y recordó su postura frente a la pandemia y la llamada inmunidad de rebaño."
 section: argentina
-heroImage: /images/alberto-fernandez-conferencia-covid.jpg
+heroImage: https://upload.wikimedia.org/wikipedia/commons/7/7a/Alberto_fernandez_presidente.jpg
+imageCaption: "Alberto Fernández y Cristina Fernández de Kirchner durante la asunción presidencial, 10 de diciembre de 2019. Fotografía: Nicolás Aboaf / Casa Rosada (CC BY 2.5 AR)."
 tapa: true
 author: Redacción
 pubDate: 2026-10-30
