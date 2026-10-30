@@ -23,6 +23,11 @@ La convocatoria fue breve y de bajo perfil. Fuentes brasileñas citadas por UOL 
 
 Pero el gesto tiene un peso político evidente: el Gobierno de Lula pidió explicaciones formales a la representación argentina por un episodio que puede involucrar el incumplimiento de una decisión del máximo tribunal brasileño y una posible intervención política transnacional.
 
+![El Palacio Itamaraty, sede de la Cancillería brasileña, en Brasilia.](https://upload.wikimedia.org/wikipedia/commons/e/e6/Pal%C3%A1cio_Itamaraty_by_Diego_Baravelli.jpg)
+
+*El Palacio Itamaraty, sede del Ministerio de Relaciones Exteriores de Brasil. Foto: Diego Baravelli / Wikimedia Commons (licencia CC BY-SA). Imagen de archivo.*
+
+
 ## Una salida bajo una orden judicial
 
 El punto de partida está documentado por la propia Policía Federal de Brasil. En una nota oficial publicada el 28 de octubre, la fuerza informó que el domingo 25 había solicitado al Supremo Tribunal Federal (STF) medidas cautelares contra Flávio Bolsonaro, entre ellas la aprehensión de sus pasaportes y la prohibición de salir del país. La solicitud se produjo, según la PF, después de que sus investigadores identificaran riesgo de que el senador abandonara Brasil.
@@ -84,7 +89,7 @@ La investigación brasileña deberá establecer quién organizó el traslado, qu
 - **Domingo 25 de octubre:** la Policía Federal brasileña solicita al STF medidas cautelares contra Flávio Bolsonaro, incluida la prohibición de salir del país y la retención de sus pasaportes.
 - **Lunes 26:** según la PF, el senador es intimado a entregar otros pasaportes en 24 horas. La fuerza informa que no cumplió esa intimación.
 - **Martes 27, 22.50:** Migraciones argentinas registra el ingreso de Flávio y su familia por el Puente Internacional Tancredo Neves, en Misiones.
-- **Miércoles 28, 23.30 (hora informada por Migraciones para el embarque del martes):** el grupo aborda un vuelo privado desde Puerto Iguazú con destino a Guayaquil. La aeronave continúa luego hacia Miami.
+- **Martes 27, 23.30:** según la información oficial difundida por Migraciones, el grupo aborda un vuelo privado desde Puerto Iguazú con destino a Guayaquil. La aeronave continúa luego hacia Miami.
 - **Jueves 29:** Itamaraty recibe a María Emilia Cortés y le solicita información sobre la eventual participación argentina.
 - **Viernes 30:** medios de Brasil y la Argentina confirman la convocatoria y publican nuevos detalles sobre la logística y el financiamiento del vuelo.
 
