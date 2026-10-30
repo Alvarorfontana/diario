@@ -115,7 +115,7 @@ import { nombreRegion } from '../../lib/regiones';
 			</h1>
 			<p class="mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
 			{image_url && (
-				<figure class={slug === '2026-10-30-brasil-pide-explicaciones-argentina-salida-flavio-bolsonaro' ? 'mx-auto mt-6 w-full max-w-[560px]' : 'mt-6'}>
+				<figure class={slug === '2026-10-30-brasil-pide-explicaciones-argentina-salida-flavio-bolsonaro' ? 'mx-auto mt-6 w-full max-w-[760px]' : 'mt-6'}>
 					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class={slug === '2026-10-30-brasil-pide-explicaciones-argentina-salida-flavio-bolsonaro' ? 'aspect-video w-full rounded-xl object-cover object-center' : 'h-auto w-full rounded-2xl object-cover object-center'} loading="eager" />
 					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
