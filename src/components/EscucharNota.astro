@@ -10,13 +10,15 @@ interface Props {
 }
 const { slug, title } = Astro.props;
 const audio = (audios as Record<string, { archivo: string; duracion: number }>)[slug];
-
+// Siempre ofrecer un enlace directo aunque el manifiesto todavía no esté sincronizado.
+const archivo = audio?.archivo ?? `/audio/${slug}.mp3`;
+const duracion = audio?.duracion ?? 0;
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}`;
-const minutos = audio ? Math.max(1, Math.round(audio.duracion / 60)) : 0;
+const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 ---
 
 {
-	audio && (
+	(
 		<div
 			id="escuchar"
 			class="escuchar tarjeta mt-4 w-full max-w-[560px] scroll-mt-20 px-3 py-3 shadow-[inset_0_0_0_1px_#e6e6e2] transition-shadow sm:px-4"
@@ -24,8 +26,11 @@ const minutos = audio ? Math.max(1, Math.round(audio.duracion / 60)) : 0;
 			data-titulo={title}
 			data-slug={slug}
 		>
+			<div class="mb-2 flex justify-end">
+				<a href={archivo} target="_blank" rel="noopener" class="text-xs font-bold text-ink underline underline-offset-4 hover:text-brand">Escuchar nota</a>
+			</div>
 			<div class="flex items-center gap-3">
-			<audio preload="none" src={audio.archivo} data-audio></audio>
+			<audio preload="none" src={archivo} data-audio></audio>
 
 			<button
 				type="button"
@@ -40,15 +45,15 @@ const minutos = audio ? Math.max(1, Math.round(audio.duracion / 60)) : 0;
 			<div class="min-w-0 flex-1">
 				<div class="flex items-baseline justify-between gap-2">
 					<p class="truncate text-sm font-bold text-ink">Escuchá esta nota</p>
-					<p class="shrink-0 text-xs tabular-nums text-neutral-500"><span data-actual>0:00</span> / <span data-total>{mmss(audio.duracion)}</span></p>
+					<p class="shrink-0 text-xs tabular-nums text-neutral-500"><span data-actual>0:00</span> / <span data-total>{mmss(duracion)}</span></p>
 				</div>
 				<input
-					type="range" min="0" max={audio.duracion || 1} step="1" value="0"
+					type="range" min="0" max={duracion || 1} step="1" value="0"
 					class="barra mt-1.5 block w-full"
 					aria-label="Avanzar o retroceder"
 					data-barra
 				/>
-				<p class="mt-1 text-[11px] text-neutral-500">{minutos} min · Voz generada automáticamente</p>
+				<p class="mt-1 text-[11px] text-neutral-500">{duracion ? `${minutos} min · Voz generada automáticamente` : 'Audio disponible'}</p>
 			</div>
 
 			<button
@@ -62,14 +67,14 @@ const minutos = audio ? Math.max(1, Math.round(audio.duracion / 60)) : 0;
 			<div class="mt-3 flex items-center gap-2 border-t border-neutral-200 pt-3">
 				<button
 					type="button"
-					class="flex h-9 flex-1 items-center justify-center gap-2 rounded-xl bg-[#1f8f4e] px-3 text-[13px] font-bold text-white transition-opacity hover:opacity-90"
+					class="flex h-9 flex-1 items-center justify-center gap-2 rounded-xl bg-[#111111] px-3 text-[13px] font-bold text-white transition-opacity hover:opacity-90"
 					data-compartir
 				>
 					<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" /><path d="M12 3v12" /><path d="m7 8 5-5 5 5" /></svg>
 					<span data-compartir-texto>Compartir audio</span>
 				</button>
 				<a
-					href={audio.archivo}
+					href={archivo}
 					download
 					class="flex h-9 items-center justify-center rounded-xl bg-white px-3 text-[13px] font-bold text-ink shadow-[inset_0_0_0_1px_#dcdcd6] hover:bg-neutral-50"
 				>Descargar</a>
