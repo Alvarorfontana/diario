@@ -21,21 +21,21 @@ const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 	(
 		<div
 			id="escuchar"
-			class="escuchar mt-3 w-full max-w-[560px] scroll-mt-20 rounded-full bg-white py-1.5 pr-2 pl-1.5 shadow-[inset_0_0_0_1px_#e2e2dc] transition-shadow"
+			class="escuchar mt-3 inline-flex max-w-full scroll-mt-20 rounded-full bg-white px-2 py-1.5 shadow-[inset_0_0_0_1px_#e2e2dc] transition-shadow"
 			data-escuchar
 			data-titulo={title}
 			data-slug={slug}
 		>
 			<audio preload="none" src={archivo} data-audio></audio>
-			<div class="flex items-center gap-2.5">
+			<div class="flex items-center gap-2">
 				<button
 					type="button"
-					class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+					class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
 					aria-label="Escuchar la nota"
 					data-play
 				>
-					<svg data-icono-play viewBox="0 0 24 24" class="ml-0.5 h-[18px] w-[18px]" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
-					<svg data-icono-pausa viewBox="0 0 24 24" class="hidden h-[18px] w-[18px]" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>
+					<svg data-icono-play viewBox="0 0 24 24" class="ml-0.5 h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z" /></svg>
+					<svg data-icono-pausa viewBox="0 0 24 24" class="hidden h-4 w-4" fill="currentColor" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1" /><rect x="13.5" y="5" width="4" height="14" rx="1" /></svg>
 				</button>
 
 				<div class="min-w-0 flex-1">
@@ -45,7 +45,7 @@ const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 					</div>
 					<input
 						type="range" min="0" max={duracion || 1} step="1" value="0"
-						class="barra mt-1 block w-full"
+						class="barra sr-only"
 						aria-label="Avanzar o retroceder"
 						data-barra
 					/>
@@ -53,13 +53,17 @@ const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 
 				<button
 					type="button"
-					class="h-7 shrink-0 rounded-full px-2 text-[11px] font-bold tabular-nums text-ink hover:bg-neutral-100"
+					class="hidden"
 					aria-label="Cambiar velocidad"
 					title="Velocidad"
 					data-velocidad
 				>1x</button>
 
-				<details class="mas-audio relative shrink-0">
+				
+				<a href={archivo} download aria-label="Descargar audio" title="Descargar audio" class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-brand">
+					<svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/></svg>
+				</a>
+				<details class="mas-audio hidden">
 					<summary class="flex h-8 w-8 cursor-pointer list-none items-center justify-center rounded-full text-neutral-600 hover:bg-neutral-100 hover:text-ink" aria-label="Más opciones del audio" title="Más opciones">
 						<svg viewBox="0 0 24 24" class="h-[18px] w-[18px] fill-current" aria-hidden="true"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>
 					</summary>
