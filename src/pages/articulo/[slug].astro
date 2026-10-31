@@ -100,7 +100,7 @@ import { nombreRegion } from '../../lib/regiones';
 			<span class="sitio-impresion">diariofederal.com.ar</span>
 		</div>
 
-		<header>
+		<header class="mx-auto w-full max-w-[760px] lg:max-w-none">
 			<div class="flex items-center gap-3">
 				<a href={`/seccion/${section}/`} class="rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white" data-pagefind-filter="Sección">{nombreSeccion(section || '')}</a>
 				<span class="text-xs text-neutral-500">{minutosLectura} min de lectura</span>
@@ -156,7 +156,7 @@ import { nombreRegion } from '../../lib/regiones';
 			}
 		</header>
 
-		<div class="mt-8 grid grid-cols-1 items-start gap-8 lg:grid-cols-[minmax(0,760px)_minmax(260px,320px)] lg:justify-between">
+		<div class="mx-auto mt-8 grid w-full max-w-[760px] grid-cols-1 items-start gap-8 lg:max-w-none lg:grid-cols-[minmax(0,760px)_minmax(260px,320px)] lg:justify-between">
 		<div class="min-w-0">
 		{
 			puntosClave && puntosClave.length > 0 && (
@@ -216,7 +216,7 @@ import { nombreRegion } from '../../lib/regiones';
 
 	<!-- Publicidad y comentarios alineados con la columna del texto -->
 	<div class="mx-auto w-full max-w-[1100px]" data-no-imprimir>
-		<div class="lg:max-w-[760px]">
+		<div class="mx-auto max-w-[760px] lg:mx-0">
 			<AdBanner position="in-article" maxAds={1} />
 			<Comentarios
 				identifier={slug}
