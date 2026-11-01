@@ -18,6 +18,17 @@ puntosClave:
   - "La elección medirá también la capacidad de Trump para movilizar a su coalición."
 ---
 
+<figure style="display:flex; gap:12px; align-items:flex-start; margin:1.25rem 0; flex-wrap:wrap;">
+  <div style="flex:1 1 48%; min-width:260px;">
+    <img src="https://jamestalarico.com/wp-content/uploads/2025/09/t4tx-hero.webp" alt="James Talarico habla ante simpatizantes durante un acto de campaña en Texas" style="width:100%; height:auto;" />
+    <figcaption>James Talarico, candidato demócrata al Senado por Texas. Fotografía: campaña de Talarico.</figcaption>
+  </div>
+  <div style="flex:1 1 48%; min-width:260px;">
+    <img src="https://tile.loc.gov/storage-services/service/pnp/ppbd/11600/11614v.jpg" alt="Retrato oficial del presidente Donald Trump" style="width:100%; height:auto;" />
+    <figcaption>Donald Trump, presidente de Estados Unidos. Fotografía oficial de la Casa Blanca, Daniel Torok, 15 de enero de 2025; colección de la Library of Congress.</figcaption>
+  </div>
+</figure>
+
 La elección legislativa de mitad de mandato en Estados Unidos presenta un fenómeno que merece especial atención: la creciente competitividad demócrata en estados tradicionalmente republicanos. Texas, Iowa, Kansas y Ohio se han convertido en escenarios centrales de la disputa por el Senado.
 
 El dato adquiere dimensión política cuando se recuerda que Donald Trump ganó esos cuatro estados en las elecciones presidenciales de 2024 por márgenes de dos dígitos. Sin embargo, dos años después, varias mediciones ubican sus contiendas senatoriales entre las más competitivas del ciclo.
@@ -59,6 +70,7 @@ La cuestión central, por lo tanto, no es solamente quién obtiene más bancas. 
 - [RealClearPolling — últimas encuestas senatoriales, 31 de octubre de 2026](https://www.realclearpolling.com/latest-polls/senate). Incluye sondeos recientes de Iowa, Kansas, Ohio y Texas.
 - [Texas Politics Project, Universidad de Texas — tracker de la elección senatorial, actualización 29 de octubre de 2026](https://texaspolitics.utexas.edu/blog/texas-2026-u-s-senate-poll-tracker).
 - [Associated Press — cobertura electoral](https://apnews.com/hub/elections).
-- [Library of Congress — retrato oficial de Donald Trump, fotografía de Daniel Torok / Casa Blanca, 15 de enero de 2025](https://www.loc.gov/item/2025163294/). La ficha indica que no se conocen restricciones de publicación.
+- [Campaña oficial de James Talarico](https://jamestalarico.com/). Fotografía de campaña utilizada en esta nota.
+- [Library of Congress — retrato oficial de Donald Trump](https://www.loc.gov/item/2025163294/). Fotografía de Daniel Torok / Casa Blanca, 15 de enero de 2025. La ficha indica que no se conocen restricciones de publicación.
 
 *Las encuestas son fotografías de un momento, no pronósticos. Las diferencias entre sondeos reflejan distintas fechas, muestras y metodologías; no deben presentarse como resultados confirmados.*
