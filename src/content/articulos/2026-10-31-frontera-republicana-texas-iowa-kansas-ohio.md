@@ -2,6 +2,8 @@
 title: "La frontera republicana bajo presión: Texas, Iowa, Kansas y Ohio ponen a prueba el poder de Trump"
 volanta: "Elecciones de medio término en Estados Unidos"
 description: "La disputa por el Senado se extiende a estados que Trump ganó en 2024. Qué revela esa competencia sobre el mapa político estadounidense."
+heroImage: "https://jamestalarico.com/wp-content/uploads/2025/09/t4tx-hero.webp"
+imageCaption: "James Talarico, candidato demócrata al Senado por Texas, durante un acto de campaña. Fotografía: campaña oficial de Talarico."
 section: "internacional"
 author: "Redacción"
 pubDate: "2026-10-31"
