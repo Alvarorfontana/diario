@@ -35,7 +35,7 @@ La participación del presidente en la campaña demuestra que la Casa Blanca int
 
 La economía, el costo de vida, los precios de la energía, la inmigración y la política exterior aparecen entre los asuntos que atraviesan la campaña. En ese escenario, la política arancelaria ocupa un lugar central, aunque sus consecuencias no siempre se discuten en toda su dimensión.
 
-Las represalias comerciales de China afectaron el acceso de los productores estadounidenses a mercados relevantes para cultivos como la soya y el sorgo. Al mismo tiempo, los gravámenes al acero y al aluminio pueden trasladarse al precio de maquinaria, herramientas y otros insumos utilizados por el sector productivo. A esa presión se suman los costos de la energía y los fertilizantes, que inciden directamente en la rentabilidad agrícola.
+Las represalias comerciales de China afectaron el acceso de los productores estadounidenses a mercados relevantes para cultivos como la soja y el sorgo. Al mismo tiempo, los gravámenes al acero y al aluminio pueden trasladarse al precio de maquinaria, herramientas y otros insumos utilizados por el sector productivo. A esa presión se suman los costos de la energía y los fertilizantes, que inciden directamente en la rentabilidad agrícola.
 
 Pero reducir el problema a las dificultades del campo deja afuera una parte sustancial del debate. Los aranceles también pueden elevar los costos de fabricación y transporte, alterar cadenas de suministro, encarecer bienes intermedios y provocar respuestas de los socios comerciales. El efecto final no se limita a los productores rurales: puede alcanzar a la industria, la construcción, el comercio y, a través de los precios, a los hogares.
 
