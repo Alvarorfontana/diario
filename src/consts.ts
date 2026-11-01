@@ -70,6 +70,10 @@ export const FOTOS_COLUMNISTAS: Record<string, string> = {
 // tal cual figura en las notas. Todo es opcional: sin bio ni foto, la página muestra las iniciales.
 export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	// 'Álvaro Fontana': { bio: 'Periodista y especialista en políticas públicas.', foto: '/columnistas/alvaro-fontana.jpg' },
+	'Alberto González': {
+		bio: 'Autor de ejemplo · Información internacional y política estadounidense.',
+		foto: 'https://i.pravatar.cc/160?img=12',
+	},
 };
 
 export function fotoAutor(nombre: string): string | undefined {

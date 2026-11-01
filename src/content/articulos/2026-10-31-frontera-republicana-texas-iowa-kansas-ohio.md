@@ -5,7 +5,7 @@ description: "La disputa por el Senado se extiende a estados que Trump ganó en 
 heroImage: "https://jamestalarico.com/wp-content/uploads/2025/09/t4tx-hero.webp"
 imageCaption: "James Talarico, candidato demócrata al Senado por Texas, durante un acto de campaña. Fotografía: campaña oficial de Talarico."
 section: "internacional"
-author: "Redacción"
+author: "Alberto González"
 pubDate: "2026-10-31"
 draft: false
 tapa: false
@@ -19,17 +19,6 @@ puntosClave:
   - "Las encuestas muestran diferencias estrechas y no permiten anticipar resultados."
   - "La elección medirá también la capacidad de Trump para movilizar a su coalición."
 ---
-
-<figure style="display:flex; gap:12px; align-items:flex-start; margin:1.25rem 0; flex-wrap:wrap;">
-  <div style="flex:1 1 48%; min-width:260px;">
-    <img src="https://jamestalarico.com/wp-content/uploads/2025/09/t4tx-hero.webp" alt="James Talarico habla ante simpatizantes durante un acto de campaña en Texas" style="width:100%; height:auto;" />
-    <figcaption>James Talarico, candidato demócrata al Senado por Texas. Fotografía: campaña de Talarico.</figcaption>
-  </div>
-  <div style="flex:1 1 48%; min-width:260px;">
-    <img src="https://tile.loc.gov/storage-services/service/pnp/ppbd/11600/11614v.jpg" alt="Retrato oficial del presidente Donald Trump" style="width:100%; height:auto;" />
-    <figcaption>Donald Trump, presidente de Estados Unidos. Fotografía oficial de la Casa Blanca, Daniel Torok, 15 de enero de 2025; colección de la Library of Congress.</figcaption>
-  </div>
-</figure>
 
 La elección legislativa de mitad de mandato en Estados Unidos presenta un fenómeno que merece especial atención: la creciente competitividad demócrata en estados tradicionalmente republicanos. Texas, Iowa, Kansas y Ohio se han convertido en escenarios centrales de la disputa por el Senado.
 
