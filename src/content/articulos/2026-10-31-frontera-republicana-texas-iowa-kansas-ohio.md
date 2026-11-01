@@ -5,7 +5,7 @@ description: "La disputa por el Senado se extiende a estados que Trump ganó en 
 section: "internacional"
 author: "Redacción"
 pubDate: "2026-10-31"
-draft: true
+draft: false
 tapa: false
 tags:
   - Estados Unidos
@@ -22,7 +22,7 @@ La elección legislativa de mitad de mandato en Estados Unidos presenta un fenó
 
 El dato adquiere dimensión política cuando se recuerda que Donald Trump ganó esos cuatro estados en las elecciones presidenciales de 2024 por márgenes de dos dígitos. Sin embargo, dos años después, varias mediciones ubican sus contiendas senatoriales entre las más competitivas del ciclo.
 
-En Iowa, Josh Turek enfrenta a Ashley Hinson; en Ohio, el exsenador Sherrod Brown busca recuperar su banca frente a Jon Husted; en Texas, James Talarico desafía a Ken Paxton; y en Kansas, Adam Hamilton intenta desplazar al senador Roger Marshall. Las encuestas publicadas durante octubre reflejan disputas ajustadas, aunque los resultados varían según la firma, la fecha de campo y la población consultada.
+En Iowa, Josh Turek enfrenta a Ashley Hinson; en Ohio, el exsenador Sherrod Brown busca recuperar su banca frente a Jon Husted; en Texas, James Talarico desafía a Ken Paxton; y en Kansas, Adam Hamilton intenta desplazar al senador Roger Marshall. Las encuestas publicadas durante octubre reflejan disputas ajustadas, aunque los resultados varían según la firma, la fecha de campo y la población consultada. El relevamiento de Cook Political Report del 9 al 13 de octubre ubicó a Turek 46%-44% sobre Hinson, a Brown 49%-43% sobre Husted y a Talarico 49%-44% sobre Paxton. Pero los sondeos más recientes muestran que la fotografía puede cambiar: el 30 de octubre, RealClearPolling registró a Hinson dos puntos arriba de Turek en Iowa y a Paxton un punto arriba de Talarico en Texas; en Kansas, Emerson ubicó a Hamilton tres puntos por delante de Marshall. En Ohio, un sondeo ActiVote del 31 de octubre mostró prácticamente un empate entre Brown y Husted. Estas diferencias aconsejan hablar de competitividad, no de una ola demócrata asegurada.
 
 ## Trump, protagonista de una elección que excede a los candidatos
 
@@ -52,12 +52,13 @@ La cuestión central, por lo tanto, no es solamente quién obtiene más bancas. 
 
 ---
 
-## Fuentes para consulta y verificación
+## Fuentes y metodología
 
-- [Cook Political Report — clasificación de las elecciones al Senado](https://www.cookpolitical.com/ratings/senate-race-ratings).
-- [Inside Elections — análisis y clasificaciones electorales](https://insideelections.com/).
-- [RealClearPolling — promedios de encuestas](https://www.realclearpolling.com/).
-- [Associated Press — cobertura de las elecciones estadounidenses](https://apnews.com/hub/elections).
-- [Reuters — cobertura de Estados Unidos](https://www.reuters.com/world/us/).
+- [Cook Political Report — encuestas Battleground Project, 21 de octubre de 2026](https://www.cookpolitical.com/analysis/survey-research/battleground-district-project/new-cpr-battleground-polls-dem-senate). Relevamiento de Iowa, Ohio y Texas realizado entre el 9 y el 13 de octubre.
+- [The Washington Post — las siete contiendas que definirán el control del Senado, 28 de octubre de 2026](https://www.washingtonpost.com/politics/2026/10/28/these-seven-races-will-determine-which-party-controls-senate/). Compara promedios senatoriales con el margen presidencial de 2024.
+- [RealClearPolling — últimas encuestas senatoriales, 31 de octubre de 2026](https://www.realclearpolling.com/latest-polls/senate). Incluye sondeos recientes de Iowa, Kansas, Ohio y Texas.
+- [Texas Politics Project, Universidad de Texas — tracker de la elección senatorial, actualización 29 de octubre de 2026](https://texaspolitics.utexas.edu/blog/texas-2026-u-s-senate-poll-tracker).
+- [Associated Press — cobertura electoral](https://apnews.com/hub/elections).
+- [Library of Congress — retrato oficial de Donald Trump, fotografía de Daniel Torok / Casa Blanca, 15 de enero de 2025](https://www.loc.gov/item/2025163294/). La ficha indica que no se conocen restricciones de publicación.
 
-*Nota de edición: las encuestas son fotografías de un momento y no pronósticos. Antes de publicar, verificar los últimos sondeos, sus fechas de campo, tamaños de muestra y márgenes de error. Incorporar fotografía editorial con derechos de uso confirmados.*
+*Las encuestas son fotografías de un momento, no pronósticos. Las diferencias entre sondeos reflejan distintas fechas, muestras y metodologías; no deben presentarse como resultados confirmados.*
