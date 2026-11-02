@@ -1,7 +1,7 @@
 {
   "id": "2026-11-02-semanal",
   "tipo": "semanal",
-  "titulo": "",
+  "titulo": "EEUU en elecciones; Rubio deja en evidencia la gobierno de Argentina; Kicillof que \"los afiliados elijan\"; Un gremialista ganó en Bariloche",
   "fecha": "2026-11-02",
   "voz": "es-AR-TomasNeural",
   "velocidad": 8,
@@ -16,8 +16,8 @@
       "dato": "Congreso en disputa",
       "bajada": "Las elecciones de este martes ponen en juego las mayorías republicanas en ambas cámaras.",
       "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política y mayores dificultades para la Casa Blanca.",
-      "epigrafe": "",
-      "fuente": "",
+      "epigrafe": "Mañana , un día clave en EEUU",
+      "fuente": "Reuters",
       "media": {
         "tipo": "foto",
         "archivo": "data/flash/media/2026-11-02-semanal/b1-mvzno9ix.jpg",
@@ -28,13 +28,18 @@
       }
     },
     {
-      "kicker": "",
-      "titulo": "",
+      "kicker": "Bariloche, elecciones",
+      "titulo": "revés electoral para La Libertad Avanza",
       "dato": "",
-      "bajada": "",
-      "texto": "",
+      "bajada": "duro revés para La Libertad Avanza,  quedó tercera detrás del peronismo",
+      "texto": "La Libertad Avanza sufrió un duro revés electoral en Bariloche y terminó en el tercer lugar, detrás del oficialismo y del peronismo. El resultado definitivo confirmó el 35,73 por ciento para el espacio de Cortés y Weretilneck, mientras que La Libertad Avanza obtuvo apenas el 12,81 por ciento. El resultado representa un traspié para la estrategia de expansión territorial del oficialismo nacional y vuelve a poner en discusión la capacidad de trasladar los acuerdos políticos nacionales al escenario electoral de las provincias.",
       "epigrafe": "",
-      "fuente": ""
+      "fuente": "",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-02-semanal/b2-mvzo7m1m.mp4",
+        "inicio": 0
+      }
     },
     {
       "kicker": "",
