@@ -1,0 +1,23 @@
+---
+export const prerender = false;
+import { getRuntimeEnv } from '../../../lib/runtimeEnv';
+import { isAdmin } from '../../../lib/auth';
+const env=getRuntimeEnv(Astro.locals);
+if(!(await isAdmin(Astro.request,env))) return Astro.redirect('/admin/');
+---
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Generar clips | Diario Federal</title>
+<style>*{box-sizing:border-box}body{margin:0;background:#f4f4f4;color:#191919;font:16px system-ui}.wrap{max-width:760px;margin:36px auto;padding:24px}.card{background:white;padding:28px;border-radius:8px;box-shadow:0 2px 12px #0001}h1{margin-top:0}.field{margin:18px 0}label{display:block;font-weight:650;margin-bottom:7px}input{width:100%;padding:12px;border:1px solid #bbb;border-radius:5px;font:inherit}button{background:#c8102e;color:white;border:0;border-radius:5px;padding:13px 20px;font-weight:700;font-size:15px;cursor:pointer}button:disabled{opacity:.55}progress{width:100%;height:12px}#status{white-space:pre-wrap;color:#444;margin-top:16px}.hint{font-size:13px;color:#666}a{color:#9d1027}</style></head><body><main class="wrap"><section class="card">
+<h1>🎬 Generar clips automáticos</h1><p>Subí un video original. El sistema generará fragmentos verticales con locución, música y subtítulos. No se publicarán automáticamente.</p><p><a href="/admin/clips/">Ver clips pendientes de revisión →</a> · <a href="/admin/">Volver al administrador</a></p>
+<form id="form"><div class="field"><label for="titulo">Título o tema del video</label><input id="titulo" maxlength="140" required placeholder="Entrevista, conferencia, análisis…"></div>
+<div class="field"><label for="video">Video original (MP4, MOV o WebM)</label><input id="video" type="file" accept="video/mp4,video/quicktime,video/webm" required><p class="hint">Hasta 165 MB. El procesamiento puede tardar varios minutos.</p></div>
+<div class="field"><label for="cantidad">Cantidad máxima de clips</label><input id="cantidad" type="number" min="1" max="5" value="3"></div><button id="submit" type="submit">Subir y generar clips</button></form>
+<progress id="progress" value="0" max="100" hidden></progress><div id="status" role="status"></div>
+</section></main><script>
+const form=document.querySelector('#form'),btn=document.querySelector('#submit'),status=document.querySelector('#status'),progress=document.querySelector('#progress');
+const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'video';
+form.addEventListener('submit',async e=>{e.preventDefault();const file=document.querySelector('#video').files[0];if(!file)return;if(file.size>165*1024*1024){status.textContent='El archivo supera el límite de 165 MB.';return;}
+const id=slug(document.querySelector('#titulo').value)+'-'+Date.now().toString(36),name=file.name.replace(/[^a-zA-Z0-9._-]/g,'_'),size=2800000,total=Math.ceil(file.size/size);btn.disabled=true;progress.hidden=false;progress.value=0;
+try{for(let i=0;i<total;i++){const fd=new FormData();fd.append('id',id);fd.append('nombre',name);fd.append('parte',String(i));fd.append('file',file.slice(i*size,Math.min(file.size,(i+1)*size)));const r=await fetch('/api/admin/clips',{method:'POST',body:fd}),j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Falló la subida');progress.value=(i+1)/total*90;status.textContent='Subiendo video: '+Math.round((i+1)/total*100)+'%';}
+const r=await fetch('/api/admin/clips',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'crear',id,nombre:name,titulo:document.querySelector('#titulo').value,cantidad:document.querySelector('#cantidad').value})}),j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'No se pudo iniciar el procesamiento');progress.value=100;status.innerHTML='Video recibido. Cuando termine el procesamiento, los clips quedarán en revisión privada. <a href="/admin/clips/">Abrir revisión de clips</a>. No se publicará nada sin tu aprobación.';
+}catch(err){status.textContent='No se pudo completar: '+err.message;}finally{btn.disabled=false;}});
+</script></body></html>

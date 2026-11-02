@@ -1,0 +1,27 @@
+---
+export const prerender = false;
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { isAdmin } from '../../lib/auth';
+const env=getRuntimeEnv(Astro.locals);
+if(!(await isAdmin(Astro.request,env))) return Astro.redirect('/admin/');
+---
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Revisión de clips | Diario Federal</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f3f3;color:#171717;font:16px system-ui}.wrap{max-width:1100px;margin:28px auto;padding:18px}.top,.card{background:#fff;border-radius:9px;padding:22px;box-shadow:0 2px 12px #0001}.top{margin-bottom:18px}.top a{color:#9d1027}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}.clip{background:#fff;border:1px solid #ddd;border-radius:8px;padding:14px}.clip video{display:block;width:100%;max-height:520px;aspect-ratio:9/16;object-fit:contain;background:#111}.clip h2{font-size:16px;line-height:1.4}.clip p{font-size:13px;color:#555}.btn{border:0;border-radius:5px;background:#b5122b;color:white;padding:12px 16px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5}.muted{color:#666}.status{margin:12px 0;white-space:pre-wrap}
+</style></head><body><main class="wrap">
+<section class="top"><h1>Revisión de clips</h1><p>Los videos de esta pantalla son privados. Revisá imagen, cortes, locución, música y subtítulos. Nada se publica hasta que presiones «Aprobar y publicar».</p><p><a href="/admin/clips/subir/">＋ Generar nuevos clips</a> · <a href="/admin/">← Volver al administrador</a></p><div id="status" class="status" aria-live="polite">Cargando clips pendientes…</div></section>
+<section id="clips" class="grid"></section>
+</main>
+<script>
+const root=document.querySelector('#clips'),status=document.querySelector('#status');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function load(){
+ try{const r=await fetch('/api/admin/clips',{cache:'no-store'}),j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'No se pudo cargar la revisión');
+ const clips=j.clips||[];root.innerHTML='';
+ if(!clips.length){status.textContent='No hay clips pendientes. Cuando termine una generación, aparecerán acá para que los revises.';return;}
+ status.textContent=clips.length+' clip(s) pendientes de aprobación.';
+ for(const c of clips){const el=document.createElement('article');el.className='clip';el.innerHTML='<video controls playsinline preload="metadata" src="/api/admin/clips?video='+encodeURIComponent(c.archivo)+'"></video><h2>'+esc(c.titulo||'Clip sin título')+'</h2><p>Duración: '+esc(c.duracion||'—')+' segundos · Estado: pendiente de revisión</p><button class="btn" type="button">Aprobar y publicar</button>';const btn=el.querySelector('button');btn.addEventListener('click',async()=>{if(!confirm('¿Aprobás este clip para publicarlo en Diario Federal?'))return;btn.disabled=true;try{const a=await fetch('/api/admin/clips',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'aprobar',id:c.id})});const x=await a.json();if(!a.ok||!x.ok)throw new Error(x.error||'No se pudo aprobar');el.remove();status.textContent=x.mensaje;if(!root.children.length)status.textContent+=' No quedan clips pendientes.';}catch(e){status.textContent=e.message;btn.disabled=false;}});root.appendChild(el);}
+ }catch(e){status.textContent='Error: '+e.message;}
+}
+load();
+</script></body></html>
