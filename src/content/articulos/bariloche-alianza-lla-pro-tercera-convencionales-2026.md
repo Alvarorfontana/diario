@@ -3,7 +3,7 @@ title: "Bariloche: el acuerdo entre La Libertad Avanza y el PRO quedó tercero"
 volanta: "ELECCIONES MUNICIPALES"
 description: "El frente integrado por La Libertad Avanza, el PRO y CREO terminó detrás de Estamos Haciendo Bariloche y Fuerza Bariloche en la elección de convencionales constituyentes. El resultado dejó una señal política para el oficialismo nacional."
 section: argentina
-author: "Redacción"
+author: "Carlos Mendes"
 pubDate: 2026-11-02T10:00:00
 heroImage: "https://elcordillerano-s3.cdn.net.ar/s3i233/2026/11/elcordillerano/images/02/84/07/2840700_23728ecd8e3a4c734293329e1368d403a29e53dbb7ce3a2cfb018b677933efd4/md.webp"
 imageCaption: "Walter Cortés y el gobernador Alberto Weretilneck durante el encuentro posterior a la elección de convencionales constituyentes en Bariloche. Foto: Eugenia Neme / El Cordillerano."
