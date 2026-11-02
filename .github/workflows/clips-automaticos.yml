@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: \${{ github.ref }}
+          ref: ${{ github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -37,8 +37,8 @@ jobs:
           PYTHONUNBUFFERED: '1'
           WHISPER_MODEL: small
         run: |
-          if [ -n "\${{ inputs.id }}" ]; then
-            python scripts/clips/generar-clips.py "\${{ inputs.id }}"
+          if [ -n "${{ inputs.id }}" ]; then
+            python scripts/clips/generar-clips.py "${{ inputs.id }}"
           else
             python scripts/clips/generar-clips.py
           fi
