@@ -56,7 +56,7 @@ export const FOTOS_COLUMNISTAS: Record<string, string> = {
 
 export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Carlos Mendes': {
-		bio: 'Seudónimo editorial de Redacción de Diario Federal.',
+		bio: 'Periodista.',
 		foto: '/columnistas/carlos-mendes.jpg',
 	},
 	'Alberto González': {
