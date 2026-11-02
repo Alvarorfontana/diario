@@ -106,4 +106,6 @@ def main():
     byid={x["id"]:x for x in previous}
     for c in manifest: byid[c["id"]]=c
     published.write_text(json.dumps(list(byid.values()),ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
+    rows = ["// Archivo generado por el workflow de clips. No editar a mano.", "export const CLIPS_GENERADOS = " + json.dumps(list(byid.values()), ensure_ascii=False, indent=2) + " as const;", ""]
+    (ROOT / "src/lib/clips-generados.ts").write_text("\n".join(rows), encoding="utf-8")
 if __name__=="__main__": main()
