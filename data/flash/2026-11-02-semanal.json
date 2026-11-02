@@ -57,15 +57,15 @@
     },
     {
       "kicker": "EE:UU elecciones",
-      "titulo": "Estados Unidos: Trump arriesga sus mayorías",
+      "titulo": "Marco Rubio niega que Estados Unidos haya ayu",
       "dato": "Mañana , un día clave",
       "bajada": "Millones de norteamericanos deciden su futuro",
-      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política .",
+      "texto": "",
       "epigrafe": "Trump en el tramo final de su campaña",
       "fuente": "Arhivo Trump",
       "media": {
         "tipo": "video",
-        "archivo": "data/flash/media/2026-11-02-semanal/b4-mvzp1td8.mp4",
+        "archivo": "data/flash/media/2026-11-02-semanal/b4-mvzpnfsw.mp4",
         "inicio": 0
       }
     }
@@ -83,6 +83,5 @@
     23.5
   ],
   "generado": "2026-11-02T20:19:32+00:00",
-  "rotulo": "SEMANA DEL 2 DE NOVIEMBRE DE 2026",
-  "publicadoEl": "2026-11-02T20:20:28.601Z"
+  "rotulo": "SEMANA DEL 2 DE NOVIEMBRE DE 2026"
 }
