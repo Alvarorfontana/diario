@@ -30,11 +30,11 @@
     {
       "kicker": "Bariloche, elecciones",
       "titulo": "revés electoral para La Libertad Avanza",
-      "dato": "",
+      "dato": "35,73 % a 12, 81 %",
       "bajada": "duro revés para La Libertad Avanza,  quedó tercera detrás del peronismo",
       "texto": "La Libertad Avanza sufrió un duro revés electoral en Bariloche y terminó en el tercer lugar, detrás del oficialismo y del peronismo. El resultado definitivo confirmó el 35,73 por ciento para el espacio de Cortés y Weretilneck, mientras que La Libertad Avanza obtuvo apenas el 12,81 por ciento. El resultado representa un traspié para la estrategia de expansión territorial del oficialismo nacional y vuelve a poner en discusión la capacidad de trasladar los acuerdos políticos nacionales al escenario electoral de las provincias.",
-      "epigrafe": "",
-      "fuente": "",
+      "epigrafe": "Weretilneck, en Bariloche",
+      "fuente": "Diario Rio Negro",
       "media": {
         "tipo": "video",
         "archivo": "data/flash/media/2026-11-02-semanal/b2-mvzo7m1m.mp4",
@@ -42,13 +42,18 @@
       }
     },
     {
-      "kicker": "",
-      "titulo": "",
+      "kicker": "Argentina, peronismo",
+      "titulo": "Kicillof desafía a Cristina y Massa",
       "dato": "",
       "bajada": "",
-      "texto": "",
+      "texto": "Kicillof profundizó sus diferencias con Cristina Fernández de Kirchner y Sergio Massa dentro del peronismo. El gobernador bonaerense rechazó que las candidaturas presidenciales para 2027 se resuelvan mediante acuerdos de cúpula o designaciones a dedo y reclamó que sea la gente la que elija. Ante dirigentes e intendentes de su espacio, planteó la posibilidad de competir en una interna abierta, incluso frente a Cristina Kirchner o Sergio Massa.",
       "epigrafe": "",
-      "fuente": ""
+      "fuente": "",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-02-semanal/b3-mvzohmi5.mp4",
+        "inicio": 0
+      }
     },
     {
       "kicker": "",
