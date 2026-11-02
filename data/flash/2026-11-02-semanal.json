@@ -1,0 +1,60 @@
+{
+  "id": "2026-11-02-semanal",
+  "tipo": "semanal",
+  "titulo": "",
+  "fecha": "2026-11-02",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": 8,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -17,
+  "estilo": "noticiero",
+  "subtitulos": true,
+  "bloques": [
+    {
+      "kicker": "EEUU, elecciones legislativas",
+      "titulo": "Trump enfrenta una elección clave",
+      "dato": "Congreso en disputa",
+      "bajada": "Las elecciones de este martes ponen en juego las mayorías republicanas en ambas cámaras.",
+      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política y mayores dificultades para la Casa Blanca.",
+      "epigrafe": "",
+      "fuente": "",
+      "media": {
+        "tipo": "foto",
+        "archivo": "data/flash/media/2026-11-02-semanal/b1-mvzno9ix.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "",
+      "titulo": "",
+      "dato": "",
+      "bajada": "",
+      "texto": "",
+      "epigrafe": "",
+      "fuente": ""
+    },
+    {
+      "kicker": "",
+      "titulo": "",
+      "dato": "",
+      "bajada": "",
+      "texto": "",
+      "epigrafe": "",
+      "fuente": ""
+    },
+    {
+      "kicker": "",
+      "titulo": "",
+      "dato": "",
+      "bajada": "",
+      "texto": "",
+      "epigrafe": "",
+      "fuente": ""
+    }
+  ],
+  "estado": "borrador",
+  "publicado": false
+}
