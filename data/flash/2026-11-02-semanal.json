@@ -70,6 +70,18 @@
       }
     }
   ],
-  "estado": "generar",
-  "publicado": false
+  "estado": "listo",
+  "publicado": false,
+  "rotulo": "SEMANA DEL 2 DE NOVIEMBRE DE 2026",
+  "duracion": 119.0,
+  "duraciones": [
+    25.5,
+    27.5,
+    23.3,
+    23.5
+  ],
+  "video": "/flash/2026-11-02-semanal.mp4",
+  "miniatura": "/flash/2026-11-02-semanal.jpg",
+  "version": "20261102200451",
+  "generado": "2026-11-02T20:04:51+00:00"
 }
