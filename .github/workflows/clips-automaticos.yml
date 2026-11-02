@@ -1,0 +1,52 @@
+name: Clips automáticos Diario Federal
+on:
+  push:
+    branches: [main, feature/clips-automaticos]
+    paths:
+      - 'data/clips/*.json'
+      - 'data/clips/entrada/**'
+  workflow_dispatch:
+    inputs:
+      id:
+        description: 'ID del trabajo (vacío = pendientes)'
+        required: false
+        default: ''
+permissions:
+  contents: write
+concurrency:
+  group: clips-automaticos
+  cancel-in-progress: false
+jobs:
+  clips:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: \${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar herramientas
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q ffmpeg
+          pip install faster-whisper edge-tts
+      - name: Procesar videos
+        env:
+          PYTHONUNBUFFERED: '1'
+          WHISPER_MODEL: small
+        run: |
+          if [ -n "\${{ inputs.id }}" ]; then
+            python scripts/clips/generar-clips.py "\${{ inputs.id }}"
+          else
+            python scripts/clips/generar-clips.py
+          fi
+      - name: Guardar clips y manifiesto
+        run: |
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add public/clips data/clips/*.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Clips automáticos generados"
+          git push
