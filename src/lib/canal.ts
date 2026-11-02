@@ -9,7 +9,7 @@ export interface VideoCanal {
 	id: string; // código de YouTube o identificador local
 	titulo: string;
 	volanta?: string; // por ejemplo "Análisis en video"
-	duracion?: string; // por ejemplo "4:20"
+	duracion?: string | number; // por ejemplo "4:20"
 	archivo?: string; // MP4 local generado por Diario Federal
 	nota?: string; // slug de la nota relacionada, si hay
 }
