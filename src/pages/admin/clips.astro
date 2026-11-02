@@ -13,7 +13,7 @@ if(!(await isAdmin(Astro.request,env))) return Astro.redirect('/admin/');
 <h1>🎬 Clips automáticos</h1><p>Subí un video y el diario extraerá hasta tres fragmentos verticales con locución, música y subtítulos.</p>
 <form id="form">
 <div class="field"><label for="titulo">Título o tema del video</label><input id="titulo" maxlength="140" required placeholder="Entrevista, conferencia, análisis…"></div>
-<div class="field"><label for="video">Video original (MP4, MOV o WebM)</label><input id="video" type="file" accept="video/mp4,video/quicktime,video/webm" required><p class="hint">Hasta 180 MB. El procesamiento puede tardar varios minutos.</p></div>
+<div class="field"><label for="video">Video original (MP4, MOV o WebM)</label><input id="video" type="file" accept="video/mp4,video/quicktime,video/webm" required><p class="hint">Hasta 165 MB. El procesamiento puede tardar varios minutos.</p></div>
 <div class="field"><label for="cantidad">Cantidad máxima de clips</label><input id="cantidad" type="number" min="1" max="5" value="3"></div>
 <button id="submit" type="submit">Subir y generar clips</button></form>
 <progress id="progress" value="0" max="100" hidden></progress><div id="status" role="status"></div>
@@ -23,7 +23,7 @@ const form=document.querySelector('#form'),btn=document.querySelector('#submit')
 const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'video';
 form.addEventListener('submit',async e=>{
  e.preventDefault();const file=document.querySelector('#video').files[0];if(!file)return;
- if(file.size>180*1024*1024){status.textContent='El archivo supera el límite de 180 MB.';return;}
+ if(file.size>165*1024*1024){status.textContent='El archivo supera el límite de 180 MB.';return;}
  const id=slug(document.querySelector('#titulo').value)+'-'+Date.now().toString(36),name=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
  const size=2800000,total=Math.ceil(file.size/size);btn.disabled=true;progress.hidden=false;progress.value=0;
  try{
