@@ -1,6 +1,6 @@
 // Datos globales del sitio. Edita estos valores para personalizar tu diario.
 
-export const SITE_TITLE = 'EL DIARIO';
+export const SITE_TITLE = 'DIARIO FEDERAL';
 export const SITE_DESCRIPTION = 'Actualidad, análisis y opinión.';
 
 export const ADMIN_CREDENTIALS = {
