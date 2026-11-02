@@ -72,8 +72,8 @@ const muestra = [1, 2, 3];
 		<h2 class="mt-10 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Clips cortos</h2>
 		<div class="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
 			{CLIPS.length > 0 ? CLIPS.map((c) => (
-				<a href={`https://www.youtube.com/shorts/${c.id}`} target="_blank" rel="noopener" class="w-36 shrink-0 text-[#f2f2f0]">
-					<img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} alt="" class="aspect-[9/16] w-full object-cover" loading="lazy" />
+				<a href={c.archivo ?? `https://www.youtube.com/shorts/${c.id}`} target="_blank" rel="noopener" class="w-36 shrink-0 text-[#f2f2f0]">
+					{c.archivo ? <video src={c.archivo} class="aspect-[9/16] w-full object-cover" muted playsinline preload="metadata"></video> : <img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} alt="" class="aspect-[9/16] w-full object-cover" loading="lazy" />}
 					<span class="mt-1.5 block text-sm leading-snug">{c.titulo}</span>
 				</a>
 			)) : [1, 2, 3, 4].map(() => (
