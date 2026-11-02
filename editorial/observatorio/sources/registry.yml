@@ -1,0 +1,119 @@
+version: 1
+updated: 2026-11-02
+note: >
+  Registro inicial de fuentes institucionales. Son puntos de partida para monitoreo,
+  no una afirmación de que ya exista ingesta automática. Antes de automatizar,
+  comprobar RSS, API, términos de uso, límites y frecuencia de actualización.
+sources:
+  - id: argentina_boletin_oficial
+    name: Boletín Oficial de la República Argentina
+    url: https://www.boletinoficial.gob.ar/
+    country: AR
+    topics: [normativa, gobierno, regulaciones]
+    type: primary
+    priority: critical
+  - id: argentina_datos
+    name: Datos Argentina
+    url: https://datos.gob.ar/
+    country: AR
+    topics: [datos_publicos, economia, sociedad]
+    type: primary
+    priority: high
+  - id: argentina_indec
+    name: INDEC
+    url: https://www.indec.gob.ar/
+    country: AR
+    topics: [inflacion, empleo, actividad, comercio, poblacion]
+    type: primary
+    priority: critical
+  - id: argentina_bcra
+    name: Banco Central de la República Argentina
+    url: https://www.bcra.gob.ar/
+    country: AR
+    topics: [monetaria, reservas, credito, bancos, tipo_de_cambio]
+    type: primary
+    priority: critical
+  - id: argentina_congreso
+    name: Congreso de la Nación
+    url: https://www.congreso.gob.ar/
+    country: AR
+    topics: [legislacion, sesiones, proyectos, politica]
+    type: primary
+    priority: critical
+  - id: argentina_economia
+    name: Ministerio de Economía
+    url: https://www.argentina.gob.ar/economia
+    country: AR
+    topics: [presupuesto, deuda, energia, comercio, economia]
+    type: primary
+    priority: high
+  - id: argentina_trabajo
+    name: Secretaría de Trabajo
+    url: https://www.argentina.gob.ar/trabajo
+    country: AR
+    topics: [empleo, salarios, sindicatos, relaciones_laborales]
+    type: primary
+    priority: high
+  - id: brasil_gov
+    name: Gobierno de Brasil
+    url: https://www.gov.br/
+    country: BR
+    topics: [politica, economia, comercio, energia]
+    type: primary
+    priority: high
+  - id: brasil_ibge
+    name: IBGE
+    url: https://www.ibge.gov.br/
+    country: BR
+    topics: [estadisticas, economia, poblacion, agricultura]
+    type: primary
+    priority: high
+  - id: us_federal_reserve
+    name: Federal Reserve
+    url: https://www.federalreserve.gov/
+    country: US
+    topics: [tasas, politica_monetaria, bancos, economia]
+    type: primary
+    priority: high
+  - id: us_bls
+    name: Bureau of Labor Statistics
+    url: https://www.bls.gov/
+    country: US
+    topics: [empleo, salarios, precios]
+    type: primary
+    priority: high
+  - id: us_congress
+    name: US Congress
+    url: https://www.congress.gov/
+    country: US
+    topics: [legislacion, elecciones, politica]
+    type: primary
+    priority: high
+  - id: eu_eurostat
+    name: Eurostat
+    url: https://ec.europa.eu/eurostat/
+    country: EU
+    topics: [economia, comercio, empleo, poblacion]
+    type: primary
+    priority: high
+  - id: world_fao
+    name: FAO
+    url: https://www.fao.org/
+    country: INT
+    topics: [agro, alimentos, seguridad_alimentaria]
+    type: primary
+    priority: high
+  - id: world_usda
+    name: USDA
+    url: https://www.usda.gov/
+    country: US
+    topics: [agricultura, granos, mercados_agro]
+    type: primary
+    priority: high
+  - id: world_wto
+    name: Organización Mundial del Comercio
+    url: https://www.wto.org/
+    country: INT
+    topics: [comercio, aranceles, disputas_comerciales]
+    type: primary
+    priority: high
