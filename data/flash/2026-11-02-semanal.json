@@ -71,17 +71,18 @@
     }
   ],
   "estado": "listo",
-  "publicado": false,
+  "publicado": true,
   "video": "/flash/2026-11-02-semanal.mp4",
   "miniatura": "/flash/2026-11-02-semanal.jpg",
   "version": "20261102201932",
   "duracion": 97.4,
   "duraciones": [
-    14.0,
+    14,
     27.1,
     13.6,
     23.5
   ],
   "generado": "2026-11-02T20:19:32+00:00",
-  "rotulo": "SEMANA DEL 2 DE NOVIEMBRE DE 2026"
+  "rotulo": "SEMANA DEL 2 DE NOVIEMBRE DE 2026",
+  "publicadoEl": "2026-11-02T20:20:28.601Z"
 }
