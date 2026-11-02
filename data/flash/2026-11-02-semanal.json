@@ -58,10 +58,10 @@
     {
       "kicker": "EE:UU elecciones",
       "titulo": "Marco Rubio niega que Estados Unidos haya ayu",
-      "dato": "Mañana , un día clave",
-      "bajada": "Millones de norteamericanos deciden su futuro",
-      "texto": "",
-      "epigrafe": "Trump en el tramo final de su campaña",
+      "dato": "Rubio sobre Bolsonaro",
+      "bajada": "Queda la descubierto la operacion de escape",
+      "texto": "El secretario de Estado, Marco Rubio, negó que Estados Unidos haya participado en la salida de Flávio Bolsonaro de Brasil hacia Miami, después de su derrota electoral. Rubio aseguró que Washington no intervino en los preparativos del viaje y explicó que Donald Trump solamente autorizó su ingreso al territorio estadounidense.  El episodio también involucra a la Argentina, por donde Bolsonaro y su familia abandonaron Brasil.",
+      "epigrafe": "Rubio desmiente",
       "fuente": "Arhivo Trump",
       "media": {
         "tipo": "video",
@@ -70,7 +70,7 @@
       }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": true,
   "video": "/flash/2026-11-02-semanal.mp4",
   "miniatura": "/flash/2026-11-02-semanal.jpg",
