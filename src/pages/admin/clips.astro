@@ -5,36 +5,23 @@ import { isAdmin } from '../../lib/auth';
 const env=getRuntimeEnv(Astro.locals);
 if(!(await isAdmin(Astro.request,env))) return Astro.redirect('/admin/');
 ---
-<!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Clips automáticos | Diario Federal</title>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Revisión de clips | Diario Federal</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f4f4f4;color:#191919;font:16px system-ui}.wrap{max-width:760px;margin:36px auto;padding:24px}.card{background:white;padding:28px;border-radius:8px;box-shadow:0 2px 12px #0001}h1{margin-top:0}.field{margin:18px 0}label{display:block;font-weight:650;margin-bottom:7px}input{width:100%;padding:12px;border:1px solid #bbb;border-radius:5px;font:inherit}button{background:#c8102e;color:white;border:0;border-radius:5px;padding:13px 20px;font-weight:700;font-size:15px;cursor:pointer}button:disabled{opacity:.55}progress{width:100%;height:12px}#status{white-space:pre-wrap;color:#444;margin-top:16px}.hint{font-size:13px;color:#666}
-</style></head><body><main class="wrap"><section class="card">
-<h1>🎬 Clips automáticos</h1><p>Subí un video y el diario extraerá hasta tres fragmentos verticales con locución, música y subtítulos.</p>
-<form id="form">
-<div class="field"><label for="titulo">Título o tema del video</label><input id="titulo" maxlength="140" required placeholder="Entrevista, conferencia, análisis…"></div>
-<div class="field"><label for="video">Video original (MP4, MOV o WebM)</label><input id="video" type="file" accept="video/mp4,video/quicktime,video/webm" required><p class="hint">Hasta 165 MB. El procesamiento puede tardar varios minutos.</p></div>
-<div class="field"><label for="cantidad">Cantidad máxima de clips</label><input id="cantidad" type="number" min="1" max="5" value="3"></div>
-<button id="submit" type="submit">Subir y generar clips</button></form>
-<progress id="progress" value="0" max="100" hidden></progress><div id="status" role="status"></div>
-</section></main>
+*{box-sizing:border-box}body{margin:0;background:#f3f3f3;color:#171717;font:16px system-ui}.wrap{max-width:1100px;margin:28px auto;padding:18px}.top,.card{background:#fff;border-radius:9px;padding:22px;box-shadow:0 2px 12px #0001}.top{margin-bottom:18px}.top a{color:#9d1027}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}.clip{background:#fff;border:1px solid #ddd;border-radius:8px;padding:14px}.clip video{display:block;width:100%;max-height:520px;aspect-ratio:9/16;object-fit:contain;background:#111}.clip h2{font-size:16px;line-height:1.4}.clip p{font-size:13px;color:#555}.btn{border:0;border-radius:5px;background:#b5122b;color:white;padding:12px 16px;font-weight:700;cursor:pointer}.btn:disabled{opacity:.5}.muted{color:#666}.status{margin:12px 0;white-space:pre-wrap}
+</style></head><body><main class="wrap">
+<section class="top"><h1>Revisión de clips</h1><p>Los videos de esta pantalla son privados. Revisá imagen, cortes, locución, música y subtítulos. Nada se publica hasta que presiones «Aprobar y publicar».</p><p><a href="/admin/">← Volver al administrador</a></p><div id="status" class="status" aria-live="polite">Cargando clips pendientes…</div></section>
+<section id="clips" class="grid"></section>
+</main>
 <script>
-const form=document.querySelector('#form'),btn=document.querySelector('#submit'),status=document.querySelector('#status'),progress=document.querySelector('#progress');
-const slug=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,48)||'video';
-form.addEventListener('submit',async e=>{
- e.preventDefault();const file=document.querySelector('#video').files[0];if(!file)return;
- if(file.size>165*1024*1024){status.textContent='El archivo supera el límite de 180 MB.';return;}
- const id=slug(document.querySelector('#titulo').value)+'-'+Date.now().toString(36),name=file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
- const size=2800000,total=Math.ceil(file.size/size);btn.disabled=true;progress.hidden=false;progress.value=0;
- try{
-  for(let i=0;i<total;i++){
-   const fd=new FormData();fd.append('id',id);fd.append('nombre',name);fd.append('parte',String(i));fd.append('file',file.slice(i*size,Math.min(file.size,(i+1)*size)));
-   const r=await fetch('/api/admin/clips',{method:'POST',body:fd});const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'Falló la subida');
-   progress.value=(i+1)/total*90;status.textContent='Subiendo video: '+Math.round((i+1)/total*100)+'%';
-  }
-  const r=await fetch('/api/admin/clips',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'crear',id,nombre:name,titulo:document.querySelector('#titulo').value,cantidad:document.querySelector('#cantidad').value})});
-  const j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'No se pudo iniciar el procesamiento');
-  progress.value=100;status.textContent='Video recibido. El proceso automático ya quedó iniciado. Los clips aparecerán en Canal cuando termine el procesamiento.';
- }catch(err){status.textContent='No se pudo completar: '+err.message;}finally{btn.disabled=false;}
-});
+const root=document.querySelector('#clips'),status=document.querySelector('#status');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function load(){
+ try{const r=await fetch('/api/admin/clips',{cache:'no-store'}),j=await r.json();if(!r.ok||!j.ok)throw new Error(j.error||'No se pudo cargar la revisión');
+ const clips=j.clips||[];root.innerHTML='';
+ if(!clips.length){status.textContent='No hay clips pendientes. Cuando termine una generación, aparecerán acá para que los revises.';return;}
+ status.textContent=clips.length+' clip(s) pendientes de aprobación.';
+ for(const c of clips){const el=document.createElement('article');el.className='clip';el.innerHTML='<video controls playsinline preload="metadata" src="/api/admin/clips?video='+encodeURIComponent(c.archivo)+'"></video><h2>'+esc(c.titulo||'Clip sin título')+'</h2><p>Duración: '+esc(c.duracion||'—')+' segundos · Estado: pendiente de revisión</p><button class="btn" type="button">Aprobar y publicar</button>';const btn=el.querySelector('button');btn.addEventListener('click',async()=>{if(!confirm('¿Aprobás este clip para publicarlo en Diario Federal?'))return;btn.disabled=true;try{const a=await fetch('/api/admin/clips',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'aprobar',id:c.id})});const x=await a.json();if(!a.ok||!x.ok)throw new Error(x.error||'No se pudo aprobar');el.remove();status.textContent=x.mensaje;if(!root.children.length)status.textContent+=' No quedan clips pendientes.';}catch(e){status.textContent=e.message;btn.disabled=false;}});root.appendChild(el);}
+ }catch(e){status.textContent='Error: '+e.message;}
+}
+load();
 </script></body></html>
