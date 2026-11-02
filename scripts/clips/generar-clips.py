@@ -67,7 +67,7 @@ def make_clip(source, item, idx, title, music):
             rows.append(f"{cursor+1}\n{stamp(a)} --> {stamp(b)}\n{phrase}\n"); cursor+=1
         srt.write_text("\n".join(rows),encoding="utf-8")
         # Video original sin sonido; la locución neural conduce el clip y la música queda de fondo.
-        vf=f"scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,subtitles={str(srt).replace(':','\\\\:')}:force_style='FontName=Arial,FontSize=18,Bold=1,Outline=2,Shadow=1,Alignment=2,MarginV=190'"
+        vf=f"scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1,subtitles={str(srt)}:force_style='FontName=Arial,FontSize=18,Bold=1,Outline=2,Shadow=1,Alignment=2,MarginV=190'"
         args=["ffmpeg","-y","-ss",str(start),"-i",str(source),"-i",str(mp3)]
         if music.exists(): args += ["-stream_loop","-1","-i",str(music)]
         args += ["-t",str(end-start),"-filter_complex"]
