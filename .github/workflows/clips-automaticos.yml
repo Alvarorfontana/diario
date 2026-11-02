@@ -3,13 +3,9 @@ on:
   push:
     branches: [main, feature/clips-automaticos]
     paths:
-      - 'data/clips/*.json'
+      - 'data/clips/trabajos/*.json'
+      - 'data/clips/aprobaciones/*.json'
   workflow_dispatch:
-    inputs:
-      id:
-        description: 'ID del trabajo (vacío = pendientes)'
-        required: false
-        default: ''
 permissions:
   contents: write
 concurrency:
@@ -31,21 +27,15 @@ jobs:
           sudo apt-get update -q
           sudo apt-get install -y -q ffmpeg
           pip install faster-whisper edge-tts
-      - name: Procesar videos
-        env:
-          PYTHONUNBUFFERED: '1'
-          WHISPER_MODEL: small
-        run: |
-          if [ -n "${{ inputs.id }}" ]; then
-            python scripts/clips/generar-clips.py "${{ inputs.id }}"
-          else
-            python scripts/clips/generar-clips.py
-          fi
-      - name: Guardar clips y manifiesto
+      - name: Generar clips para revisión
+        run: python scripts/clips/generar-clips.py
+      - name: Publicar sólo los clips aprobados
+        run: python scripts/clips/publicar-aprobados.py
+      - name: Guardar resultados
         run: |
           git config user.name "Alvarorfontana"
           git config user.email "alvarorfontana@gmail.com"
-          git add public/clips data/clips/*.json src/lib/clips-generados.ts
+          git add public/clips data/clips src/lib/clips-generados.ts
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "Clips automáticos generados"
+          git commit -m "Procesar clips y publicar sólo los aprobados"
           git push
