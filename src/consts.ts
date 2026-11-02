@@ -25,7 +25,7 @@ export const DISQUS_SHORTNAME = '';
 
 export const SOCIAL_LINKS = [
 	{ nombre: 'X (Twitter)', url: '#', icono: 'x' },
-	{ nombre: 'Facebook', url: '#', icono: 'facebook' },
+	{ nombre: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61595974264717', icono: 'facebook' },
 	{ nombre: 'Instagram', url: '#', icono: 'instagram' },
 	{ nombre: 'YouTube', url: '#', icono: 'youtube' },
 	{ nombre: 'Canal de WhatsApp', url: '#', icono: 'whatsapp' },
