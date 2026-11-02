@@ -60,7 +60,7 @@
       "titulo": "Estados Unidos: Trump arriesga sus mayorías",
       "dato": "Mañana , un día clave",
       "bajada": "Millones de norteamericanos deciden su futuro",
-      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política y mayores dificultades para la Casa Blanca.",
+      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política .",
       "epigrafe": "Trump en el tramo final de su campaña",
       "fuente": "Arhivo Trump",
       "media": {
@@ -70,6 +70,6 @@
       }
     }
   ],
-  "estado": "borrador",
+  "estado": "generar",
   "publicado": false
 }
