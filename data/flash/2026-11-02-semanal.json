@@ -5,7 +5,7 @@
   "fecha": "2026-11-02",
   "voz": "es-AR-TomasNeural",
   "velocidad": 8,
-  "musica": "/flash/musica/paulyudin.mp3",
+  "musica": "/flash/musica/starostin.mp3",
   "volumenMusica": -17,
   "estilo": "noticiero",
   "subtitulos": true,
@@ -15,7 +15,7 @@
       "titulo": "Trump enfrenta una elección clave",
       "dato": "Congreso en disputa",
       "bajada": "Las elecciones de este martes ponen en juego las mayorías republicanas en ambas cámaras.",
-      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre, los estadounidenses votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado. Donald Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso, en un escenario que podría limitar su capacidad de impulsar la agenda de gobierno. Una derrota en la Cámara baja abriría una nueva etapa de confrontación política y mayores dificultades para la Casa Blanca.",
+      "texto": "Estados Unidos se prepara para una elección legislativa decisiva. Este martes 3 de noviembre,  votarán para renovar la totalidad de la Cámara de Representantes y un tercio del Senado.  Trump enfrenta el riesgo de perder las mayorías republicanas en el Congreso.",
       "epigrafe": "Mañana , un día clave en EEUU",
       "fuente": "Reuters",
       "media": {
@@ -32,7 +32,7 @@
       "titulo": "revés electoral para La Libertad Avanza",
       "dato": "35,73 % a 12, 81 %",
       "bajada": "duro revés para La Libertad Avanza,  quedó tercera detrás del peronismo",
-      "texto": "La Libertad Avanza sufrió un duro revés electoral en Bariloche y terminó en el tercer lugar, detrás del oficialismo y del peronismo. El resultado definitivo confirmó el 35,73 por ciento para el espacio de Cortés y Weretilneck, mientras que La Libertad Avanza obtuvo apenas el 12,81 por ciento. El resultado representa un traspié para la estrategia de expansión territorial del oficialismo nacional y vuelve a poner en discusión la capacidad de trasladar los acuerdos políticos nacionales al escenario electoral de las provincias.",
+      "texto": "La Libertad Avanza sufrió un duro revés electoral en Bariloche y terminó en el tercer lugar, detrás del oficialismo y del peronismo. El resultado definitivo confirmó el 35,73 por ciento para el espacio de Cortés y Weretilneck, mientras que La Libertad Avanza obtuvo apenas el 12,81 por ciento. El resultado representa un traspié para la estrategia de expansión territorial del oficialismo nacional y pone en discusión la capacidad de trasladar los acuerdos políticos nacionales al escenario electoral de las provincias.",
       "epigrafe": "Weretilneck, en Bariloche",
       "fuente": "Diario Rio Negro",
       "media": {
@@ -46,7 +46,7 @@
       "titulo": "Kicillof desafía a Cristina y Massa",
       "dato": "Nuevas canciones",
       "bajada": "\"Pensamos que es mejor que lo decida la gente\"",
-      "texto": "Kicillof profundizó sus diferencias con Cristina Fernández de Kirchner y Sergio Massa dentro del peronismo. El gobernador bonaerense rechazó que las candidaturas presidenciales para 2027 se resuelvan mediante acuerdos de cúpula o designaciones a dedo y reclamó que sea la gente la que elija. Ante dirigentes e intendentes de su espacio, planteó la posibilidad de competir en una interna abierta, incluso frente a Cristina Kirchner o Sergio Massa.",
+      "texto": "Kicillof profundizó sus diferencias con Cristina Fernández de Kirchner. El gobernador bonaerense rechazó que las candidaturas presidenciales para 2027 se resuelvan mediante acuerdos de cúpula o designaciones a dedo y reclamó que sea la gente la que elija.",
       "epigrafe": "KIcillof",
       "fuente": "Kicillof, twiter",
       "media": {
@@ -70,12 +70,12 @@
       }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "video": "/flash/2026-11-02-semanal.mp4",
   "miniatura": "/flash/2026-11-02-semanal.jpg",
   "version": "20261102201232",
-  "duracion": 119.0,
+  "duracion": 119,
   "duraciones": [
     25.5,
     27.5,
