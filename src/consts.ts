@@ -21,11 +21,8 @@ export const SECCIONES = [
 
 export type SeccionId = (typeof SECCIONES)[number]['id'];
 
-// Identificador de tu sitio en Disqus (https://disqus.com/admin/create/).
-// Déjalo vacío ('') para ocultar los comentarios hasta que lo configures.
 export const DISQUS_SHORTNAME = '';
 
-// Enlaces de redes sociales (muestra iconos en la cabecera). Sustituye por tus perfiles.
 export const SOCIAL_LINKS = [
 	{ nombre: 'X (Twitter)', url: '#', icono: 'x' },
 	{ nombre: 'Facebook', url: '#', icono: 'facebook' },
@@ -34,7 +31,6 @@ export const SOCIAL_LINKS = [
 	{ nombre: 'Canal de WhatsApp', url: '#', icono: 'whatsapp' },
 ] as const;
 
-// Volantas que se destacan en rojo, como en LPO ("Exclusivo", "Urgente").
 export function volantaFuerte(volanta?: string): boolean {
 	return !!volanta && /^(exclusivo|urgente|último momento|ultimo momento|primicia)$/i.test(volanta.trim());
 }
@@ -43,7 +39,6 @@ export function nombreSeccion(id: string): string {
 	return SECCIONES.find((s) => s.id === id)?.nombre ?? id;
 }
 
-// Convierte texto a slug para URLs de etiquetas (sin acentos ni espacios)
 export function slugify(texto: string): string {
 	return texto
 		.toLowerCase()
@@ -53,23 +48,17 @@ export function slugify(texto: string): string {
 		.replace(/^-+|-+$/g, '');
 }
 
-// Google Analytics 4 (gratis). Pegá acá el ID de medición que empieza con "G-"
-// (analytics.google.com → Administrar → Flujos de datos). Vacío = desactivado.
 export const GA_ID = '';
 
-// El newsletter se integra con Brevo (ver src/lib/brevo.ts y NEWSLETTER.md).
-
-// Fotos de los columnistas para la sección Opinión de la portada.
-// Agregá una línea por autor con el nombre tal cual figura en la nota y la ruta de la foto
-// (por ejemplo, subida a /public/columnistas/). Si un autor no tiene foto, se muestran sus iniciales.
 export const FOTOS_COLUMNISTAS: Record<string, string> = {
-	// 'Álvaro Fontana': '/columnistas/alvaro-fontana.jpg',
+	'Carlos Mendes': '/columnistas/carlos-mendes.jpg',
 };
 
-// Ficha de cada autor para su página (/autor/<nombre>/). Agregá una línea por autor con el nombre
-// tal cual figura en las notas. Todo es opcional: sin bio ni foto, la página muestra las iniciales.
 export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
-	// 'Álvaro Fontana': { bio: 'Periodista y especialista en políticas públicas.', foto: '/columnistas/alvaro-fontana.jpg' },
+	'Carlos Mendes': {
+		bio: 'Seudónimo editorial de Redacción de Diario Federal.',
+		foto: '/columnistas/carlos-mendes.jpg',
+	},
 	'Alberto González': {
 		bio: 'Autor de ejemplo · Información internacional y política estadounidense.',
 		foto: 'https://i.pravatar.cc/160?img=12',
