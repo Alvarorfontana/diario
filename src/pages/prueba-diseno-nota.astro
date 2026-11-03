@@ -1,0 +1,119 @@
+---
+export const prerender = true;
+const title = "La infraestructura vuelve al centro del debate sobre el desarrollo argentino";
+const description = "Una agenda que combina inversión pública, conectividad y coordinación federal vuelve a ganar espacio en la discusión económica.";
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>{title} | Diario Federal — Prueba editorial</title>
+  <meta name="description" content={description} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--ink:#111827;--muted:#68717c;--line:#dedede;--blue:#087eae;--pale:#eaf5fa;--paper:#fff}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,Arial,sans-serif}
+    .testbar{background:#eef6fa;border-bottom:1px solid #cfe2eb;color:#24566d;text-align:center;padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+    .masthead{max-width:1200px;margin:auto;padding:27px 28px 0}
+    .brandrow{display:flex;align-items:end;justify-content:space-between;gap:24px;border-bottom:1px solid #111;padding-bottom:10px}
+    .brand{font-family:Newsreader,Georgia,serif;font-weight:700;font-size:43px;letter-spacing:-2px;line-height:.95;color:#111;text-decoration:none}
+    .brand span{color:var(--blue)}
+    .nav{display:flex;gap:19px;flex-wrap:wrap;justify-content:flex-end;padding-bottom:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.035em}
+    .nav a{color:#252525;text-decoration:none}
+    .ticker{display:flex;align-items:center;gap:12px;padding:14px 0 15px;border-bottom:1px solid #e7e7e7;font-size:12px}
+    .live{background:var(--blue);color:#fff;padding:7px 17px;border-radius:20px;font-size:10px;font-weight:800;white-space:nowrap}
+    .ticker strong{font-size:11px}
+    .ticker span:last-child{color:#4b5563}
+    main{max-width:1200px;margin:0 auto;padding:38px 28px 80px}
+    .article-head{max-width:970px;margin:0 auto}
+    .eyebrow{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin:0 0 15px}
+    h1{font-family:Newsreader,Georgia,serif;font-size:clamp(39px,5vw,58px);line-height:.99;letter-spacing:-1.7px;font-weight:600;margin:0;max-width:960px;color:#090909}
+    .dek{font-family:Newsreader,Georgia,serif;font-size:clamp(21px,2.4vw,27px);line-height:1.22;color:#3c4147;max-width:900px;margin:21px 0 25px}
+    .byline{display:flex;align-items:center;gap:12px;padding:0 0 17px;border-bottom:1px solid var(--line)}
+    .avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
+    .author{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.025em}
+    .date{font-size:11px;color:var(--muted);margin-top:5px}
+    .share{margin-left:auto;display:flex;gap:8px}
+    .share span{width:30px;height:30px;border-radius:50%;background:#f1f2f3;display:grid;place-items:center;font-size:12px;font-weight:700;color:#30343a}
+    figure{margin:25px 0 0}
+    .hero{display:block;width:100%;aspect-ratio:16/8.8;object-fit:cover;object-position:center 44%;background:#e8e8e8}
+    figcaption{font-size:12px;line-height:1.45;color:#72777e;margin-top:9px}
+    figcaption b{color:#41464c}
+    .story-grid{display:grid;grid-template-columns:minmax(0,720px) 260px;gap:75px;max-width:1055px;margin:39px auto 0;align-items:start}
+    .bodycopy{font-family:Newsreader,Georgia,serif;font-size:20px;line-height:1.62;color:#24272b}
+    .bodycopy p{margin:0 0 23px}
+    .bodycopy .lead:first-letter{font-size:3.25em;float:left;line-height:.78;padding:8px 8px 0 0;color:#111}
+    .context-link{display:block;background:var(--pale);border-left:4px solid var(--blue);padding:16px 19px 17px;margin:29px 0 30px;text-decoration:none;color:#075f87}
+    .context-link .kicker{display:block;font-family:Inter,sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:#087eae}
+    .context-link strong{display:block;font-family:Newsreader,Georgia,serif;font-size:23px;line-height:1.15;font-weight:600}
+    .context-link .more{display:block;font-family:Inter,sans-serif;font-size:10px;font-weight:800;letter-spacing:.06em;margin-top:11px}
+    .side{border-top:3px solid #111;padding-top:12px}
+    .side h2{font-family:Newsreader,Georgia,serif;font-size:22px;margin:0 0 14px}
+    .side a{display:block;padding:13px 0;border-top:1px solid #e4e4e4;text-decoration:none;color:#1b1d20;font-family:Newsreader,Georgia,serif;font-size:18px;line-height:1.2;font-weight:600}
+    .side small{display:block;font-family:Inter,sans-serif;color:var(--blue);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+    .endnote{font-family:Inter,sans-serif;font-size:11px;color:#747b83;border-top:1px solid var(--line);padding-top:14px;margin-top:35px}
+    @media(max-width:760px){.masthead{padding:20px 18px 0}.brandrow{align-items:center}.brand{font-size:36px}.nav{display:none}.ticker{font-size:11px;gap:8px}.ticker span:last-child{display:none}main{padding:27px 18px 55px}.article-head{width:100%}h1{font-size:39px;letter-spacing:-1px;line-height:1.01}.dek{font-size:22px;margin:16px 0 20px}.avatar{width:42px;height:42px}.share{gap:5px}.share span{width:27px;height:27px}.hero{aspect-ratio:4/3}figure{margin-top:19px}.story-grid{display:block;margin-top:28px}.bodycopy{font-size:19px;line-height:1.58}.side{margin-top:42px}.testbar{font-size:9px}}
+  </style>
+</head>
+<body>
+  <div class="testbar">Vista de evaluación · No modifica ni reemplaza el sitio publicado</div>
+  <header class="masthead">
+    <div class="brandrow">
+      <a class="brand" href="#">Diario<span>Federal</span></a>
+      <nav class="nav" aria-label="Secciones">
+        <a href="#">Política</a><a href="#">Economía</a><a href="#">Sociedad</a><a href="#">Regiones</a><a href="#">Mundo</a><a href="#">Últimas noticias</a>
+      </nav>
+    </div>
+    <div class="ticker"><span class="live">EN AGENDA</span><strong>INFRAESTRUCTURA Y DESARROLLO</strong><span>La discusión sobre inversión y conectividad vuelve a ocupar un lugar central.</span></div>
+  </header>
+  <main>
+    <article>
+      <header class="article-head">
+        <p class="eyebrow">ECONOMÍA · FEDERALISMO</p>
+        <h1>{title}</h1>
+        <p class="dek">{description} El desafío es transformar los anuncios en obras concretas y equilibrar las oportunidades entre las regiones.</p>
+        <div class="byline">
+          <img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=faces" alt="Retrato ilustrativo del autor" />
+          <div><div class="author">Redacción Diario Federal</div><div class="date">Buenos Aires · 03 de noviembre de 2026 · 09:42 ART</div></div>
+          <div class="share" aria-label="Compartir"><span>◉</span><span>f</span><span>𝕏</span><span>↗</span></div>
+        </div>
+        <figure>
+          <img class="hero" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1800&auto=format&fit=crop&q=85" alt="Vista urbana de edificios y arquitectura contemporánea" />
+          <figcaption><b>La infraestructura, el transporte y la conectividad</b> forman parte de una discusión clave para el desarrollo territorial argentino. <b>Foto:</b> imagen ilustrativa.</figcaption>
+        </figure>
+      </header>
+      <div class="story-grid">
+        <div class="bodycopy">
+          <p class="lead">La infraestructura volvió a instalarse en el centro de la discusión sobre el desarrollo argentino. El debate excede la ejecución de obras puntuales: involucra la conectividad entre regiones, los costos logísticos, la competitividad productiva y la capacidad del Estado para sostener políticas de largo plazo.</p>
+          <p>En un país atravesado por profundas diferencias territoriales, las decisiones sobre rutas, ferrocarriles, puertos y energía tienen consecuencias directas sobre las economías provinciales. La inversión en infraestructura no sólo modifica los tiempos de transporte: también puede ampliar mercados, generar empleo y acercar servicios esenciales.</p>
+          <a class="context-link" href="#nota-relacionada">
+            <span class="kicker">Leé también · Contexto</span>
+            <strong>El mapa de las economías regionales y los desafíos de la conectividad federal</strong>
+            <span class="more">LEER LA NOTA RELACIONADA →</span>
+          </a>
+          <p>El punto central es cómo se establecen las prioridades, qué criterios se utilizan para distribuir los recursos y de qué manera se coordinan las jurisdicciones. Una agenda federal requiere información pública, planificación y mecanismos de seguimiento que permitan evaluar resultados.</p>
+          <p>También resulta necesario distinguir entre anuncios, proyectos ejecutivos y obras efectivamente iniciadas. Esa diferencia es fundamental para que el debate público pueda apoyarse en datos verificables y no solamente en declaraciones políticas.</p>
+          <a class="context-link" href="#nota-relacionada-2">
+            <span class="kicker">Antecedentes · Diario Federal</span>
+            <strong>Qué indicadores permiten medir el impacto de la inversión pública en las provincias</strong>
+            <span class="more">CONSULTAR EL ANÁLISIS →</span>
+          </a>
+          <p>La discusión, en definitiva, vuelve a plantear una pregunta estructural: qué modelo de desarrollo puede integrar las capacidades productivas de la Argentina y reducir las brechas que separan a sus territorios.</p>
+          <div class="endnote">MODELO DE DISEÑO · Texto e imagen ilustrativos. Los enlaces celestes representan notas internas que se vincularán desde el gestor editorial.</div>
+        </div>
+        <aside class="side">
+          <h2>Para seguir leyendo</h2>
+          <a id="nota-relacionada" href="#"><small>Economía</small>El mapa de las economías regionales y los desafíos de la conectividad federal</a>
+          <a id="nota-relacionada-2" href="#"><small>Política</small>Qué indicadores permiten medir el impacto de la inversión pública en las provincias</a>
+          <a href="#"><small>Sociedad</small>Infraestructura y servicios: las brechas que atraviesan el territorio</a>
+        </aside>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
