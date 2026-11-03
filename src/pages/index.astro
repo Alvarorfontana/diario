@@ -65,14 +65,14 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 	{ticker.length > 0 && (
 		<div class="flex h-11 items-center overflow-hidden rounded-xl bg-ink text-white">
 			<span class="flex shrink-0 items-center gap-2 px-4 text-[11px] font-extrabold tracking-[0.1em] uppercase">
-				<span class="titila inline-block h-2 w-2 rounded-full bg-[#ff3b3b]" aria-hidden="true"></span>
+				<span class="titila inline-block h-2 w-2 rounded-full bg-brand" aria-hidden="true"></span>
 				Último momento
 			</span>
 			<div class="min-w-0 flex-1 overflow-hidden">
 				<div class="marquesina">
 					{[...ticker, ...ticker].map((a, i) => (
 						<a href={`/articulo/${a!.slug}/`} class="flex items-center gap-2 text-[13.5px] font-medium whitespace-nowrap text-white hover:underline" aria-hidden={i >= ticker.length ? 'true' : undefined} tabindex={i >= ticker.length ? -1 : undefined}>
-							<span class="inline-block h-1.5 w-1.5 rounded-full bg-[#ff3b3b]" aria-hidden="true"></span>{a!.title}
+							<span class="inline-block h-1.5 w-1.5 rounded-full bg-brand" aria-hidden="true"></span>{a!.title}
 						</a>
 					))}
 				</div>
@@ -207,7 +207,7 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 	<!-- CONTEXTO POLÍTICO -->
 	<section class="mt-8 grid items-center gap-5 rounded-2xl bg-ink p-6 text-white sm:p-8 md:grid-cols-3">
 		<div class="md:col-span-2">
-			<p class="text-xs font-bold tracking-[0.15em] text-[#ff6b6b] uppercase">Especial · Archivo editorial</p>
+			<p class="text-xs font-bold tracking-[0.15em] text-brand uppercase">Especial · Archivo editorial</p>
 			<h2 class="mt-2 font-display text-3xl font-extrabold text-white">Contexto Político</h2>
 			<p class="mt-2 text-white/75">Artículos de análisis, historia, geopolítica y pensamiento, organizados en un archivo de lectura.</p>
 		</div>
