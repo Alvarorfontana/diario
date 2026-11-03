@@ -32,7 +32,7 @@ const description = "Una agenda que combina inversión pública, conectividad y 
     main{max-width:1200px;margin:0 auto;padding:38px 28px 80px}
     .article-head{max-width:970px;margin:0 auto}
     .eyebrow{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--blue);margin:0 0 15px}
-    h1{font-family:Newsreader,Georgia,serif;font-size:clamp(39px,5vw,58px);line-height:.99;letter-spacing:-1.7px;font-weight:600;margin:0;max-width:960px;color:#090909}
+    h1{font-family:Newsreader,Georgia,serif;font-size:clamp(40px,4.3vw,50px);line-height:1.01;letter-spacing:-1.35px;font-weight:600;margin:0;max-width:900px;color:#090909}
     .dek{font-family:Newsreader,Georgia,serif;font-size:clamp(21px,2.4vw,27px);line-height:1.22;color:#3c4147;max-width:900px;margin:21px 0 25px}
     .byline{display:flex;align-items:center;gap:12px;padding:0 0 17px;border-bottom:1px solid var(--line)}
     .avatar{width:48px;height:48px;border-radius:50%;object-fit:cover;filter:grayscale(1)}
@@ -40,15 +40,15 @@ const description = "Una agenda que combina inversión pública, conectividad y 
     .date{font-size:11px;color:var(--muted);margin-top:5px}
     .share{margin-left:auto;display:flex;gap:8px}
     .share span{width:30px;height:30px;border-radius:50%;background:#f1f2f3;display:grid;place-items:center;font-size:12px;font-weight:700;color:#30343a}
-    figure{margin:25px 0 0}
+    figure{width:min(1120px,calc(100% + 150px));margin:25px 50% 0;transform:translateX(-50%)}
     .hero{display:block;width:100%;aspect-ratio:16/8.8;object-fit:cover;object-position:center 44%;background:#e8e8e8}
     figcaption{font-size:12px;line-height:1.45;color:#72777e;margin-top:9px}
     figcaption b{color:#41464c}
-    .story-grid{display:grid;grid-template-columns:minmax(0,720px) 260px;gap:75px;max-width:1055px;margin:39px auto 0;align-items:start}
+    .story-grid{display:grid;grid-template-columns:minmax(0,690px) 250px;gap:70px;max-width:1010px;margin:39px auto 0;align-items:start}
     .bodycopy{font-family:Newsreader,Georgia,serif;font-size:20px;line-height:1.62;color:#24272b}
-    .bodycopy p{margin:0 0 23px}
+    .bodycopy p{margin:0 0 23px}.inline-related{color:#087eae;text-decoration:none;font-weight:600;border-bottom:1px solid #9bcfe2;box-shadow:inset 0 -3px 0 #eaf5fa;transition:color .18s ease,border-color .18s ease}.inline-related:hover{color:#075f87;border-color:#087eae}
     .bodycopy .lead:first-letter{font-size:3.25em;float:left;line-height:.78;padding:8px 8px 0 0;color:#111}
-    .context-link{display:block;background:var(--pale);border-left:4px solid var(--blue);padding:16px 19px 17px;margin:29px 0 30px;text-decoration:none;color:#075f87}
+    .context-link{display:block;background:var(--pale);border-left:4px solid var(--blue);padding:16px 19px 17px;margin:29px 0 30px;text-decoration:none;color:#075f87}.context-link:hover{background:#e1f0f7}
     .context-link .kicker{display:block;font-family:Inter,sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px;color:#087eae}
     .context-link strong{display:block;font-family:Newsreader,Georgia,serif;font-size:23px;line-height:1.15;font-weight:600}
     .context-link .more{display:block;font-family:Inter,sans-serif;font-size:10px;font-weight:800;letter-spacing:.06em;margin-top:11px}
@@ -57,7 +57,7 @@ const description = "Una agenda que combina inversión pública, conectividad y 
     .side a{display:block;padding:13px 0;border-top:1px solid #e4e4e4;text-decoration:none;color:#1b1d20;font-family:Newsreader,Georgia,serif;font-size:18px;line-height:1.2;font-weight:600}
     .side small{display:block;font-family:Inter,sans-serif;color:var(--blue);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
     .endnote{font-family:Inter,sans-serif;font-size:11px;color:#747b83;border-top:1px solid var(--line);padding-top:14px;margin-top:35px}
-    @media(max-width:760px){.masthead{padding:20px 18px 0}.brandrow{align-items:center}.brand{font-size:36px}.nav{display:none}.ticker{font-size:11px;gap:8px}.ticker span:last-child{display:none}main{padding:27px 18px 55px}.article-head{width:100%}h1{font-size:39px;letter-spacing:-1px;line-height:1.01}.dek{font-size:22px;margin:16px 0 20px}.avatar{width:42px;height:42px}.share{gap:5px}.share span{width:27px;height:27px}.hero{aspect-ratio:4/3}figure{margin-top:19px}.story-grid{display:block;margin-top:28px}.bodycopy{font-size:19px;line-height:1.58}.side{margin-top:42px}.testbar{font-size:9px}}
+    @media(max-width:760px){.masthead{padding:20px 18px 0}.brandrow{align-items:center}.brand{font-size:36px}.nav{display:none}.ticker{font-size:11px;gap:8px}.ticker span:last-child{display:none}main{padding:27px 18px 55px}.article-head{width:100%}h1{font-size:39px;letter-spacing:-.9px;line-height:1.02}.dek{font-size:22px;margin:16px 0 20px}.avatar{width:42px;height:42px}.share{gap:5px}.share span{width:27px;height:27px}.hero{aspect-ratio:4/3}figure{width:100%;margin:19px 0 0;transform:none}.story-grid{display:block;margin-top:28px}.bodycopy{font-size:19px;line-height:1.58}.side{margin-top:42px}.testbar{font-size:9px}}
   </style>
 </head>
 <body>
@@ -90,9 +90,9 @@ const description = "Una agenda que combina inversión pública, conectividad y 
       <div class="story-grid">
         <div class="bodycopy">
           <p class="lead">La infraestructura volvió a instalarse en el centro de la discusión sobre el desarrollo argentino. El debate excede la ejecución de obras puntuales: involucra la conectividad entre regiones, los costos logísticos, la competitividad productiva y la capacidad del Estado para sostener políticas de largo plazo.</p>
-          <p>En un país atravesado por profundas diferencias territoriales, las decisiones sobre rutas, ferrocarriles, puertos y energía tienen consecuencias directas sobre las economías provinciales. La inversión en infraestructura no sólo modifica los tiempos de transporte: también puede ampliar mercados, generar empleo y acercar servicios esenciales.</p>
+          <p>En un país atravesado por profundas diferencias territoriales, las decisiones sobre rutas, ferrocarriles, puertos y energía tienen consecuencias directas sobre las economías provinciales. La inversión en infraestructura no sólo modifica los tiempos de transporte: también puede ampliar mercados, generar empleo y acercar servicios esenciales. En ese debate, <a class="inline-related" href="#nota-relacionada">el mapa de las economías regionales y sus problemas de conectividad</a> permite observar cómo las distancias y los costos logísticos condicionan la producción.</p>
           <a class="context-link" href="#nota-relacionada">
-            <span class="kicker">Leé también · Contexto</span>
+            <span class="kicker">Leé también · Contexto ampliado</span>
             <strong>El mapa de las economías regionales y los desafíos de la conectividad federal</strong>
             <span class="more">LEER LA NOTA RELACIONADA →</span>
           </a>
