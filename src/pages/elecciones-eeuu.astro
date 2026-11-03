@@ -254,6 +254,7 @@ export const prerender = false;
   .cartogram-fallback { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:5px; padding:1rem; }
   .cartogram-state { min-height:43px; border:1px solid #cbd3dd; border-radius:5px; background:#d9dee5; color:#263241; font-size:.72rem; font-weight:800; cursor:pointer; }
   .cartogram-state:hover,.cartogram-state:focus { outline:2px solid #17202c; outline-offset:1px; }
+  .cartogram-state.selected { border:2px solid #17202c; background:#c5cfdb; box-shadow:inset 0 0 0 1px #fff; }
   .cartogram-caption { padding:0 1rem 1rem; color:#687586; font-size:.68rem; }
   .results-bottom { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0; }
   .results-bottom > div { padding:1.15rem; border:1px solid #dce1e8; border-radius:12px; }
@@ -385,12 +386,16 @@ export const prerender = false;
       button.textContent = code;
       button.title = NAMES[code];
       button.setAttribute('aria-label',NAMES[code]);
-      button.addEventListener('click', () => { selectedState = code; renderDetail(code); });
+      button.addEventListener('click', () => {
+        selectedState = code;
+        grid.querySelectorAll('.cartogram-state').forEach(item => item.classList.toggle('selected', item === button));
+        renderDetail(code);
+      });
       grid.appendChild(button);
     });
     const caption = document.createElement('p');
     caption.className = 'cartogram-caption';
-    caption.textContent = 'Vista de respaldo: los 50 estados están disponibles para consulta. El mapa geográfico se está reintentando; los colores solo cambiarán cuando haya datos verificables de 2026.';
+    caption.textContent = 'Seleccioná cualquiera de los 50 estados para abrir su ficha. Los colores solo cambiarán cuando haya datos verificables de 2026.';
     canvas.appendChild(grid);
     canvas.appendChild(caption);
     $('map-loading').classList.add('hidden');
