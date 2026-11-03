@@ -50,9 +50,9 @@ export const prerender = false;
       </div>
 
       <div class="map-legend" aria-label="Referencias del mapa">
-        <span><i class="swatch republican"></i>Republicano · proyección AP</span>
-        <span><i class="swatch democrat"></i>Demócrata · proyección AP</span>
-        <span><i class="swatch pending"></i>Sin resultado confirmado</span>
+        <span><i class="swatch republican"></i>Republicano lidera · civicAPI</span>
+        <span><i class="swatch democrat"></i>Demócrata lidera · civicAPI</span>
+        <span><i class="swatch pending"></i>Sin datos suficientes</span>
       </div>
 
       <div class="map-layout">
@@ -67,42 +67,38 @@ export const prerender = false;
           <div id="detail-races" class="detail-races"></div>
         </aside>
       </div>
-      <p class="map-note"><strong>Estado del escrutinio:</strong> el mapa no utiliza antecedentes de 2024. Los estados permanecen en gris mientras no haya un liderazgo o ganador publicado para la contienda de 2026. El tablero de AP/Guardian y el mapa de Poliwave actualizan sus propios colores y recuentos a medida que ingresan los votos. Los resultados son preliminares hasta la certificación oficial.</p>
+      <p class="map-note"><strong>Estado del escrutinio:</strong> el mapa se colorea con los liderazgos parciales de civicAPI cuando hay recuentos publicados para la contienda estatal prioritaria. Gris significa que aún no hay datos suficientes. Un liderazgo no equivale a una proyección ni a un ganador. Los resultados son preliminares hasta la certificación oficial.</p>
       <div class="map-live-links">
-        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir mapa nacional y resultados en vivo · AP / The Guardian ↗</a>
+        <a href="https://www.latimes.com/politics/story/2026-11-03/2026-midterm-election-live-results-balance-of-power-democrats-republicans-control-congress-senate" target="_blank" rel="noopener noreferrer">Resultados nacionales y balance del Congreso · Los Angeles Times / AP ↗</a>
         <a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">Abrir mapa electoral en español · Poliwave / civicAPI ↗</a>
         <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">Consultar base de resultados y fuentes · civicAPI ↗</a>
         <a href="https://www.washingtonpost.com/politics/interactive/2026/11/03/see-where-votes-are-being-counted-senate-house-midterm-races/" target="_blank" rel="noopener noreferrer">Ver mapa de escrutinio por estado y distrito · The Washington Post ↗</a>
       </div>
     </section>
 
-    <section class="live-results-embed" aria-label="Acceso a resultados en vivo de las elecciones 2026">
+    <section class="live-results-embed" aria-label="Fuentes de resultados electorales en vivo">
       <div class="embed-heading">
-        <div><p class="eyebrow">RESULTADOS EN VIVO · FUENTES EXTERNAS</p><h2>Tableros de escrutinio conectados</h2></div>
-        <span class="source-status">FUENTE EXTERNA</span>
+        <div><p class="eyebrow">FUENTE DE DATOS · ACTUALIZACIÓN AUTOMÁTICA</p><h2>Resultados conectados</h2></div>
+        <span class="source-status" id="civicapi-status">CONECTANDO</span>
       </div>
-      <p class="embed-intro">Panel externo de The Guardian con resultados de Associated Press. La cobertura se actualiza durante la jornada. El contenido y sus proyecciones pertenecen a sus fuentes originales; Diario Federal identifica y acredita la procedencia.</p>
+      <p class="embed-intro">El mapa propio consulta civicAPI, que agrega recuentos de organismos electorales estatales y actualiza durante el escrutinio. Los datos se muestran como liderazgos parciales, nunca como ganadores hasta que la fuente lo declare. Fuente y atribución: civicAPI.</p>
       <div class="guardian-toolbar">
-        <span><i class="guardian-live-dot"></i> COBERTURA EN DIRECTO · THE GUARDIAN / AP</span>
-        <span id="guardian-refresh-time">Conectando con la fuente…</span>
-        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir fuente original ↗</a>
+        <span><i class="guardian-live-dot"></i> DATOS ELECTORALES · civicAPI</span>
+        <span id="civicapi-refresh-time">Consultando resultados del 3 de noviembre…</span>
+        <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">Abrir fuente de datos ↗</a>
       </div>
-      <div class="guardian-frame-wrap">
-        <iframe
-          id="guardian-results-frame"
-          src="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races"
-          title="Resultados en vivo de las elecciones de medio término 2026 — The Guardian, datos de Associated Press"
-          loading="eager"
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
-      </div>
-      <p class="guardian-fallback">Si el navegador o The Guardian impiden mostrar el tablero incrustado, <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">abrí aquí los resultados directamente en The Guardian</a>. Fuente de los resultados: Associated Press (AP).</p>
       <div class="live-source-actions">
-        <a class="live-source-card" href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">
-          <span>MAPA EN ESPAÑOL</span><strong>Poliwave · contiendas por estado y distrito</strong><em>Abrir mapa interactivo ↗</em>
+        <a class="live-source-card" href="https://www.latimes.com/politics/story/2026-11-03/2026-midterm-election-live-results-balance-of-power-democrats-republicans-control-congress-senate" target="_blank" rel="noopener noreferrer">
+          <span>RESULTADOS NACIONALES · DATOS AP</span><strong>Los Angeles Times · balance del Congreso</strong><em>Ver resultados nacionales ↗</em>
         </a>
-        <a class="live-source-card" href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">
-          <span>DATOS ABIERTOS</span><strong>civicAPI · resultados y metodología</strong><em>Consultar base de datos ↗</em>
+        <a class="live-source-card" href="https://www.latimes.com/politics/story/2026-11-03/2026-midterm-election-live-results-california" target="_blank" rel="noopener noreferrer">
+          <span>CALIFORNIA · DATOS AP</span><strong>Los Angeles Times · resultados estatales</strong><em>Ver California ↗</em>
+        </a>
+        <a class="live-source-card" href="https://www.foxnews.com/elections/2026/midterm-results/state/arizona" target="_blank" rel="noopener noreferrer">
+          <span>ARIZONA · DATOS AP</span><strong>Fox News · resultados por distrito</strong><em>Ver Arizona ↗</em>
+        </a>
+        <a class="live-source-card" href="https://www.washingtonpost.com/elections/results/2026/11/03/arizona-live-updates/" target="_blank" rel="noopener noreferrer">
+          <span>ARIZONA · COBERTURA Y MAPAS</span><strong>The Washington Post · resultados</strong><em>Ver cobertura ↗</em>
         </a>
       </div>
     </section>
@@ -110,11 +106,11 @@ export const prerender = false;
       <div>
         <p class="eyebrow">COBERTURA</p>
         <h2>50 estados en el mapa</h2>
-        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. Los resultados se actualizan en los tableros de AP enlazados; no se mezclan con datos de elecciones anteriores.</p>
+        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. El mapa propio consulta civicAPI automáticamente cada 60 segundos. La fuente agrega resultados oficiales estatales; la página nacional de Los Angeles Times aporta una referencia periodística basada en AP.</p>
       </div>
       <div class="source-card">
         <strong>Fuentes para resultados 2026</strong>
-        <p>Associated Press aporta los resultados que publican The Guardian, WHYY y otros medios. civicAPI agrega datos de organismos electorales estatales y permite reutilización con atribución. Poliwave ofrece un mapa en español con resultados no oficiales y actualizaciones automáticas.</p>
+        <p>civicAPI agrega resultados de organismos electorales estatales y actualiza durante el escrutinio. Los Angeles Times y Fox News publican resultados basados en Associated Press. Cada fuente se identifica por separado.</p>
         <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">Resultados por fecha y jurisdicción · civicAPI ↗</a>
       </div>
     </section>
@@ -128,11 +124,11 @@ export const prerender = false;
         </div>
       </div>
       <div class="news-grid">
-        <a class="news-source featured" href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">
+        <a class="news-source featured" href="https://www.latimes.com/politics/story/2026-11-03/2026-midterm-election-live-results-balance-of-power-democrats-republicans-control-congress-senate" target="_blank" rel="noopener noreferrer">
           <span class="news-kicker">RESULTADOS NACIONALES · AP</span>
-          <strong>The Guardian · mapa y resultados de los 50 estados</strong>
-          <span>Tablero interactivo de Cámara, Senado y gobernaciones con resultados de Associated Press.</span>
-          <em>Abrir cobertura ↗</em>
+          <strong>Los Angeles Times · resultados nacionales</strong>
+          <span>Balance de poder en Cámara, Senado y gobernaciones con resultados de Associated Press.</span>
+          <em>Ver resultados ↗</em>
         </a>
         <a class="news-source" href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">
           <span class="news-kicker">MAPA EN ESPAÑOL · DATOS EN VIVO</span>
@@ -198,7 +194,7 @@ export const prerender = false;
       <p class="news-disclaimer">Los enlaces abren los sitios originales. civicAPI declara que sus datos pueden reutilizarse en publicaciones comerciales y no comerciales con atribución. Los resultados son no oficiales hasta su certificación por las autoridades electorales. Poliwave / civicAPI se mantiene fuera de la lista principal porque su panel consultado todavía indicaba una actualización del 30 de octubre.</p>
     </section>
     <footer class="data-footer">
-      <span id="source-time">Jornada electoral · martes 3 de noviembre de 2026 · resultados AP / Poliwave / civicAPI.</span>
+      <span id="source-time">Jornada electoral · 3 de noviembre de 2026 · civicAPI (recuentos) / Associated Press (cobertura de medios).</span>
       <span>AGENCIA FEDERAL · DIARIO FEDERAL</span>
     </footer>
   </section>
@@ -354,22 +350,166 @@ export const prerender = false;
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
-  function electionColor(code) { return '#d9dee5'; }
+  const liveByState = new Map();
+  const stateNameToCode = Object.fromEntries(Object.entries(NAMES).flatMap(([code,name]) => [[name.toLowerCase(),code],[code.toLowerCase(),code]]));
+  const PARTY_COLORS = { REP:'#c64b50', REPUBLICAN:'#c64b50', R:'#c64b50', DEM:'#3978c5', DEMOCRAT:'#3978c5', D:'#3978c5', IND:'#9272a8', INDEPENDENT:'#9272a8' };
+  const clean = value => String(value ?? '').trim();
+  function partyCode(candidate) {
+    const party = clean(candidate?.party || candidate?.party_code || candidate?.party_name || candidate?.affiliation).toUpperCase();
+    if (party.includes('REP') || party === 'R') return 'REP';
+    if (party.includes('DEM') || party === 'D') return 'DEM';
+    if (party.includes('IND')) return 'IND';
+    return party || 'OTHER';
+  }
+  function candidateVotes(candidate) {
+    const raw = candidate?.votes ?? candidate?.vote_count ?? candidate?.total_votes ?? candidate?.vote_total ?? candidate?.votes_received;
+    const n = Number(String(raw ?? '').replace(/,/g,''));
+    return Number.isFinite(n) ? n : 0;
+  }
+  function inferState(race) {
+    const direct = clean(race?.province || race?.state || race?.state_code || race?.statePostal || race?.state_postal || race?.jurisdiction_code).toUpperCase();
+    if (NAMES[direct]) return direct;
+    const location = clean(race?.location || race?.jurisdiction || race?.region || race?.province_name || race?.state_name || race?.name);
+    const normalized = location.toLowerCase();
+    for (const [name,code] of Object.entries(stateNameToCode)) {
+      if (normalized.includes(name)) return code;
+    }
+    const match = normalized.match(/\b([a-z]{2})\b/);
+    return match && NAMES[match[1].toUpperCase()] ? match[1].toUpperCase() : null;
+  }
+  function raceCandidates(race) {
+    const value = race?.candidates || race?.contenders || race?.results || race?.candidate_results || race?.race_results;
+    return Array.isArray(value) ? value : [];
+  }
+  function racePriority(race) {
+    const name = clean(race?.race_name || race?.name || race?.title || race?.office || race?.contest || race?.description).toLowerCase();
+    if (name.includes('governor')) return 1;
+    if (name.includes('u.s. senate') || name.includes('us senate') || name.includes('senate')) return 2;
+    if (name.includes('u.s. house') || name.includes('us house') || name.includes('house')) return 3;
+    return 4;
+  }
+  function extractRaces(payload) {
+    const found = [];
+    const seen = new Set();
+    function walk(node) {
+      if (!node || typeof node !== 'object' || seen.has(node)) return;
+      seen.add(node);
+      if (Array.isArray(node)) {
+        node.forEach(walk);
+        return;
+      }
+      if (raceCandidates(node).length) found.push(node);
+      Object.values(node).forEach(walk);
+    }
+    walk(payload);
+    return found;
+  }
+  function updateMapFromRaces(races) {
+    const grouped = new Map();
+    for (const race of races) {
+      const code = inferState(race);
+      const candidates = raceCandidates(race).map(candidate => ({
+        name: clean(candidate.name || candidate.candidate_name || candidate.full_name || candidate.display_name) || 'Candidato',
+        party: partyCode(candidate),
+        votes: candidateVotes(candidate),
+        percent: candidate.vote_percentage ?? candidate.percentage ?? candidate.pct
+      })).filter(candidate => candidate.name !== 'Candidato' || candidate.votes > 0);
+      if (!code || candidates.length < 2 || candidates.every(candidate => candidate.votes === 0)) continue;
+      candidates.sort((a,b) => b.votes - a.votes);
+      const item = {
+        code,
+        name: clean(race.race_name || race.name || race.title || race.office || race.contest) || 'Contienda estatal',
+        status: clean(race.status || race.race_status || race.call_status || 'Conteo parcial'),
+        reporting: race.percent_reporting ?? race.reporting_pct ?? race.precincts_reporting ?? race.pct_reporting ?? null,
+        totalVotes: candidates.reduce((sum,candidate) => sum + candidate.votes,0),
+        candidates,
+        party: candidates[0].party,
+        priority: racePriority(race),
+        updated: race.updated_at || race.last_updated || race.timestamp || null
+      };
+      if (!grouped.has(code)) grouped.set(code, []);
+      grouped.get(code).push(item);
+    }
+    liveByState.clear();
+    for (const [code, items] of grouped) {
+      items.sort((a,b) => a.priority - b.priority || b.totalVotes - a.totalVotes);
+      liveByState.set(code, items[0]);
+    }
+    renderMap();
+    const total = liveByState.size;
+    $('civicapi-status').textContent = total ? 'DATOS RECIBIDOS' : 'ESPERANDO RECUENTOS';
+    $('live-label').textContent = total ? 'RESULTADOS PARCIALES · civicAPI' : 'CONECTADO · AÚN SIN RECUENTOS';
+    $('live-label').parentElement.classList.toggle('is-live', total > 0);
+    $('civicapi-refresh-time').textContent = 'Última consulta: ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+    $('updated-at').textContent = total + ' estados con datos de contiendas publicadas por civicAPI.';
+  }
+  function electionColor(code) {
+    const result = liveByState.get(code);
+    return result ? (PARTY_COLORS[result.party] || '#9272a8') : '#d9dee5';
+  }
   function renderMap() {
     for (const [code, path] of statePaths) {
       path.setAttribute('fill', electionColor(code));
       path.classList.toggle('selected', selectedState === code);
     }
-    $('states-live').textContent = '36';
+    $('states-live').textContent = String(liveByState.size);
     $('house-r').textContent = '435';
     $('house-d').textContent = '35';
-    $('updated-at').textContent = 'Resultados 2026 en tableros AP / Poliwave / civicAPI enlazados.';
     if (selectedState) renderDetail(selectedState);
   }
   function renderDetail(code) {
     $('detail-title').textContent = NAMES[code] || code;
-    $('detail-status').textContent = 'Sin resultado de 2026 incorporado a este mapa. Consultá los resultados de esta jornada en AP / The Guardian o Poliwave / civicAPI.';
-    $('detail-races').innerHTML = '<p class="detail-status"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Ver resultados 2026 de AP ↗</a></p><p class="detail-status"><a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">Ver resultados por estado en Poliwave / civicAPI ↗</a></p>';
+    const result = liveByState.get(code);
+    if (!result) {
+      $('detail-status').textContent = 'civicAPI todavía no publica recuentos suficientes para este estado. Se actualizará automáticamente.';
+      $('detail-races').innerHTML = '<p class="detail-status">Fuente: <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">civicAPI ↗</a></p>';
+      return;
+    }
+    $('detail-status').textContent = result.name + ' · ' + result.status + (result.reporting != null ? ' · ' + result.reporting + '% informado' : '');
+    $('detail-races').innerHTML = '<div class="race-card"><h4>Liderazgo parcial · ' + result.name + '</h4>' +
+      result.candidates.slice(0,4).map(candidate => '<div class="candidate-row"><span><i class="party-dot" style="background:' + (PARTY_COLORS[candidate.party] || '#9272a8') + '"></i>' + candidate.name + ' (' + candidate.party + ')</span><strong>' + candidate.votes.toLocaleString('en-US') + '</strong></div>').join('') +
+      '<p class="detail-status">Fuente: civicAPI · recuento no certificado. <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">Ver fuente ↗</a></p></div>';
+  }
+  async function refreshElectionData() {
+    const status = $('civicapi-status');
+    try {
+      status.textContent = 'ACTUALIZANDO';
+      const response = await fetch('/api/election-results.json', {cache:'no-store'});
+      if (!response.ok) throw new Error('civicAPI respondió HTTP ' + response.status);
+      const payload = await response.json();
+      let races = extractRaces(payload);
+      // Si el buscador entrega solo referencias, consultar los detalles de las contiendas.
+      if (!races.length) {
+        const refs = [];
+        function collectRefs(node) {
+          if (!node || typeof node !== 'object') return;
+          if (Array.isArray(node)) return node.forEach(collectRefs);
+          const id = node.race_id ?? node.raceId ?? node.id;
+          const name = clean(node.race_name || node.name || node.title || node.office || '');
+          if (id && name && /governor|senate|house/i.test(name)) refs.push({id,name});
+          Object.values(node).forEach(collectRefs);
+        }
+        collectRefs(payload);
+        const unique = [...new Map(refs.map(ref => [String(ref.id),ref])).values()].slice(0,180);
+        for (let i=0;i<unique.length;i+=8) {
+          const batch = await Promise.all(unique.slice(i,i+8).map(async ref => {
+            try {
+              const detail = await fetch('/api/election-results.json?id=' + encodeURIComponent(ref.id), {cache:'no-store'});
+              return detail.ok ? await detail.json() : null;
+            } catch { return null; }
+          }));
+          races.push(...batch.filter(Boolean).flatMap(extractRaces));
+        }
+      }
+      updateMapFromRaces(races);
+      if (!races.length) $('civicapi-refresh-time').textContent = 'Conexión activa; esperando datos de las contiendas.';
+    } catch (error) {
+      status.textContent = 'FUENTE NO DISPONIBLE';
+      $('civicapi-refresh-time').textContent = 'No se pudo actualizar: ' + error.message;
+      $('live-label').textContent = 'SIN CONEXIÓN CON civicAPI';
+      $('live-label').parentElement.classList.remove('is-live');
+      console.error('[Diario Federal civicAPI]', error);
+    }
   }
   function drawStates(topology) {
     const collection = feature(topology, topology.objects.states);
@@ -405,9 +545,9 @@ export const prerender = false;
       statePaths.set(code,path);
     });
     $('map-loading').classList.add('hidden');
-    $('live-label').textContent = 'JORNADA ELECTORAL · FUENTES AP / Poliwave / civicAPI';
-    $('live-label').parentElement.classList.remove('is-live');
     renderMap();
+    refreshElectionData();
+    window.setInterval(refreshElectionData, 60000);
   }
   function drawCartogramFallback() {
     const svg = $('us-map');
@@ -431,11 +571,13 @@ export const prerender = false;
     });
     const caption = document.createElement('p');
     caption.className = 'cartogram-caption';
-    caption.textContent = 'Seleccioná cualquiera de los 50 estados para abrir su ficha. Los colores solo cambiarán cuando haya datos verificables de 2026.';
+    caption.textContent = 'Seleccioná cualquiera de los 50 estados. Los colores se actualizan cuando civicAPI publica recuentos verificables de 2026.';
     canvas.appendChild(grid);
     canvas.appendChild(caption);
     $('map-loading').classList.add('hidden');
-    $('live-label').textContent = 'MAPA DE RESPALDO · FUENTES EXTERNAS';
+    $('live-label').textContent = 'MAPA DE RESPALDO · civicAPI';
+    refreshElectionData();
+    window.setInterval(refreshElectionData, 60000);
   }
   try {
     const response = await fetch(GEO_URL, {cache:'no-store'});
