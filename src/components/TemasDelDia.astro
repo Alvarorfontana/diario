@@ -1,6 +1,7 @@
 ---
-// "Temas del día" (estilo Letra P): las etiquetas más usadas en las notas de los últimos días.
-// Se arma sola: no hay que cargar nada en el panel. Cada tema lleva a su página de etiqueta.
+// Temas del día: se construyen en cada render a partir de las etiquetas
+// de las notas recientes. La frecuencia y la actualidad determinan el orden;
+// no hay una lista fija ni se inventan temas que no estén en las notas.
 import { slugify } from '../consts';
 import type { Articulo } from '../lib/articles';
 
@@ -10,27 +11,50 @@ interface Props {
 }
 const { articulos, max = 6 } = Astro.props;
 
-// Etiquetas demasiado generales que no sirven como "tema".
-const GENERICAS = new Set(['politica', 'economia', 'argentina', 'internacional', 'opinion', 'actualidad', 'sociedad', 'nacionales']);
+// Etiquetas editoriales demasiado amplias para identificar un asunto concreto.
+const GENERICAS = new Set([
+	'politica', 'economia', 'argentina', 'internacional', 'opinion',
+	'actualidad', 'sociedad', 'nacionales', 'noticias', 'deportes',
+	'cultura', 'tecnologia',
+]);
 
-const hace3dias = Date.now() - 3 * 24 * 60 * 60 * 1000;
-let base = articulos.filter((a) => a.date.valueOf() >= hace3dias);
-if (base.length < 8) base = articulos.slice(0, 20);
+const ahora = Date.now();
+const ventana = 72 * 60 * 60 * 1000;
+let base = articulos.filter((a) => {
+	const fecha = a.date?.valueOf();
+	return Number.isFinite(fecha) && fecha <= ahora && ahora - fecha <= ventana;
+});
+// Si la producción fue baja en las últimas 72 horas, ampliamos la muestra
+// para que la portada no quede sin temas, sin perder el orden cronológico.
+if (base.length < 5) base = articulos.slice(0, 20);
 
-const cuenta = new Map<string, { nombre: string; n: number; ultima: number }>();
+const cuenta = new Map<string, { nombre: string; n: number; ultima: number; actualidad: number }>();
 for (const a of base) {
-	for (const t of new Set(a.tags.map((x) => x.trim()).filter(Boolean))) {
-		const k = slugify(t);
-		if (!k || GENERICAS.has(k)) continue;
-		const prev = cuenta.get(k);
-		if (prev) {
-			prev.n++;
-			prev.ultima = Math.max(prev.ultima, a.date.valueOf());
-		} else cuenta.set(k, { nombre: t, n: 1, ultima: a.date.valueOf() });
+	const fecha = a.date?.valueOf() ?? 0;
+	for (const etiqueta of new Set((a.tags ?? []).map((x) => String(x).trim()).filter(Boolean))) {
+		const slug = slugify(etiqueta);
+		if (!slug || GENERICAS.has(slug) || slug.length < 3) continue;
+		const horas = Math.max(0, (ahora - fecha) / (60 * 60 * 1000));
+		const actualidad = horas <= 24 ? 3 : horas <= 48 ? 2 : 1;
+		const previo = cuenta.get(slug);
+		if (previo) {
+			previo.n++;
+			previo.ultima = Math.max(previo.ultima, fecha);
+			previo.actualidad = Math.max(previo.actualidad, actualidad);
+		} else {
+			cuenta.set(slug, { nombre: etiqueta, n: 1, ultima: fecha, actualidad });
+		}
 	}
 }
+
+// Se priorizan los asuntos que aparecen en varias notas recientes.
+// La actualidad desempata temas con igual frecuencia.
 const temas = [...cuenta.entries()]
-	.sort((x, y) => y[1].n - x[1].n || y[1].ultima - x[1].ultima)
+	.sort((a, b) =>
+		(b[1].n * 3 + b[1].actualidad) - (a[1].n * 3 + a[1].actualidad) ||
+		b[1].n - a[1].n ||
+		b[1].ultima - a[1].ultima
+	)
 	.slice(0, max)
 	.map(([slug, v]) => ({ slug, nombre: v.nombre }));
 ---
