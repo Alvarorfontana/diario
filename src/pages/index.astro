@@ -86,18 +86,6 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 	<!-- EN VIVO (solo cuando hay cobertura activa) -->
 	<BloqueEnVivo />
 
-	<!-- COBERTURA ESPECIAL: ELECCIONES ESTADOS UNIDOS -->
-	<section class="mt-4 overflow-hidden rounded-2xl border border-slate-700 bg-[#111827] text-white">
-		<a href="/elecciones-eeuu/" class="group flex flex-col gap-3 p-5 transition hover:bg-[#1b2636] sm:flex-row sm:items-center sm:justify-between sm:px-7 sm:py-6">
-			<div class="min-w-0">
-				<p class="mb-1 text-[10px] font-extrabold tracking-[.16em] text-red-300 uppercase">Agencia Federal · Cobertura especial</p>
-				<h2 class="font-serif text-2xl font-bold tracking-tight sm:text-3xl">Elecciones Estados Unidos 2026</h2>
-				<p class="mt-1 text-sm text-slate-300">Mapa interactivo · Senado · Cámara de Representantes · Resultados por estado</p>
-			</div>
-			<span class="inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-white px-4 py-2 text-xs font-extrabold text-slate-900 transition group-hover:bg-red-100 sm:self-center">Ver mapa en vivo <span aria-hidden="true">↗</span></span>
-		</a>
-	</section>
-
 	<!-- TAPA: foto grande con el título encima, y dos destacadas al costado -->
 	{tapa && (
 		<section class="mt-5">
