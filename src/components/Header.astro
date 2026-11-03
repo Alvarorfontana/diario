@@ -1,6 +1,7 @@
 ---
 import { SECCIONES } from '../consts';
 import FormattedDate from './FormattedDate.astro';
+import DWLivePlayer from './DWLivePlayer.astro';
 
 const hoy = new Date();
 const { pathname } = Astro.url;
@@ -36,3 +37,5 @@ const esPortada = pathname === '/';
 		</ul>
 	</nav>
 </header>
+
+<DWLivePlayer />
