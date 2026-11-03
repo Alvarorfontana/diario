@@ -10,8 +10,8 @@ const esPortada = pathname === '/';
 <!-- Cabecera estilo portal (Astromag): logo a la izquierda, secciones en botoncitos, fija al bajar -->
 <header class="sticky top-0 z-40 bg-white shadow-[0_1px_0_#e6e6e2]">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
-		<a href="/" class="flex items-center gap-2 font-display text-[1.6rem] leading-none font-extrabold tracking-[-0.02em] text-ink sm:text-[2rem]">
-			<span class="inline-block h-3 w-3 rounded-[3px] bg-brand sm:h-3.5 sm:w-3.5" aria-hidden="true"></span>DIARIO FEDERAL
+		<a href="/" aria-label="Diario Federal, portada" class="brand-masthead font-serif text-[2rem] leading-none font-bold tracking-[-0.055em] text-[#111827] sm:text-[2.35rem]">
+			Diario<span class="text-[#087eae]">Federal</span>
 		</a>
 		<div class="flex items-center gap-2">
 			<span class="hidden text-sm text-neutral-500 first-letter:uppercase lg:inline"><FormattedDate date={hoy} /></span>
