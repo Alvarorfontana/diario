@@ -131,7 +131,7 @@ export const prerender = false;
       <div>
         <p class="eyebrow">COBERTURA</p>
         <h2>50 estados en el mapa</h2>
-        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. El mapa propio consulta civicAPI automáticamente cada 60 segundos. La fuente agrega resultados oficiales estatales; la página nacional de Los Angeles Times aporta una referencia periodística basada en AP.</p>
+        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. El mapa propio consulta civicAPI automáticamente cada 15 segundos. La fuente agrega resultados oficiales estatales; la página nacional de Los Angeles Times aporta una referencia periodística basada en AP.</p>
       </div>
       <div class="source-card">
         <strong>Fuentes para resultados 2026</strong>
@@ -359,6 +359,19 @@ export const prerender = false;
     .cartogram-fallback { grid-template-columns:repeat(5,minmax(0,1fr)); }
     .data-footer { flex-direction:column; }
   }
+.election-page{--ink:#eef3fa;--muted:#aab8ca;--line:#26364a;color:var(--ink);background:#091321;margin:0 -1rem;padding:1.25rem 1rem 3rem;}
+.election-header{position:relative;isolation:isolate;min-height:230px;align-items:center;padding:2rem 2rem 2.2rem;border:1px solid #26374d;border-radius:18px;background:radial-gradient(ellipse at 78% 35%,#203c5c 0,transparent 43%),linear-gradient(120deg,#101f32,#0a1422 72%);overflow:hidden;}
+.election-header:after{content:'2026';position:absolute;right:2%;bottom:-.42em;z-index:-1;font:900 clamp(8rem,22vw,17rem)/1 Georgia,serif;color:#ffffff08;letter-spacing:-.09em;}
+.eyebrow{color:#9eafc4;}.election-header h1{color:#fff;font-size:clamp(3rem,7vw,6rem);letter-spacing:-.055em;}.election-header h1 span{color:#f05b64;}.dek{color:#bdc9d8;font-size:1.08rem;max-width:38rem;}
+.live-state{background:#111f30;border-color:#34485f;color:#e8eef6;}.live-state.is-live{border-color:#8c313b;}.live-dot{background:#f05b64;}
+.score-strip{gap:.85rem;margin:1rem 0 1.25rem;}.score-card{position:relative;min-height:135px;padding:1.2rem 1.3rem;border:1px solid #2a3b50;border-radius:14px;background:linear-gradient(145deg,#15263a,#0e1a2a);box-shadow:0 12px 30px #0003;}.score-label{color:#aebdd0;letter-spacing:.12em;}.score-card strong{color:#fff;font-size:3.3rem;}.score-card small{color:#9eafc4;}
+.map-panel,.live-results-embed,.race-explorer{border:1px solid #293b51;border-radius:17px;background:#0e1b2b;color:#eaf0f7;box-shadow:0 16px 38px #0003;}.panel-heading h2,.embed-heading h2,.explorer-head h2,.results-bottom h2,.news-desk h2{color:#fff;font-size:clamp(1.7rem,3vw,2.3rem);}.map-period{border-color:#34485f;color:#b9c7d8;background:#142338;}
+.map-legend{border-color:#26384e;color:#c1ccda;}.map-layout{background:#0b1726;}.map-canvas{min-height:500px;background:radial-gradient(ellipse at 50% 45%,#1b3048,#0b1726 70%);}.map-canvas svg{min-height:500px;}.state-shape{stroke:#091321;stroke-width:2;}.state-shape:hover,.state-shape.selected{stroke:#fff;stroke-width:3;filter:brightness(1.2);}.state-label{fill:#fff;font-weight:800;text-shadow:0 1px 3px #000;}.state-detail{background:#101f31;border-left:1px solid #2a3d54;color:#eaf0f7;}.state-detail h3{color:#fff;font-size:1.65rem;}.detail-status,.map-note,.explorer-note{color:#aebdd0;}.race-card{background:#17283c;border-color:#30465f;color:#edf3fa;}
+.map-live-links{background:#0d1928;border-color:#2a3b50;}.map-live-links a{color:#9fc8ff;}.live-results-embed{padding:1.3rem;}.embed-intro{color:#b5c3d3;}.source-status{background:#192c42;color:#d6e5f6;border-color:#344a63;}.guardian-toolbar{background:#14253a;border-color:#2d425b;color:#d8e2ee;}.guardian-toolbar a{color:#9fc8ff;}.live-source-card,.news-source,.source-card{background:linear-gradient(145deg,#16283d,#101e2e);border-color:#2b4058;color:#edf3fa;}.live-source-card strong,.news-source strong,.source-card strong{color:#fff;}.live-source-card span,.live-source-card em,.news-source span,.news-source em,.source-card p{color:#b2c1d2;}
+.race-explorer{padding:1.3rem;}.explorer-head p,.results-bottom p,.news-desk p{color:#b2c1d2;}.race-tab{border-color:#3a4e66;color:#d4deea;background:#13243a;}.race-tab.active{background:#e9eef5;color:#102034;border-color:#e9eef5;}.explorer-controls input{background:#122338;border:1px solid #344a63;color:#fff;}.race-table th{background:#15283d;color:#b9c8d9;border-color:#2d4057;}.race-table td{border-color:#273a50;color:#e6edf5;}.race-table tr:hover{background:#14263b;}.race-empty{color:#aebdd0;}
+.results-bottom,.news-desk{border-color:#2a3b50;}.news-grid{gap:.8rem;}.news-source{min-height:170px;border-radius:13px;}.news-source.featured{border-color:#8e3c46;background:linear-gradient(140deg,#3b202b,#162338);}.news-disclaimer,.data-footer{color:#9eafc4;border-color:#2a3b50;}.data-footer{background:#0b1726;}
+.map-note{padding:1rem 1.25rem;background:#13243a;border-top:1px solid #293d54;}.map-loading{color:#c5d2e1;}.cartogram-state{background:#182b41;color:#eaf0f7;border-color:#344b65;}
+@media(max-width:760px){.election-page{margin:0 -.75rem;padding:.75rem .75rem 2rem}.election-header{padding:1.4rem;min-height:190px;align-items:flex-start;flex-direction:column}.score-strip{grid-template-columns:1fr 1fr}.score-card:last-child{grid-column:1/-1}.map-layout{grid-template-columns:1fr}.map-canvas,.map-canvas svg{min-height:340px}.state-detail{border-left:0;border-top:1px solid #2a3d54}.panel-heading{align-items:flex-start;flex-direction:column}.map-period{white-space:normal}.news-grid{grid-template-columns:1fr 1fr}}
 </style>
 
 <script is:inline type="module">
