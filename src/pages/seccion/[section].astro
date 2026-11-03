@@ -26,6 +26,17 @@ const [primero, ...resto] = articulos;
 <BaseLayout title={`${nombreSeccion} | ${SITE_TITLE}`} description={`Todas las noticias de ${nombreSeccion} en ${SITE_TITLE}.`} image={primero?.image_url}>
 	<h1 class="titulo-seccion text-3xl sm:text-4xl">{nombreSeccion}</h1>
 
+	{section === 'internacional' && (
+		<a href="/elecciones-eeuu/" class="group mt-5 flex flex-col gap-3 rounded-xl border border-slate-700 bg-[#111827] p-4 text-white transition hover:bg-[#1b2636] sm:flex-row sm:items-center sm:justify-between sm:px-6">
+			<span>
+				<span class="block text-[10px] font-extrabold tracking-[.16em] text-red-300 uppercase">Agencia Federal · Cobertura especial</span>
+				<strong class="mt-1 block font-serif text-xl sm:text-2xl">Elecciones en Estados Unidos 2026</strong>
+				<span class="mt-1 block text-sm text-slate-300">Mapa interactivo · Cámara · Senado · Gobernadores</span>
+			</span>
+			<span class="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-extrabold text-slate-900 group-hover:bg-red-100">Seguir la cobertura ↗</span>
+		</a>
+	)}
+
 	{
 		articulos.length === 0 ? (
 			<p class="tarjeta mt-6 p-10 text-center text-neutral-500">Todavía no hay noticias en esta sección.</p>
