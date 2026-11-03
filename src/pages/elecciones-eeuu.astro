@@ -353,6 +353,7 @@ export const prerender = false;
       const title = document.createElementNS(ns,'title');
       title.textContent = NAMES[code] + ' · resultados 3 de noviembre de 2026';
       path.appendChild(title);
+      svg.appendChild(path);
       const centroid = pathGenerator.centroid(f);
       if (Number.isFinite(centroid[0]) && Number.isFinite(centroid[1])) {
         const label = document.createElementNS(ns,'text');
@@ -364,7 +365,6 @@ export const prerender = false;
       }
       path.addEventListener('click', () => { selectedState = code; renderMap(); });
       path.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectedState = code; renderMap(); } });
-      svg.appendChild(path);
       statePaths.set(code,path);
     });
     $('map-loading').classList.add('hidden');
