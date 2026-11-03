@@ -54,10 +54,10 @@ export const prerender = false;
       </div>
 
       <div class="map-legend" aria-label="Referencias del mapa">
-        <span><i class="swatch republican"></i>Republicano encabeza</span>
-        <span><i class="swatch democrat"></i>Demócrata encabeza</span>
-        <span><i class="swatch mixed"></i>Resultado dividido / empate</span>
-        <span><i class="swatch pending"></i>Sin datos publicados</span>
+        <span><i class="swatch republican"></i>Republicano · referencia 2024</span>
+        <span><i class="swatch democrat"></i>Demócrata · referencia 2024</span>
+        <span><i class="swatch live-result"></i>Liderazgo confirmado en feed 2026</span>
+        <span><i class="swatch pending"></i>Sin referencia / sin datos</span>
       </div>
 
       <div class="map-layout">
@@ -72,19 +72,23 @@ export const prerender = false;
           <div id="detail-races" class="detail-races"></div>
         </aside>
       </div>
-      <p class="map-note">El color indica qué partido encabeza los recuentos disponibles, no quién ganó. Los estados grises pueden no tener todavía datos publicados o no estar cubiertos por la fuente conectada.</p>
+      <p class="map-note"><strong>Importante:</strong> los tonos rojo y azul del mapa son la referencia histórica de la elección presidencial de 2024, no resultados de 2026. Los recuentos de 2026 se consultan en las mesas de resultados de AP/Guardian y NPR enlazadas abajo; no se incorporan al mapa propio hasta contar con autorización expresa para reutilizar sus datos.</p>
+      <div class="map-live-links">
+        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir mapa nacional y resultados en vivo · AP / The Guardian ↗</a>
+        <a href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">Consultar resultados por estado · NPR / AP ↗</a>
+      </div>
     </section>
 
     <section class="results-bottom">
       <div>
         <p class="eyebrow">COBERTURA</p>
         <h2>50 estados en el mapa</h2>
-        <p>El mapa incluye los 50 estados. La disponibilidad de resultados depende de que cada autoridad electoral publique datos reutilizables y de que la fuente conectada los procese.</p>
+        <p>El mapa cubre los 50 estados y muestra como referencia el voto presidencial de 2024. Para los resultados de las legislativas de 2026, Diario Federal enlaza tableros nacionales de AP distribuidos por The Guardian, WHYY y NPR.</p>
       </div>
       <div class="source-card">
-        <strong>Fuente de datos conectada</strong>
-        <p>Organismos electorales estatales, agregados por Open America. El feed disponible cubre 22 estados y no proyecta ganadores. No se completan los estados sin datos con estimaciones.</p>
-        <a href="https://openamerica.io/elections/api/" target="_blank" rel="noopener noreferrer">Metodología, cobertura y documentación de la API ↗</a>
+        <strong>Fuentes para resultados 2026</strong>
+        <p>Los tableros externos de AP ofrecen cobertura nacional de Cámara, Senado y gobernaciones. NPR permite consultar las contiendas por estado. El mapa de esta página no presenta esos recuentos como si fueran una base propia.</p>
+        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Resultados nacionales en vivo · AP / The Guardian ↗</a>
       </div>
     </section>
 
@@ -98,10 +102,16 @@ export const prerender = false;
       </div>
       <div class="news-grid">
         <a class="news-source featured" href="https://whyy.org/articles/election-2026-results-midterms-house-senate-congress/" target="_blank" rel="noopener noreferrer">
-          <span class="news-kicker">RESULTADOS · AP</span>
-          <strong>WHYY · Resultados de Cámara, Senado y gobernadores</strong>
-          <span>Paneles de resultados de Associated Press para las principales contiendas.</span>
+          <span class="news-kicker">RESULTADOS NACIONALES · AP</span>
+          <strong>The Guardian · mapa y resultados de los 50 estados</strong>
+          <span>Tablero interactivo de Cámara, Senado y gobernaciones con resultados de Associated Press.</span>
           <em>Abrir cobertura ↗</em>
+        </a>
+        <a class="news-source" href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">
+          <span class="news-kicker">RESULTADOS POR ESTADO · AP</span>
+          <strong>NPR · resultados estado por estado</strong>
+          <span>Consulta de Cámara, Senado, gobernadores y resultados de cada estado.</span>
+          <em>Abrir resultados en NPR ↗</em>
         </a>
         <a class="news-source" href="https://www.cbsnews.com/live-updates/election-day-2026-midterms/" target="_blank" rel="noopener noreferrer">
           <span class="news-kicker">COBERTURA EN VIVO</span>
@@ -121,10 +131,10 @@ export const prerender = false;
           <span>Conteo, decisiones de carrera y cobertura nacional de la agencia.</span>
           <em>Seguir en AP ↗</em>
         </a>
-        <a class="news-source" href="https://www.reuters.com/world/us/" target="_blank" rel="noopener noreferrer">
-          <span class="news-kicker">INFORMACIÓN INTERNACIONAL</span>
-          <strong>Reuters</strong>
-          <span>Noticias verificadas, contexto político y repercusiones nacionales.</span>
+        <a class="news-source" href="https://www.reuters.com/live/us-midterm-elections-2026-live-american-voters-cast-verdict-trump-congress-2026-11-03/" target="_blank" rel="noopener noreferrer">
+          <span class="news-kicker">COBERTURA EN VIVO</span>
+          <strong>Reuters · jornada electoral</strong>
+          <span>Actualizaciones políticas y seguimiento de la votación en todo el país.</span>
           <em>Leer en Reuters ↗</em>
         </a>
         <a class="news-source" href="https://www.nbcuniversal.com/article/nbcuniversal-brings-together-nbc-news-telemundo-and-peacock-comprehensive-2026-midterm-election" target="_blank" rel="noopener noreferrer">
@@ -143,7 +153,7 @@ export const prerender = false;
       <p class="news-disclaimer">Los enlaces abren los sitios originales. La disponibilidad de resultados en cada página depende de sus propios proveedores y actualizaciones.</p>
     </section>
     <footer class="data-footer">
-      <span id="source-time">Fuente: Open America · resultados publicados por organismos electorales estatales.</span>
+      <span id="source-time">Mapa histórico 2024 · resultados 2026 en tableros externos AP / NPR.</span>
       <span>AGENCIA FEDERAL · DIARIO FEDERAL</span>
     </footer>
   </section>
@@ -174,6 +184,10 @@ export const prerender = false;
   .map-legend span { display:flex; align-items:center; gap:.4rem; }
   .swatch { width:.7rem; height:.7rem; border-radius:3px; display:inline-block; }
   .republican { background:#c64b50; } .democrat { background:#3978c5; } .mixed { background:#9272a8; } .pending { background:#d9dee5; }
+  .live-result { background:#17202c; }
+  .map-live-links { display:flex; flex-wrap:wrap; gap:.65rem 1rem; padding:.1rem 1.25rem 1rem; }
+  .map-live-links a { color:#1c5a9c; font-size:.74rem; font-weight:800; text-decoration:none; }
+  .map-live-links a:hover { text-decoration:underline; }
   .map-layout { display:grid; grid-template-columns:minmax(0,1fr) 290px; gap:0; min-height:460px; }
   .map-canvas { position:relative; min-width:0; padding:.5rem; background:#f7f8fa; }
   #us-map { display:block; width:100%; height:auto; min-height:350px; }
@@ -233,7 +247,6 @@ export const prerender = false;
   import { geoAlbersUsa, geoPath } from 'https://cdn.jsdelivr.net/npm/d3-geo@3/+esm';
   import { feature } from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
 
-  const API = 'https://openamerica.io/elections/results.json?year=2026&office=';
   const GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
   const FIPS = {
     '01':'AL','02':'AK','04':'AZ','05':'AR','06':'CA','08':'CO','09':'CT','10':'DE','12':'FL','13':'GA',
@@ -249,90 +262,39 @@ export const prerender = false;
     NM:'Nuevo México',NY:'Nueva York',NC:'Carolina del Norte',ND:'Dakota del Norte',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pensilvania',RI:'Rhode Island',SC:'Carolina del Sur',
     SD:'Dakota del Sur',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'Virginia Occidental',WI:'Wisconsin',WY:'Wyoming'
   };
-  const PARTY_COLORS = { R:'#c64b50', D:'#3978c5', I:'#9272a8', L:'#9272a8', G:'#9272a8', C:'#9272a8', W:'#9272a8' };
-  const stateFeatures = new Map();
+  const RED_2024 = new Set('AL AK AZ AR FL GA ID IN IA KS KY LA MI MS MO MT NE NV NC ND OH OK PA SC SD TN TX UT WV WI WY'.split(' '));
+  const BLUE_2024 = new Set('CA CO CT DE HI IL ME MD MA MN NH NJ NM NY OR RI VT VA WA'.split(' '));
   const statePaths = new Map();
-  const datasets = { House:null, Senate:null, Governor:null };
-  let currentOffice = 'House';
   let selectedState = null;
-  let projection;
-  let pathGenerator;
-  let refreshTimer;
 
   const $ = (id) => document.getElementById(id);
-  const fmt = (n) => new Intl.NumberFormat('es-AR').format(Number(n || 0));
-  const partyName = (p) => ({R:'Republicano',D:'Demócrata',I:'Independiente',L:'Libertario',G:'Verde',C:'Constitucional',W:'Working Families'}[p] || 'Sin partido');
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
-  const stateRaces = (code, office = currentOffice) => {
-    const data = datasets[office];
-    if (!data?.races) return [];
-    return Object.entries(data.races).filter(([key]) => office === 'House' ? key.startsWith(code + '-') : key === code || key.startsWith(code + '-'));
-  };
-  const raceLeaders = (races) => races.reduce((acc, [, race]) => {
-    if (race.leader === 'R' || race.leader === 'D') acc[race.leader] += 1;
-    return acc;
-  }, {R:0,D:0});
-  function stateColor(code) {
-    const races = stateRaces(code);
-    if (!races.length) return '#d9dee5';
-    if (currentOffice === 'House') {
-      const tally = raceLeaders(races);
-      if (!tally.R && !tally.D) return '#d9dee5';
-      if (tally.R === tally.D) return tally.R ? '#9272a8' : '#d9dee5';
-      return tally.R > tally.D ? '#c64b50' : '#3978c5';
-    }
-    const race = races[0]?.[1];
-    if (!race?.leader) return '#d9dee5';
-    return PARTY_COLORS[race.leader] || '#d9dee5';
+  function historicalColor(code) {
+    if (RED_2024.has(code)) return '#e7a0a3';
+    if (BLUE_2024.has(code)) return '#9bbce3';
+    return '#d9dee5';
   }
   function renderMap() {
     for (const [code, path] of statePaths) {
-      path.setAttribute('fill', stateColor(code));
+      path.setAttribute('fill', historicalColor(code));
       path.classList.toggle('selected', selectedState === code);
     }
-    const liveStates = new Set(Object.values(datasets).flatMap(data => data?.races ? Object.keys(data.races).map(k => k.split('-')[0]) : []));
-    $('states-live').textContent = liveStates.size + ' / 50';
-    const house = datasets.House?.races ? Object.values(datasets.House.races) : [];
-    const tally = house.reduce((acc, race) => {
-      if (race.leader === 'R') acc.R++;
-      if (race.leader === 'D') acc.D++;
-      return acc;
-    }, {R:0,D:0});
-    $('house-r').textContent = fmt(tally.R);
-    $('house-d').textContent = fmt(tally.D);
+    $('states-live').textContent = '0 / 50';
+    $('house-r').textContent = '—';
+    $('house-d').textContent = '—';
+    $('updated-at').textContent = 'El recuento 2026 se consulta en los tableros AP / NPR enlazados.';
     if (selectedState) renderDetail(selectedState);
   }
   function renderDetail(code) {
     $('detail-title').textContent = NAMES[code] || code;
-    const races = stateRaces(code);
-    const data = datasets[currentOffice];
-    if (!races.length) {
-      $('detail-status').textContent = data?.live === false && !data?.counting
-        ? 'Todavía no hay recuentos publicados para esta contienda o estado.'
-        : 'No hay datos de esta contienda en la fuente conectada. El estado permanece sin colorear.';
-      $('detail-races').innerHTML = '';
-      return;
-    }
-    const updated = data?.as_of ? new Date(data.as_of).toLocaleString('es-AR') : 'sin hora informada';
-    $('detail-status').textContent = (data?.live ? 'Recuento en curso' : data?.stale ? 'Datos demorados' : 'Datos preliminares') + ' · Actualizado por la fuente: ' + updated;
-    $('detail-races').innerHTML = races.map(([key, race]) => {
-      const title = currentOffice === 'House' ? 'Cámara · Distrito ' + key.split('-')[1] : currentOffice === 'Senate' ? 'Senado' : 'Gobernación';
-      const candidates = (race.cands || []).slice(0,4).map(c => `
-        <div class="candidate-row">
-          <span><i class="party-dot" style="background:${PARTY_COLORS[c.p] || '#929ba7'}"></i>${escapeHtml(c.n)} · ${partyName(c.p)}</span>
-          <strong>${fmt(c.v)} (${c.pct == null ? '—' : Number(c.pct).toFixed(1) + '%'})</strong>
-        </div>`).join('');
-      return `<article class="race-card"><h4>${title} ${race.pct_in == null ? '' : '· ' + Number(race.pct_in).toFixed(1) + '% informado'}</h4>${candidates || '<span class="detail-status">Sin votos publicados.</span>'}</article>`;
-    }).join('');
-  }
-  function escapeHtml(value) {
-    return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    $('detail-status').textContent = 'Referencia histórica: resultado presidencial de 2024. Para ver el recuento legislativo de 2026, abrí los resultados nacionales de AP / The Guardian o la consulta por estado de NPR.';
+    $('detail-races').innerHTML = '<p class="detail-status"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Ver resultados 2026 de AP ↗</a></p><p class="detail-status"><a href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">Ver resultados por estado en NPR ↗</a></p>';
   }
   function drawStates(topology) {
     const collection = feature(topology, topology.objects.states);
     const svg = $('us-map');
-    projection = geoAlbersUsa().fitSize([940,570], collection);
-    pathGenerator = geoPath(projection);
+    const projection = geoAlbersUsa().fitSize([940,570], collection);
+    const pathGenerator = geoPath(projection);
     const ns = 'http://www.w3.org/2000/svg';
     collection.features.forEach(f => {
       const code = stateCode(f);
@@ -340,86 +302,30 @@ export const prerender = false;
       const path = document.createElementNS(ns,'path');
       path.setAttribute('d',pathGenerator(f));
       path.setAttribute('class','state-shape');
-      path.setAttribute('fill','#d9dee5');
+      path.setAttribute('fill',historicalColor(code));
       path.setAttribute('tabindex','0');
       path.setAttribute('role','button');
       path.setAttribute('aria-label',NAMES[code] || code);
       const title = document.createElementNS(ns,'title');
-      title.textContent = NAMES[code] || code;
+      title.textContent = NAMES[code] + ' · referencia presidencial 2024';
       path.appendChild(title);
-      path.addEventListener('click', () => selectState(code));
-      path.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectState(code); } });
+      path.addEventListener('click', () => { selectedState = code; renderMap(); });
+      path.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectedState = code; renderMap(); } });
       svg.appendChild(path);
-      stateFeatures.set(code,f);
       statePaths.set(code,path);
     });
     $('map-loading').classList.add('hidden');
+    $('live-label').textContent = 'RESULTADOS 2026 EN FUENTES EXTERNAS';
+    $('live-label').parentElement.classList.remove('is-live');
     renderMap();
   }
-  function selectState(code) {
-    selectedState = code;
-    renderMap();
-  }
-  async function fetchOffice(office) {
-    const response = await fetch(API + office, { headers:{'Accept':'application/json'}, cache:'no-store', credentials:'omit' });
-    if (!response.ok) throw new Error(office + ': HTTP ' + response.status);
-    const data = await response.json();
-    if (data.year !== 2026 || data.office.toLowerCase() !== office.toLowerCase()) throw new Error('Respuesta inesperada de ' + office);
-    datasets[office] = data;
-  }
-  async function refresh() {
-    const offices = ['House','Senate','Governor'];
-    const settled = await Promise.allSettled(offices.map(fetchOffice));
-    const failed = settled.filter(result => result.status === 'rejected');
-    const available = offices.filter(office => datasets[office] !== null);
-
-    if (!available.length) {
-      $('live-label').textContent = 'FUENTE TEMPORALMENTE NO DISPONIBLE';
-      $('live-label').parentElement.classList.remove('is-live');
-      $('updated-at').textContent = 'No se pudo consultar ninguna fuente. Se reintentará automáticamente.';
-      console.error('[Agencia Federal elecciones]', failed.map(result => result.reason));
-      return;
-    }
-
-    const current = available.map(office => datasets[office]);
-    const latest = current.map(data => data?.as_of).filter(Boolean).sort().at(-1);
-    const live = current.some(data => data?.live);
-    const stale = current.some(data => data?.stale);
-    const partial = failed.length > 0 || available.length < offices.length;
-
-    $('updated-at').textContent = latest
-      ? 'Último dato de origen: ' + new Date(latest).toLocaleString('es-AR')
-      : 'La fuente todavía no publicó recuentos.';
-    $('live-label').textContent = partial
-      ? 'ACTUALIZACIÓN PARCIAL · ' + available.length + '/3 FUENTES'
-      : live
-        ? 'RESULTADOS ACTUALIZÁNDOSE'
-        : stale
-          ? 'DATOS DEMORADOS'
-          : 'FUENTE CONECTADA · ESPERANDO RECUENTOS';
-    $('live-label').parentElement.classList.toggle('is-live', live && !partial);
-    renderMap();
-
-    if (failed.length) {
-      console.warn('[Agencia Federal elecciones] Fuentes con error:', failed.map(result => result.reason));
-    }
-  }
-  document.querySelectorAll('.view-button').forEach(button => button.addEventListener('click', () => {
-    currentOffice = button.dataset.office;
-    document.querySelectorAll('.view-button').forEach(b => {
-      const active = b === button;
-      b.classList.toggle('active',active);
-      b.setAttribute('aria-pressed',String(active));
-    });
-    renderMap();
-  }));
   try {
-    const topology = await fetch(GEO_URL).then(r => { if (!r.ok) throw new Error('No se pudo cargar la geometría'); return r.json(); });
-    drawStates(topology);
-    await refresh();
-    refreshTimer = window.setInterval(refresh,60000);
+    const response = await fetch(GEO_URL, {cache:'force-cache'});
+    if (!response.ok) throw new Error('No se pudo cargar la geometría');
+    drawStates(await response.json());
   } catch (error) {
-    $('map-loading').textContent = 'No se pudo cargar el mapa. Recargá la página para volver a intentar.';
-    console.error('[Agencia Federal mapa]',error);
+    $('map-loading').textContent = 'No se pudo cargar el mapa. Consultá los resultados externos enlazados debajo.';
+    $('live-label').textContent = 'FUENTES EXTERNAS DISPONIBLES';
+    console.error('[Diario Federal elecciones]',error);
   }
 </script>
