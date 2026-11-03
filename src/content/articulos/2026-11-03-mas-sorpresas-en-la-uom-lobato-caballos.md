@@ -19,8 +19,6 @@ puntosClave:
   - "Los auditores de la intervención detectaron pagos sin respaldo suficiente, entre ellos $98 millones en transferencias de un millón."
 ---
 
-*Especial para Diario Federal*
-
 En la causa por asociación ilícita y malversación de fondos en perjuicio de la Unión Obrera Metalúrgica (UOM), la Justicia Federal investiga también el patrimonio de Osvaldo Lobato, la ex mano derecha de Abel Furlán en la Secretaría Administrativa. La sorpresa del fiscal federal Eduardo Taiano fue grande cuando descubrió que el dirigente aparece como titular de dos caballerizas que acumulan casi $600 millones en premios.
 
 La investigación judicial sobre las presuntas irregularidades en el manejo de los fondos de la UOM tiene un protagonista que durante años permaneció en un segundo plano: Osvaldo Esteban Lobato.
@@ -88,3 +86,5 @@ Ahora se abre otro interrogante, esta vez sobre el futuro del sindicato. Por el 
 Mientras tanto, varios interrogantes quedan flotando en la UOM. ¿Pretende "el monje negro" volver a administrar el gremio desde las sombras? ¿Quién lo protege y quiénes son sus aliados? Y, finalmente, ¿el caballo de Troya de La Cámpora ya logró infiltrarse en la organización?
 
 La atención se centra ahora en el interventor Alberto "Nacho" Biglieri, flamante integrante del Consejo de la Magistratura de la Nación. No obstante, sus colaboradores deslizan que busca dar un paso al costado a la brevedad, aunque con la premisa innegociable de dejar la institución normalizada.
+
+*Especial para Diario Federal*
