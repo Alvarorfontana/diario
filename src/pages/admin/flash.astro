@@ -413,7 +413,8 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 					vista = '<div style="padding:10px 12px;background:#f0f0ec;border-radius:8px;font-size:13px">' + (m.tipo === 'video' ? '🎥' : '🖼') + ' Ya subido: ' + esc(m.archivo.split('/').pop()) + '</div>';
 				}
 				var extra = '';
-				if (m && m.tipo === 'video') extra = '<label style="margin-top:0">Empezar en el segundo<input type="number" min="0" step="0.5" data-inicio="' + i + '" value="' + (m.inicio || 0) + '" style="width:110px" /></label>';
+				if (m && m.tipo === 'video') extra = '<label style="margin-top:0">Empezar en el segundo<input type="number" min="0" step="0.5" data-inicio="' + i + '" value="' + (m.inicio || 0) + '" style="width:110px" /></label>' +
+					'<label style="display:flex;gap:8px;align-items:center;font-weight:500;max-width:260px"><input type="checkbox" data-acercar="' + i + '" style="width:auto"' + (m.acercar ? ' checked' : '') + ' /> Acercar: tapa logos de otros canales y subtítulos del video original</label>';
 				if (m && m.tipo === 'foto' && m._local) extra = '<p class="ayuda" style="max-width:240px">Tocá la foto donde está la cara o lo importante: el recorte se centra ahí.</p>';
 				box.innerHTML = vista + '<div>' + extra + '<label class="btn btn-ghost" style="margin-top:6px">' + (m ? 'Cambiar' : '⬆ Subir foto o video') +
 					'<input type="file" data-archivo="' + i + '" accept="image/*,video/*" class="hidden" /></label>' + (m ? ' <button type="button" class="mini" data-sinmedio="' + i + '">Quitar</button>' : '') +
@@ -440,6 +441,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				if (t.id === 'f-estilo') { f.estilo = t.value; }
 				if (t.id === 'f-subs') { f.subtitulos = t.checked; }
 				if (t.id === 'f-musica') f.musica = t.value;
+				if (t.dataset.acercar != null) { var mb = f.bloques[+t.dataset.acercar].media; if (mb) { if (t.checked) mb.acercar = true; else delete mb.acercar; } f._editado = true; }
 				if (t.dataset.archivo != null) {
 					var i = +t.dataset.archivo, file = t.files[0]; if (!file) return;
 					var esVideo = file.type.indexOf('video/') === 0;

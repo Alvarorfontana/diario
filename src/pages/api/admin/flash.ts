@@ -41,6 +41,7 @@ function limpiar(f: any, previo: any = {}) {
 				tipo: m.tipo === 'video' ? 'video' : 'foto',
 				archivo: m.archivo,
 				...(m.tipo === 'video' ? { inicio: Math.max(0, Math.min(600, Number(m.inicio) || 0)) } : {}),
+				...(m.tipo === 'video' && m.acercar === true ? { acercar: true } : {}),
 				...(Array.isArray(m.foco) ? { foco: [Math.max(0, Math.min(1, Number(m.foco[0]) || 0.5)), Math.max(0, Math.min(1, Number(m.foco[1]) || 0.4))] } : {}),
 				...(m.vista ? { vista: corto(m.vista, 300) } : {}),
 			}
@@ -75,7 +76,7 @@ function limpiar(f: any, previo: any = {}) {
 		publicado: previo.publicado === true,
 	};
 	// lo que dejó el último video generado
-	for (const k of ['video', 'miniatura', 'version', 'duracion', 'duraciones', 'generado', 'error', 'rotulo']) if (previo[k] !== undefined) out[k] = previo[k];
+	for (const k of ['video', 'miniatura', 'version', 'duracion', 'duraciones', 'generado', 'error', 'rotulo', 'subtitulosVtt', 'capitulos']) if (previo[k] !== undefined) out[k] = previo[k];
 	return out;
 }
 

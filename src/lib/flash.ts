@@ -12,6 +12,9 @@ export interface Flash {
 	miniatura?: string;
 	version?: string;
 	duracion?: number;
+	// archivo .vtt con lo que dice la voz, y segundo en que empieza cada noticia
+	subtitulosVtt?: string;
+	capitulos?: { t: number; titulo: string }[];
 }
 
 const archivos = import.meta.glob('../../data/flash/*.json', { eager: true, import: 'default' }) as Record<string, any>;

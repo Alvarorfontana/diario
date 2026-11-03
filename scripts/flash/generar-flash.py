@@ -205,7 +205,11 @@ def preparar_medio(b, dur, tmp, idx, pw=PW, ph=PH, nuevo=False):
     n = int(dur * FPS) + 2
     # el video se decodifica a un tamaño menor y se agranda al dibujar (ocupa menos disco)
     rw, rh = (pw, ph) if not nuevo else (pw * 2 // 3 // 2 * 2, ph * 2 // 3 // 2 * 2)
-    vf = (f"[0:v]fps={FPS},split[a][b];[a]scale={rw}:{rh}:force_original_aspect_ratio=increase,crop={rw}:{rh},"
+    # "Acercar": recorta los bordes del video original (logos de otros canales, subtítulos
+    # quemados) y se queda con el centro, un poco más arriba que abajo.
+    Z = 1.35
+    acerca = f"crop=iw/{Z}:ih/{Z}:(iw-iw/{Z})/2:(ih-ih/{Z})*0.35," if m.get("acercar") else ""
+    vf = (f"[0:v]{acerca}fps={FPS},split[a][b];[a]scale={rw}:{rh}:force_original_aspect_ratio=increase,crop={rw}:{rh},"
           f"boxblur=25:2,eq=brightness=-0.25[bg];[b]scale={rw}:{rh}:force_original_aspect_ratio=decrease[fg];"
           f"[bg][fg]overlay=(W-w)/2:(H-h)/2")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-stream_loop", "-1", "-ss", str(float(m.get("inicio") or 0)),
@@ -402,7 +406,7 @@ def placa_bloque_nuevo(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
         d.ellipse([x0 + wt + 46, 84, x0 + wt + 60, 98], fill=ROJO_N)
     espaciado(d, (x0 + 18, 92), tag, ft, WHITE, 3.5)
     der = fecha_corta(flash) + ("" if urgente or n < 2 else f"   |   Tema {idx + 1} de {n}")
-    fr = it(500, 21); wd = d.textlength(der, font=fr)
+    fr = it(500, 26); wd = d.textlength(der, font=fr)
     d.rectangle([W - M - wd - 42, 66, W - M, 117], fill=NEGRO_N + (220,))
     d.text((W - M - 21, 92), der, font=fr, fill=(230, 230, 230), anchor="rm")
 
@@ -441,7 +445,7 @@ def placa_bloque_nuevo(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
         tf = ss(700, tam); lineas = partir_n(d, b.get("titulo", ""), tf, ancho_t)
         if len(lineas) <= 2: break
     lineas = lineas[:2]
-    alto = 27 + len(lineas) * int(tam * 1.14) + (44 if (b.get("dato") or b.get("bajada")) else 0) + 27
+    alto = 27 + len(lineas) * int(tam * 1.14) + (54 if (b.get("dato") or b.get("bajada")) else 0) + 27
     yb = y - alto + sube
     d.rectangle([M, yb, W - M, y + sube if not subs else y + sube], fill=NEGRO_N)
     ty = yb + 27
@@ -450,10 +454,10 @@ def placa_bloque_nuevo(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
     if b.get("dato") or b.get("bajada"):
         x = M + 36; ty += 6
         if b.get("dato"):
-            fd = it(700, 27)
+            fd = it(700, 34)
             d.text((x, ty), b["dato"], font=fd, fill=(255, 92, 102)); x += d.textlength(b["dato"], font=fd) + 22
         if b.get("bajada"):
-            fb = it(500, 25)
+            fb = it(500, 31)
             d.text((x, ty + 2), recortar(d, b["bajada"], fb, W - M - 36 - x), font=fb, fill=(195, 195, 195))
 
     # antetítulo en rojo, pegado a la franja
@@ -464,10 +468,10 @@ def placa_bloque_nuevo(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
     # crédito de la foto o el video
     cred = " · ".join(x for x in (b.get("epigrafe"), b.get("fuente")) if x)
     if cred:
-        fc = it(500, 19); cred = recortar(d, cred, fc, W / 2)
+        fc = it(500, 24); cred = recortar(d, cred, fc, W / 2)
         wc = d.textlength(cred, font=fc)
-        d.rectangle([W - M - wc - 24, yb - 50, W - M, yb - 14], fill=NEGRO_N + (190,))
-        d.text((W - M - 12, yb - 32), cred, font=fc, fill=(232, 232, 232), anchor="rm")
+        d.rectangle([W - M - wc - 28, yb - 56, W - M, yb - 12], fill=NEGRO_N + (190,))
+        d.text((W - M - 14, yb - 34), cred, font=fc, fill=(232, 232, 232), anchor="rm")
     return im
 
 
@@ -495,9 +499,20 @@ def placa_intro_nueva(t, flash, bloques):
         for i, b in enumerate(lista):
             yy = y0 + 34 + i * paso
             def fila(d, a, i=i, b=b, yy=yy):
-                tf = ss(600, 40 if len(lista) <= 4 else 34)
+                tf = ss(600, 40 if len(lista) <= 4 else 34); ancho = W - 120 - x - 84
                 d.text((x, yy + paso / 2), str(i + 1), font=ss(700, 42), fill=(255, 90, 95, a), anchor="lm")
-                d.text((x + 84, yy + paso / 2), recortar(d, b.get("titulo", ""), tf, W - 120 - x - 84), font=tf, fill=WHITE + (a,), anchor="lm")
+                tit = b.get("titulo", "")
+                if d.textlength(tit, font=tf) <= ancho:
+                    d.text((x + 84, yy + paso / 2), tit, font=tf, fill=WHITE + (a,), anchor="lm")
+                else:
+                    # título largo: en dos renglones, sin cortarlo con "…"
+                    tf2 = ss(600, 31 if len(lista) <= 4 else 26)
+                    lns = partir_n(d, tit, tf2, ancho)
+                    if len(lns) > 2: lns = [lns[0], recortar(d, " ".join(lns[1:]), tf2, ancho)]
+                    alto_l = int(tf2.size * 1.18)
+                    y1 = yy + paso / 2 - alto_l * (len(lns) - 1) / 2
+                    for j, ln in enumerate(lns):
+                        d.text((x + 84, y1 + j * alto_l), ln, font=tf2, fill=WHITE + (a,), anchor="lm")
                 d.line([x, yy + paso, W - 120, yy + paso], fill=(58, 58, 58, a), width=2)
             con_alfa(im, fila, ease((t - 0.5 - i * 0.18) / 0.4))
     ImageDraw.Draw(im).rectangle([0, H - 9, W, H], fill=ROJO_N)
@@ -688,21 +703,48 @@ def generar(flash):
         musica = reunir(flash.get("musica") or "/flash/musica/paulyudin.mp3", tmp)
         vi = linea[0][3]; ve = linea[-1][3] + dur_wav(voces["cierre"])
         db = float(flash.get("volumenMusica", -17))
-        vol = f"if(lt(t,{vi:.2f}),1,if(gt(t,{ve:.2f}),1,{10 ** (db / 20):.3f}))"
+        # La música va 7 dB más arriba que el volumen elegido y baja sola cada vez que habla la voz
+        # (sidechaincompress): en las pausas entre noticias respira, y debajo de la voz queda donde
+        # la pusiste en el panel. Al final se empareja el volumen de todo el video (loudnorm, -16 LUFS,
+        # el nivel habitual de los videos en la web) para que ningún flash suene más fuerte que otro.
+        DUCK = 7
+        vol = f"if(lt(t,{vi:.2f}),1,if(gt(t,{ve:.2f}),1,{10 ** ((db + DUCK) / 20):.3f}))"
+        parejo = "loudnorm=I=-16:TP=-1.5:LRA=11,aresample=44100"
         if musica:
-            flt = (f"[1:a]aloop=loop=-1:size=2e9,atrim=0:{total:.2f},volume='{vol}':eval=frame,"
-                   f"afade=t=out:st={total - 2.5:.2f}:d=2.5,volume=0.55[m];"
-                   f"[2:a]aresample=44100,volume=1.6[v];[m][v]amix=inputs=2:normalize=0,alimiter=limit=0.95[a]")
+            flt = (f"[1:a]aloop=loop=-1:size=2e9,atrim=0:{total:.2f},aresample=44100,aformat=channel_layouts=stereo,"
+                   f"volume='{vol}':eval=frame,afade=t=out:st={total - 2.5:.2f}:d=2.5,volume=0.55[m];"
+                   f"[2:a]aresample=44100,aformat=channel_layouts=stereo,volume=1.6,asplit=2[v][llave];"
+                   f"[m][llave]sidechaincompress=threshold=0.03:ratio=6:attack=40:release=450:makeup=1[mb];"
+                   f"[mb][v]amix=inputs=2:normalize=0,alimiter=limit=0.95,{parejo}[a]")
             cmd = ["ffmpeg", "-v", "error", "-y", "-i", str(mudo), "-i", str(musica), "-i", str(voz_wav),
                    "-filter_complex", flt, "-map", "0:v", "-map", "[a]"]
         else:
             cmd = ["ffmpeg", "-v", "error", "-y", "-i", str(mudo), "-i", str(voz_wav), "-map", "0:v", "-map", "1:a",
-                   "-af", "volume=1.6,alimiter=limit=0.95"]
+                   "-af", f"volume=1.6,alimiter=limit=0.95,{parejo}"]
         subprocess.run(cmd + ["-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart",
                               "-shortest", str(destino)], check=True)
         # miniatura para la página y para compartir
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{linea[1][1] + 2.5:.2f}", "-i", str(destino),
                         "-frames:v", "1", "-vf", "scale=1200:-2", "-q:v", "4", str(SALIDA / f"{flash['id']}.jpg")], check=True)
+
+        # subtítulos (.vtt) y capítulos para el reproductor del sitio
+        def marca(s):
+            s = max(0.0, s); h = int(s // 3600); m = int(s % 3600 // 60)
+            return f"{h:02d}:{m:02d}:{s % 60:06.3f}"
+        cues, capitulos = [], []
+        for k, st, dur, vs in linea:
+            if not k.startswith("b"): continue
+            i = int(k[1:]); b = bloques[i]
+            tr = trozos.get(i) or armar_trozos(tiempos_palabras(b["texto"], habladas.get(k, []), dur_wav(voces[k])))
+            for tz in tr:
+                if tz: cues.append([vs + tz[0][1], vs + tz[-1][2] + 0.35, " ".join(w for w, a, bb in tz)])
+            capitulos.append({"t": round(st, 1), "titulo": b.get("titulo") or b.get("kicker") or f"Noticia {i + 1}"})
+        for j in range(len(cues) - 1):
+            cues[j][1] = min(cues[j][1], cues[j + 1][0] - 0.02)
+        vtt = "WEBVTT\n\n" + "\n".join(f"{j + 1}\n{marca(a)} --> {marca(b)}\n{txt}\n" for j, (a, b, txt) in enumerate(cues))
+        (SALIDA / f"{flash['id']}.vtt").write_text(vtt, encoding="utf-8")
+        flash["subtitulosVtt"] = f"/flash/{flash['id']}.vtt"
+        flash["capitulos"] = capitulos
 
         caracteres = sum(len(txt) for k, txt in segs if k.startswith("b"))
         segundos = sum(dur_wav(voces[k]) for k, _ in segs if k.startswith("b"))

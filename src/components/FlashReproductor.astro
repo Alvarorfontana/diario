@@ -6,11 +6,28 @@ interface Props { flash: Flash; url: string; nivel?: 'h1' | 'h2' }
 const { flash, url, nivel = 'h1' } = Astro.props;
 const Titulo = nivel;
 const urgente = flash.tipo === 'ultimo';
+const conTexto = flash.bloques.filter((b) => b.texto);
+const caps = flash.capitulos ?? [];
+const vtt = flash.subtitulosVtt ? `${flash.subtitulosVtt}${flash.version ? `?v=${flash.version}` : ''}` : undefined;
 ---
 
+<div data-flash-rep>
 <div class="relative aspect-video w-full overflow-hidden rounded-[4px] bg-black">
-	<video class="absolute inset-0 h-full w-full" src={videoUrl(flash)} poster={miniUrl(flash)} controls playsinline preload="metadata"></video>
+	<video class="absolute inset-0 h-full w-full" src={videoUrl(flash)} poster={miniUrl(flash)} controls playsinline preload="metadata">
+		{vtt && <track kind="captions" src={vtt} srclang="es" label="Español" />}
+	</video>
 </div>
+{caps.length > 1 && (
+	<div class="mt-3 flex flex-wrap gap-2" aria-label="Ir a cada noticia del video">
+		{caps.map((c, i) => (
+			<button type="button" data-ir={c.t} class="flex max-w-full items-center gap-2 rounded-[3px] border border-[#3a3a3a] bg-[#1c1c1c] px-3 py-1.5 text-left text-xs text-[#e8e8e4] transition hover:border-[#ff5a6e]">
+				<span class="font-bold text-[#ff5a6e]">{i + 1}</span>
+				<span class="truncate">{c.titulo}</span>
+				<span class="text-[#8f8f8b]">{mmss(c.t)}</span>
+			</button>
+		))}
+	</div>
+)}
 <p class={`mt-4 inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase ${urgente ? 'text-[#ff5a6e]' : 'text-[#b8b8b4]'}`}>
 	{urgente && <span class="titila inline-block h-2 w-2 rounded-full bg-[#ff5a6e]" aria-hidden="true"></span>}
 	{etiqueta(flash)} · {fechaLarga(flash.fecha)}{flash.duracion ? ` · ${mmss(flash.duracion)}` : ''}
@@ -21,13 +38,28 @@ const urgente = flash.tipo === 'ultimo';
 <details class="mt-6 border-t border-[#333333] pt-4" open={nivel === 'h1'}>
 	<summary class="cursor-pointer text-xs font-extrabold tracking-[0.14em] text-white uppercase">Lo que dice el video</summary>
 	<ol class="mt-3 space-y-5">
-		{flash.bloques.filter((b) => b.texto).map((b) => (
+		{conTexto.map((b, i) => (
 			<li>
 				{b.kicker && <p class="text-[11px] font-bold tracking-[0.1em] text-[#ff5a6e] uppercase">{b.kicker}</p>}
 				{b.titulo && <h3 class="font-display text-lg leading-snug font-bold text-white">{b.titulo}</h3>}
 				<p class="mt-1 leading-relaxed text-[#d8d8d4]">{b.texto}</p>
 				{(b.epigrafe || b.fuente) && <p class="mt-1 text-xs text-[#8f8f8b]">{[b.epigrafe, b.fuente].filter(Boolean).join(' · ')}</p>}
+				{caps[i] && <button type="button" data-ir={caps[i].t} class="mt-2 text-xs font-bold text-[#ff5a6e] hover:underline">▶ Ver en el video ({mmss(caps[i].t)})</button>}
 			</li>
 		))}
 	</ol>
 </details>
+</div>
+
+<script is:inline>
+	// Botones de capítulos: llevan el video al segundo en que empieza cada noticia
+	if (!window.__flashCapitulos) { window.__flashCapitulos = true; document.addEventListener('click', function (e) {
+		var b = e.target.closest && e.target.closest('[data-ir]');
+		if (!b) return;
+		var cont = b.closest('[data-flash-rep]'); var v = cont && cont.querySelector('video');
+		if (!v) return;
+		v.currentTime = Number(b.getAttribute('data-ir')) || 0;
+		v.play().catch(function () {});
+		v.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	}); }
+</script>
