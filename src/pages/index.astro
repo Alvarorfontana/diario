@@ -6,7 +6,6 @@ import ArticleCard from '../components/ArticleCard.astro';
 import NewsletterBox from '../components/NewsletterBox.astro';
 import AdBanner from '../components/AdBanner.astro';
 import FormattedDate from '../components/FormattedDate.astro';
-import FranjaMercados from '../components/FranjaMercados.astro';
 import BloqueEnVivo from '../components/BloqueEnVivo.astro';
 import TemasDelDia from '../components/TemasDelDia.astro';
 import PortadaRegional from '../components/PortadaRegional.astro';
@@ -57,9 +56,6 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 ---
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage={`/api/og-portada.jpg?d=${hoyAR}`}>
-
-	<!-- MERCADOS -->
-	<FranjaMercados />
 
 	<!-- ÚLTIMO MOMENTO -->
 	{ticker.length > 0 && (
