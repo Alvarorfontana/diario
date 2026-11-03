@@ -1,34 +1,70 @@
 ---
-// Franja de mercados (estilo Financial Times): dólar y riesgo país.
-// Los datos llegan de /api/mercados después de cargar la página, así la portada no se demora.
-// Si las fuentes no responden, la franja no aparece.
+ // Franja de mercados de Diario Federal: divisas, riesgo país y ADRs.
 ---
-
-<div id="franja-mercados" class="no-scrollbar mb-3 hidden overflow-x-auto" aria-label="Mercados">
-	<div class="flex w-max gap-2" id="franja-mercados-items"></div>
-</div>
+<section id="franja-mercados" class="mb-5 hidden" aria-label="Mercados financieros">
+  <div class="mb-2 flex items-center justify-between gap-3">
+    <p class="text-[11px] font-bold uppercase tracking-[.16em] text-neutral-500">Mercados</p>
+    <p id="mercados-actualizacion" class="text-[10px] text-neutral-500"></p>
+  </div>
+  <div id="mercados-divisas" class="no-scrollbar flex gap-2 overflow-x-auto pb-2"></div>
+  <div class="mt-2 flex items-center justify-between gap-3 border-t border-neutral-200 pt-3">
+    <p class="text-[11px] font-bold uppercase tracking-[.14em] text-neutral-500">ADRs argentinas · Wall Street</p>
+    <span class="text-[10px] text-neutral-400">Precio en USD · variación diaria</span>
+  </div>
+  <div id="mercados-adrs" class="no-scrollbar flex gap-2 overflow-x-auto pb-2"></div>
+  <p id="mercados-nota" class="mt-1 text-[10px] text-neutral-400"></p>
+</section>
 
 <script is:inline>
-	(function () {
-		var caja = document.getElementById('franja-mercados');
-		var lista = document.getElementById('franja-mercados-items');
-		if (!caja || !lista) return;
-		fetch('/api/mercados')
-			.then(function (r) { return r.ok ? r.json() : null; })
-			.then(function (d) {
-				if (!d || !d.ok || !d.items || !d.items.length) return;
-				lista.innerHTML = '';
-				d.items.forEach(function (it) {
-					var el = document.createElement('div');
-					el.className = 'flex items-baseline gap-2 rounded-xl bg-white px-3.5 py-2 text-[13px] whitespace-nowrap shadow-[inset_0_0_0_1px_#e6e6e2]';
-					var n = document.createElement('span'); n.className = 'font-semibold text-neutral-600'; n.textContent = it.nombre;
-					var v = document.createElement('span'); v.className = 'font-display font-extrabold text-ink tabular-nums'; v.textContent = it.valor;
-					el.appendChild(n); el.appendChild(v);
-					if (it.detalle) { var t = document.createElement('span'); t.className = 'text-[11px] text-neutral-500'; t.textContent = it.detalle; el.appendChild(t); }
-					lista.appendChild(el);
-				});
-				caja.classList.remove('hidden');
-			})
-			.catch(function () {});
-	})();
+(function () {
+  var root = document.getElementById('franja-mercados');
+  var fx = document.getElementById('mercados-divisas');
+  var adrs = document.getElementById('mercados-adrs');
+  if (!root || !fx || !adrs) return;
+
+  function card(name, value, detail, positive) {
+    var el = document.createElement('div');
+    el.className = 'shrink-0 rounded-lg bg-white px-3 py-2 shadow-[inset_0_0_0_1px_#e5e7eb]';
+    var title = document.createElement('div');
+    title.className = 'text-[11px] font-semibold text-neutral-500';
+    title.textContent = name;
+    var line = document.createElement('div');
+    line.className = 'mt-0.5 flex items-baseline gap-2';
+    var val = document.createElement('strong');
+    val.className = 'font-display text-[14px] font-extrabold tabular-nums text-neutral-900';
+    val.textContent = value;
+    line.appendChild(val);
+    if (detail) {
+      var sub = document.createElement('span');
+      sub.className = 'text-[10px] font-semibold tabular-nums ' +
+        (positive === true ? 'text-emerald-700' : positive === false ? 'text-rose-700' : 'text-neutral-400');
+      sub.textContent = detail;
+      line.appendChild(sub);
+    }
+    el.appendChild(title); el.appendChild(line);
+    return el;
+  }
+
+  fetch('/api/mercados')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      if (!data || !data.ok) return;
+      fx.replaceChildren();
+      (data.items || []).forEach(function (it) {
+        fx.appendChild(card(it.nombre, it.valor, it.detalle, null));
+      });
+      adrs.replaceChildren();
+      (data.adrs || []).forEach(function (it) {
+        var change = typeof it.change === 'number' ? it.change : null;
+        adrs.appendChild(card(it.ticker || it.nombre, it.valor,
+          change === null ? 's/d' : it.changeLabel, change === null ? null : change >= 0));
+      });
+      var updated = document.getElementById('mercados-actualizacion');
+      if (updated) updated.textContent = 'Actualizado ' + new Date(data.updatedAt || Date.now()).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      var note = document.getElementById('mercados-nota');
+      if (note) note.textContent = data.marketNote || '';
+      root.classList.remove('hidden');
+    })
+    .catch(function () {});
+})();
 </script>
