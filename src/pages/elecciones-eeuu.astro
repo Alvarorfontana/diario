@@ -46,13 +46,13 @@ export const prerender = false;
           <p class="eyebrow">MAPA NACIONAL</p>
           <h2>Seguimiento del escrutinio</h2>
         </div>
-        <span class="map-period">REFERENCIA HISTÓRICA · PRESIDENCIAL 2024</span>
+        <span class="map-period">RESULTADOS DE LA JORNADA · 3 NOVIEMBRE 2026</span>
       </div>
 
       <div class="map-legend" aria-label="Referencias del mapa">
-        <span><i class="swatch republican"></i>Republicano · referencia 2024</span>
-        <span><i class="swatch democrat"></i>Demócrata · referencia 2024</span>
-        <span><i class="swatch pending"></i>Sin referencia / sin datos</span>
+        <span><i class="swatch republican"></i>Republicano · proyección AP</span>
+        <span><i class="swatch democrat"></i>Demócrata · proyección AP</span>
+        <span><i class="swatch pending"></i>Sin resultado confirmado</span>
       </div>
 
       <div class="map-layout">
@@ -67,18 +67,26 @@ export const prerender = false;
           <div id="detail-races" class="detail-races"></div>
         </aside>
       </div>
-      <p class="map-note"><strong>Importante:</strong> los tonos rojo y azul del mapa son la referencia histórica de la elección presidencial de 2024, no resultados de 2026. Los recuentos de 2026 se consultan en las mesas de resultados de AP/Guardian y NPR enlazadas abajo; no se incorporan al mapa propio hasta contar con autorización expresa para reutilizar sus datos.</p>
+      <p class="map-note"><strong>Estado del escrutinio:</strong> el mapa no utiliza antecedentes de 2024. Los colores se aplicarán únicamente cuando una fuente identificada publique una proyección o un ganador para las contiendas de 2026. Hasta entonces, cada estado permanece gris. Los recuentos pertenecen a sus proveedores.</p>
       <div class="map-live-links">
         <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir mapa nacional y resultados en vivo · AP / The Guardian ↗</a>
         <a href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">Consultar resultados por estado · NPR / AP ↗</a>
       </div>
     </section>
 
+    <section class="live-results-embed" aria-label="Resultados en vivo de las elecciones 2026">
+      <div class="embed-heading">
+        <div><p class="eyebrow">RESULTADOS EN VIVO · ASSOCIATED PRESS</p><h2>El escrutinio de hoy, estado por estado</h2></div>
+        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir tablero completo ↗</a>
+      </div>
+      <iframe title="Resultados de las elecciones de medio término de Estados Unidos 2026, datos de Associated Press publicados por The Guardian" src="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      <p class="embed-fallback">Si el tablero no se visualiza dentro de Diario Federal, <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">abrilo directamente en The Guardian</a>. Fuente: Associated Press.</p>
+    </section>
     <section class="results-bottom">
       <div>
         <p class="eyebrow">COBERTURA</p>
         <h2>50 estados en el mapa</h2>
-        <p>El mapa cubre los 50 estados y muestra como referencia el voto presidencial de 2024. Para los resultados de las legislativas de 2026, Diario Federal enlaza tableros nacionales de AP distribuidos por The Guardian, WHYY y NPR.</p>
+        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. Los resultados se actualizan en los tableros de AP enlazados; no se mezclan con datos de elecciones anteriores.</p>
       </div>
       <div class="source-card">
         <strong>Fuentes para resultados 2026</strong>
@@ -148,7 +156,7 @@ export const prerender = false;
       <p class="news-disclaimer">Los enlaces abren los sitios originales. La disponibilidad de resultados en cada página depende de sus propios proveedores y actualizaciones.</p>
     </section>
     <footer class="data-footer">
-      <span id="source-time">Mapa histórico 2024 · resultados 2026 en tableros externos AP / NPR.</span>
+      <span id="source-time">Jornada electoral · martes 3 de noviembre de 2026 · resultados AP / NPR.</span>
       <span>AGENCIA FEDERAL · DIARIO FEDERAL</span>
     </footer>
   </section>
@@ -179,6 +187,12 @@ export const prerender = false;
   .map-legend span { display:flex; align-items:center; gap:.4rem; }
   .swatch { width:.7rem; height:.7rem; border-radius:3px; display:inline-block; }
   .republican { background:#c64b50; } .democrat { background:#3978c5; } .mixed { background:#9272a8; } .pending { background:#d9dee5; }
+  .live-results-embed { margin:1rem 0; padding:1rem; border:1px solid #dce1e8; border-radius:14px; background:#fff; }
+  .embed-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.8rem; }
+  .embed-heading h2 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.65rem; }
+  .embed-heading a { color:#1c5a9c; font-size:.75rem; font-weight:800; }
+  .live-results-embed iframe { display:block; width:100%; height:980px; border:0; background:#fff; }
+  .embed-fallback { color:#687586; font-size:.7rem; }
   .map-live-links { display:flex; flex-wrap:wrap; gap:.65rem 1rem; padding:.1rem 1.25rem 1rem; }
   .map-live-links a { color:#1c5a9c; font-size:.74rem; font-weight:800; text-decoration:none; }
   .map-live-links a:hover { text-decoration:underline; }
@@ -256,21 +270,15 @@ export const prerender = false;
     NM:'Nuevo México',NY:'Nueva York',NC:'Carolina del Norte',ND:'Dakota del Norte',OH:'Ohio',OK:'Oklahoma',OR:'Oregon',PA:'Pensilvania',RI:'Rhode Island',SC:'Carolina del Sur',
     SD:'Dakota del Sur',TN:'Tennessee',TX:'Texas',UT:'Utah',VT:'Vermont',VA:'Virginia',WA:'Washington',WV:'Virginia Occidental',WI:'Wisconsin',WY:'Wyoming'
   };
-  const RED_2024 = new Set('AL AK AZ AR FL GA ID IN IA KS KY LA MI MS MO MT NE NV NC ND OH OK PA SC SD TN TX UT WV WI WY'.split(' '));
-  const BLUE_2024 = new Set('CA CO CT DE HI IL ME MD MA MN NH NJ NM NY OR RI VT VA WA'.split(' '));
   const statePaths = new Map();
   let selectedState = null;
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
-  function historicalColor(code) {
-    if (RED_2024.has(code)) return '#e7a0a3';
-    if (BLUE_2024.has(code)) return '#9bbce3';
-    return '#d9dee5';
-  }
+  function electionColor(code) { return '#d9dee5'; }
   function renderMap() {
     for (const [code, path] of statePaths) {
-      path.setAttribute('fill', historicalColor(code));
+      path.setAttribute('fill', electionColor(code));
       path.classList.toggle('selected', selectedState === code);
     }
     $('states-live').textContent = '36';
@@ -281,7 +289,7 @@ export const prerender = false;
   }
   function renderDetail(code) {
     $('detail-title').textContent = NAMES[code] || code;
-    $('detail-status').textContent = 'Referencia histórica: resultado presidencial de 2024. Para ver el recuento legislativo de 2026, abrí los resultados nacionales de AP / The Guardian o la consulta por estado de NPR.';
+    $('detail-status').textContent = 'Sin resultado de 2026 incorporado a este mapa. Consultá los resultados de esta jornada en AP / The Guardian o NPR.';
     $('detail-races').innerHTML = '<p class="detail-status"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Ver resultados 2026 de AP ↗</a></p><p class="detail-status"><a href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">Ver resultados por estado en NPR ↗</a></p>';
   }
   function drawStates(topology) {
@@ -296,12 +304,12 @@ export const prerender = false;
       const path = document.createElementNS(ns,'path');
       path.setAttribute('d',pathGenerator(f));
       path.setAttribute('class','state-shape');
-      path.setAttribute('fill',historicalColor(code));
+      path.setAttribute('fill',electionColor(code));
       path.setAttribute('tabindex','0');
       path.setAttribute('role','button');
       path.setAttribute('aria-label',NAMES[code] || code);
       const title = document.createElementNS(ns,'title');
-      title.textContent = NAMES[code] + ' · referencia presidencial 2024';
+      title.textContent = NAMES[code] + ' · resultados 3 de noviembre de 2026';
       path.appendChild(title);
       path.addEventListener('click', () => { selectedState = code; renderMap(); });
       path.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectedState = code; renderMap(); } });
@@ -309,7 +317,7 @@ export const prerender = false;
       statePaths.set(code,path);
     });
     $('map-loading').classList.add('hidden');
-    $('live-label').textContent = 'RESULTADOS 2026 EN FUENTES EXTERNAS';
+    $('live-label').textContent = 'JORNADA ELECTORAL · FUENTES AP / NPR';
     $('live-label').parentElement.classList.remove('is-live');
     renderMap();
   }
