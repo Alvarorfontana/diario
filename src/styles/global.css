@@ -4,15 +4,15 @@
 	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 	--font-serif: 'Newsreader', Georgia, 'Times New Roman', Times, serif;
 	--font-display: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
-	--color-brand: #d0021b;
-	--color-brand-dark: #a30015;
-	--color-paper: #f5f5f4;
-	--color-beige: #f5f5f4;
-	--color-ink: #121212;
+	--color-brand: #e93323;
+	--color-brand-dark: #bd2419;
+	--color-paper: #f6efdf;
+	--color-beige: #f6efdf;
+	--color-ink: #1a1712;
 }
 
 /* Estilo portal (Astromag): fondo gris muy claro, tarjetas blancas redondeadas, rojo sólo para acentos */
-html, body { background-color: #f6f6f4; }
+html, body { background-color: #f6efdf; }
 body { font-family: var(--font-sans); color: var(--color-ink); font-feature-settings: "kern", "liga"; }
 main { background-color: transparent; }
 .no-scrollbar { scrollbar-width: none; }
@@ -158,7 +158,7 @@ img { background-color: #eeeeee; }
 	font-family: var(--font-sans);
 	font-size: 1.125rem;
 	line-height: 1.75;
-	color: #232328;
+	color: #29251f;
 	hyphens: auto;
 }
 .prose-articulo > * + * { margin-top: 1.35em; }
@@ -217,3 +217,36 @@ img { background-color: #eeeeee; }
 /* Páginas internas (Brasil 2026, Contexto Político, legales, etc.): mismos titulares que la portada */
 main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .um-banner { border-radius: 999px; padding: 8px 16px; letter-spacing: 0.12em; }
+
+
+/* ───────── Identidad cromática Diario Federal ─────────
+   Papel marfil, tinta oscura y rojo institucional.
+   El celeste queda reservado a los enlaces editoriales dentro de las notas.
+*/
+html, body { background: #f6efdf !important; color: #1a1712; }
+body { color: #1a1712; }
+main { background: transparent; }
+header.sticky, footer { background-color: #fbf7ed !important; }
+.tarjeta { background-color: #fbf7ed !important; }
+.titulo-seccion { color: #1a1712; }
+.titulo-seccion::before { background: #e93323; }
+.rotulo { border-color: #1a1712; color: #1a1712; }
+.um-banner { background: #1a1712; }
+.um-luz { background: #e93323; }
+.prose-articulo { color: #29251f; }
+.prose-articulo h2 { color: #1a1712; }
+.prose-articulo h3 { color: #e93323; }
+.prose-articulo blockquote::before { color: #e93323; }
+.prose-articulo p.destacado { border-top-color: #e93323; color: #1a1712; }
+.prose-articulo a { color: #087eae; }
+.nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #1a1712; }
+.nota-articulo .prose-articulo a { color: #087eae; }
+.nota-articulo .prose-articulo blockquote { border-left-color: #087eae; background: #eaf5fa; color: #075f87; }
+::selection { background: #f6c8bd; color: #1a1712; }
+
+/* Superficies y controles que antes heredaban grises fríos */
+header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #eee5d4; color: #29251f; }
+header.sticky nav a:hover { background-color: #e5dac6; }
+header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #e93323; border-color: #e93323; color: #fff; }
+header.sticky a[href="/buscar/"] { background-color: #eee5d4; }
+footer .bg-ink { background-color: #1a1712; }
