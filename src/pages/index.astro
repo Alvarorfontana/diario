@@ -80,6 +80,18 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 		</div>
 	)}
 
+	<!-- ESPECIAL ELECTORAL: acceso desde la portada del Diario Federal -->
+	<section class="mt-5 overflow-hidden rounded-2xl border border-[#d8d8d2] bg-[#f5f4ef]">
+		<a href="/elecciones-eeuu/" class="group grid items-center gap-4 p-5 transition-colors hover:bg-white sm:grid-cols-[1fr_auto] sm:px-7">
+			<div>
+				<p class="text-[11px] font-extrabold tracking-[0.14em] text-brand uppercase">Cobertura especial · Internacional</p>
+				<h2 class="mt-1 font-display text-2xl leading-tight font-extrabold text-ink sm:text-3xl">Elecciones de Estados Unidos 2026</h2>
+				<p class="mt-2 max-w-3xl text-sm leading-relaxed text-[#555]">Seguimiento del escrutinio, mapa interactivo de los 50 estados y resultados por Senado, Cámara de Representantes y gobernadores.</p>
+			</div>
+			<span class="inline-flex items-center justify-center rounded-lg bg-ink px-5 py-3 text-sm font-bold text-white group-hover:bg-brand">Ver cobertura electoral <span aria-hidden="true" class="ml-2">→</span></span>
+		</a>
+	</section>
+
 	<!-- TEMAS DEL DÍA (se arma solo con las etiquetas más usadas) -->
 	<TemasDelDia articulos={articulos} />
 
