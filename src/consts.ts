@@ -56,7 +56,7 @@ export const FOTOS_COLUMNISTAS: Record<string, string> = {
 
 export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Ulises Gastón González': {
-		foto: '/autores/ulises-gaston-gonzalez.svg',
+		foto: '/autores/ulises-gaston-gonzalez.jpg',
 	},
 	'Carlos Mendes': {
 		bio: 'Periodista.',
