@@ -219,56 +219,35 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .um-banner { border-radius: 999px; padding: 8px 16px; letter-spacing: 0.12em; }
 
 
-/* ───────── Identidad cromática Diario Federal ─────────
-   Papel marfil, tinta oscura y rojo institucional.
-   El celeste queda reservado a los enlaces editoriales dentro de las notas.
-*/
-html, body { background: #f8f5ee !important; color: #302c27; }
-body { color: #302c27; }
-main { background: transparent; }
-header.sticky, footer { background-color: #fcfaf5 !important; }
-.tarjeta { background-color: #fcfaf5 !important; }
-.titulo-seccion { color: #302c27; }
-.titulo-seccion::before { background: #c97868; }
-.rotulo { border-color: #302c27; color: #302c27; }
-.um-banner { background: #302c27; }
-.um-luz { background: #c97868; }
-.prose-articulo { color: #403b35; }
-.prose-articulo h2 { color: #302c27; }
-.prose-articulo h3 { color: #c97868; }
-.prose-articulo blockquote::before { color: #c97868; }
-.prose-articulo p.destacado { border-top-color: #c97868; color: #302c27; }
-.prose-articulo a { color: #648b9a; }
-.nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #302c27; }
-.nota-articulo .prose-articulo a { color: #648b9a; }
-.nota-articulo .prose-articulo blockquote { border-left-color: #648b9a; background: #eef4f3; color: #506f7b; }
-::selection { background: #ead2cb; color: #302c27; }
-
-/* Superficies y controles que antes heredaban grises fríos */
-header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #f0ece3; color: #403b35; }
-header.sticky nav a:hover { background-color: #e7e0d5; }
-header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #c97868; border-color: #c97868; color: #fff; }
-header.sticky a[href="/buscar/"] { background-color: #f0ece3; }
-footer .bg-ink { background-color: #302c27; }
-
-
-/* Identidad editorial recuperada de /prueba-diseno-nota/ */
+/* ───────── Identidad editorial Diario Federal ───────── */
 html, body { background: #fff !important; color: #111827; }
-body { color: #111827; }
+body { font-family: var(--font-sans); color: #111827; }
 header.sticky, footer { background-color: #fff !important; }
 .brand-masthead { font-family: 'Newsreader', Georgia, serif; }
-header.sticky nav a[class*="bg-brand"],
-header.sticky nav a[class*="border-brand"] { background-color: #087eae; border-color: #087eae; color: #fff; }
+.tarjeta { background: #fff; border: 1px solid #edf0f2; border-radius: 16px; }
+.titulo-seccion { color: #111827; }
+.titulo-seccion::before { background: #087eae; }
+.rotulo { border-color: #111827; color: #111827; }
+header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #087eae; border-color: #087eae; color: #fff; }
 header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #f0f2f4; color: #202833; }
 header.sticky nav a:hover { background-color: #e5f2f8; }
 header.sticky a[href="/buscar/"] { background-color: #f0f2f4; }
-.titulo-seccion::before { background: #087eae; }
-.rotulo { border-color: #111827; color: #111827; }
+.um-banner { background: #111827; border-radius: 999px; }
 .um-luz { background: #087eae; }
-.prose-articulo a, .nota-articulo .prose-articulo a { color: #087eae; }
-.prose-articulo h3 { color: #087eae; }
+.prose-articulo { color: #374151; }
+.prose-articulo h2 { color: #111827; }
+.prose-articulo h3, .prose-articulo a, .nota-articulo .prose-articulo a { color: #087eae; }
 .prose-articulo blockquote::before { color: #087eae; }
 .prose-articulo p.destacado { border-top-color: #087eae; }
 .nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #111827; }
-.nota-articulo .prose-articulo blockquote { border-left-color: #087eae; background: #eaf5fa; color: #075f87; }
+.nota-articulo .prose-articulo blockquote { border-left: 4px solid #087eae; background: #eaf5fa; color: #075f87; }
 ::selection { background: #d9edf6; color: #111827; }
+
+/* Portada: ritmo editorial y superficies consistentes */
+main { background: transparent; }
+main > section, main > div { min-width: 0; }
+.tarjeta { box-shadow: 0 1px 2px rgba(17,24,39,.035); }
+.tarjeta:hover { border-color: #dbe7ed; }
+@media (prefers-reduced-motion: reduce) {
+  .marquesina, .titila, .titular-link { animation: none !important; transition: none !important; }
+}
