@@ -81,7 +81,7 @@ export const prerender = false;
         <div><p class="eyebrow">FUENTE DE DATOS · ACTUALIZACIÓN AUTOMÁTICA</p><h2>Resultados conectados</h2></div>
         <span class="source-status" id="civicapi-status">CONECTANDO</span>
       </div>
-      <p class="embed-intro">El mapa propio consulta civicAPI, que agrega recuentos de organismos electorales estatales y actualiza durante el escrutinio. Los datos se muestran como liderazgos parciales, nunca como ganadores hasta que la fuente lo declare. Fuente y atribución: civicAPI.</p>
+      <p class="embed-intro">El mapa propio consulta civicAPI mediante un servicio del sitio, que agrega recuentos de organismos electorales estatales y actualiza durante el escrutinio. Los datos se muestran como liderazgos parciales, nunca como ganadores hasta que la fuente lo declare. Fuente y atribución: civicAPI.</p>
       <div class="guardian-toolbar">
         <span><i class="guardian-live-dot"></i> DATOS ELECTORALES · civicAPI</span>
         <span id="civicapi-refresh-time">Consultando resultados del 3 de noviembre…</span>
@@ -125,9 +125,9 @@ export const prerender = false;
       </div>
       <div class="news-grid">
         <a class="news-source featured" href="https://www.latimes.com/politics/story/2026-11-03/2026-midterm-election-live-results-balance-of-power-democrats-republicans-control-congress-senate" target="_blank" rel="noopener noreferrer">
-          <span class="news-kicker">RESULTADOS NACIONALES · AP</span>
+          <span class="news-kicker">RESULTADOS NACIONALES · DATOS AP</span>
           <strong>Los Angeles Times · resultados nacionales</strong>
-          <span>Balance de poder en Cámara, Senado y gobernaciones con resultados de Associated Press.</span>
+          <span>Balance de poder de Cámara, Senado y gobernaciones con resultados de Associated Press.</span>
           <em>Ver resultados ↗</em>
         </a>
         <a class="news-source" href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">
@@ -333,20 +333,6 @@ export const prerender = false;
   };
   const statePaths = new Map();
   let selectedState = null;
-
-  // El tablero de Guardian es una fuente externa viva (resultados AP).
-  // Se recarga periódicamente para solicitar la versión más reciente.
-  const guardianFrame = document.getElementById('guardian-results-frame');
-  const guardianRefreshLabel = document.getElementById('guardian-refresh-time');
-  function refreshGuardianPanel() {
-    if (!guardianFrame || document.visibilityState === 'hidden') return;
-    guardianFrame.src = 'https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races?df_refresh=' + Date.now();
-    if (guardianRefreshLabel) guardianRefreshLabel.textContent = 'Panel solicitado: ' + new Date().toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'});
-  }
-  if (guardianFrame) {
-    if (guardianRefreshLabel) guardianRefreshLabel.textContent = 'Actualización automática cada 60 segundos';
-    window.setInterval(refreshGuardianPanel, 60000);
-  }
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
