@@ -393,21 +393,25 @@ export const prerender = false;
   const PARTY_COLORS = { REP:'#c64b50', REPUBLICAN:'#c64b50', R:'#c64b50', DEM:'#3978c5', DEMOCRAT:'#3978c5', D:'#3978c5', IND:'#9272a8', INDEPENDENT:'#9272a8' };
   const clean = value => String(value ?? '').trim();
   function partyCode(candidate) {
-    const party = clean(candidate?.party || candidate?.party_code || candidate?.party_name || candidate?.affiliation).toUpperCase();
-    if (party.includes('REP') || party === 'R') return 'REP';
+    const raw = candidate?.party ?? candidate?.party_code ?? candidate?.party_name ?? candidate?.affiliation;
+    const party = clean(typeof raw === 'object' ? (raw.name || raw.abbreviation || raw.code || '') : raw).toUpperCase();
+    if (party.includes('REP') || party === 'R' || party.includes('GOP')) return 'REP';
     if (party.includes('DEM') || party === 'D') return 'DEM';
     if (party.includes('IND')) return 'IND';
     return party || 'OTHER';
   }
   function candidateVotes(candidate) {
-    const raw = candidate?.votes ?? candidate?.vote_count ?? candidate?.total_votes ?? candidate?.vote_total ?? candidate?.votes_received;
+    const raw = candidate?.votes ?? candidate?.vote_count ?? candidate?.total_votes ?? candidate?.vote_total ?? candidate?.votes_received ?? candidate?.voteCount ?? candidate?.totalVotes ?? candidate?.count;
     const n = Number(String(raw ?? '').replace(/,/g,''));
     return Number.isFinite(n) ? n : 0;
   }
   function inferState(race) {
-    const direct = clean(race?.province || race?.state || race?.state_code || race?.statePostal || race?.state_postal || race?.jurisdiction_code).toUpperCase();
+    const directValue = race?.province || race?.state || race?.state_code || race?.statePostal || race?.state_postal || race?.state_abbr || race?.jurisdiction_code;
+    const direct = clean(typeof directValue === 'object' ? (directValue.abbreviation || directValue.code || directValue.name || '') : directValue).toUpperCase();
     if (NAMES[direct]) return direct;
-    const location = clean(race?.location || race?.jurisdiction || race?.region || race?.province_name || race?.state_name || race?.name);
+    const district = race?.district_details || race?.district || {};
+    const locationValue = race?.location || race?.jurisdiction || race?.region || race?.province_name || race?.state_name || race?.name || district?.district_name || district?.name;
+    const location = clean(typeof locationValue === 'object' ? (locationValue.name || locationValue.label || '') : locationValue);
     const normalized = location.toLowerCase();
     for (const [name,code] of Object.entries(stateNameToCode)) {
       if (normalized.includes(name)) return code;
@@ -420,10 +424,10 @@ export const prerender = false;
     return Array.isArray(value) ? value : [];
   }
   function racePriority(race) {
-    const name = clean(race?.race_name || race?.name || race?.title || race?.office || race?.contest || race?.description).toLowerCase();
+    const name = clean(race?.race_name || race?.name || race?.title || race?.office || race?.office_title || race?.contest || race?.description || race?.election_type || race?.race_type || race?.type).toLowerCase();
     if (name.includes('governor')) return 1;
     if (name.includes('u.s. senate') || name.includes('us senate') || name.includes('senate')) return 2;
-    if (name.includes('u.s. house') || name.includes('us house') || name.includes('house')) return 3;
+    if (name.includes('u.s. house') || name.includes('us house') || name.includes('house') || name.includes('congressional district')) return 3;
     return 4;
   }
   function extractRaces(payload) {
@@ -554,9 +558,35 @@ export const prerender = false;
       return;
     }
     $('detail-status').textContent = result.name + ' · ' + result.status + (result.reporting != null ? ' · ' + result.reporting + '% informado' : '');
-    $('detail-races').innerHTML = '<div class="race-card"><h4>Liderazgo parcial · ' + result.name + '</h4>' +
-      result.candidates.slice(0,4).map(candidate => '<div class="candidate-row"><span><i class="party-dot" style="background:' + (PARTY_COLORS[candidate.party] || '#9272a8') + '"></i>' + candidate.name + ' (' + candidate.party + ')</span><strong>' + candidate.votes.toLocaleString('en-US') + '</strong></div>').join('') +
-      '<p class="detail-status">Fuente: civicAPI · recuento no certificado. <a href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">Ver fuente ↗</a></p></div>';
+    const card = document.createElement('div');
+    card.className = 'race-card';
+    const heading = document.createElement('h4');
+    heading.textContent = 'Liderazgo parcial · ' + result.name;
+    card.appendChild(heading);
+    result.candidates.slice(0,4).forEach(candidate => {
+      const row = document.createElement('div');
+      row.className = 'candidate-row';
+      const label = document.createElement('span');
+      const dot = document.createElement('i');
+      dot.className = 'party-dot';
+      dot.style.background = PARTY_COLORS[candidate.party] || '#9272a8';
+      label.append(dot, document.createTextNode(candidate.name + ' (' + candidate.party + ')'));
+      const votes = document.createElement('strong');
+      votes.textContent = candidate.votes.toLocaleString('en-US');
+      row.append(label, votes);
+      card.appendChild(row);
+    });
+    const source = document.createElement('p');
+    source.className = 'detail-status';
+    source.append('Fuente: civicAPI · recuento no certificado. ');
+    const link = document.createElement('a');
+    link.href = 'https://civicapi.org/results';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Ver fuente ↗';
+    source.appendChild(link);
+    card.appendChild(source);
+    $('detail-races').replaceChildren(card);
   }
   async function refreshElectionData() {
     const status = $('civicapi-status');
@@ -635,7 +665,7 @@ export const prerender = false;
     $('map-loading').classList.add('hidden');
     renderMap();
     refreshElectionData();
-    window.setInterval(refreshElectionData, 60000);
+    window.setInterval(refreshElectionData, 15000);
   }
   function drawCartogramFallback() {
     const svg = $('us-map');
@@ -665,7 +695,7 @@ export const prerender = false;
     $('map-loading').classList.add('hidden');
     $('live-label').textContent = 'MAPA DE RESPALDO · civicAPI';
     refreshElectionData();
-    window.setInterval(refreshElectionData, 60000);
+    window.setInterval(refreshElectionData, 15000);
   }
 
   document.querySelectorAll('[data-race-tab]').forEach(button => button.addEventListener('click', () => {
