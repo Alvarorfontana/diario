@@ -4,15 +4,15 @@
 	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 	--font-serif: 'Newsreader', Georgia, 'Times New Roman', Times, serif;
 	--font-display: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
-	--color-brand: #e93323;
-	--color-brand-dark: #bd2419;
-	--color-paper: #f6efdf;
-	--color-beige: #f6efdf;
-	--color-ink: #1a1712;
+	--color-brand: #c97868;
+	--color-brand-dark: #a95e52;
+	--color-paper: #f8f5ee;
+	--color-beige: #f8f5ee;
+	--color-ink: #302c27;
 }
 
 /* Estilo portal (Astromag): fondo gris muy claro, tarjetas blancas redondeadas, rojo sólo para acentos */
-html, body { background-color: #f6efdf; }
+html, body { background-color: #f8f5ee; }
 body { font-family: var(--font-sans); color: var(--color-ink); font-feature-settings: "kern", "liga"; }
 main { background-color: transparent; }
 .no-scrollbar { scrollbar-width: none; }
@@ -85,7 +85,7 @@ img { background-color: #eeeeee; }
 	width: 11px;
 	height: 11px;
 	border-radius: 50%;
-	background: #e93323;
+	background: #c97868;
 }
 .um-luz::before, .um-luz::after {
 	content: "";
@@ -158,7 +158,7 @@ img { background-color: #eeeeee; }
 	font-family: var(--font-sans);
 	font-size: 1.125rem;
 	line-height: 1.75;
-	color: #29251f;
+	color: #403b35;
 	hyphens: auto;
 }
 .prose-articulo > * + * { margin-top: 1.35em; }
@@ -187,7 +187,7 @@ img { background-color: #eeeeee; }
 .prose-articulo blockquote p + p { margin-top: 0.8em; }
 .prose-articulo p.destacado {
 	margin: 2em 0; padding: 0.9rem 0;
-	border-top: 3px solid var(--color-brand); border-bottom: 1px solid #d4d4d4;
+	border-top: 3px solid var(--color-brand); border-bottom: 1px solid #e5dfd5;
 	font-family: var(--font-display); font-size: 1.5rem; line-height: 1.3; font-weight: 800; text-align: center; color: #111;
 }
 .prose-articulo ul, .prose-articulo ol { padding-left: 1.5rem; }
@@ -207,7 +207,7 @@ img { background-color: #eeeeee; }
 .prose-articulo figure.video { position: relative; aspect-ratio: 16 / 9; width: 100%; margin: 2em 0; background: #000; }
 .prose-articulo figure.video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .prose-articulo figure.grafico { margin: 2em 0; }
-.prose-articulo figure.grafico iframe { display: block; width: 100%; height: 600px; max-height: 80vh; border: 1px solid #e3e3de; border-radius: 8px; background: #fff; }
+.prose-articulo figure.grafico iframe { display: block; width: 100%; height: 600px; max-height: 80vh; border: 1px solid #e7e3da; border-radius: 8px; background: #fff; }
 .prose-articulo figure.grafico figcaption { margin-top: .5em; font-size: .85em; color: #6b6b66; }
 .prose-articulo figure img { width: 100%; height: auto; display: block; border-radius: 14px; }
 
@@ -223,30 +223,30 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
    Papel marfil, tinta oscura y rojo institucional.
    El celeste queda reservado a los enlaces editoriales dentro de las notas.
 */
-html, body { background: #f6efdf !important; color: #1a1712; }
-body { color: #1a1712; }
+html, body { background: #f8f5ee !important; color: #302c27; }
+body { color: #302c27; }
 main { background: transparent; }
-header.sticky, footer { background-color: #fbf7ed !important; }
-.tarjeta { background-color: #fbf7ed !important; }
-.titulo-seccion { color: #1a1712; }
-.titulo-seccion::before { background: #e93323; }
-.rotulo { border-color: #1a1712; color: #1a1712; }
-.um-banner { background: #1a1712; }
-.um-luz { background: #e93323; }
-.prose-articulo { color: #29251f; }
-.prose-articulo h2 { color: #1a1712; }
-.prose-articulo h3 { color: #e93323; }
-.prose-articulo blockquote::before { color: #e93323; }
-.prose-articulo p.destacado { border-top-color: #e93323; color: #1a1712; }
-.prose-articulo a { color: #087eae; }
-.nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #1a1712; }
-.nota-articulo .prose-articulo a { color: #087eae; }
-.nota-articulo .prose-articulo blockquote { border-left-color: #087eae; background: #eaf5fa; color: #075f87; }
-::selection { background: #f6c8bd; color: #1a1712; }
+header.sticky, footer { background-color: #fcfaf5 !important; }
+.tarjeta { background-color: #fcfaf5 !important; }
+.titulo-seccion { color: #302c27; }
+.titulo-seccion::before { background: #c97868; }
+.rotulo { border-color: #302c27; color: #302c27; }
+.um-banner { background: #302c27; }
+.um-luz { background: #c97868; }
+.prose-articulo { color: #403b35; }
+.prose-articulo h2 { color: #302c27; }
+.prose-articulo h3 { color: #c97868; }
+.prose-articulo blockquote::before { color: #c97868; }
+.prose-articulo p.destacado { border-top-color: #c97868; color: #302c27; }
+.prose-articulo a { color: #648b9a; }
+.nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #302c27; }
+.nota-articulo .prose-articulo a { color: #648b9a; }
+.nota-articulo .prose-articulo blockquote { border-left-color: #648b9a; background: #eef4f3; color: #506f7b; }
+::selection { background: #ead2cb; color: #302c27; }
 
 /* Superficies y controles que antes heredaban grises fríos */
-header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #eee5d4; color: #29251f; }
-header.sticky nav a:hover { background-color: #e5dac6; }
-header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #e93323; border-color: #e93323; color: #fff; }
-header.sticky a[href="/buscar/"] { background-color: #eee5d4; }
-footer .bg-ink { background-color: #1a1712; }
+header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #f0ece3; color: #403b35; }
+header.sticky nav a:hover { background-color: #e7e0d5; }
+header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #c97868; border-color: #c97868; color: #fff; }
+header.sticky a[href="/buscar/"] { background-color: #f0ece3; }
+footer .bg-ink { background-color: #302c27; }
