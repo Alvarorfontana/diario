@@ -76,13 +76,23 @@ export const prerender = false;
       </div>
     </section>
 
-    <section class="live-results-embed" aria-label="Resultados en vivo de las elecciones 2026">
+    <section class="live-results-embed" aria-label="Acceso a resultados en vivo de las elecciones 2026">
       <div class="embed-heading">
-        <div><p class="eyebrow">RESULTADOS EN VIVO · AP / CIVICAPI</p><h2>El escrutinio del 3 de noviembre, estado por estado</h2></div>
-        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir tablero completo ↗</a>
+        <div><p class="eyebrow">RESULTADOS EN VIVO · FUENTES EXTERNAS</p><h2>Tableros de escrutinio conectados</h2></div>
+        <span class="source-status">FUENTE EXTERNA</span>
       </div>
-      <iframe title="Resultados de las elecciones de medio término de Estados Unidos 2026, datos de Associated Press publicados por The Guardian" src="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-      <p class="embed-fallback">Si el tablero no se visualiza dentro de Diario Federal, <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">abrilo directamente en The Guardian</a>. Fuente: Associated Press.</p>
+      <p class="embed-intro">The Guardian no permite que su tablero interactivo se reproduzca dentro de esta página. Para evitar un recuadro vacío, dejamos accesos directos al mapa y al conteo original, que se abren en una pestaña nueva.</p>
+      <div class="live-source-actions">
+        <a class="live-source-card guardian-live" href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">
+          <span>DATOS DE ASSOCIATED PRESS</span><strong>The Guardian · resultados y mapa nacional</strong><em>Abrir tablero en vivo ↗</em>
+        </a>
+        <a class="live-source-card" href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">
+          <span>MAPA EN ESPAÑOL</span><strong>Poliwave · contiendas por estado y distrito</strong><em>Abrir mapa interactivo ↗</em>
+        </a>
+        <a class="live-source-card" href="https://civicapi.org/results" target="_blank" rel="noopener noreferrer">
+          <span>DATOS ABIERTOS</span><strong>civicAPI · resultados y metodología</strong><em>Consultar base de datos ↗</em>
+        </a>
+      </div>
     </section>
     <section class="results-bottom">
       <div>
@@ -211,8 +221,14 @@ export const prerender = false;
   .embed-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:.8rem; }
   .embed-heading h2 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.65rem; }
   .embed-heading a { color:#1c5a9c; font-size:.75rem; font-weight:800; }
-  .live-results-embed iframe { display:block; width:100%; height:980px; border:0; background:#fff; }
-  .embed-fallback { color:#687586; font-size:.7rem; }
+  .source-status { padding:.45rem .65rem; border:1px solid #dce1e8; border-radius:999px; color:#687586; font-size:.6rem; font-weight:800; letter-spacing:.08em; }
+  .embed-intro { max-width:58rem; margin:.35rem 0 1rem; color:#657184; font-size:.78rem; line-height:1.5; }
+  .live-source-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; }
+  .live-source-card { display:flex; flex-direction:column; gap:.45rem; min-height:125px; padding:1rem; border:1px solid #dce1e8; border-radius:10px; color:#17202c; text-decoration:none; background:#fbfcfd; }
+  .live-source-card:hover { border-color:#9ba8b8; background:#f4f7fb; }
+  .live-source-card span { color:#687586; font-size:.59rem; font-weight:800; letter-spacing:.09em; }
+  .live-source-card strong { font-family:Newsreader,Georgia,serif; font-size:1.12rem; line-height:1.2; }
+  .live-source-card em { margin-top:auto; color:#1c5a9c; font-size:.7rem; font-style:normal; font-weight:800; }
   .map-live-links { display:flex; flex-wrap:wrap; gap:.65rem 1rem; padding:.1rem 1.25rem 1rem; }
   .map-live-links a { color:#1c5a9c; font-size:.74rem; font-weight:800; text-decoration:none; }
   .map-live-links a:hover { text-decoration:underline; }
@@ -235,6 +251,10 @@ export const prerender = false;
   .candidate-row strong { color:#17202c; font-variant-numeric:tabular-nums; }
   .party-dot { display:inline-block; width:.48rem; height:.48rem; margin-right:.3rem; border-radius:50%; }
   .map-note { margin:0; padding:.8rem 1.2rem 1rem; color:#6a7584; font-size:.68rem; line-height:1.5; }
+  .cartogram-fallback { display:grid; grid-template-columns:repeat(10,minmax(0,1fr)); gap:5px; padding:1rem; }
+  .cartogram-state { min-height:43px; border:1px solid #cbd3dd; border-radius:5px; background:#d9dee5; color:#263241; font-size:.72rem; font-weight:800; cursor:pointer; }
+  .cartogram-state:hover,.cartogram-state:focus { outline:2px solid #17202c; outline-offset:1px; }
+  .cartogram-caption { padding:0 1rem 1rem; color:#687586; font-size:.68rem; }
   .results-bottom { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0; }
   .results-bottom > div { padding:1.15rem; border:1px solid #dce1e8; border-radius:12px; }
   .results-bottom p { color:#657184; font-size:.8rem; line-height:1.55; }
@@ -267,6 +287,8 @@ export const prerender = false;
     #us-map { min-height:220px; }
     .results-bottom { grid-template-columns:1fr; }
     .news-grid { grid-template-columns:1fr; }
+    .live-source-actions { grid-template-columns:1fr; }
+    .cartogram-fallback { grid-template-columns:repeat(5,minmax(0,1fr)); }
     .data-footer { flex-direction:column; }
   }
 </style>
@@ -331,6 +353,15 @@ export const prerender = false;
       const title = document.createElementNS(ns,'title');
       title.textContent = NAMES[code] + ' · resultados 3 de noviembre de 2026';
       path.appendChild(title);
+      const centroid = pathGenerator.centroid(f);
+      if (Number.isFinite(centroid[0]) && Number.isFinite(centroid[1])) {
+        const label = document.createElementNS(ns,'text');
+        label.setAttribute('x',centroid[0]);
+        label.setAttribute('y',centroid[1] + 3);
+        label.setAttribute('class','state-label');
+        label.textContent = code;
+        svg.appendChild(label);
+      }
       path.addEventListener('click', () => { selectedState = code; renderMap(); });
       path.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectedState = code; renderMap(); } });
       svg.appendChild(path);
@@ -341,13 +372,39 @@ export const prerender = false;
     $('live-label').parentElement.classList.remove('is-live');
     renderMap();
   }
+  function drawCartogramFallback() {
+    const svg = $('us-map');
+    svg.style.display = 'none';
+    const canvas = $('map-canvas');
+    const grid = document.createElement('div');
+    grid.className = 'cartogram-fallback';
+    Object.keys(NAMES).sort().forEach(code => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'cartogram-state';
+      button.textContent = code;
+      button.title = NAMES[code];
+      button.setAttribute('aria-label',NAMES[code]);
+      button.addEventListener('click', () => { selectedState = code; renderDetail(code); });
+      grid.appendChild(button);
+    });
+    const caption = document.createElement('p');
+    caption.className = 'cartogram-caption';
+    caption.textContent = 'Vista de respaldo: los 50 estados están disponibles para consulta. El mapa geográfico se está reintentando; los colores solo cambiarán cuando haya datos verificables de 2026.';
+    canvas.appendChild(grid);
+    canvas.appendChild(caption);
+    $('map-loading').classList.add('hidden');
+    $('live-label').textContent = 'MAPA DE RESPALDO · FUENTES EXTERNAS';
+  }
   try {
-    const response = await fetch(GEO_URL, {cache:'force-cache'});
+    const response = await fetch(GEO_URL, {cache:'no-store'});
     if (!response.ok) throw new Error('No se pudo cargar la geometría');
-    drawStates(await response.json());
+    const topology = await response.json();
+    if (!topology?.objects?.states) throw new Error('La geometría no contiene estados');
+    drawStates(topology);
   } catch (error) {
-    $('map-loading').textContent = 'No se pudo cargar el mapa. Consultá los resultados externos enlazados debajo.';
-    $('live-label').textContent = 'FUENTES EXTERNAS DISPONIBLES';
+    $('map-loading').textContent = 'No se pudo cargar la geometría; mostrando los 50 estados en vista alternativa…';
     console.error('[Diario Federal elecciones]',error);
+    drawCartogramFallback();
   }
 </script>
