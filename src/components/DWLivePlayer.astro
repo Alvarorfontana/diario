@@ -1,0 +1,40 @@
+<div id="dw-floating-player" class="dw-float" aria-label="Deutsche Welle en vivo">
+  <div class="dw-bar">
+    <span><i></i> DW ESPAÑOL · EN VIVO</span>
+    <div class="dw-actions">
+      <button type="button" id="dw-minimize" aria-label="Minimizar reproductor" title="Minimizar">−</button>
+      <button type="button" id="dw-close" aria-label="Cerrar reproductor" title="Cerrar">×</button>
+    </div>
+  </div>
+  <div class="dw-screen">
+    <iframe
+      src="https://www.dw.com/es/tv-en-vivo/s-100837"
+      title="Deutsche Welle Español en vivo"
+      loading="lazy"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <button type="button" class="dw-reopen" id="dw-reopen">▶ DW EN VIVO</button>
+</div>
+
+<style>
+  .dw-float{position:fixed;right:18px;bottom:18px;width:300px;z-index:80;background:#101820;border:1px solid rgba(255,255,255,.16);border-radius:9px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.28);font-family:Inter,Arial,sans-serif}
+  .dw-bar{height:34px;padding:0 9px 0 11px;display:flex;align-items:center;justify-content:space-between;background:#101820;color:#fff;font-size:10px;font-weight:800;letter-spacing:.07em}
+  .dw-bar span{display:flex;align-items:center;gap:7px}.dw-bar i{width:7px;height:7px;border-radius:50%;background:#e33434;box-shadow:0 0 0 3px rgba(227,52,52,.16)}
+  .dw-actions{display:flex;gap:5px}.dw-actions button{width:24px;height:24px;border:0;border-radius:4px;background:#29343e;color:#fff;font-size:18px;line-height:1;cursor:pointer}
+  .dw-screen{aspect-ratio:16/9;background:#000}.dw-screen iframe{display:block;width:100%;height:100%;border:0}
+  .dw-reopen{display:none;width:100%;height:36px;border:0;background:#101820;color:#fff;font-size:11px;font-weight:800;letter-spacing:.06em;cursor:pointer}
+  .dw-float.minimized .dw-screen{display:none}.dw-float.minimized .dw-reopen{display:block}
+  .dw-float.closed{display:none}
+  @media(max-width:640px){.dw-float{right:10px;bottom:10px;width:min(260px,calc(100vw - 20px))}}
+</style>
+<script>
+  const root = document.getElementById('dw-floating-player');
+  const min = document.getElementById('dw-minimize');
+  const close = document.getElementById('dw-close');
+  const reopen = document.getElementById('dw-reopen');
+  min?.addEventListener('click', () => root?.classList.add('minimized'));
+  reopen?.addEventListener('click', () => root?.classList.remove('minimized'));
+  close?.addEventListener('click', () => root?.classList.add('closed'));
+</script>
