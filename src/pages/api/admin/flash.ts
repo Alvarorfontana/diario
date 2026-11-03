@@ -7,6 +7,7 @@ export const prerender = false;
 import { getRuntimeEnv } from '../../../lib/runtimeEnv';
 import { isAdmin } from '../../../lib/auth';
 import { ghConfig, getFile, putFile, putBase64, deleteFile, listDirAll } from '../../../lib/github';
+import { getArticulos } from '../../../lib/articles';
 
 const DIR = 'data/flash';
 const ESPECIALES = new Set(['pronunciacion.json', 'calibracion.json']);
@@ -32,7 +33,10 @@ const corto = (v: unknown, n: number) => String(v ?? '').trim().slice(0, n);
 function limpiar(f: any, previo: any = {}) {
 	const bloques = (Array.isArray(f.bloques) ? f.bloques : []).slice(0, 8).map((b: any) => {
 		const m = b?.media && typeof b.media === 'object' ? b.media : null;
-		const media = m && typeof m.archivo === 'string' && /^(data\/flash\/media\/|\/flash\/|\/uploads\/)[\w./-]+$/.test(m.archivo) && !m.archivo.includes('..')
+		const archivoOk = (a: string) =>
+			(/^(data\/flash\/media\/|\/flash\/|\/uploads\/|\/images\/|\/media\/)[\w./-]+$/.test(a) && !a.includes('..')) ||
+			/^https:\/\/[^\s"'<>\\]{8,500}$/.test(a); // foto de una nota alojada en otra web
+		const media = m && typeof m.archivo === 'string' && archivoOk(m.archivo)
 			? {
 				tipo: m.tipo === 'video' ? 'video' : 'foto',
 				archivo: m.archivo,
@@ -115,6 +119,25 @@ export const GET = async ({ request, locals }: any) => {
 				calibracion: calib ? JSON.parse(calib.text) : {},
 				musicaPropia: propias.map((n) => ({ nombre: n, ruta: `${DIR}/musica/${n}` })),
 			});
+		}
+		if (action === 'notas') {
+			// Notas publicadas, para traer título, bajada y foto a un bloque del flash.
+			const origen = url.origin;
+			const notas = (await getArticulos()).slice(0, 80).map((a) => {
+				let foto = String(a.image_url || '');
+				if (foto && !/^https?:\/\//.test(foto) && !foto.startsWith('/uploads/')) foto = new URL(foto, origen).href;
+				return {
+					slug: a.slug,
+					titulo: a.title,
+					volanta: a.volanta || '',
+					bajada: a.excerpt || '',
+					seccion: a.section || '',
+					fecha: a.date ? new Date(a.date).toISOString().slice(0, 10) : '',
+					foto,
+					epigrafe: a.imageCaption || '',
+				};
+			});
+			return json({ ok: true, notas });
 		}
 		return json({ ok: false, error: 'Acción desconocida' }, 400);
 	} catch (e: any) {

@@ -64,6 +64,18 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 		.tab b { display: block; font-size: 15px; }
 		.tab span { font-size: 12px; color: #6b7280; }
 		.tab.activo { border-color: #d0021b; background: #fff5f5; }
+		.selector { margin-top: 10px; padding: 12px; border: 1px dashed #cfcfcf; border-radius: 10px; background: white; }
+		.selector input { margin-top: 0; }
+		.nota-op { display: flex; gap: 10px; align-items: center; width: 100%; text-align: left; padding: 8px; margin-top: 6px; border: 1px solid #eee; border-radius: 8px; background: #fafafa; cursor: pointer; font-family: inherit; font-size: 13px; }
+		.nota-op:hover { border-color: #d0021b; background: #fff5f5; }
+		.nota-op img { width: 64px; height: 44px; object-fit: cover; border-radius: 4px; flex: none; background: #ddd; }
+		.nota-op small { display: block; color: #6b7280; }
+		.mini.sonando { background: #16161a; color: white; border-color: #16161a; }
+		.revision { margin-bottom: 12px; padding: 12px 14px; border-radius: 10px; font-size: 13px; }
+		.revision.limpia { background: #f0fdf4; color: #166534; }
+		.revision.avisos { background: #fffbeb; color: #78350f; border: 1px solid #fde68a; }
+		.revision ul { margin: 6px 0 0; padding-left: 18px; }
+		.revision li { margin-top: 3px; }
 	</style>
 </head>
 <body>
@@ -173,6 +185,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				</div>
 
 				<div class="card">
+					<div id="revision"></div>
 					<div style="display:flex;gap:8px;flex-wrap:wrap">
 						<button type="button" class="btn btn-dark" id="btn-guardar">Guardar borrador</button>
 						<button type="button" class="btn btn-primary" id="btn-generar">🎬 Generar video</button>
@@ -350,7 +363,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				} catch (e) { alert('No se pudo abrir: ' + e.message); }
 			}
 			$('btn-nuevo').addEventListener('click', function () { nuevo(); });
-			$('btn-cerrar').addEventListener('click', function () { $('editor').classList.add('hidden'); detenerEspera(); cargarLista(); });
+			$('btn-cerrar').addEventListener('click', function () { pararLectura(); $('editor').classList.add('hidden'); detenerEspera(); cargarLista(); });
 
 			function pintar() {
 				var f = estado.flash;
@@ -375,12 +388,14 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			function campo(i, k, etiqueta, max, ph, area) {
 				var v = estado.flash.bloques[i][k] || '';
 				return '<label>' + etiqueta + ' <span class="cont" data-max="' + max + '"></span>' +
-					(area ? '<textarea data-i="' + i + '" data-k="' + k + '" maxlength="' + max + '" placeholder="' + ph + '">' + esc(v) + '</textarea>'
-						: '<input type="text" data-i="' + i + '" data-k="' + k + '" maxlength="' + max + '" placeholder="' + ph + '" value="' + esc(v) + '" />') + '</label>';
+					(area ? '<textarea spellcheck="true" lang="es" data-i="' + i + '" data-k="' + k + '" maxlength="' + max + '" placeholder="' + ph + '">' + esc(v) + '</textarea>'
+						: '<input type="text" spellcheck="true" lang="es" data-i="' + i + '" data-k="' + k + '" maxlength="' + max + '" placeholder="' + ph + '" value="' + esc(v) + '" />') + '</label>';
 			}
 			function htmlBloque(b, i) {
 				return '<div class="bloque" data-bloque="' + i + '"><div class="bloque-cab"><strong>Noticia ' + (i + 1) + ' <span class="seg" id="seg-' + i + '"></span></strong><span>' +
+					'<button type="button" class="mini" data-traer="' + i + '" title="Completar con una nota publicada">📰 Traer de una nota</button> <button type="button" class="mini" data-oir="' + i + '" title="Lectura aproximada con la voz del navegador">🔊 Escuchar</button> ' +
 					'<button type="button" class="mini" data-subir="' + i + '" title="Subir">↑</button> <button type="button" class="mini" data-bajar="' + i + '" title="Bajar">↓</button> <button type="button" class="mini" data-quitar="' + i + '" style="color:#b91c1c">Quitar</button></span></div>' +
+					'<div class="selector hidden" id="selector-' + i + '"><input type="text" data-buscar="' + i + '" placeholder="Buscá por título, volanta o sección…" /><div id="opciones-' + i + '"></div></div>' +
 					campo(i, 'texto', 'Texto que lee la voz', 900, 'Brasil. Lula ganó el balotaje y fue reelecto…', true) +
 					'<div class="fila">' + campo(i, 'kicker', 'Antetítulo (país · tema)', 30, 'Brasil · Balotaje') + campo(i, 'titulo', 'Título en pantalla', 45, 'Lula, reelecto') + '</div>' +
 					'<div class="fila">' + campo(i, 'dato', 'Dato destacado', 24, '51,79% – 48,21%') + campo(i, 'bajada', 'Bajada', 90, '4.430.191 votos de diferencia') + '</div>' +
@@ -408,6 +423,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			// Lee los campos al escribir
 			$('editor').addEventListener('input', function (e) {
 				var t = e.target, f = estado.flash; if (!f) return;
+				if (t.dataset.buscar != null) return pintarOpciones(+t.dataset.buscar, t.value);
 				if (t.dataset.k) f.bloques[+t.dataset.i][t.dataset.k] = t.value;
 				else if (t.dataset.inicio != null) f.bloques[+t.dataset.inicio].media.inicio = Number(t.value) || 0;
 				else if (t.id === 'f-titulo') f.titulo = t.value;
@@ -445,6 +461,10 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			});
 			$('editor').addEventListener('click', function (e) {
 				var t = e.target, f = estado.flash; if (!f) return;
+				var op = t.closest && t.closest('[data-nota]');
+				if (op) { traerNota(+op.getAttribute('data-para'), op.getAttribute('data-nota')); return; }
+				if (t.hasAttribute('data-traer')) { abrirSelector(+t.getAttribute('data-traer')); return; }
+				if (t.hasAttribute('data-oir')) { escuchar(+t.getAttribute('data-oir'), t); return; }
 				var tab = t.closest && t.closest('.tab');
 				if (tab) { f.tipo = tab.getAttribute('data-tipo'); document.querySelectorAll('.tab').forEach(function (x) { x.classList.toggle('activo', x === tab); }); if (f.tipo === 'ultimo' && f.bloques.length > 1 && f.bloques.slice(1).every(function (b) { return !b.texto && !b.media; })) { f.bloques = [f.bloques[0]]; $('bloques').innerHTML = htmlBloque(f.bloques[0], 0); pintarMedio(0); } actualizar(); return; }
 				var vista = t.closest && t.closest('[data-foco]');
@@ -457,6 +477,154 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			});
 			$('btn-bloque').addEventListener('click', function () { if (estado.flash.bloques.length >= 8) return alert('Máximo 8 noticias por flash.'); estado.flash.bloques.push(bloqueVacio()); repintarBloques(); });
 			function repintarBloques() { $('bloques').innerHTML = estado.flash.bloques.map(htmlBloque).join(''); estado.flash.bloques.forEach(function (b, i) { pintarMedio(i); }); actualizar(); }
+
+			// ── Traer una nota publicada a un bloque ──────────
+			var notasCache = null;
+			function sinTildes(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+			// Corta en la última palabra entera que entra (nunca deja "ayu")
+			function cortarLimpio(t, max) {
+				t = String(t || '').replace(/\s+/g, ' ').trim();
+				if (t.length <= max) return t;
+				var c = t.slice(0, max + 1), esp = c.lastIndexOf(' ');
+				var r = esp > max * 0.5 ? c.slice(0, esp) : t.slice(0, max);
+				// no dejar colgando "durante el", "de la", "y"…
+				var colgadas = /\s+(el|la|los|las|lo|un|una|de|del|al|a|y|e|o|u|en|con|por|para|que|entre|durante|sobre|sin|tras|su|sus|se)$/i;
+				for (var k = 0; k < 4; k++) { r = r.replace(/[\s,;:.\-–—]+$/, ''); if (!colgadas.test(r)) break; r = r.replace(colgadas, ''); }
+				return r;
+			}
+			async function abrirSelector(i) {
+				var box = $('selector-' + i);
+				if (!box.classList.contains('hidden')) { box.classList.add('hidden'); return; }
+				box.classList.remove('hidden');
+				var inp = box.querySelector('input'); inp.value = ''; inp.focus();
+				if (!notasCache) {
+					$('opciones-' + i).innerHTML = '<p class="ayuda">Cargando notas…</p>';
+					try { notasCache = (await api(API + '?action=notas', { cache: 'no-store' })).notas; }
+					catch (e) { $('opciones-' + i).innerHTML = '<p class="mal">No se pudieron cargar las notas: ' + esc(e.message) + '</p>'; return; }
+				}
+				pintarOpciones(i, '');
+			}
+			function pintarOpciones(i, q) {
+				var qq = sinTildes(q).trim();
+				var lista = (notasCache || []).filter(function (n) { return !qq || sinTildes(n.titulo + ' ' + n.volanta + ' ' + n.seccion + ' ' + n.bajada).indexOf(qq) >= 0; }).slice(0, 8);
+				$('opciones-' + i).innerHTML = lista.length ? lista.map(function (n) {
+					return '<button type="button" class="nota-op" data-nota="' + esc(n.slug) + '" data-para="' + i + '">' + (n.foto ? '<img src="' + esc(n.foto) + '" alt="" loading="lazy" />' : '<img alt="" />') +
+						'<span><b>' + esc(n.titulo) + '</b><small>' + esc([n.volanta, n.fecha].filter(Boolean).join(' · ')) + '</small></span></button>';
+				}).join('') : '<p class="ayuda">No encontré notas con eso.</p>';
+			}
+			function fuenteDe(url) {
+				if (!/^https?:\/\//.test(url)) return '';
+				try { var h = new URL(url).hostname.replace(/^www\./, ''); return location.hostname.replace(/^www\./, '') === h ? '' : 'Foto: ' + h; } catch (e) { return ''; }
+			}
+			function traerNota(i, slug) {
+				var n = (notasCache || []).find(function (x) { return x.slug === slug; }); if (!n) return;
+				var b = estado.flash.bloques[i];
+				b.kicker = cortarLimpio(n.volanta || n.seccion, 30);
+				b.titulo = cortarLimpio(n.titulo, 45);
+				b.bajada = cortarLimpio(n.bajada, 90);
+				if (!String(b.texto || '').trim()) b.texto = cortarLimpio(n.bajada, 900);
+				if (n.foto && !b.media) {
+					b.media = { tipo: 'foto', archivo: n.foto, foco: [0.5, 0.4], _local: n.foto };
+					b.epigrafe = cortarLimpio(n.epigrafe, 60);
+					b.fuente = fuenteDe(n.foto);
+				}
+				estado.flash._editado = true;
+				repintarBloques();
+				var s = $('sube-' + i);
+				if (s) s.textContent = 'Traído de la nota. Reescribí el texto para la voz y revisá epígrafe y fuente.';
+			}
+
+			// ── Escuchar un bloque (voz del navegador, aproximada) ──
+			var lectura = { boton: null };
+			function diccPron() {
+				var d = {};
+				document.querySelectorAll('#pron .pron-fila').forEach(function (f) { var k = f.querySelector('.p-k'), v = f.querySelector('.p-v'); if (k && v && k.value.trim() && v.value.trim()) d[k.value.trim()] = v.value.trim(); });
+				return d;
+			}
+			function aplicarPron(t) {
+				var d = diccPron();
+				Object.keys(d).sort(function (a, b) { return b.length - a.length; }).forEach(function (k) {
+					t = t.replace(new RegExp('(^|[^\\p{L}\\p{N}])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![\\p{L}\\p{N}])', 'gu'), function (m, pre) { return pre + d[k]; });
+				});
+				return t;
+			}
+			function vozNavegador() {
+				var voces = window.speechSynthesis.getVoices(), pedida = String(estado.flash.voz || 'es-AR').slice(0, 5).toLowerCase();
+				return voces.find(function (v) { return v.lang.toLowerCase().replace('_', '-') === pedida; }) ||
+					voces.find(function (v) { return /^es[-_](ar|uy|419|us|mx)/i.test(v.lang); }) ||
+					voces.find(function (v) { return /^es/i.test(v.lang); }) || null;
+			}
+			function pararLectura() {
+				if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+				if (lectura.boton) { lectura.boton.classList.remove('sonando'); lectura.boton.textContent = '🔊 Escuchar'; }
+				lectura.boton = null;
+			}
+			function escuchar(i, boton) {
+				if (!('speechSynthesis' in window)) return msg('Este navegador no puede leer en voz alta. Probá con Chrome o Edge.', false);
+				var mismo = lectura.boton === boton; pararLectura(); if (mismo) return;
+				var texto = String(estado.flash.bloques[i].texto || '').trim();
+				if (!texto) return msg('La noticia ' + (i + 1) + ' no tiene texto para leer.', false);
+				// Chrome corta las lecturas largas: se lee oración por oración
+				var partes = aplicarPron(texto).match(/[^.!?]+[.!?]*/g) || [texto];
+				var voz = vozNavegador(), vel = 1 + (Number(estado.flash.velocidad) || 0) / 100, inicio = Date.now();
+				lectura.boton = boton; boton.classList.add('sonando'); boton.textContent = '⏹ Parar';
+				partes.forEach(function (p, k) {
+					var u = new SpeechSynthesisUtterance(p.trim());
+					u.lang = voz ? voz.lang : 'es-AR'; if (voz) u.voice = voz; u.rate = vel;
+					if (k === partes.length - 1) u.onend = function () {
+						if (lectura.boton !== boton) return;
+						pararLectura();
+						msg('Noticia ' + (i + 1) + ': unos ' + Math.round((Date.now() - inicio) / 1000) + ' s con la voz del navegador. Es una lectura aproximada: la voz del video es otra.', true);
+					};
+					window.speechSynthesis.speak(u);
+				});
+			}
+			if ('speechSynthesis' in window) { window.speechSynthesis.getVoices(); window.speechSynthesis.onvoiceschanged = function () {}; }
+
+			// ── Revisión antes de generar ─────────────────────
+			var CAMPOS = { texto: ['el texto', 900], kicker: ['el antetítulo', 30], titulo: ['el título', 45], dato: ['el dato', 24], bajada: ['la bajada', 90], epigrafe: ['el epígrafe', 60], fuente: ['la fuente', 80] };
+			var ERRATAS = { arhivo: 'Archivo', archvo: 'Archivo', twiter: 'Twitter', twtter: 'Twitter', 'ee:uu': 'EE.UU.', 'ee.uu': 'EE.UU.', 'ee uu': 'EE.UU.', goberno: 'gobierno', gobieno: 'gobierno', presidnte: 'presidente', eleciones: 'elecciones', elecion: 'elección' };
+			var MASCULINOS = 'gobierno|presidente|ministro|congreso|senado|país|oficialismo|peronismo|acuerdo|gobernador|intendente|bloque|partido|proyecto|presupuesto|dólar';
+			function revisarCampo(v, nombre, max, esTitulo) {
+				var av = [], t = String(v || '');
+				if (!t.trim()) return av;
+				if (/\S\s{2,}\S/.test(t)) av.push('espacios dobles en ' + nombre);
+				if (/\s[,.;:]/.test(t)) av.push('espacio antes de una coma o punto en ' + nombre);
+				if (/[A-Za-zÁÉÍÓÚÑáéíóúñ],[A-Za-zÁÉÍÓÚÑáéíóúñ]/.test(t)) av.push('falta espacio después de una coma en ' + nombre);
+				var rep = t.match(/(?:^|[^\p{L}])(\p{L}{2,})\s+\1(?!\p{L})/iu); if (rep) av.push('palabra repetida "' + rep[1] + ' ' + rep[1] + '" en ' + nombre);
+				var may = t.match(/(?:^|[^\p{L}])(\p{Lu}{2}\p{Ll}{2,})/u); if (may) av.push('mayúsculas raras: "' + may[1] + '" en ' + nombre);
+				Object.keys(ERRATAS).forEach(function (e) {
+					var m = t.match(new RegExp('(?:^|[^\\p{L}])(' + e.replace(/\./g, '\\.') + ')(?![\\p{L}])', 'iu'));
+					if (m && m[1] !== ERRATAS[e]) av.push('"' + m[1] + '" → ¿' + ERRATAS[e] + '? (' + nombre + ')');
+				});
+				var gen = t.match(new RegExp('(?:^|[^\\p{L}])(la (?:' + MASCULINOS + '))(?![\\p{L}])', 'iu')); if (gen) av.push('"' + gen[1] + '" → ¿' + gen[1].replace(/^la/i, 'el') + '? (' + nombre + ')');
+				var cion = t.match(/(?:^|[^\p{L}])(\p{L}+cion)(?!\p{L})/iu); if (cion) av.push('"' + cion[1] + '" → ¿' + cion[1].replace(/cion$/i, 'ción') + '? (' + nombre + ')');
+				if (esTitulo && /^\p{Ll}/u.test(t.trim())) av.push(nombre + ' empieza en minúscula');
+				if (esTitulo && t.length >= max - 1 && !/[.!?"»)]$/.test(t.trim())) av.push(nombre + ' llegó al máximo de letras: fijate que no haya quedado cortado ("…' + t.trim().split(' ').pop() + '")');
+				return av;
+			}
+			function revisar() {
+				var f = estado.flash, lista = [];
+				if (!f) return lista;
+				revisarCampo(f.titulo, 'el título de la página', 140, true).forEach(function (a) { lista.push('Título de la página: ' + a); });
+				f.bloques.forEach(function (b, i) {
+					var hay = Object.keys(CAMPOS).some(function (k) { return String(b[k] || '').trim(); }) || b.media;
+					if (!hay) return;
+					var av = [];
+					if (!String(b.texto || '').trim()) av.push('falta el texto que lee la voz');
+					if (b.media && !String(b.epigrafe || '').trim()) av.push('la foto o el video no tiene epígrafe');
+					Object.keys(CAMPOS).forEach(function (k) { av = av.concat(revisarCampo(b[k], CAMPOS[k][0], CAMPOS[k][1], k !== 'texto' && k !== 'dato' && k !== 'fuente')); });
+					av.forEach(function (a) { lista.push('Noticia ' + (i + 1) + ': ' + a); });
+				});
+				return lista;
+			}
+			function pintarRevision() {
+				var box = $('revision'); if (!box || !estado.flash) return;
+				var l = revisar();
+				box.className = 'revision ' + (l.length ? 'avisos' : 'limpia');
+				box.innerHTML = l.length ? '<b>Revisión: ' + l.length + (l.length === 1 ? ' cosa para mirar' : ' cosas para mirar') + '</b><ul>' + l.slice(0, 25).map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>'
+					: '✓ Revisión: no encontré errores de tipeo comunes.';
+			}
 
 			// ── Medidor de duración ───────────────────────────
 			function letrasPorSegundo() {
@@ -496,6 +664,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				});
 				$('f-vel-v').textContent = (f.velocidad >= 0 ? '+' : '') + f.velocidad + '%';
 				$('f-volm-v').textContent = f.volumenMusica <= -22 ? 'bajo' : f.volumenMusica >= -13 ? 'alto' : 'medio';
+				pintarRevision();
 			}
 			['input', 'change'].forEach(function (ev) { $('bloques').addEventListener(ev, function () { if (estado.flash) estado.flash._editado = true; }); });
 
@@ -535,6 +704,9 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				var f = estado.flash, sinFuente = f.bloques.findIndex(function (b) { return b.media && !String(b.fuente || '').trim(); });
 				if (sinFuente >= 0) return msg('A la noticia ' + (sinFuente + 1) + ' le falta la fuente de la foto o el video.', false);
 				if (!f.bloques.some(function (b) { return String(b.texto || '').trim(); })) return msg('Escribí el texto de al menos una noticia.', false);
+				var avisos = revisar();
+				if (avisos.length && !confirm('La revisión marcó ' + avisos.length + (avisos.length === 1 ? ' cosa' : ' cosas') + ' para mirar (están arriba de este botón).\n\n¿Generar el video igual?')) { $('revision').scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+				pararLectura();
 				guardar(true);
 			});
 

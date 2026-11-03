@@ -120,8 +120,21 @@ def logo(d, x, y, s=1.0, a=255):
 def reunir(ruta_rel, tmp):
     """Los archivos grandes se suben en partes (.part000, .part001…): acá se vuelven a unir."""
     if not ruta_rel: return None
+    if re.match(r"^https?://", ruta_rel):
+        # Foto traída de una nota del diario que está alojada en otra web: se baja acá.
+        import urllib.request
+        ext = os.path.splitext(ruta_rel.split("?")[0])[1].lower()
+        destino = Path(tmp) / ("remoto-" + str(abs(hash(ruta_rel))) + (ext if ext in (".jpg", ".jpeg", ".png", ".webp", ".mp4") else ".jpg"))
+        try:
+            pedido = urllib.request.Request(ruta_rel, headers={"User-Agent": "Mozilla/5.0 (DiarioFederal flash)"})
+            with urllib.request.urlopen(pedido, timeout=40) as r, open(destino, "wb") as out:
+                out.write(r.read())
+            return destino
+        except Exception as e:
+            print(f"  No se pudo bajar {ruta_rel}: {e}")
+            return None
     ruta = RAIZ / ruta_rel.lstrip("/")
-    if ruta_rel.startswith("/flash/") or ruta_rel.startswith("/uploads/"):
+    if ruta_rel.startswith(("/flash/", "/uploads/", "/images/", "/media/")):
         ruta = RAIZ / "public" / ruta_rel.lstrip("/")
     if ruta.exists(): return ruta
     partes = sorted(ruta.parent.glob(ruta.name + ".part*"))
