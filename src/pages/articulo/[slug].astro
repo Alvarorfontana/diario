@@ -289,3 +289,92 @@ import { nombreRegion } from '../../lib/regiones';
 	})();
 </script>
 
+
+
+<style is="global">
+  /* Sistema editorial para las notas de Diario Federal */
+  .nota-articulo > header {
+    max-width: 970px;
+  }
+  .nota-articulo > header h1 {
+    max-width: 930px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(2.45rem, 4.25vw, 3.45rem);
+    font-weight: 600;
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+    color: #111;
+  }
+  .nota-articulo > header > p:not(.solo-impresion) {
+    max-width: 900px;
+  }
+  .nota-articulo > header > figure {
+    width: min(1120px, calc(100% + 150px));
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  .nota-articulo > header > figure img {
+    width: 100%;
+    aspect-ratio: 16 / 8.8;
+    border-radius: 0;
+    object-fit: cover;
+  }
+  .nota-articulo > header > figure figcaption {
+    max-width: 1120px;
+    margin-top: 10px;
+    color: #72777e;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+  .nota-articulo .prose-articulo {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.22rem;
+    line-height: 1.68;
+    color: #24272b;
+  }
+  .nota-articulo .prose-articulo a {
+    color: #087eae;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid #9bcfe2;
+    box-shadow: inset 0 -3px 0 #eaf5fa;
+    transition: color .18s ease, border-color .18s ease;
+  }
+  .nota-articulo .prose-articulo a:hover {
+    color: #075f87;
+    border-color: #087eae;
+  }
+  .nota-articulo .prose-articulo blockquote {
+    margin: 2rem 0;
+    padding: 1.1rem 1.35rem;
+    border-left: 4px solid #087eae;
+    background: #eaf5fa;
+    color: #075f87;
+    font-size: 1.15rem;
+  }
+  .nota-articulo aside[aria-label="Más noticias y publicidad"] {
+    border-top: 3px solid #111;
+    padding-top: 0.85rem;
+  }
+  @media (max-width: 760px) {
+    .nota-articulo > header h1 {
+      font-size: clamp(2.25rem, 9vw, 2.65rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+    }
+    .nota-articulo > header > figure {
+      width: 100%;
+      margin: 1.2rem 0 0;
+      transform: none;
+    }
+    .nota-articulo > header > figure img {
+      aspect-ratio: 4 / 3;
+      border-radius: 0.75rem;
+    }
+    .nota-articulo .prose-articulo {
+      font-size: 1.16rem;
+      line-height: 1.62;
+    }
+  }
+</style>
