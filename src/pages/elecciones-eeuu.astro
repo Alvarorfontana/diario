@@ -81,11 +81,23 @@ export const prerender = false;
         <div><p class="eyebrow">RESULTADOS EN VIVO · FUENTES EXTERNAS</p><h2>Tableros de escrutinio conectados</h2></div>
         <span class="source-status">FUENTE EXTERNA</span>
       </div>
-      <p class="embed-intro">The Guardian no permite que su tablero interactivo se reproduzca dentro de esta página. Para evitar un recuadro vacío, dejamos accesos directos al mapa y al conteo original, que se abren en una pestaña nueva.</p>
+      <p class="embed-intro">Panel externo de The Guardian con resultados de Associated Press. La cobertura se actualiza durante la jornada. El contenido y sus proyecciones pertenecen a sus fuentes originales; Diario Federal identifica y acredita la procedencia.</p>
+      <div class="guardian-toolbar">
+        <span><i class="guardian-live-dot"></i> COBERTURA EN DIRECTO · THE GUARDIAN / AP</span>
+        <span id="guardian-refresh-time">Conectando con la fuente…</span>
+        <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir fuente original ↗</a>
+      </div>
+      <div class="guardian-frame-wrap">
+        <iframe
+          id="guardian-results-frame"
+          src="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races"
+          title="Resultados en vivo de las elecciones de medio término 2026 — The Guardian, datos de Associated Press"
+          loading="eager"
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+      <p class="guardian-fallback">Si el navegador o The Guardian impiden mostrar el tablero incrustado, <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">abrí aquí los resultados directamente en The Guardian</a>. Fuente de los resultados: Associated Press (AP).</p>
       <div class="live-source-actions">
-        <a class="live-source-card guardian-live" href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">
-          <span>DATOS DE ASSOCIATED PRESS</span><strong>The Guardian · resultados y mapa nacional</strong><em>Abrir tablero en vivo ↗</em>
-        </a>
         <a class="live-source-card" href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">
           <span>MAPA EN ESPAÑOL</span><strong>Poliwave · contiendas por estado y distrito</strong><em>Abrir mapa interactivo ↗</em>
         </a>
@@ -223,7 +235,14 @@ export const prerender = false;
   .embed-heading a { color:#1c5a9c; font-size:.75rem; font-weight:800; }
   .source-status { padding:.45rem .65rem; border:1px solid #dce1e8; border-radius:999px; color:#687586; font-size:.6rem; font-weight:800; letter-spacing:.08em; }
   .embed-intro { max-width:58rem; margin:.35rem 0 1rem; color:#657184; font-size:.78rem; line-height:1.5; }
-  .live-source-actions { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.7rem; }
+  .live-source-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.7rem; }
+  .guardian-toolbar { display:flex; align-items:center; flex-wrap:wrap; gap:.7rem 1.1rem; padding:.7rem .85rem; border:1px solid #dce1e8; border-bottom:0; border-radius:10px 10px 0 0; background:#f7f9fb; color:#536071; font-size:.64rem; font-weight:800; letter-spacing:.04em; }
+  .guardian-toolbar a { margin-left:auto; color:#1c5a9c; text-decoration:none; }
+  .guardian-live-dot { display:inline-block; width:.5rem; height:.5rem; margin-right:.35rem; border-radius:50%; background:#c52832; box-shadow:0 0 0 3px #c528321c; }
+  .guardian-frame-wrap { height:760px; min-height:540px; overflow:hidden; border:1px solid #dce1e8; border-radius:0 0 10px 10px; background:#fff; }
+  .guardian-frame-wrap iframe { display:block; width:100%; height:100%; border:0; background:#fff; }
+  .guardian-fallback { margin:.55rem 0 1rem; color:#778291; font-size:.67rem; line-height:1.45; }
+  .guardian-fallback a { color:#1c5a9c; font-weight:800; }
   .live-source-card { display:flex; flex-direction:column; gap:.45rem; min-height:125px; padding:1rem; border:1px solid #dce1e8; border-radius:10px; color:#17202c; text-decoration:none; background:#fbfcfd; }
   .live-source-card:hover { border-color:#9ba8b8; background:#f4f7fb; }
   .live-source-card span { color:#687586; font-size:.59rem; font-weight:800; letter-spacing:.09em; }
@@ -289,6 +308,9 @@ export const prerender = false;
     .results-bottom { grid-template-columns:1fr; }
     .news-grid { grid-template-columns:1fr; }
     .live-source-actions { grid-template-columns:1fr; }
+    .guardian-frame-wrap { height:72vh; min-height:500px; }
+    .guardian-toolbar { align-items:flex-start; flex-direction:column; }
+    .guardian-toolbar a { margin-left:0; }
     .cartogram-fallback { grid-template-columns:repeat(5,minmax(0,1fr)); }
     .data-footer { flex-direction:column; }
   }
@@ -315,6 +337,20 @@ export const prerender = false;
   };
   const statePaths = new Map();
   let selectedState = null;
+
+  // El tablero de Guardian es una fuente externa viva (resultados AP).
+  // Se recarga periódicamente para solicitar la versión más reciente.
+  const guardianFrame = document.getElementById('guardian-results-frame');
+  const guardianRefreshLabel = document.getElementById('guardian-refresh-time');
+  function refreshGuardianPanel() {
+    if (!guardianFrame || document.visibilityState === 'hidden') return;
+    guardianFrame.src = 'https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races?df_refresh=' + Date.now();
+    if (guardianRefreshLabel) guardianRefreshLabel.textContent = 'Panel solicitado: ' + new Date().toLocaleTimeString('es-AR', {hour:'2-digit',minute:'2-digit'});
+  }
+  if (guardianFrame) {
+    if (guardianRefreshLabel) guardianRefreshLabel.textContent = 'Actualización automática cada 60 segundos';
+    window.setInterval(refreshGuardianPanel, 60000);
+  }
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
