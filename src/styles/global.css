@@ -4,11 +4,11 @@
 	--font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
 	--font-serif: 'Newsreader', Georgia, 'Times New Roman', Times, serif;
 	--font-display: 'Manrope', 'Inter', ui-sans-serif, system-ui, sans-serif;
-	--color-brand: #c97868;
-	--color-brand-dark: #a95e52;
-	--color-paper: #f8f5ee;
-	--color-beige: #f8f5ee;
-	--color-ink: #302c27;
+	--color-brand: #087eae;
+	--color-brand-dark: #075f87;
+	--color-paper: #ffffff;
+	--color-beige: #ffffff;
+	--color-ink: #111827;
 }
 
 /* Estilo portal (Astromag): fondo gris muy claro, tarjetas blancas redondeadas, rojo sólo para acentos */
@@ -250,3 +250,25 @@ header.sticky nav a:hover { background-color: #e7e0d5; }
 header.sticky nav a[class*="bg-brand"], header.sticky nav a[class*="border-brand"] { background-color: #c97868; border-color: #c97868; color: #fff; }
 header.sticky a[href="/buscar/"] { background-color: #f0ece3; }
 footer .bg-ink { background-color: #302c27; }
+
+
+/* Identidad editorial recuperada de /prueba-diseno-nota/ */
+html, body { background: #fff !important; color: #111827; }
+body { color: #111827; }
+header.sticky, footer { background-color: #fff !important; }
+.brand-masthead { font-family: 'Newsreader', Georgia, serif; }
+header.sticky nav a[class*="bg-brand"],
+header.sticky nav a[class*="border-brand"] { background-color: #087eae; border-color: #087eae; color: #fff; }
+header.sticky nav a:not([class*="bg-brand"]):not([class*="text-white"]) { background-color: #f0f2f4; color: #202833; }
+header.sticky nav a:hover { background-color: #e5f2f8; }
+header.sticky a[href="/buscar/"] { background-color: #f0f2f4; }
+.titulo-seccion::before { background: #087eae; }
+.rotulo { border-color: #111827; color: #111827; }
+.um-luz { background: #087eae; }
+.prose-articulo a, .nota-articulo .prose-articulo a { color: #087eae; }
+.prose-articulo h3 { color: #087eae; }
+.prose-articulo blockquote::before { color: #087eae; }
+.prose-articulo p.destacado { border-top-color: #087eae; }
+.nota-articulo aside[aria-label="Más noticias y publicidad"] { border-top-color: #111827; }
+.nota-articulo .prose-articulo blockquote { border-left-color: #087eae; background: #eaf5fa; color: #075f87; }
+::selection { background: #d9edf6; color: #111827; }
