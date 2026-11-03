@@ -102,6 +102,31 @@ export const prerender = false;
         </a>
       </div>
     </section>
+
+    <section class="race-explorer" aria-label="Explorador de contiendas electorales">
+      <div class="explorer-head">
+        <div><p class="eyebrow">RESULTADOS POR CONTIENDA</p><h2>Senado · Cámara · Gobernadores</h2>
+        <p>Explorador propio inspirado en la cobertura de Poliwave. Los datos y candidatos se muestran únicamente cuando civicAPI los entrega.</p></div>
+        <span class="source-status" id="race-count">ESPERANDO DATOS</span>
+      </div>
+      <div class="explorer-controls">
+        <div class="race-tabs" role="group" aria-label="Filtrar por tipo de elección">
+          <button type="button" class="race-tab active" data-race-tab="all">Todas</button>
+          <button type="button" class="race-tab" data-race-tab="senate">Senado</button>
+          <button type="button" class="race-tab" data-race-tab="house">Cámara</button>
+          <button type="button" class="race-tab" data-race-tab="governor">Gobernadores</button>
+        </div>
+        <input id="race-search" type="search" placeholder="Buscar estado, distrito o candidato…" aria-label="Buscar contienda o candidato">
+      </div>
+      <div class="race-table-wrap">
+        <table class="race-table">
+          <thead><tr><th>Contienda</th><th>Candidatos y votos</th><th>Estado</th></tr></thead>
+          <tbody id="race-table-body"><tr><td colspan="3" class="race-empty">La conexión está preparada. Las contiendas aparecerán cuando civicAPI publique sus registros.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="explorer-note">“Lidera” indica ventaja en el recuento publicado, no una proyección ni una declaración de ganador. La cantidad de unidades informadas no equivale al porcentaje de votos escrutados. Fuente: civicAPI · <a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">referencia de cobertura Poliwave</a>.</p>
+    </section>
+
     <section class="results-bottom">
       <div>
         <p class="eyebrow">COBERTURA</p>
@@ -278,6 +303,30 @@ export const prerender = false;
   .source-card strong { font-size:.8rem; }
   .source-card a { color:#1c5a9c; font-size:.75rem; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
   .data-footer { display:flex; justify-content:space-between; gap:1rem; padding-top:.8rem; border-top:1px solid #dce1e8; color:#778291; font-size:.65rem; }
+
+  .race-explorer { margin:1rem 0; padding:1.1rem; border:1px solid #dce1e8; border-radius:14px; background:#fff; }
+  .explorer-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
+  .explorer-head h2 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.65rem; }
+  .explorer-head p:not(.eyebrow) { margin:.45rem 0 .8rem; color:#657184; font-size:.76rem; line-height:1.45; }
+  .explorer-controls { display:flex; justify-content:space-between; align-items:center; gap:.8rem; flex-wrap:wrap; padding:.7rem 0; border-top:1px solid #edf0f3; }
+  .race-tabs { display:flex; gap:.35rem; flex-wrap:wrap; }
+  .race-tab { border:1px solid #dce1e8; border-radius:7px; background:#fff; color:#536071; padding:.55rem .75rem; font:700 .7rem Inter, sans-serif; cursor:pointer; }
+  .race-tab.active { background:#17202c; border-color:#17202c; color:#fff; }
+  #race-search { min-width:min(100%,280px); border:1px solid #dce1e8; border-radius:7px; padding:.6rem .75rem; font: .75rem Inter,sans-serif; }
+  .race-table-wrap { overflow-x:auto; }
+  .race-table { width:100%; border-collapse:collapse; font-size:.73rem; }
+  .race-table th { padding:.65rem .55rem; border-bottom:1px solid #dce1e8; color:#687586; text-align:left; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; }
+  .race-table td { padding:.7rem .55rem; border-bottom:1px solid #edf0f3; vertical-align:top; }
+  .race-table td:first-child { min-width:170px; font-weight:800; }
+  .race-table td:nth-child(2) { min-width:260px; }
+  .race-candidate { display:flex; justify-content:space-between; gap:1rem; padding:.18rem 0; }
+  .race-candidate.leader { font-weight:800; }
+  .race-party { display:inline-block; width:.48rem; height:.48rem; margin-right:.35rem; border-radius:50%; vertical-align:middle; }
+  .race-empty { color:#778291; text-align:center; padding:1.4rem !important; }
+  .explorer-note { margin:.7rem 0 0; color:#778291; font-size:.65rem; line-height:1.45; }
+  .explorer-note a { color:#1c5a9c; font-weight:800; }
+  @media(max-width:760px) { .explorer-head { flex-direction:column; } .explorer-controls { align-items:stretch; } #race-search { width:100%; } }
+
   .news-desk { margin:1.25rem 0; padding:1.2rem; border:1px solid #dce1e8; border-radius:14px; background:#fff; }
   .news-desk-heading { display:flex; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
   .news-desk h2 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.7rem; }
@@ -333,6 +382,9 @@ export const prerender = false;
   };
   const statePaths = new Map();
   let selectedState = null;
+  let allRaceData = [];
+  let activeRaceTab = 'all';
+  let raceSearchTerm = '';
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
@@ -390,7 +442,57 @@ export const prerender = false;
     walk(payload);
     return found;
   }
+
+  function renderRaceExplorer(races) {
+    allRaceData = Array.isArray(races) ? races : [];
+    const body = $('race-table-body');
+    if (!body) return;
+    const filtered = allRaceData.filter(race => {
+      const priority = racePriority(race);
+      const tabMatch = activeRaceTab === 'all' ||
+        (activeRaceTab === 'governor' && priority === 1) ||
+        (activeRaceTab === 'senate' && priority === 2) ||
+        (activeRaceTab === 'house' && priority === 3);
+      const candidates = raceCandidates(race);
+      const haystack = [race.race_name,race.name,race.title,race.office,race.contest,race.state,race.province,race.district,
+        ...candidates.map(x => x.name || x.candidate_name || x.full_name)].join(' ').toLowerCase();
+      return tabMatch && haystack.includes(raceSearchTerm);
+    });
+    $('race-count').textContent = filtered.length + ' CONTIENDAS';
+    body.replaceChildren();
+    if (!filtered.length) {
+      const tr = document.createElement('tr'); const td = document.createElement('td');
+      td.colSpan = 3; td.className = 'race-empty';
+      td.textContent = allRaceData.length ? 'No hay contiendas que coincidan con la búsqueda.' : 'La conexión está preparada. Las contiendas aparecerán cuando civicAPI publique sus registros.';
+      tr.appendChild(td); body.appendChild(tr); return;
+    }
+    filtered.sort((a,b) => racePriority(a)-racePriority(b) || String(a.race_name||a.name||'').localeCompare(String(b.race_name||b.name||'')));
+    filtered.forEach(race => {
+      const tr = document.createElement('tr');
+      const name = document.createElement('td');
+      name.textContent = clean(race.race_name || race.name || race.title || race.office || race.contest || 'Contienda');
+      const candidateCell = document.createElement('td');
+      const candidates = raceCandidates(race).map(candidate => ({
+        name: clean(candidate.name || candidate.candidate_name || candidate.full_name || candidate.display_name) || 'Candidato',
+        party: partyCode(candidate), votes: candidateVotes(candidate)
+      })).sort((a,b) => b.votes-a.votes);
+      if (!candidates.length) candidateCell.textContent = 'Candidaturas aún no publicadas';
+      candidates.slice(0,5).forEach((candidate,index) => {
+        const line = document.createElement('div'); line.className = 'race-candidate' + (index===0 && candidate.votes>0 ? ' leader':'');
+        const label = document.createElement('span'); const dot = document.createElement('i');
+        dot.className = 'race-party'; dot.style.background = PARTY_COLORS[candidate.party] || '#9272a8';
+        label.append(dot, document.createTextNode(candidate.name + ' · ' + candidate.party));
+        const votes = document.createElement('strong'); votes.textContent = candidate.votes ? candidate.votes.toLocaleString('en-US') : '—';
+        line.append(label,votes); candidateCell.appendChild(line);
+      });
+      const status = document.createElement('td');
+      status.textContent = clean(race.status || race.race_status || race.call_status || 'Sin declarar');
+      tr.append(name,candidateCell,status); body.appendChild(tr);
+    });
+  }
+
   function updateMapFromRaces(races) {
+    renderRaceExplorer(races);
     const grouped = new Map();
     for (const race of races) {
       const code = inferState(race);
@@ -565,6 +667,17 @@ export const prerender = false;
     refreshElectionData();
     window.setInterval(refreshElectionData, 60000);
   }
+
+  document.querySelectorAll('[data-race-tab]').forEach(button => button.addEventListener('click', () => {
+    activeRaceTab = button.dataset.raceTab;
+    document.querySelectorAll('[data-race-tab]').forEach(item => item.classList.toggle('active', item === button));
+    renderRaceExplorer(allRaceData);
+  }));
+  $('race-search')?.addEventListener('input', event => {
+    raceSearchTerm = event.target.value.trim().toLowerCase();
+    renderRaceExplorer(allRaceData);
+  });
+
   try {
     const response = await fetch(GEO_URL, {cache:'no-store'});
     if (!response.ok) throw new Error('No se pudo cargar la geometría');
