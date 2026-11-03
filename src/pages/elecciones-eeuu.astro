@@ -67,7 +67,7 @@ export const prerender = false;
           <div id="detail-races" class="detail-races"></div>
         </aside>
       </div>
-      <p class="map-note"><strong>Estado del escrutinio:</strong> el mapa no utiliza antecedentes de 2024. Los colores se aplicarán únicamente cuando una fuente identificada publique una proyección o un ganador para las contiendas de 2026. Hasta entonces, cada estado permanece gris. Los recuentos pertenecen a sus proveedores.</p>
+      <p class="map-note"><strong>Estado del escrutinio:</strong> el mapa no utiliza antecedentes de 2024. Los estados permanecen en gris mientras no haya un liderazgo o ganador publicado para la contienda de 2026. El tablero de AP/Guardian y el mapa de Poliwave actualizan sus propios colores y recuentos a medida que ingresan los votos. Los resultados son preliminares hasta la certificación oficial.</p>
       <div class="map-live-links">
         <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir mapa nacional y resultados en vivo · AP / The Guardian ↗</a>
         <a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">Abrir mapa electoral en español · Poliwave / civicAPI ↗</a>
@@ -78,7 +78,7 @@ export const prerender = false;
 
     <section class="live-results-embed" aria-label="Resultados en vivo de las elecciones 2026">
       <div class="embed-heading">
-        <div><p class="eyebrow">RESULTADOS EN VIVO · ASSOCIATED PRESS</p><h2>El escrutinio de hoy, estado por estado</h2></div>
+        <div><p class="eyebrow">RESULTADOS EN VIVO · AP / CIVICAPI</p><h2>El escrutinio del 3 de noviembre, estado por estado</h2></div>
         <a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Abrir tablero completo ↗</a>
       </div>
       <iframe title="Resultados de las elecciones de medio término de Estados Unidos 2026, datos de Associated Press publicados por The Guardian" src="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
@@ -173,10 +173,10 @@ export const prerender = false;
           <em>Consultar Telemundo ↗</em>
         </a>
       </div>
-      <p class="news-disclaimer">Los enlaces abren los sitios originales. civicAPI declara que sus datos pueden reutilizarse en publicaciones comerciales y no comerciales con atribución. Los resultados son no oficiales hasta su certificación por las autoridades electorales. NPR se mantiene fuera de la lista principal porque su panel consultado todavía indicaba una actualización del 30 de octubre.</p>
+      <p class="news-disclaimer">Los enlaces abren los sitios originales. civicAPI declara que sus datos pueden reutilizarse en publicaciones comerciales y no comerciales con atribución. Los resultados son no oficiales hasta su certificación por las autoridades electorales. Poliwave / civicAPI se mantiene fuera de la lista principal porque su panel consultado todavía indicaba una actualización del 30 de octubre.</p>
     </section>
     <footer class="data-footer">
-      <span id="source-time">Jornada electoral · martes 3 de noviembre de 2026 · resultados AP / NPR.</span>
+      <span id="source-time">Jornada electoral · martes 3 de noviembre de 2026 · resultados AP / Poliwave / civicAPI.</span>
       <span>AGENCIA FEDERAL · DIARIO FEDERAL</span>
     </footer>
   </section>
@@ -304,13 +304,13 @@ export const prerender = false;
     $('states-live').textContent = '36';
     $('house-r').textContent = '435';
     $('house-d').textContent = '35';
-    $('updated-at').textContent = 'Resultados 2026 en tableros AP / NPR enlazados.';
+    $('updated-at').textContent = 'Resultados 2026 en tableros AP / Poliwave / civicAPI enlazados.';
     if (selectedState) renderDetail(selectedState);
   }
   function renderDetail(code) {
     $('detail-title').textContent = NAMES[code] || code;
-    $('detail-status').textContent = 'Sin resultado de 2026 incorporado a este mapa. Consultá los resultados de esta jornada en AP / The Guardian o NPR.';
-    $('detail-races').innerHTML = '<p class="detail-status"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Ver resultados 2026 de AP ↗</a></p><p class="detail-status"><a href="https://apps.npr.org/2026-election-results/" target="_blank" rel="noopener noreferrer">Ver resultados por estado en NPR ↗</a></p>';
+    $('detail-status').textContent = 'Sin resultado de 2026 incorporado a este mapa. Consultá los resultados de esta jornada en AP / The Guardian o Poliwave / civicAPI.';
+    $('detail-races').innerHTML = '<p class="detail-status"><a href="https://www.theguardian.com/us-news/ng-interactive/2026/nov/03/midterm-elections-full-results-senate-house-governor-races" target="_blank" rel="noopener noreferrer">Ver resultados 2026 de AP ↗</a></p><p class="detail-status"><a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">Ver resultados por estado en Poliwave / civicAPI ↗</a></p>';
   }
   function drawStates(topology) {
     const collection = feature(topology, topology.objects.states);
@@ -337,7 +337,7 @@ export const prerender = false;
       statePaths.set(code,path);
     });
     $('map-loading').classList.add('hidden');
-    $('live-label').textContent = 'JORNADA ELECTORAL · FUENTES AP / NPR';
+    $('live-label').textContent = 'JORNADA ELECTORAL · FUENTES AP / Poliwave / civicAPI';
     $('live-label').parentElement.classList.remove('is-live');
     renderMap();
   }
