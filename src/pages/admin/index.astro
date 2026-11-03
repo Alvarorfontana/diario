@@ -104,6 +104,10 @@ if (Astro.request.method === 'POST') {
 		<div class="login-box">
 			<h2>Panel de Administración</h2>
 			{loginError && <div class="error-box">{loginError}</div>}
+			<script is:inline>
+				// Si se llegó desde el Centro de Información sin sesión, se guarda el borrador para después del login.
+				try { if (/[?&]centro=1/.test(location.search)) sessionStorage.setItem('df-centro', location.search); } catch (e) {}
+			</script>
 			<form method="POST">
 				<div class="form-group">
 					<label for="password">Contraseña</label>
@@ -707,6 +711,37 @@ if (Astro.request.method === 'POST') {
 		limpiarFormulario();
 		$('form-nuevo').classList.add('hidden');
 		cargarLista();
+
+		/* ---------- Borrador traído del Centro de Información ---------- */
+		// El Centro abre /admin/?centro=1&titulo=…&url=… y acá se arma una nota nueva en borrador.
+		// No se publica nada: la nota queda marcada como borrador y el texto lo escribe la redacción.
+		(function () {
+			var qs = location.search;
+			try { if (!/[?&]centro=1/.test(qs)) qs = sessionStorage.getItem('df-centro') || ''; sessionStorage.removeItem('df-centro'); } catch (e) {}
+			if (!/[?&]centro=1/.test(qs)) return;
+			var p = new URLSearchParams(qs);
+			var g = function (k, max) { return String(p.get(k) || '').replace(/\s+/g, ' ').trim().slice(0, max); };
+			var url = g('url', 600); if (!/^https?:\/\//i.test(url)) url = '';
+			var tema = g('tema', 40), zona = g('zona', 20), region = g('region', 30);
+			limpiarFormulario();
+			$('title').value = g('titulo', 200);
+			$('title').dispatchEvent(new Event('input'));
+			$('excerpt').value = g('bajada', 400);
+			$('volanta').value = tema && tema !== 'General' ? tema : '';
+			$('section').value = zona === 'mundo' || zona === 'mercosur' ? 'internacional' : (tema === 'Economía' ? 'economia' : 'argentina');
+			if (region && Array.prototype.some.call($('region').options, function (o) { return o.value === region; })) $('region').value = region;
+			if (tema && tema !== 'General') $('tags').value = tema;
+			$('draft').checked = true;
+			abrirFormulario('Nueva nota desde el Centro de Información');
+			var aviso = document.createElement('div');
+			aviso.id = 'aviso-centro';
+			aviso.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;margin:0 0 14px;font-size:14px;line-height:1.45';
+			aviso.innerHTML = '<b>Traída del Centro de Información.</b> Quedó como borrador: escribí la nota con tu texto, chequeá la fuente y destildá "Borrador" cuando esté lista.' +
+				(url ? '<br>Fuente original: <a target="_blank" rel="noopener" href="' + esc(url) + '">' + esc(g('medio', 80) || url) + '</a>' : '');
+			var viejo = $('aviso-centro'); if (viejo) viejo.remove();
+			$('create-form').insertBefore(aviso, $('create-form').firstChild);
+			try { history.replaceState(null, '', location.pathname); } catch (e) {}
+		})();
 		}
 	</script>
 </body>
