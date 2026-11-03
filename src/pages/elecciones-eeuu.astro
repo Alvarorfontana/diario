@@ -299,20 +299,40 @@ export const prerender = false;
     datasets[office] = data;
   }
   async function refresh() {
-    try {
-      await Promise.all(['House','Senate','Governor'].map(fetchOffice));
-      const latest = Object.values(datasets).map(d => d?.as_of).filter(Boolean).sort().at(-1);
-      $('updated-at').textContent = latest ? 'Último dato de origen: ' + new Date(latest).toLocaleString('es-AR') : 'La fuente todavía no publicó recuentos.';
-      const live = Object.values(datasets).some(d => d?.live);
-      const stale = Object.values(datasets).some(d => d?.stale);
-      $('live-label').textContent = live ? 'RESULTADOS ACTUALIZÁNDOSE' : stale ? 'DATOS DEMORADOS' : 'FUENTE CONECTADA · ESPERANDO RECUENTOS';
-      $('live-label').parentElement.classList.toggle('is-live',live);
-      renderMap();
-    } catch (error) {
+    const offices = ['House','Senate','Governor'];
+    const settled = await Promise.allSettled(offices.map(fetchOffice));
+    const failed = settled.filter(result => result.status === 'rejected');
+    const available = offices.filter(office => datasets[office] !== null);
+
+    if (!available.length) {
       $('live-label').textContent = 'FUENTE TEMPORALMENTE NO DISPONIBLE';
       $('live-label').parentElement.classList.remove('is-live');
-      $('updated-at').textContent = 'No se pudo consultar la fuente. Se reintentará automáticamente.';
-      console.error('[Agencia Federal elecciones]',error);
+      $('updated-at').textContent = 'No se pudo consultar ninguna fuente. Se reintentará automáticamente.';
+      console.error('[Agencia Federal elecciones]', failed.map(result => result.reason));
+      return;
+    }
+
+    const current = available.map(office => datasets[office]);
+    const latest = current.map(data => data?.as_of).filter(Boolean).sort().at(-1);
+    const live = current.some(data => data?.live);
+    const stale = current.some(data => data?.stale);
+    const partial = failed.length > 0 || available.length < offices.length;
+
+    $('updated-at').textContent = latest
+      ? 'Último dato de origen: ' + new Date(latest).toLocaleString('es-AR')
+      : 'La fuente todavía no publicó recuentos.';
+    $('live-label').textContent = partial
+      ? 'ACTUALIZACIÓN PARCIAL · ' + available.length + '/3 FUENTES'
+      : live
+        ? 'RESULTADOS ACTUALIZÁNDOSE'
+        : stale
+          ? 'DATOS DEMORADOS'
+          : 'FUENTE CONECTADA · ESPERANDO RECUENTOS';
+    $('live-label').parentElement.classList.toggle('is-live', live && !partial);
+    renderMap();
+
+    if (failed.length) {
+      console.warn('[Agencia Federal elecciones] Fuentes con error:', failed.map(result => result.reason));
     }
   }
   document.querySelectorAll('.view-button').forEach(button => button.addEventListener('click', () => {
