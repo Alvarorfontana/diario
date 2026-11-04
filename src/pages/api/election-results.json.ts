@@ -33,6 +33,8 @@ const USER_AGENT = 'DiarioFederal/1.0 (+https://www.diariofederal.com.ar/eleccio
 // Va de la mano de maxDuration en astro.config.mjs.
 const CYCLE_BUDGET_MS = 50000;
 const ATTEMPT_TIMEOUT_MS = 22000;
+const GOVERNOR_TIMEOUT_MS = 12000;
+const GOVERNOR_WORKERS = 8;
 const MEMORY_REUSE_MS = 20000;
 const MIN_RACES = { senate: 20, house: 300, governor: 1 };
 const PLACEHOLDER = /^(write[- ]?ins?|scattering|other|others|blank|void|none of these)\b/i;
@@ -65,25 +67,25 @@ async function requestOnce(path: string, timeoutMs: number) {
 }
 
 /** Un reintento ante corte, demora, 429 o 5xx. civicAPI tira 502 sueltos en plena jornada. */
-async function request(path: string, deadline: number) {
+async function request(path: string, deadline: number, attempts = 2, timeoutMs = ATTEMPT_TIMEOUT_MS) {
   let last: unknown;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < attempts; attempt++) {
     const remaining = deadline - Date.now();
     if (remaining < 500) break;
     try {
-      const result = await requestOnce(path, Math.min(ATTEMPT_TIMEOUT_MS, remaining));
+      const result = await requestOnce(path, Math.min(timeoutMs, remaining));
       if (result.status < 500 && result.status !== 429) return result;
       last = new Error(`HTTP ${result.status}`);
     } catch (error) {
       last = error;
     }
-    if (attempt === 0) await wait(250 + Math.random() * 450);
+    if (attempt + 1 < attempts) await wait(250 + Math.random() * 450);
   }
   throw last ?? new Error('sin tiempo para consultar');
 }
 
-async function requestJson(path: string, deadline: number) {
-  const { status, body } = await request(path, deadline);
+async function requestJson(path: string, deadline: number, attempts = 2, timeoutMs = ATTEMPT_TIMEOUT_MS) {
+  const { status, body } = await request(path, deadline, attempts, timeoutMs);
   if (status >= 400) throw new Error(`HTTP ${status}`);
   return JSON.parse(body);
 }
@@ -200,7 +202,7 @@ async function fillCandidates(found: any[], deadline: number) {
 }
 
 async function loadGovernorById(state: string, id: number, deadline: number) {
-  const doc = await requestJson(`race/${id}?light=true`, deadline);
+  const doc = await requestJson(`race/${id}`, deadline, 1, GOVERNOR_TIMEOUT_MS);
   const name = raceName(doc);
   if (text(doc?.province).toUpperCase() !== state || !/governor/i.test(name) || /lieutenant/i.test(name)) throw new Error(`race/${id} no es la gobernación de ${state}`);
   return { doc, race: toRace({ id, office: 'governor', state, district: null, name, source: doc, updatedAt: doc?.last_updated }) };
@@ -217,13 +219,23 @@ async function loadArizonaGovernor(deadline: number) {
   return fromSearch(found, 'governor');
 }
 
-/** Por número de contienda, porque la búsqueda general de civicAPI falla en plena jornada. */
+/**
+ * Por número de contienda, porque la búsqueda general de civicAPI falla en plena jornada.
+ * Cada fila avanza por su cuenta, así una gobernación lenta no frena a las otras, y las que
+ * todavía no llegaron van primero. Las que falten se completan en las vueltas siguientes.
+ */
 async function loadGovernors(deadline: number) {
-  const entries = Object.entries(GOVERNOR_RACE_IDS);
+  const known = new Set((memory.governor?.races ?? []).map((race) => race.id));
+  const shuffled = Object.entries(GOVERNOR_RACE_IDS).sort(() => Math.random() - 0.5);
+  const queue = [
+    ...shuffled.filter(([, id]) => !known.has(String(id))),
+    ...shuffled.filter(([, id]) => known.has(String(id))),
+  ];
   const races: any[] = [];
   let testData = false;
-  for (let index = 0; index < entries.length && Date.now() < deadline - 800; index += 6) {
-    await Promise.all(entries.slice(index, index + 6).map(async ([state, id]) => {
+  const worker = async () => {
+    while (queue.length && Date.now() < deadline - 800) {
+      const [state, id] = queue.shift()!;
       try {
         const { doc, race } = await loadGovernorById(state, id, deadline);
         if (isTrue(doc?.test_data)) testData = true;
@@ -231,13 +243,10 @@ async function loadGovernors(deadline: number) {
       } catch {
         // keep() conserva la versión anterior de esta gobernación.
       }
-    }));
-  }
-  try {
-    races.push(...await loadArizonaGovernor(deadline));
-  } catch {
-    // Arizona queda con su versión anterior, si la hay.
-  }
+    }
+  };
+  const arizona = loadArizonaGovernor(deadline).then((found) => { races.push(...found); }).catch(() => {});
+  await Promise.all([...Array.from({ length: GOVERNOR_WORKERS }, worker), arizona]);
   return { races, testData: testData && races.length === 0 };
 }
 
@@ -379,5 +388,5 @@ export async function GET({ url }: { url: URL }) {
   }
   const snapshot = await cycle;
   if (!snapshot.ok) return json(snapshot, 503, 'no-store');
-  return json(snapshot, 200, `public, s-maxage=${snapshot.stale ? 10 : part === 'governor' ? 60 : 30}, stale-while-revalidate=300, stale-if-error=3600`);
+  return json(snapshot, 200, `public, s-maxage=${snapshot.stale ? 10 : 30}, stale-while-revalidate=300, stale-if-error=3600`);
 }
