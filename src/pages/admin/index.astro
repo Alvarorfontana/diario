@@ -106,7 +106,7 @@ if (Astro.request.method === 'POST') {
 			{loginError && <div class="error-box">{loginError}</div>}
 			<script is:inline>
 				// Si se llegó desde el Centro de Información sin sesión, se guarda el borrador para después del login.
-				try { if (/[?&]centro=1/.test(location.search)) sessionStorage.setItem('df-centro', location.search); } catch (e) {}
+				try { if (/[?&]centro=1/.test(location.search) || /^#centro=/.test(location.hash)) sessionStorage.setItem('df-centro', location.search + location.hash); } catch (e) {}
 			</script>
 			<form method="POST">
 				<div class="form-group">
@@ -716,8 +716,17 @@ if (Astro.request.method === 'POST') {
 		// El Centro abre /admin/?centro=1&titulo=…&url=… y acá se arma una nota nueva en borrador.
 		// No se publica nada: la nota queda marcada como borrador y el texto lo escribe la redacción.
 		(function () {
-			var qs = location.search;
-			try { if (!/[?&]centro=1/.test(qs)) qs = sessionStorage.getItem('df-centro') || ''; sessionStorage.removeItem('df-centro'); } catch (e) {}
+			var qs = location.search + location.hash;
+			try { if (!/[?&]centro=1|#centro=/.test(qs)) qs = sessionStorage.getItem('df-centro') || ''; sessionStorage.removeItem('df-centro'); } catch (e) {}
+			// Reporte completo escrito en la Mesa de edición: viaja en el # (no pasa por el servidor, admite textos largos)
+			var reporte = null, mh = qs.match(/#centro=(.+)$/);
+			if (mh) { try { reporte = JSON.parse(decodeURIComponent(mh[1])); } catch (e) { reporte = null; } qs = qs.replace(/#.*$/, ''); }
+			if (reporte) {
+				var q0 = new URLSearchParams();
+				q0.set('centro', '1');
+				['titulo', 'bajada', 'region', 'zona', 'tema'].forEach(function (k) { if (reporte[k]) q0.set(k, String(reporte[k])); });
+				qs = '?' + q0.toString();
+			}
 			if (!/[?&]centro=1/.test(qs)) return;
 			var p = new URLSearchParams(qs);
 			var g = function (k, max) { return String(p.get(k) || '').replace(/\s+/g, ' ').trim().slice(0, max); };
@@ -732,11 +741,21 @@ if (Astro.request.method === 'POST') {
 			if (region && Array.prototype.some.call($('region').options, function (o) { return o.value === region; })) $('region').value = region;
 			if (tema && tema !== 'General') $('tags').value = tema;
 			$('draft').checked = true;
+			if (reporte) {
+				// Texto propio de la redacción + lista de fuentes consultadas
+				var parrafos = String(reporte.cuerpo || '').split(/\n\s*\n|\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean)
+					.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('');
+				var fuentes = (reporte.fuentes || []).filter(function (f) { return f && /^https?:\/\//i.test(f.url || ''); }).slice(0, 30);
+				if (fuentes.length) parrafos += '<h3>Fuentes consultadas</h3><ul>' + fuentes.map(function (f) {
+					return '<li><a href="' + esc(f.url) + '" target="_blank" rel="noopener">' + esc(f.medio || f.url) + '</a>' + (f.titulo ? ': ' + esc(String(f.titulo).slice(0, 200)) : '') + '</li>'; }).join('') + '</ul>';
+				setContent(parrafos);
+			}
 			abrirFormulario('Nueva nota desde el Centro de Información');
 			var aviso = document.createElement('div');
 			aviso.id = 'aviso-centro';
 			aviso.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;margin:0 0 14px;font-size:14px;line-height:1.45';
-			aviso.innerHTML = '<b>Traída del Centro de Información.</b> Quedó como borrador: escribí la nota con tu texto, chequeá la fuente y destildá "Borrador" cuando esté lista.' +
+			aviso.innerHTML = (reporte ? '<b>Reporte de la Mesa de edición.</b> Quedó como borrador con tu texto y sus fuentes: revisalo, sumá la foto y destildá "Borrador" cuando esté listo.'
+				: '<b>Traída del Centro de Información.</b> Quedó como borrador: escribí la nota con tu texto, chequeá la fuente y destildá "Borrador" cuando esté lista.') +
 				(url ? '<br>Fuente original: <a target="_blank" rel="noopener" href="' + esc(url) + '">' + esc(g('medio', 80) || url) + '</a>' : '');
 			var viejo = $('aviso-centro'); if (viejo) viejo.remove();
 			$('create-form').insertBefore(aviso, $('create-form').firstChild);
