@@ -58,6 +58,9 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Ulises Gastón González': {
 		foto: '/autores/ulises-gaston-gonzalez.jpg',
 	},
+	'Emilio Lahitte': {
+		foto: '/autores/emilio-lahitte.jpg',
+	},
 	'Carlos Mendes': {
 		bio: 'Periodista.',
 		foto: '/columnistas/carlos-mendes.jpg',

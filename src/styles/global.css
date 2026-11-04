@@ -168,6 +168,7 @@ img { background-color: #eeeeee; }
 .prose-articulo em { font-style: italic; }
 .prose-articulo a { color: var(--color-brand); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
 .prose-articulo a:hover { text-decoration-thickness: 2px; }
+.prose-articulo a.enlace-interno { color: #1a5fb4; }
 .prose-articulo h2 {
 	margin-top: 2.2em; margin-bottom: 0.2em;
 	font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; line-height: 1.25; color: #16161a; letter-spacing: -0.01em;
