@@ -743,7 +743,7 @@ if (Astro.request.method === 'POST') {
 			$('draft').checked = true;
 			if (reporte) {
 				// Texto propio de la redacción + lista de fuentes consultadas
-				var parrafos = String(reporte.cuerpo || '').split(/\n\s*\n|\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean)
+				var parrafos = reporte.cuerpoHtml ? String(reporte.cuerpoHtml) : String(reporte.cuerpo || '').split(/\n\s*\n|\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean)
 					.map(function (x) { return '<p>' + esc(x) + '</p>'; }).join('');
 				var fuentes = (reporte.fuentes || []).filter(function (f) { return f && /^https?:\/\//i.test(f.url || ''); }).slice(0, 30);
 				if (fuentes.length) parrafos += '<h3>Fuentes consultadas</h3><ul>' + fuentes.map(function (f) {
