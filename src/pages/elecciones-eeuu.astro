@@ -94,15 +94,6 @@ export const prerender = false;
           <div class="fox-frame-fallback">Si el tablero no aparece, Fox News no permite incrustarlo en Diario Federal. <a href="https://www.foxnews.com/elections/2026/midterm-results" target="_blank" rel="noopener noreferrer">Abrir los resultados y gráficos originales de Fox ↗</a></div>
         </div>
       </div>
-      <div class="fox-results-panel midterms-map-panel">
-        <div class="fox-results-heading">
-          <div><p class="eyebrow">MAPA EXTERNO · MAP THE MIDTERMS</p><h3>Mapa por estados de Map the Midterms</h3><p>Sitio independiente, no oficial. Cada estado lleva a su página con información electoral. Es una fuente aparte: sus datos no se mezclan con los de civicAPI ni con los de Fox.</p></div>
-          <a href="https://mapthemidterms.com/" target="_blank" rel="noopener noreferrer">Abrir Map the Midterms ↗</a>
-        </div>
-        <div class="fox-frame-wrap midterms-frame-wrap">
-          <iframe src="https://mapthemidterms.com/embed/map/" title="Mapa por estados de Map the Midterms" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" sandbox="allow-scripts allow-same-origin allow-popups allow-top-navigation-by-user-activation"></iframe>
-        </div>
-      </div>
       <div class="guardian-toolbar">
         <span><i class="guardian-live-dot"></i> DATOS ELECTORALES · civicAPI</span>
         <span id="civicapi-refresh-time">Consultando resultados del 3 de noviembre…</span>
@@ -340,8 +331,6 @@ export const prerender = false;
   .fox-frame-wrap { position:relative; height:650px; background:#fff; border-top:1px solid #dce1e8; }
   .fox-frame-wrap iframe { width:100%; height:100%; border:0; background:#fff; }
   .fox-frame-fallback { position:absolute; inset:auto 0 0; padding:.65rem .9rem; background:#17202c; color:#fff; font-size:.68rem; text-align:center; }
-  .fox-frame-wrap.midterms-frame-wrap { height:480px; }
-  @media(max-width:760px) { .fox-frame-wrap.midterms-frame-wrap { height:420px; } }
   .fox-frame-fallback a { color:#fff; font-weight:800; text-decoration:underline; }
   .race-more { display:block; margin:.8rem auto 0; padding:.65rem 1rem; border:1px solid #cbd3dd; border-radius:7px; background:#f7f8fa; color:#263445; font:800 .72rem Inter,sans-serif; cursor:pointer; }
   .race-more:hover { background:#edf1f5; }
