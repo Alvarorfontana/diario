@@ -144,7 +144,7 @@ export const prerender = false;
       <div>
         <p class="eyebrow">COBERTURA</p>
         <h2>50 estados en el mapa</h2>
-        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. El mapa propio consulta civicAPI automáticamente cada 15 segundos. La fuente agrega resultados oficiales estatales; la página nacional de Los Angeles Times aporta una referencia periodística basada en AP.</p>
+        <p>El mapa cubre los 50 estados. La cobertura de hoy, martes 3 de noviembre de 2026, sigue las elecciones legislativas, senatoriales y de gobernadores. El mapa propio consulta civicAPI automáticamente cada 30 segundos. La fuente agrega resultados oficiales estatales; la página nacional de Los Angeles Times aporta una referencia periodística basada en AP.</p>
       </div>
       <div class="source-card">
         <strong>Fuentes para resultados 2026</strong>
@@ -405,8 +405,8 @@ export const prerender = false;
 </style>
 
 <script is:inline type="module">
-  import { geoAlbersUsa, geoPath } from 'https://cdn.jsdelivr.net/npm/d3-geo@3/+esm';
-  import { feature } from 'https://cdn.jsdelivr.net/npm/topojson-client@3/+esm';
+  // Se cargan aparte: si el CDN falla, la página sigue con la vista alternativa y con los datos.
+  let geoAlbersUsa, geoPath, feature;
 
   const GEO_URL = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
   const FIPS = {
@@ -468,29 +468,15 @@ export const prerender = false;
     return Array.isArray(value) ? value : [];
   }
   function racePriority(race) {
+    if (race?.office_type === 'governor') return 1;
+    if (race?.office_type === 'senate') return 2;
+    if (race?.office_type === 'house') return 3;
     const name = clean(race?.race_name || race?.name || race?.title || race?.office || race?.office_title || race?.contest || race?.description || race?.election_type || race?.race_type || race?.type).toLowerCase();
     if (name.includes('governor')) return 1;
     if (name.includes('u.s. senate') || name.includes('us senate') || name.includes('senate')) return 2;
     if (name.includes('u.s. house') || name.includes('us house') || name.includes('house') || name.includes('congressional district')) return 3;
     return 4;
   }
-  function extractRaces(payload) {
-    const found = [];
-    const seen = new Set();
-    function walk(node) {
-      if (!node || typeof node !== 'object' || seen.has(node)) return;
-      seen.add(node);
-      if (Array.isArray(node)) {
-        node.forEach(walk);
-        return;
-      }
-      if (raceCandidates(node).length) found.push(node);
-      Object.values(node).forEach(walk);
-    }
-    walk(payload);
-    return found;
-  }
-
   function renderRaceExplorer(races) {
     allRaceData = Array.isArray(races) ? races : [];
     const body = $('race-table-body');
@@ -558,7 +544,7 @@ export const prerender = false;
         votes: candidateVotes(candidate),
         percent: candidate.vote_percentage ?? candidate.percentage ?? candidate.pct
       })).filter(candidate => candidate.name !== 'Candidato' || candidate.votes > 0);
-      if (!code || candidates.length < 2 || candidates.every(candidate => candidate.votes === 0)) continue;
+      if (!code || !candidates.length || candidates.every(candidate => candidate.votes === 0)) continue;
       candidates.sort((a,b) => b.votes - a.votes);
       const item = {
         code,
@@ -584,8 +570,7 @@ export const prerender = false;
     $('civicapi-status').textContent = total ? 'DATOS RECIBIDOS' : 'ESPERANDO RECUENTOS';
     $('live-label').textContent = total ? 'RESULTADOS PARCIALES · civicAPI' : 'CONECTADO · AÚN SIN RECUENTOS';
     $('live-label').parentElement.classList.toggle('is-live', total > 0);
-    $('civicapi-refresh-time').textContent = 'Última consulta: ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-    $('updated-at').textContent = total + ' estados con datos de contiendas publicadas por civicAPI.';
+        $('updated-at').textContent = total + ' estados con datos de contiendas publicadas por civicAPI.';
   }
   function electionColor(code) {
     const result = liveByState.get(code);
@@ -596,6 +581,10 @@ export const prerender = false;
       path.setAttribute('fill', electionColor(code));
       path.classList.toggle('selected', selectedState === code);
     }
+    document.querySelectorAll('.cartogram-state').forEach(button => {
+      const result = liveByState.get(button.textContent);
+      button.style.background = result ? (PARTY_COLORS[result.party] || '#9272a8') : '';
+    });
     $('states-live').textContent = String(liveByState.size);
     $('house-r').textContent = '435';
     $('house-d').textContent = '35';
@@ -640,47 +629,74 @@ export const prerender = false;
     card.appendChild(source);
     $('detail-races').replaceChildren(card);
   }
+  const REFRESH_MS = 30000;
+  const OFFICE_LABELS = { governor:'Gobernación', senate:'Senado', house:'Cámara de Representantes' };
+  const clock = date => date.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit',hour12:false});
+  let refreshTimer = null;
+  let refreshing = false;
+  let failedRefreshes = 0;
+  let lastGoodAt = null;
+  let lastAttemptAt = 0;
+
+  function displayRace(race) {
+    const place = NAMES[race.state] || race.state || '';
+    const district = race.district === 'AL' ? ' (distrito único)' : race.district ? ' ' + Number(race.district) : '';
+    return {...race, race_name: (OFFICE_LABELS[race.office_type] || 'Contienda') + ' · ' + place + district};
+  }
+  function scheduleRefresh() {
+    window.clearTimeout(refreshTimer);
+    const delay = failedRefreshes ? Math.min(60000, 10000 * 2 ** (failedRefreshes - 1)) : REFRESH_MS;
+    refreshTimer = window.setTimeout(refreshElectionData, delay + Math.random() * 3000);
+  }
   async function refreshElectionData() {
+    if (refreshing) return;
+    if (document.hidden && lastGoodAt) { scheduleRefresh(); return; }
+    refreshing = true;
+    lastAttemptAt = Date.now();
     const status = $('civicapi-status');
+    const hadData = allRaceData.length > 0;
+    if (!hadData) status.textContent = 'ACTUALIZANDO';
     try {
-      status.textContent = 'ACTUALIZANDO';
-      const response = await fetch('/api/election-results.json', {cache:'no-store'});
-      if (!response.ok) throw new Error('civicAPI respondió HTTP ' + response.status);
+      const response = await fetch('/api/election-results.json', {signal: AbortSignal.timeout(20000)});
+      if (!response.ok) throw new Error('el servicio respondió HTTP ' + response.status);
       const payload = await response.json();
-      let races = extractRaces(payload);
-      // Si el buscador entrega solo referencias, consultar los detalles de las contiendas.
-      if (!races.length) {
-        const refs = [];
-        function collectRefs(node) {
-          if (!node || typeof node !== 'object') return;
-          if (Array.isArray(node)) return node.forEach(collectRefs);
-          const id = node.race_id ?? node.raceId ?? node.id;
-          const name = clean(node.race_name || node.name || node.title || node.office || '');
-          if (id && name && /governor|senate|house/i.test(name)) refs.push({id,name});
-          Object.values(node).forEach(collectRefs);
-        }
-        collectRefs(payload);
-        const unique = [...new Map(refs.map(ref => [String(ref.id),ref])).values()].slice(0,180);
-        for (let i=0;i<unique.length;i+=8) {
-          const batch = await Promise.all(unique.slice(i,i+8).map(async ref => {
-            try {
-              const detail = await fetch('/api/election-results.json?id=' + encodeURIComponent(ref.id), {cache:'no-store'});
-              return detail.ok ? await detail.json() : null;
-            } catch { return null; }
-          }));
-          races.push(...batch.filter(Boolean).flatMap(extractRaces));
-        }
+      if (!payload?.ok || !Array.isArray(payload.races)) throw new Error('respuesta sin datos');
+      const races = payload.races.map(displayRace);
+      // Una respuesta vacía nunca borra lo que el lector ya está viendo.
+      if (races.length || !hadData) updateMapFromRaces(races);
+      failedRefreshes = 0;
+      lastGoodAt = new Date(payload.fetchedAt || Date.now());
+      if (payload.testData) {
+        status.textContent = 'ESPERANDO DATOS REALES';
+        $('live-label').textContent = 'CONECTADO · AÚN SIN RECUENTOS';
+        $('civicapi-refresh-time').textContent = 'civicAPI está en modo de prueba; esos números no se publican.';
+      } else if (!races.length) {
+        if (hadData) status.textContent = 'DATOS RECIBIDOS';
+        $('civicapi-refresh-time').textContent = 'Conexión activa; esperando datos de las contiendas.';
+      } else {
+        $('civicapi-refresh-time').textContent = 'Última actualización: ' + clock(lastGoodAt) + (payload.stale ? ' · una fuente demorada, se conservan sus últimos datos' : '');
       }
-      updateMapFromRaces(races);
-      if (!races.length) $('civicapi-refresh-time').textContent = 'Conexión activa; esperando datos de las contiendas.';
     } catch (error) {
-      status.textContent = 'FUENTE NO DISPONIBLE';
-      $('civicapi-refresh-time').textContent = 'No se pudo actualizar: ' + error.message;
-      $('live-label').textContent = 'SIN CONEXIÓN CON civicAPI';
-      $('live-label').parentElement.classList.remove('is-live');
+      failedRefreshes += 1;
       console.error('[Diario Federal civicAPI]', error);
+      if (hadData) {
+        status.textContent = 'ÚLTIMOS DATOS · REINTENTANDO';
+        $('civicapi-refresh-time').textContent = 'Datos de las ' + clock(lastGoodAt) + '. Reintentando la conexión…';
+      } else {
+        status.textContent = 'REINTENTANDO';
+        $('civicapi-refresh-time').textContent = 'No se pudo actualizar todavía. Reintentando la conexión…';
+        $('live-label').textContent = 'RECONECTANDO CON civicAPI';
+        $('live-label').parentElement.classList.remove('is-live');
+      }
+    } finally {
+      refreshing = false;
+      scheduleRefresh();
     }
   }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && Date.now() - lastAttemptAt > REFRESH_MS) refreshElectionData();
+  });
+  window.addEventListener('online', () => refreshElectionData());
   function drawStates(topology) {
     const collection = feature(topology, topology.objects.states);
     const svg = $('us-map');
@@ -717,7 +733,6 @@ export const prerender = false;
     $('map-loading').classList.add('hidden');
     renderMap();
     refreshElectionData();
-    window.setInterval(refreshElectionData, 15000);
   }
   function drawCartogramFallback() {
     const svg = $('us-map');
@@ -747,7 +762,6 @@ export const prerender = false;
     $('map-loading').classList.add('hidden');
     $('live-label').textContent = 'MAPA DE RESPALDO · civicAPI';
     refreshElectionData();
-    window.setInterval(refreshElectionData, 15000);
   }
 
   document.querySelectorAll('[data-race-tab]').forEach(button => button.addEventListener('click', () => {
@@ -767,7 +781,13 @@ export const prerender = false;
   });
 
   try {
-    const response = await fetch(GEO_URL, {cache:'no-store'});
+    const [d3Geo, topojson] = await Promise.all([
+      import('https://cdn.jsdelivr.net/npm/d3-geo@3/+esm'),
+      import('https://cdn.jsdelivr.net/npm/topojson-client@3/+esm'),
+    ]);
+    ({geoAlbersUsa, geoPath} = d3Geo);
+    ({feature} = topojson);
+    const response = await fetch(GEO_URL);
     if (!response.ok) throw new Error('No se pudo cargar la geometría');
     const topology = await response.json();
     if (!topology?.objects?.states) throw new Error('La geometría no contiene estados');
