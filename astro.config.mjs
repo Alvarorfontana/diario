@@ -13,6 +13,8 @@ export default defineConfig({
   site: 'https://www.diariofederal.com.ar/',
   output: 'server',
   adapter: vercel({
+    // Tiempo máximo del servidor: civicAPI puede tardar en noches de elección.
+    maxDuration: 60,
     // Permite que Vercel achique y sirva desde nuestro dominio las fotos externas
     // (vista previa de WhatsApp/Facebook): /_vercel/image?url=...&w=1200&q=75
     imagesConfig: {

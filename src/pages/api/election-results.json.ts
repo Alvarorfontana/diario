@@ -12,6 +12,8 @@ export const prerender = false;
  * - Si una fuente falla o llega recortada, se conserva su última versión buena.
  * - Los datos de ensayo (`test_data: true`) nunca se publican.
  *
+ * Con ?part=senate, ?part=house o ?part=governor entrega una sola parte: la página las
+ * pide por separado para que una fuente lenta no demore a las demás.
  * Con ?id= sigue entregando el detalle de una contienda; con ?query= o ?state=, la búsqueda.
  */
 const API_BASE = (process.env.CIVICAPI_BASE_URL || 'https://civicapi.org/api/v2').replace(/\/+$/, '');
@@ -20,19 +22,22 @@ const HOUSE_AGGREGATE_ID = '87524';
 const ELECTION_DATE = '2026-11-03';
 const USER_AGENT = 'DiarioFederal/1.0 (+https://www.diariofederal.com.ar/elecciones-eeuu/)';
 
-const CYCLE_BUDGET_MS = 8500;
-const ATTEMPT_TIMEOUT_MS = 5500;
+// La noche de la elección civicAPI puede tardar decenas de segundos en el documento de la Cámara.
+// Va de la mano de maxDuration en astro.config.mjs.
+const CYCLE_BUDGET_MS = 50000;
+const ATTEMPT_TIMEOUT_MS = 22000;
 const MEMORY_REUSE_MS = 20000;
 const MIN_RACES = { senate: 20, house: 300, governor: 1 };
 const PLACEHOLDER = /^(write[- ]?ins?|scattering|other|others|blank|void|none of these)\b/i;
+const OFFICES = ['senate', 'house', 'governor'] as const;
 
 type Office = keyof typeof MIN_RACES;
 type Stored = { races: any[]; fetchedAt: string; testData: boolean };
 
 // Última versión buena de cada fuente mientras dure esta instancia del servidor.
 const memory: Record<Office, Stored | null> = { senate: null, house: null, governor: null };
-let lastSnapshot: { at: number; body: any } | null = null;
-let cycleInFlight: Promise<any> | null = null;
+const lastSnapshots = new Map<string, { at: number; body: any }>();
+const cyclesInFlight = new Map<string, Promise<any>>();
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 const text = (value: unknown) => (typeof value === 'string' ? value.trim() : typeof value === 'number' ? String(value) : '');
@@ -80,6 +85,8 @@ function normalizeCandidates(value: unknown) {
   if (!Array.isArray(value)) return [];
   return value
     .filter((row) => row && text(row.name) && !PLACEHOLDER.test(text(row.name)))
+    // Los candidatos inscriptos por escrito sin votos solo agrandan la respuesta.
+    .filter((row) => !/write-?in/i.test(text(row.party)) || number(row.votes) > 0)
     .map((row) => ({
       name: text(row.name),
       party: text(row.party),
@@ -221,7 +228,7 @@ function keep(office: Office, loaded: { races: any[]; testData: boolean }) {
   memory[office] = { races: loaded.races, fetchedAt: new Date().toISOString(), testData: false };
 }
 
-async function buildSnapshot() {
+async function buildSnapshot(offices: readonly Office[]) {
   const deadline = Date.now() + CYCLE_BUDGET_MS;
   let everything: Promise<any[]> | null = null;
   const searchAll = () => {
@@ -233,16 +240,16 @@ async function buildSnapshot() {
     return everything;
   };
 
-  const loaders: Array<[Office, () => Promise<{ races: any[]; testData: boolean }>]> = [
-    ['senate', () => loadChamber('senate', SENATE_AGGREGATE_ID, deadline, searchAll)],
-    ['house', () => loadChamber('house', HOUSE_AGGREGATE_ID, deadline, searchAll)],
-    ['governor', () => loadGovernors(deadline, searchAll)],
-  ];
+  const loaders: Record<Office, () => Promise<{ races: any[]; testData: boolean }>> = {
+    senate: () => loadChamber('senate', SENATE_AGGREGATE_ID, deadline, searchAll),
+    house: () => loadChamber('house', HOUSE_AGGREGATE_ID, deadline, searchAll),
+    governor: () => loadGovernors(deadline, searchAll),
+  };
 
   const sources: Record<string, any> = {};
-  await Promise.all(loaders.map(async ([office, load]) => {
+  await Promise.all(offices.map(async (office) => {
     try {
-      keep(office, await load());
+      keep(office, await loaders[office]());
       sources[office] = { ok: true };
     } catch (error) {
       sources[office] = { ok: false, error: error instanceof Error ? error.message : String(error) };
@@ -251,7 +258,7 @@ async function buildSnapshot() {
     sources[office].fetchedAt = memory[office]?.fetchedAt ?? null;
   }));
 
-  const stored = Object.values(memory).filter(Boolean) as Stored[];
+  const stored = offices.map((office) => memory[office]).filter(Boolean) as Stored[];
   const races = stored.flatMap((source) => source.races);
   const body = {
     ok: stored.length > 0,
@@ -262,7 +269,7 @@ async function buildSnapshot() {
     sources,
     races,
   };
-  if (body.ok) lastSnapshot = { at: Date.now(), body };
+  if (body.ok) lastSnapshots.set(offices.join(','), { at: Date.now(), body });
   return body;
 }
 
@@ -309,12 +316,22 @@ export async function GET({ url }: { url: URL }) {
     return passThrough(`race/search?${params}`, 'public, s-maxage=60, stale-while-revalidate=300');
   }
 
-  if (lastSnapshot && Date.now() - lastSnapshot.at < MEMORY_REUSE_MS) {
-    return json(lastSnapshot.body, 200, 'public, s-maxage=15, stale-while-revalidate=300, stale-if-error=3600');
+  const part = url.searchParams.get('part');
+  if (part && !OFFICES.includes(part as Office)) return json({ ok: false, error: 'parte inválida' }, 400, 'no-store');
+  const offices: readonly Office[] = part ? [part as Office] : OFFICES;
+  const key = offices.join(',');
+
+  const recent = lastSnapshots.get(key);
+  if (recent && Date.now() - recent.at < MEMORY_REUSE_MS) {
+    return json(recent.body, 200, 'public, s-maxage=15, stale-while-revalidate=300, stale-if-error=3600');
   }
 
-  cycleInFlight ??= buildSnapshot().finally(() => { cycleInFlight = null; });
-  const snapshot = await cycleInFlight;
+  let cycle = cyclesInFlight.get(key);
+  if (!cycle) {
+    cycle = buildSnapshot(offices).finally(() => cyclesInFlight.delete(key));
+    cyclesInFlight.set(key, cycle);
+  }
+  const snapshot = await cycle;
   if (!snapshot.ok) return json(snapshot, 503, 'no-store');
   return json(snapshot, 200, `public, s-maxage=${snapshot.stale ? 10 : 30}, stale-while-revalidate=300, stale-if-error=3600`);
 }

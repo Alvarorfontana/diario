@@ -427,6 +427,7 @@ export const prerender = false;
   let selectedState = null;
   let allRaceData = [];
   let activeRaceTab = 'governor';
+  const partsLoading = new Set(['senate','house','governor']);
   let raceSearchTerm = '';
   let raceDisplayLimit = 12;
 
@@ -499,7 +500,7 @@ export const prerender = false;
     if (!filtered.length) {
       const tr = document.createElement('tr'); const td = document.createElement('td');
       td.colSpan = 3; td.className = 'race-empty';
-      td.textContent = allRaceData.length ? 'No hay contiendas que coincidan con la búsqueda.' : 'La conexión está preparada. Las contiendas aparecerán cuando civicAPI publique sus registros.';
+      td.textContent = activeRaceTab !== 'all' && !raceSearchTerm && partsLoading.has(activeRaceTab) ? 'Cargando contiendas desde civicAPI…' : allRaceData.length ? 'No hay contiendas que coincidan con la búsqueda.' : 'La conexión está preparada. Las contiendas aparecerán cuando civicAPI publique sus registros.';
       tr.appendChild(td); body.appendChild(tr); return;
     }
     filtered.sort((a,b) => racePriority(a)-racePriority(b) || String(a.race_name||a.name||'').localeCompare(String(b.race_name||b.name||'')));
@@ -512,11 +513,11 @@ export const prerender = false;
       const candidateCell = document.createElement('td');
       const candidates = raceCandidates(race).map(candidate => ({
         name: clean(candidate.name || candidate.candidate_name || candidate.full_name || candidate.display_name) || 'Candidato',
-        party: partyCode(candidate), votes: candidateVotes(candidate)
-      })).sort((a,b) => b.votes-a.votes);
+        party: partyCode(candidate), votes: candidateVotes(candidate), winner: Boolean(candidate.winner)
+      })).sort((a,b) => Number(b.winner) - Number(a.winner) || b.votes-a.votes);
       if (!candidates.length) candidateCell.textContent = 'Candidaturas aún no publicadas';
       candidates.slice(0,5).forEach((candidate,index) => {
-        const line = document.createElement('div'); line.className = 'race-candidate' + (index===0 && candidate.votes>0 ? ' leader':'');
+        const line = document.createElement('div'); line.className = 'race-candidate' + (index===0 && (candidate.votes>0 || candidate.winner) ? ' leader':'');
         const label = document.createElement('span'); const dot = document.createElement('i');
         dot.className = 'race-party'; dot.style.background = PARTY_COLORS[candidate.party] || '#9272a8';
         label.append(dot, document.createTextNode(candidate.name + ' · ' + candidate.party));
@@ -542,10 +543,11 @@ export const prerender = false;
         name: clean(candidate.name || candidate.candidate_name || candidate.full_name || candidate.display_name) || 'Candidato',
         party: partyCode(candidate),
         votes: candidateVotes(candidate),
+        winner: Boolean(candidate.winner),
         percent: candidate.vote_percentage ?? candidate.percentage ?? candidate.pct
       })).filter(candidate => candidate.name !== 'Candidato' || candidate.votes > 0);
-      if (!code || !candidates.length || candidates.every(candidate => candidate.votes === 0)) continue;
-      candidates.sort((a,b) => b.votes - a.votes);
+      if (!code || !candidates.length || candidates.every(candidate => candidate.votes === 0 && !candidate.winner)) continue;
+      candidates.sort((a,b) => Number(b.winner) - Number(a.winner) || b.votes - a.votes);
       const item = {
         code,
         name: clean(race.race_name || race.name || race.title || race.office || race.contest) || 'Contienda estatal',
@@ -602,7 +604,7 @@ export const prerender = false;
     const card = document.createElement('div');
     card.className = 'race-card';
     const heading = document.createElement('h4');
-    heading.textContent = 'Liderazgo parcial · ' + result.name;
+    heading.textContent = (result.candidates[0]?.winner ? 'Proyección · ' : 'Liderazgo parcial · ') + result.name;
     card.appendChild(heading);
     result.candidates.slice(0,4).forEach(candidate => {
       const row = document.createElement('div');
@@ -648,45 +650,61 @@ export const prerender = false;
     const delay = failedRefreshes ? Math.min(60000, 10000 * 2 ** (failedRefreshes - 1)) : REFRESH_MS;
     refreshTimer = window.setTimeout(refreshElectionData, delay + Math.random() * 3000);
   }
+  const PARTS = [['senate','Senado'],['house','Cámara'],['governor','Gobernaciones']];
+  const partRaces = new Map();
+  const mergedRaces = () => [...partRaces.values()].flat();
+  async function fetchPart(part) {
+    const response = await fetch('/api/election-results.json?part=' + part, {signal: AbortSignal.timeout(58000)});
+    if (!response.ok) throw new Error('el servicio respondió HTTP ' + response.status);
+    const payload = await response.json();
+    if (!payload?.ok || !Array.isArray(payload.races)) throw new Error('respuesta sin datos');
+    const races = payload.races.map(displayRace);
+    // Una respuesta vacía nunca borra lo que el lector ya está viendo.
+    if (races.length || !partRaces.has(part)) partRaces.set(part, races);
+    partsLoading.delete(part);
+    // Cada parte se muestra apenas llega, sin esperar a las más lentas.
+    updateMapFromRaces(mergedRaces());
+    return payload;
+  }
   async function refreshElectionData() {
     if (refreshing) return;
     if (document.hidden && lastGoodAt) { scheduleRefresh(); return; }
     refreshing = true;
     lastAttemptAt = Date.now();
     const status = $('civicapi-status');
-    const hadData = allRaceData.length > 0;
-    if (!hadData) status.textContent = 'ACTUALIZANDO';
+    if (!allRaceData.length) status.textContent = 'ACTUALIZANDO';
     try {
-      const response = await fetch('/api/election-results.json', {signal: AbortSignal.timeout(20000)});
-      if (!response.ok) throw new Error('el servicio respondió HTTP ' + response.status);
-      const payload = await response.json();
-      if (!payload?.ok || !Array.isArray(payload.races)) throw new Error('respuesta sin datos');
-      const races = payload.races.map(displayRace);
-      // Una respuesta vacía nunca borra lo que el lector ya está viendo.
-      if (races.length || !hadData) updateMapFromRaces(races);
-      failedRefreshes = 0;
-      lastGoodAt = new Date(payload.fetchedAt || Date.now());
-      if (payload.testData) {
+      const results = await Promise.allSettled(PARTS.map(([part]) => fetchPart(part)));
+      const delayed = PARTS.filter(([part], index) => results[index].status === 'rejected' || results[index].value.stale).map(([,label]) => label);
+      const answered = results.filter(result => result.status === 'fulfilled').map(result => result.value);
+      partsLoading.clear();
+      results.forEach(result => { if (result.status === 'rejected') console.error('[Diario Federal civicAPI]', result.reason); });
+      const hasData = mergedRaces().length > 0;
+      if (!answered.length) {
+        failedRefreshes += 1;
+        if (hasData) {
+          status.textContent = 'ÚLTIMOS DATOS · REINTENTANDO';
+          $('civicapi-refresh-time').textContent = 'Datos de las ' + clock(lastGoodAt) + '. Reintentando la conexión…';
+        } else {
+          status.textContent = 'REINTENTANDO';
+          $('civicapi-refresh-time').textContent = 'No se pudo actualizar todavía. Reintentando la conexión…';
+          $('live-label').textContent = 'RECONECTANDO CON civicAPI';
+          $('live-label').parentElement.classList.remove('is-live');
+        }
+        return;
+      }
+      failedRefreshes = delayed.length ? 1 : 0;
+      lastGoodAt = new Date();
+      if (allRaceData.length) renderRaceExplorer(allRaceData); else renderRaceExplorer([]);
+      if (!hasData && answered.every(payload => payload.testData)) {
         status.textContent = 'ESPERANDO DATOS REALES';
-        $('live-label').textContent = 'CONECTADO · AÚN SIN RECUENTOS';
         $('civicapi-refresh-time').textContent = 'civicAPI está en modo de prueba; esos números no se publican.';
-      } else if (!races.length) {
-        if (hadData) status.textContent = 'DATOS RECIBIDOS';
+      } else if (!hasData) {
+        status.textContent = 'ESPERANDO RECUENTOS';
         $('civicapi-refresh-time').textContent = 'Conexión activa; esperando datos de las contiendas.';
       } else {
-        $('civicapi-refresh-time').textContent = 'Última actualización: ' + clock(lastGoodAt) + (payload.stale ? ' · una fuente demorada, se conservan sus últimos datos' : '');
-      }
-    } catch (error) {
-      failedRefreshes += 1;
-      console.error('[Diario Federal civicAPI]', error);
-      if (hadData) {
-        status.textContent = 'ÚLTIMOS DATOS · REINTENTANDO';
-        $('civicapi-refresh-time').textContent = 'Datos de las ' + clock(lastGoodAt) + '. Reintentando la conexión…';
-      } else {
-        status.textContent = 'REINTENTANDO';
-        $('civicapi-refresh-time').textContent = 'No se pudo actualizar todavía. Reintentando la conexión…';
-        $('live-label').textContent = 'RECONECTANDO CON civicAPI';
-        $('live-label').parentElement.classList.remove('is-live');
+        status.textContent = delayed.length ? 'DATOS RECIBIDOS · ' + delayed.length + ' DEMORADA' + (delayed.length > 1 ? 'S' : '') : 'DATOS RECIBIDOS';
+        $('civicapi-refresh-time').textContent = 'Última actualización: ' + clock(lastGoodAt) + (delayed.length ? ' · demorado: ' + delayed.join(', ') + '; reintentando' : '');
       }
     } finally {
       refreshing = false;
