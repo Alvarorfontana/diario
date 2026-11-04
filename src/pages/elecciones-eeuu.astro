@@ -82,6 +82,16 @@ export const prerender = false;
         <span class="source-status" id="civicapi-status">CONECTANDO</span>
       </div>
       <p class="embed-intro">El mapa propio consulta civicAPI mediante un servicio del sitio, que agrega recuentos de organismos electorales estatales y actualiza durante el escrutinio. Los datos se muestran como liderazgos parciales, nunca como ganadores hasta que la fuente lo declare. Fuente y atribución: civicAPI.</p>
+      <div class="fox-results-panel">
+        <div class="fox-results-heading">
+          <div><p class="eyebrow">TABLERO ORIGINAL · FOX NEWS</p><h3>Resultados y gráficos de Fox</h3><p>Vista del tablero publicado por Fox News. Si el medio bloquea la visualización dentro de otros sitios, abrilo directamente desde el enlace.</p></div>
+          <a href="https://www.foxnews.com/elections/2026/midterm-results" target="_blank" rel="noopener noreferrer">Abrir Fox News ↗</a>
+        </div>
+        <div class="fox-frame-wrap">
+          <iframe src="https://www.foxnews.com/elections/2026/midterm-results" title="Tablero original de resultados electorales de Fox News" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          <div class="fox-frame-fallback">Si el tablero no aparece, Fox News no permite incrustarlo en Diario Federal. <a href="https://www.foxnews.com/elections/2026/midterm-results" target="_blank" rel="noopener noreferrer">Abrir los resultados y gráficos originales de Fox ↗</a></div>
+        </div>
+      </div>
       <div class="guardian-toolbar">
         <span><i class="guardian-live-dot"></i> DATOS ELECTORALES · civicAPI</span>
         <span id="civicapi-refresh-time">Consultando resultados del 3 de noviembre…</span>
@@ -111,10 +121,10 @@ export const prerender = false;
       </div>
       <div class="explorer-controls">
         <div class="race-tabs" role="group" aria-label="Filtrar por tipo de elección">
-          <button type="button" class="race-tab active" data-race-tab="all">Todas</button>
+          <button type="button" class="race-tab" data-race-tab="all">Todas</button>
           <button type="button" class="race-tab" data-race-tab="senate">Senado</button>
           <button type="button" class="race-tab" data-race-tab="house">Cámara</button>
-          <button type="button" class="race-tab" data-race-tab="governor">Gobernadores</button>
+          <button type="button" class="race-tab active" data-race-tab="governor">Gobernadores</button>
         </div>
         <input id="race-search" type="search" placeholder="Buscar estado, distrito o candidato…" aria-label="Buscar contienda o candidato">
       </div>
@@ -124,6 +134,7 @@ export const prerender = false;
           <tbody id="race-table-body"><tr><td colspan="3" class="race-empty">La conexión está preparada. Las contiendas aparecerán cuando civicAPI publique sus registros.</td></tr></tbody>
         </table>
       </div>
+      <button type="button" class="race-more" id="race-more" hidden>Mostrar más contiendas</button>
       <p class="explorer-note">“Lidera” indica ventaja en el recuento publicado, no una proyección ni una declaración de ganador. La cantidad de unidades informadas no equivale al porcentaje de votos escrutados. Fuente: civicAPI · <a href="https://www.poliwave.com/us/live/midterms-2026?lang=es" target="_blank" rel="noopener noreferrer">referencia de cobertura Poliwave</a>.</p>
     </section>
 
@@ -310,6 +321,17 @@ export const prerender = false;
   .source-card a { color:#1c5a9c; font-size:.75rem; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
   .data-footer { display:flex; justify-content:space-between; gap:1rem; padding-top:.8rem; border-top:1px solid #dce1e8; color:#778291; font-size:.65rem; }
 
+  .fox-results-panel { margin:1rem 0 1.1rem; border:1px solid #dce1e8; border-radius:12px; overflow:hidden; background:#f8f9fb; }
+  .fox-results-heading { display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:1rem 1.1rem; }
+  .fox-results-heading h3 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.45rem; }
+  .fox-results-heading p:not(.eyebrow) { margin:.35rem 0 0; color:#657184; font-size:.72rem; line-height:1.45; }
+  .fox-results-heading > a { flex-shrink:0; padding:.65rem .85rem; border-radius:7px; background:#17202c; color:#fff; font-size:.7rem; font-weight:800; text-decoration:none; }
+  .fox-frame-wrap { position:relative; height:650px; background:#fff; border-top:1px solid #dce1e8; }
+  .fox-frame-wrap iframe { width:100%; height:100%; border:0; background:#fff; }
+  .fox-frame-fallback { position:absolute; inset:auto 0 0; padding:.65rem .9rem; background:#17202c; color:#fff; font-size:.68rem; text-align:center; }
+  .fox-frame-fallback a { color:#fff; font-weight:800; text-decoration:underline; }
+  .race-more { display:block; margin:.8rem auto 0; padding:.65rem 1rem; border:1px solid #cbd3dd; border-radius:7px; background:#f7f8fa; color:#263445; font:800 .72rem Inter,sans-serif; cursor:pointer; }
+  .race-more:hover { background:#edf1f5; }
   .race-explorer { margin:1rem 0; padding:1.1rem; border:1px solid #dce1e8; border-radius:14px; background:#fff; }
   .explorer-head { display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; }
   .explorer-head h2 { margin:0; font-family:Newsreader,Georgia,serif; font-size:1.65rem; }
@@ -331,7 +353,7 @@ export const prerender = false;
   .race-empty { color:#778291; text-align:center; padding:1.4rem !important; }
   .explorer-note { margin:.7rem 0 0; color:#778291; font-size:.65rem; line-height:1.45; }
   .explorer-note a { color:#1c5a9c; font-weight:800; }
-  @media(max-width:760px) { .explorer-head { flex-direction:column; } .explorer-controls { align-items:stretch; } #race-search { width:100%; } }
+  @media(max-width:760px) { .explorer-head { flex-direction:column; } .explorer-controls { align-items:stretch; } #race-search { width:100%; } .fox-results-heading { align-items:flex-start; flex-direction:column; } .fox-frame-wrap { height:520px; } }
 
   .news-desk { margin:1.25rem 0; padding:1.2rem; border:1px solid #dce1e8; border-radius:14px; background:#fff; }
   .news-desk-heading { display:flex; justify-content:space-between; gap:1rem; margin-bottom:1rem; }
@@ -402,8 +424,9 @@ export const prerender = false;
   const statePaths = new Map();
   let selectedState = null;
   let allRaceData = [];
-  let activeRaceTab = 'all';
+  let activeRaceTab = 'governor';
   let raceSearchTerm = '';
+  let raceDisplayLimit = 12;
 
   const $ = (id) => document.getElementById(id);
   const stateCode = (f) => FIPS[String(f.id).padStart(2,'0')];
@@ -481,8 +504,10 @@ export const prerender = false;
         ...candidates.map(x => x.name || x.candidate_name || x.full_name)].join(' ').toLowerCase();
       return tabMatch && haystack.includes(raceSearchTerm);
     });
+    const moreButton = $('race-more');
     $('race-count').textContent = filtered.length + ' CONTIENDAS';
     body.replaceChildren();
+    if (moreButton) moreButton.hidden = true;
     if (!filtered.length) {
       const tr = document.createElement('tr'); const td = document.createElement('td');
       td.colSpan = 3; td.className = 'race-empty';
@@ -490,7 +515,9 @@ export const prerender = false;
       tr.appendChild(td); body.appendChild(tr); return;
     }
     filtered.sort((a,b) => racePriority(a)-racePriority(b) || String(a.race_name||a.name||'').localeCompare(String(b.race_name||b.name||'')));
-    filtered.forEach(race => {
+    const visibleRaces = filtered.slice(0, raceDisplayLimit);
+    $('race-count').textContent = visibleRaces.length + ' DE ' + filtered.length + ' CONTIENDAS';
+    visibleRaces.forEach(race => {
       const tr = document.createElement('tr');
       const name = document.createElement('td');
       name.textContent = clean(race.race_name || race.name || race.title || race.office || race.contest || 'Contienda');
@@ -512,6 +539,10 @@ export const prerender = false;
       status.textContent = clean(race.status || race.race_status || race.call_status || 'Sin declarar');
       tr.append(name,candidateCell,status); body.appendChild(tr);
     });
+    if (moreButton && filtered.length > raceDisplayLimit) {
+      moreButton.hidden = false;
+      moreButton.textContent = 'Mostrar las siguientes ' + Math.min(12, filtered.length - raceDisplayLimit) + ' contiendas';
+    }
   }
 
   function updateMapFromRaces(races) {
@@ -719,11 +750,17 @@ export const prerender = false;
 
   document.querySelectorAll('[data-race-tab]').forEach(button => button.addEventListener('click', () => {
     activeRaceTab = button.dataset.raceTab;
+    raceDisplayLimit = 12;
     document.querySelectorAll('[data-race-tab]').forEach(item => item.classList.toggle('active', item === button));
     renderRaceExplorer(allRaceData);
   }));
+  $('race-more')?.addEventListener('click', () => {
+    raceDisplayLimit += 12;
+    renderRaceExplorer(allRaceData);
+  });
   $('race-search')?.addEventListener('input', event => {
     raceSearchTerm = event.target.value.trim().toLowerCase();
+    raceDisplayLimit = 12;
     renderRaceExplorer(allRaceData);
   });
 
