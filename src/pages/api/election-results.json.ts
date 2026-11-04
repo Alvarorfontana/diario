@@ -33,8 +33,9 @@ const USER_AGENT = 'DiarioFederal/1.0 (+https://www.diariofederal.com.ar/eleccio
 // Va de la mano de maxDuration en astro.config.mjs.
 const CYCLE_BUDGET_MS = 50000;
 const ATTEMPT_TIMEOUT_MS = 22000;
-const GOVERNOR_TIMEOUT_MS = 12000;
-const GOVERNOR_WORKERS = 8;
+const GOVERNOR_TIMEOUT_MS = 10000;
+const GOVERNOR_SEARCH_TIMEOUT_MS = 15000;
+const GOVERNOR_PACE_MS = 800;
 const MEMORY_REUSE_MS = 20000;
 const MIN_RACES = { senate: 20, house: 300, governor: 1 };
 const PLACEHOLDER = /^(write[- ]?ins?|scattering|other|others|blank|void|none of these)\b/i;
@@ -219,35 +220,61 @@ async function loadArizonaGovernor(deadline: number) {
   return fromSearch(found, 'governor');
 }
 
+/** La búsqueda sin fechas a veces responde cuando la filtrada da error; trae varias de una vez. */
+async function searchGovernors(deadline: number) {
+  const params = new URLSearchParams({ country: 'US', query: 'Governor', limit: '500' });
+  const found = searchList(await requestJson(`race/search?${params}`, deadline, 1, GOVERNOR_SEARCH_TIMEOUT_MS));
+  const current = found.filter((race) => text(race?.election_date).startsWith(ELECTION_DATE) && Array.isArray(race?.candidates) && race.candidates.length > 0);
+  return fromSearch(current, 'governor');
+}
+
 /**
- * Por número de contienda, porque la búsqueda general de civicAPI falla en plena jornada.
- * Cada fila avanza por su cuenta, así una gobernación lenta no frena a las otras, y las que
- * todavía no llegaron van primero. Las que falten se completan en las vueltas siguientes.
+ * Primero la búsqueda; lo que falte, por número de contienda y de a una por vez, a un ritmo
+ * de cerca de una por segundo: civicAPI no publica límites y las ráfagas no le entran.
+ * Primero van las que todavía no llegaron; el resto se completa en las vueltas siguientes.
  */
 async function loadGovernors(deadline: number) {
+  const errors: Record<string, number> = {};
+  const note = (where: string, error: unknown) => {
+    const key = `${where}: ${error instanceof Error ? error.message : String(error)}`.slice(0, 80);
+    errors[key] = (errors[key] ?? 0) + 1;
+  };
+  const races: any[] = [];
+  let testData = false;
+  try {
+    races.push(...await searchGovernors(deadline));
+  } catch (error) {
+    note('búsqueda', error);
+  }
+
+  const found = new Set(races.map((race) => race.state));
   const known = new Set((memory.governor?.races ?? []).map((race) => race.id));
-  const shuffled = Object.entries(GOVERNOR_RACE_IDS).sort(() => Math.random() - 0.5);
+  const shuffled = Object.entries(GOVERNOR_RACE_IDS).filter(([state]) => !found.has(state)).sort(() => Math.random() - 0.5);
   const queue = [
     ...shuffled.filter(([, id]) => !known.has(String(id))),
     ...shuffled.filter(([, id]) => known.has(String(id))),
   ];
-  const races: any[] = [];
-  let testData = false;
-  const worker = async () => {
-    while (queue.length && Date.now() < deadline - 800) {
-      const [state, id] = queue.shift()!;
-      try {
-        const { doc, race } = await loadGovernorById(state, id, deadline);
-        if (isTrue(doc?.test_data)) testData = true;
-        else races.push(race);
-      } catch {
-        // keep() conserva la versión anterior de esta gobernación.
-      }
+  for (const [state, id] of queue) {
+    if (Date.now() > deadline - 2000) break;
+    const started = Date.now();
+    try {
+      const { doc, race } = await loadGovernorById(state, id, deadline);
+      if (isTrue(doc?.test_data)) testData = true;
+      else races.push(race);
+    } catch (error) {
+      note('detalle', error);
+      if (error instanceof Error && error.message === 'HTTP 429') await wait(3000);
     }
-  };
-  const arizona = loadArizonaGovernor(deadline).then((found) => { races.push(...found); }).catch(() => {});
-  await Promise.all([...Array.from({ length: GOVERNOR_WORKERS }, worker), arizona]);
-  return { races, testData: testData && races.length === 0 };
+    await wait(Math.max(0, GOVERNOR_PACE_MS - (Date.now() - started)));
+  }
+  if (!races.some((race) => race.state === 'AZ') && Date.now() < deadline - 2000) {
+    try {
+      races.push(...await loadArizonaGovernor(deadline));
+    } catch (error) {
+      note('arizona', error);
+    }
+  }
+  return { races, testData: testData && races.length === 0, errors };
 }
 
 async function loadChamber(office: 'senate' | 'house', id: string, deadline: number, searchAll: () => Promise<any[]>) {
@@ -265,7 +292,7 @@ async function loadChamber(office: 'senate' | 'house', id: string, deadline: num
 }
 
 /** Evita que una respuesta recortada reemplace una mejor. */
-function keep(office: Office, loaded: { races: any[]; testData: boolean }) {
+function keep(office: Office, loaded: { races: any[]; testData: boolean; errors?: Record<string, number> }) {
   const previous = memory[office];
   if (loaded.testData) {
     memory[office] = { races: [], fetchedAt: new Date().toISOString(), testData: true };
@@ -295,7 +322,7 @@ async function buildSnapshot(offices: readonly Office[]) {
     return everything;
   };
 
-  const loaders: Record<Office, () => Promise<{ races: any[]; testData: boolean }>> = {
+  const loaders: Record<Office, () => Promise<{ races: any[]; testData: boolean; errors?: Record<string, number> }>> = {
     senate: () => loadChamber('senate', SENATE_AGGREGATE_ID, deadline, searchAll),
     house: () => loadChamber('house', HOUSE_AGGREGATE_ID, deadline, searchAll),
     governor: () => loadGovernors(deadline),
@@ -304,8 +331,10 @@ async function buildSnapshot(offices: readonly Office[]) {
   const sources: Record<string, any> = {};
   await Promise.all(offices.map(async (office) => {
     try {
-      keep(office, await loaders[office]());
+      const loaded = await loaders[office]();
+      keep(office, loaded);
       sources[office] = { ok: true };
+      if (loaded.errors && Object.keys(loaded.errors).length) sources[office].errors = loaded.errors;
     } catch (error) {
       sources[office] = { ok: false, error: error instanceof Error ? error.message : String(error) };
     }

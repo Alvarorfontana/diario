@@ -660,7 +660,14 @@ export const prerender = false;
     if (!payload?.ok || !Array.isArray(payload.races)) throw new Error('respuesta sin datos');
     const races = payload.races.map(displayRace);
     // Una respuesta vacía nunca borra lo que el lector ya está viendo.
-    if (races.length || !partRaces.has(part)) partRaces.set(part, races);
+    if (part === 'governor') {
+      // Las gobernaciones llegan de a poco: se suman a las que ya están en pantalla.
+      const known = new Map((partRaces.get(part) || []).map(race => [race.id, race]));
+      races.forEach(race => known.set(race.id, race));
+      partRaces.set(part, [...known.values()]);
+    } else if (races.length || !partRaces.has(part)) {
+      partRaces.set(part, races);
+    }
     partsLoading.delete(part);
     // Cada parte se muestra apenas llega, sin esperar a las más lentas.
     updateMapFromRaces(mergedRaces());
