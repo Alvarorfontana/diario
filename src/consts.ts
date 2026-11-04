@@ -61,6 +61,9 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Emilio Lahitte': {
 		foto: '/autores/emilio-lahitte.jpg',
 	},
+	'Ramiro De la Puente': {
+		foto: '/autores/ramiro-de-la-puente.jpg',
+	},
 	'Carlos Mendes': {
 		bio: 'Periodista.',
 		foto: '/columnistas/carlos-mendes.jpg',
