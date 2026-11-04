@@ -340,8 +340,8 @@ export const prerender = false;
   .fox-frame-wrap { position:relative; height:650px; background:#fff; border-top:1px solid #dce1e8; }
   .fox-frame-wrap iframe { width:100%; height:100%; border:0; background:#fff; }
   .fox-frame-fallback { position:absolute; inset:auto 0 0; padding:.65rem .9rem; background:#17202c; color:#fff; font-size:.68rem; text-align:center; }
-  .midterms-frame-wrap { height:480px; }
-  @media(max-width:760px) { .midterms-frame-wrap { height:420px; } }
+  .fox-frame-wrap.midterms-frame-wrap { height:480px; }
+  @media(max-width:760px) { .fox-frame-wrap.midterms-frame-wrap { height:420px; } }
   .fox-frame-fallback a { color:#fff; font-weight:800; text-decoration:underline; }
   .race-more { display:block; margin:.8rem auto 0; padding:.65rem 1rem; border:1px solid #cbd3dd; border-radius:7px; background:#f7f8fa; color:#263445; font:800 .72rem Inter,sans-serif; cursor:pointer; }
   .race-more:hover { background:#edf1f5; }
@@ -413,6 +413,8 @@ export const prerender = false;
 .results-bottom,.news-desk{border-color:#2a3b50;}.news-grid{gap:.8rem;}.news-source{min-height:170px;border-radius:13px;}.news-source.featured{border-color:#8e3c46;background:linear-gradient(140deg,#3b202b,#162338);}.news-disclaimer,.data-footer{color:#9eafc4;border-color:#2a3b50;}.data-footer{background:#0b1726;}
 .map-note{padding:1rem 1.25rem;background:#13243a;border-top:1px solid #293d54;}.map-loading{color:#c5d2e1;}.cartogram-state{background:#182b41;color:#eaf0f7;border-color:#344b65;}
 @media(max-width:760px){.election-page{margin:0 -.75rem;padding:.75rem .75rem 2rem}.election-header{padding:1.4rem;min-height:190px;align-items:flex-start;flex-direction:column}.score-strip{grid-template-columns:1fr 1fr}.score-card:last-child{grid-column:1/-1}.map-layout{grid-template-columns:1fr}.map-canvas,.map-canvas svg{min-height:340px}.state-detail{border-left:0;border-top:1px solid #2a3d54}.panel-heading{align-items:flex-start;flex-direction:column}.map-period{white-space:normal}.news-grid{grid-template-columns:1fr 1fr}}
+  .fox-results-panel .fox-results-heading h3 { color:#17202c; }
+  .fox-results-panel .fox-results-heading .eyebrow { color:#657184; }
 </style>
 
 <script is:inline type="module">
