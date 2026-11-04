@@ -19,6 +19,13 @@ export const prerender = false;
 const API_BASE = (process.env.CIVICAPI_BASE_URL || 'https://civicapi.org/api/v2').replace(/\/+$/, '');
 const SENATE_AGGREGATE_ID = '87528';
 const HOUSE_AGGREGATE_ID = '87524';
+// Contiendas de gobernación de 2026 en civicAPI.
+const GOVERNOR_RACE_IDS: Record<string, number> = {
+  AK: 148898, AL: 86908, AR: 86938, CA: 86952, CO: 87018, CT: 87026, FL: 87069, GA: 87088, HI: 87100,
+  IA: 87152, ID: 87106, IL: 87130, KS: 87163, MA: 87276, MD: 87198, ME: 87189, MI: 87215, MN: 87230,
+  NE: 87255, NH: 87284, NM: 87289, NV: 87260, NY: 87329, OH: 87365, OK: 87582, OR: 87375, PA: 87393,
+  RI: 87397, SC: 87410, SD: 87447, TN: 87476, TX: 55857, VT: 87503, WI: 87491, WY: 87497,
+};
 const ELECTION_DATE = '2026-11-03';
 const USER_AGENT = 'DiarioFederal/1.0 (+https://www.diariofederal.com.ar/elecciones-eeuu/)';
 
@@ -192,14 +199,46 @@ async function fillCandidates(found: any[], deadline: number) {
   }
 }
 
-async function loadGovernors(deadline: number, searchAll: () => Promise<any[]>) {
+async function loadGovernorById(state: string, id: number, deadline: number) {
+  const doc = await requestJson(`race/${id}?light=true`, deadline);
+  const name = raceName(doc);
+  if (text(doc?.province).toUpperCase() !== state || !/governor/i.test(name) || /lieutenant/i.test(name)) throw new Error(`race/${id} no es la gobernación de ${state}`);
+  return { doc, race: toRace({ id, office: 'governor', state, district: null, name, source: doc, updatedAt: doc?.last_updated }) };
+}
+
+/** Arizona no figura en el catálogo: se busca solo su estado, sin frenar al resto si falla. */
+async function loadArizonaGovernor(deadline: number) {
   const params = dateParams();
+  params.set('province', 'AZ');
   params.set('query', 'Governor');
-  params.set('limit', '200');
-  let found = searchList(await requestJson(`race/search?${params}`, deadline)).filter((race) => classify(race) === 'governor');
-  if (!found.length) found = (await searchAll()).filter((race) => classify(race) === 'governor');
+  params.set('limit', '20');
+  const found = searchList(await requestJson(`race/search?${params}`, deadline)).filter((race) => classify(race) === 'governor');
   await fillCandidates(found, deadline);
-  return { races: fromSearch(found, 'governor'), testData: found.length > 0 && found.every((race) => isTrue(race?.test_data)) };
+  return fromSearch(found, 'governor');
+}
+
+/** Por número de contienda, porque la búsqueda general de civicAPI falla en plena jornada. */
+async function loadGovernors(deadline: number) {
+  const entries = Object.entries(GOVERNOR_RACE_IDS);
+  const races: any[] = [];
+  let testData = false;
+  for (let index = 0; index < entries.length && Date.now() < deadline - 800; index += 6) {
+    await Promise.all(entries.slice(index, index + 6).map(async ([state, id]) => {
+      try {
+        const { doc, race } = await loadGovernorById(state, id, deadline);
+        if (isTrue(doc?.test_data)) testData = true;
+        else races.push(race);
+      } catch {
+        // keep() conserva la versión anterior de esta gobernación.
+      }
+    }));
+  }
+  try {
+    races.push(...await loadArizonaGovernor(deadline));
+  } catch {
+    // Arizona queda con su versión anterior, si la hay.
+  }
+  return { races, testData: testData && races.length === 0 };
 }
 
 async function loadChamber(office: 'senate' | 'house', id: string, deadline: number, searchAll: () => Promise<any[]>) {
@@ -224,6 +263,13 @@ function keep(office: Office, loaded: { races: any[]; testData: boolean }) {
     return;
   }
   if (loaded.races.length < MIN_RACES[office]) throw new Error('respuesta sin contiendas');
+  if (office === 'governor') {
+    // Cada gobernación llega por separado: las que faltan conservan su último dato.
+    const fresh = new Set(loaded.races.map((race) => race.id));
+    const races = [...loaded.races, ...(previous?.races ?? []).filter((race) => !fresh.has(race.id))];
+    memory[office] = { races, fetchedAt: new Date().toISOString(), testData: false };
+    return;
+  }
   if (previous && loaded.races.length < previous.races.length * 0.6) throw new Error(`respuesta recortada (${loaded.races.length} de ${previous.races.length})`);
   memory[office] = { races: loaded.races, fetchedAt: new Date().toISOString(), testData: false };
 }
@@ -243,7 +289,7 @@ async function buildSnapshot(offices: readonly Office[]) {
   const loaders: Record<Office, () => Promise<{ races: any[]; testData: boolean }>> = {
     senate: () => loadChamber('senate', SENATE_AGGREGATE_ID, deadline, searchAll),
     house: () => loadChamber('house', HOUSE_AGGREGATE_ID, deadline, searchAll),
-    governor: () => loadGovernors(deadline, searchAll),
+    governor: () => loadGovernors(deadline),
   };
 
   const sources: Record<string, any> = {};
@@ -333,5 +379,5 @@ export async function GET({ url }: { url: URL }) {
   }
   const snapshot = await cycle;
   if (!snapshot.ok) return json(snapshot, 503, 'no-store');
-  return json(snapshot, 200, `public, s-maxage=${snapshot.stale ? 10 : 30}, stale-while-revalidate=300, stale-if-error=3600`);
+  return json(snapshot, 200, `public, s-maxage=${snapshot.stale ? 10 : part === 'governor' ? 60 : 30}, stale-while-revalidate=300, stale-if-error=3600`);
 }
