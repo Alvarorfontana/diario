@@ -6,8 +6,9 @@ export const prerender = false;
 
 <BaseLayout
   title="Elecciones Estados Unidos 2026 | Mapa en vivo — Diario Federal"
-  description="Seguimiento interactivo de las elecciones legislativas de Estados Unidos 2026. Resultados por estado y distrito, con actualización automática."
+  description="Cobertura electoral de Estados Unidos 2026: mapa propio de Diario Federal con datos de civicAPI y tablero original de resultados de Fox News, dos fuentes independientes."
   section="Internacional"
+  ogImage="/images/diario-federal-portada.jpg"
 >
   <section class="election-page">
     <header class="election-header">
@@ -81,7 +82,7 @@ export const prerender = false;
         <div><p class="eyebrow">FUENTE DE DATOS · ACTUALIZACIÓN AUTOMÁTICA</p><h2>Resultados conectados</h2></div>
         <span class="source-status" id="civicapi-status">CONECTANDO</span>
       </div>
-      <p class="embed-intro">El mapa propio consulta civicAPI mediante un servicio del sitio, que agrega recuentos de organismos electorales estatales y actualiza durante el escrutinio. Los datos se muestran como liderazgos parciales, nunca como ganadores hasta que la fuente lo declare. Fuente y atribución: civicAPI.</p>
+      <p class="embed-intro"><strong>Dos fuentes independientes:</strong> el mapa y el explorador de Diario Federal consultan civicAPI mediante un servicio propio; el panel siguiente muestra el tablero original de Fox News. No mezclamos sus recuentos ni presentamos a Fox como proveedor de los datos del mapa. Los liderazgos de civicAPI son parciales, no proyecciones ni ganadores. Atribución: civicAPI.</p>
       <div class="fox-results-panel">
         <div class="fox-results-heading">
           <div><p class="eyebrow">TABLERO ORIGINAL · FOX NEWS</p><h3>Resultados y gráficos de Fox</h3><p>Vista del tablero publicado por Fox News. Si el medio bloquea la visualización dentro de otros sitios, abrilo directamente desde el enlace.</p></div>
@@ -105,7 +106,7 @@ export const prerender = false;
           <span>CALIFORNIA · DATOS AP</span><strong>Los Angeles Times · resultados estatales</strong><em>Ver California ↗</em>
         </a>
         <a class="live-source-card" href="https://www.foxnews.com/elections/2026/midterm-results/state/arizona" target="_blank" rel="noopener noreferrer">
-          <span>ARIZONA · DATOS AP</span><strong>Fox News · resultados por distrito</strong><em>Ver Arizona ↗</em>
+          <span>ARIZONA · FOX NEWS</span><strong>Fox News · resultados por distrito</strong><em>Ver Arizona ↗</em>
         </a>
         <a class="live-source-card" href="https://www.washingtonpost.com/elections/results/2026/11/03/arizona-live-updates/" target="_blank" rel="noopener noreferrer">
           <span>ARIZONA · COBERTURA Y MAPAS</span><strong>The Washington Post · resultados</strong><em>Ver cobertura ↗</em>
