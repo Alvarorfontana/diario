@@ -1,0 +1,68 @@
+---
+export const prerender = false;
+const people = [
+  { id: "DF-H001", name: "Retrato masculino 01", gender: "Hombre", age: "Adulto", role: "Perfil editorial", seed: "df-hombre-01", style: "personas" },
+  { id: "DF-H002", name: "Retrato masculino 02", gender: "Hombre", age: "Adulto mayor", role: "Perfil editorial", seed: "df-hombre-02", style: "personas" },
+  { id: "DF-H003", name: "Retrato masculino 03", gender: "Hombre", age: "Joven", role: "Perfil editorial", seed: "df-hombre-03", style: "personas" },
+  { id: "DF-H004", name: "Retrato masculino 04", gender: "Hombre", age: "Adulto", role: "Perfil editorial", seed: "df-hombre-04", style: "personas" },
+  { id: "DF-M001", name: "Retrato femenino 01", gender: "Mujer", age: "Adulta", role: "Perfil editorial", seed: "df-mujer-01", style: "lorelei" },
+  { id: "DF-M002", name: "Retrato femenino 02", gender: "Mujer", age: "Adulta mayor", role: "Perfil editorial", seed: "df-mujer-02", style: "lorelei" },
+  { id: "DF-M003", name: "Retrato femenino 03", gender: "Mujer", age: "Joven", role: "Perfil editorial", seed: "df-mujer-03", style: "lorelei" },
+  { id: "DF-M004", name: "Retrato femenino 04", gender: "Mujer", age: "Adulta", role: "Perfil editorial", seed: "df-mujer-04", style: "lorelei" },
+  { id: "DF-X001", name: "Perfil ilustrado 01", gender: "Otro", age: "Adulto", role: "Avatar", seed: "df-perfil-01", style: "notionists" },
+  { id: "DF-X002", name: "Perfil ilustrado 02", gender: "Otro", age: "Joven", role: "Avatar", seed: "df-perfil-02", style: "notionists" },
+  { id: "DF-X003", name: "Perfil ilustrado 03", gender: "Otro", age: "Adulto", role: "Avatar", seed: "df-perfil-03", style: "notionists" },
+  { id: "DF-X004", name: "Perfil ilustrado 04", gender: "Otro", age: "Adulto mayor", role: "Avatar", seed: "df-perfil-04", style: "notionists" },
+];
+const avatar = (style: string, seed: string) => `https://api.dicebear.com/9.x/${style}/svg?seed=${encodeURIComponent(seed)}&backgroundColor=f0eee9,e9edf2,f3e8e4`;
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Banco de personajes | Diario Federal</title>
+  <meta name="robots" content="noindex,nofollow" />
+</head>
+<body>
+  <main class="shell">
+    <header class="top"><a href="/" class="brand"><b>DF</b><span>DIARIO FEDERAL<small>HERRAMIENTAS EDITORIALES</small></span></a><a class="back" href="/">← Volver al diario</a></header>
+    <section class="intro"><div class="eyebrow">RECURSOS DE REDACCIÓN</div><h1>Banco de personajes</h1><p>Biblioteca de identidades visuales ficticias para ilustraciones, pruebas de diseño y contenidos expresamente identificados como recreaciones.</p><div class="notice"><strong>Uso responsable</strong><span>Estos avatares son ilustrativos. No representan periodistas, funcionarios, entrevistados ni fuentes reales. No deben utilizarse para atribuir declaraciones o hechos a personas inexistentes.</span></div></section>
+    <section class="toolbar"><div class="filters" role="group" aria-label="Filtrar personajes"><button class="filter active" data-filter="Todos">Todos <b>12</b></button><button class="filter" data-filter="Hombre">Hombres</button><button class="filter" data-filter="Mujer">Mujeres</button><button class="filter" data-filter="Otro">Otros</button></div><label class="search"><span>⌕</span><input id="search" type="search" placeholder="Buscar por nombre o código…" /></label></section>
+    <div class="count"><span id="shown">12</span> personajes disponibles <span>·</span> Colección inicial de muestra</div>
+    <section class="gallery" id="gallery">
+      {people.map((p) => <article class="person" data-gender={p.gender} data-search={`${p.name} ${p.id} ${p.age}`.toLowerCase()}>
+        <div class="portrait"><img src={avatar(p.style,p.seed)} alt="Avatar ficticio ${p.gender.toLowerCase()}" loading="lazy" /><span>FICTICIO</span></div>
+        <div class="details"><div class="person-name">${p.name}</div><div class="meta">${p.gender} · ${p.age}</div><div class="code">${p.id}</div><button class="copy" data-copy={p.id} data-name={p.name}>Copiar identificación</button></div>
+      </article>)}
+    </section>
+    <footer>DIARIO FEDERAL <span>·</span> Banco de personajes · Colección demostrativa</footer>
+  </main>
+  <script>
+    const cards = [...document.querySelectorAll('.person')];
+    const filters = [...document.querySelectorAll('.filter')];
+    const search = document.querySelector('#search');
+    let active = 'Todos';
+    function update() {
+      const q = search.value.trim().toLowerCase(); let n = 0;
+      cards.forEach(card => {
+        const show = (active === 'Todos' || card.dataset.gender === active) && card.dataset.search.includes(q);
+        card.hidden = !show; if (show) n++;
+      });
+      document.querySelector('#shown').textContent = String(n);
+    }
+    filters.forEach(button => button.addEventListener('click', () => {
+      active = button.dataset.filter;
+      filters.forEach(b => b.classList.toggle('active', b === button)); update();
+    }));
+    search.addEventListener('input', update);
+    document.querySelectorAll('[data-copy]').forEach(button => button.addEventListener('click', async () => {
+      const text = button.dataset.copy + ' — ' + button.dataset.name;
+      try { await navigator.clipboard.writeText(text); button.textContent = 'Copiado ✓'; }
+      catch { button.textContent = text; }
+    }));
+  </script>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f5f5f3;color:#171717;font-family:Inter,Arial,sans-serif}.shell{max-width:1240px;margin:auto;padding:0 32px}.top{height:76px;border-bottom:1px solid #deded9;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:12px;align-items:center;color:#111;text-decoration:none;font-size:12px;font-weight:900;letter-spacing:1px}.brand b{background:#c90020;color:white;padding:10px;font-size:17px}.brand small{display:block;color:#777;font-size:9px;letter-spacing:1.5px;margin-top:4px}.back{font-size:12px;color:#555;text-decoration:none}.intro{padding:46px 0 28px;max-width:790px}.eyebrow{color:#c90020;font-weight:800;font-size:10px;letter-spacing:2px}.intro h1{font-family:Georgia,serif;font-size:clamp(34px,5vw,52px);letter-spacing:-1.5px;margin:10px 0}.intro p{font-size:15px;line-height:1.7;color:#555;max-width:700px}.notice{display:flex;gap:14px;background:#fff;border-left:3px solid #c90020;padding:14px 17px;margin-top:22px;font-size:12px;line-height:1.55;color:#555}.notice strong{color:#222;white-space:nowrap}.toolbar{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid #ddd;padding:18px 0}.filters{display:flex;gap:7px;flex-wrap:wrap}.filter{border:1px solid #d8d8d3;background:white;border-radius:3px;padding:9px 13px;font-size:12px;color:#555;cursor:pointer}.filter.active{background:#171717;color:white;border-color:#171717}.filter b{margin-left:6px;font-size:10px}.search{border:1px solid #d8d8d3;background:white;padding:9px 12px;display:flex;gap:8px;min-width:240px}.search input{border:0;outline:0;width:100%;font-size:12px}.count{font-size:11px;color:#777;padding:18px 0}.count span{margin-right:4px}.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;padding-bottom:48px}.person{background:white;border:1px solid #e5e4df;min-width:0}.portrait{aspect-ratio:4/4.5;background:#eeede8;position:relative;display:grid;place-items:center;overflow:hidden}.portrait img{width:100%;height:100%;object-fit:cover}.portrait span{position:absolute;bottom:9px;left:9px;background:#171717;color:white;font-size:8px;letter-spacing:1.2px;padding:5px 7px}.details{padding:13px}.person-name{font-size:13px;font-weight:800}.meta{font-size:11px;color:#777;margin-top:5px}.code{font:10px ui-monospace,monospace;color:#999;margin-top:10px}.copy{margin-top:11px;border:0;border-top:1px solid #eee;background:transparent;width:100%;text-align:left;padding:10px 0 0;font-size:10px;color:#b0001c;cursor:pointer}.person[hidden]{display:none}footer{border-top:1px solid #ddd;padding:20px 0 28px;font-size:10px;font-weight:800;letter-spacing:1.5px;color:#777}footer span{color:#c90020}@media(max-width:800px){.gallery{grid-template-columns:repeat(3,minmax(0,1fr))}.toolbar{align-items:flex-start;flex-direction:column}.search{width:100%}}@media(max-width:540px){.shell{padding:0 16px}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.notice{flex-direction:column;gap:4px}.intro{padding-top:32px}}
+  </style>
+</body>
+</html>
