@@ -1,11 +1,12 @@
 ---
-title: "Peña renunció, pero no alcanzó: Diputados aprobó el juicio político y Paraguay define hoy su salida"
+title: "La decisión de Cartes fue definitiva: Peña renunció y Diputados aprobó igual el juicio político"
 volanta: "PARAGUAY | CRISIS EN EL PODER"
 description: "Los 78 diputados habilitados votaron la acusación después de que el presidente presentara su dimisión. El Congreso debe resolver ahora si acepta la renuncia, una decisión que puede dejarlo con fueros o exponerlo a la Justicia por el colapso de Ueno Bank."
 section: internacional
 author: Emilio Lahitte
 ciudad: Asunción
 pubDate: 2026-11-05T16:55:00-03:00
+updatedDate: 2026-11-05T17:05:00-03:00
 heroImage: /uploads/2026-11-05-pena-renuncia-ultima-hora.jpg
 imageCaption: "Composición sobre la renuncia de Santiago Peña a la Presidencia de Paraguay. Imagen: Última Hora (Paraguay)."
 tapa: true
@@ -18,10 +19,10 @@ tags:
   - Pedro Alliana
   - Horacio Cartes
 puntosClave:
-  - "Peña renunció y, aun así, Diputados aprobó el juicio político con los 78 votos habilitados."
+  - "Cartes respaldó el juicio y Peña perdió el apoyo colorado: renunció y Diputados aprobó igual la acusación, con 78 votos."
   - "El Congreso debe definir si acepta la dimisión: de eso depende que conserve fueros como senador vitalicio."
   - "Si la renuncia prospera, Pedro Alliana jurará como presidente y completará el mandato hasta 2028."
-resumenCompartir: "Peña renunció, pero Diputados aprobó igual su juicio político. Ahora el Congreso define cómo se va."
+resumenCompartir: "Cartes le soltó la mano y fue definitivo: Peña renunció, pero Diputados aprobó igual su juicio político."
 ---
 
 <p><strong>ASUNCIÓN.</strong> Santiago Peña quiso irse antes de que lo echaran. No le alcanzó. El presidente de Paraguay presentó este jueves su renuncia y, horas más tarde, la Cámara de Diputados aprobó igual el juicio político en su contra: fueron 78 votos, todos los de las bancas habilitadas.</p>
@@ -115,7 +116,11 @@ resumenCompartir: "Peña renunció, pero Diputados aprobó igual su juicio polí
 
 <h2>Cuando Cartes le soltó la mano</h2>
 
-<p>Peña no cayó por la oposición, que no tenía los votos. Cayó cuando se le dio vuelta su propio partido. Horacio Cartes, titular de la ANR y padrino político del presidente, respaldó el juicio. Detrás fueron la bancada colorada y Honor Colorado. Riera contó que Peña intentó negociar hasta el último momento.</p>
+<p>Peña no cayó por la oposición, que no tenía los votos. La decisión definitiva la tomó Horacio Cartes. Cuando el titular de la ANR y padrino político del presidente comunicó que acompañaba el juicio, el resto se ordenó en cadena: los diputados oficialistas, Bachi Núñez, Natalicio Chase, Patrick Kemper. Riera contó que Peña intentó negociar hasta el último momento.</p>
+
+<p>El mediodía tuvo escena propia. Mientras Diputados debatía el libelo, la sede de la ANR se volvió, en palabras de <a href="https://www.ultimahora.com/mensaje-para-pena-cartes-hace-demostracion-de-poder-con-senadores-y-dirigentes">Última Hora</a>, “una pasarela de senadores y referentes colorados”. Cartes se mostró rodeado de Lilian Samaniego, Colym Soroka, Derlis Maidana, Arnaldo Samaniego, Juan Afara, Chase y Óscar Salomón, además del expresidente Nicanor Duarte Frutos. También apareció Alliana.</p>
+
+<p>Es un regreso notable. Hace menos de un mes, tras la ruptura de Honor Colorado, Cartes parecía haberse quedado con tres senadores y dos diputados. La caída de Ueno anuló el liderazgo de Peña y lo devolvió al centro del partido.</p>
 
 <p>El vicepresidente quedó a salvo. Diputados rechazó avanzar contra Pedro Alliana por 48 votos contra 30, con el voto colorado, lo que le despeja el camino: si prospera la renuncia, jurará como presidente y completará el mandato hasta agosto de 2028. Para la vicepresidencia suenan los senadores Antonio Barrios y Gustavo Leite.</p>
 
@@ -136,6 +141,7 @@ resumenCompartir: "Peña renunció, pero Diputados aprobó igual su juicio polí
 <li><a href="https://www.ultimahora.com/santiago-pena-no-resiste-el-escandalo-de-ueno-y-renuncia-a-la-presidencia-de-paraguay">Última Hora: renuncia de Santiago Peña</a></li>
 <li><a href="https://www.ultimahora.com/la-renuncia-de-santiago-pena-llega-al-congreso-nacional">Última Hora: la renuncia llega al Congreso</a></li>
 <li><a href="https://www.ultimahora.com/encuentran-supuesto-manual-de-miguel-vazquez-para-ganar-licitaciones-multimillonarias">Última Hora: el presunto manual de Miguel Vázquez</a></li>
+<li><a href="https://www.ultimahora.com/mensaje-para-pena-cartes-hace-demostracion-de-poder-con-senadores-y-dirigentes">Última Hora: Cartes y su demostración de poder</a></li>
 <li><a href="https://www.abc.com.py/politica/2026/11/04/en-vivo-diputados-trata-en-sesion-extraordinaria-el-anticipo-del-fondo-de-garantia-para-ahorristas-de-ueno-bank/">ABC Color: cobertura en vivo</a></li>
 <li><a href="https://www.abc.com.py/politica/2026/11/05/pediran-sesion-urgente-en-senado-el-consenso-es-seguir-el-juicio-politico-a-pena-y-que-no-tenga-impunidad/">ABC Color: la posición del Senado</a></li>
 <li><a href="https://www.lanacion.com.py/politica/2026/11/05/aceptarian-renuncia-de-pena-y-tomarian-juramento-a-alliana-a-las-1800/">La Nación (Paraguay): cronograma previsto</a></li>
