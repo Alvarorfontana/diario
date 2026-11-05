@@ -5,8 +5,8 @@ description: "Los 78 diputados habilitados votaron la acusación después de que
 section: internacional
 author: Emilio Lahitte
 ciudad: Asunción
-pubDate: 2026-11-05T16:55:00-03:00
-updatedDate: 2026-11-05T17:05:00-03:00
+pubDate: 2026-11-05T16:45:00-03:00
+updatedDate: 2026-11-05T16:50:00-03:00
 heroImage: /uploads/2026-11-05-pena-renuncia-ultima-hora.jpg
 imageCaption: "Composición sobre la renuncia de Santiago Peña a la Presidencia de Paraguay. Imagen: Última Hora (Paraguay)."
 tapa: true
