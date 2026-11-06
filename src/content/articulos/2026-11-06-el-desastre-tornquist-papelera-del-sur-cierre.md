@@ -3,7 +3,7 @@ title: "EL DESASTRE: Tornquist pierde su principal industria y 160 trabajadores 
 volanta: "CRISIS INDUSTRIAL | SUDOESTE BONAERENSE"
 description: "La histórica Papelera del Sur cerró su planta después de más de seis décadas. La decisión golpea a 160 trabajadores y amenaza con arrastrar a proveedores, transportistas y comercios de una localidad del corazón agropecuario bonaerense."
 section: economia
-author: Redacción
+author: Ramiro De la Puente
 ciudad: "Tornquist"
 region: buenos-aires
 pubDate: 2026-11-06T09:45:00-03:00
