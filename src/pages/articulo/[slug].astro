@@ -138,7 +138,7 @@ import { nombreRegion } from '../../lib/regiones';
 
 			{image_url && (
 				<figure class="mt-6">
-					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class="aspect-video w-full rounded-2xl object-cover object-center" loading="eager" />
+					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class={`w-full rounded-2xl ${slug === "2026-11-06-santiago-pena-detenido-fiscalia-ueno-bank" ? "max-h-[560px] object-contain bg-neutral-100" : "aspect-video object-cover object-center"}`} loading="eager" />
 					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
 			)}
