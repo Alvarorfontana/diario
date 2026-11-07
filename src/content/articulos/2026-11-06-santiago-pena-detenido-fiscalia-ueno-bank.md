@@ -2,6 +2,8 @@
 title: "Santiago Peña quedó detenido y quedó a disposición de la Fiscalía"
 volanta: "PARAGUAY | ÚLTIMO MOMENTO"
 description: "ABC Color informó que el expresidente fue detenido en su residencia de Asunción y quedó a disposición del Ministerio Público. La causa se vincula con la crisis de Ueno Bank."
+heroImage: "https://www.ip.gov.py/ip/wp-content/uploads/2023/09/Foto-Oficial-del-Presidente.--494x600.jpg"
+imageCaption: "Santiago Peña. Fotografía oficial de la Presidencia de Paraguay."
 section: internacional
 author: Emilio Lahitte
 ciudad: Asunción
@@ -20,6 +22,13 @@ puntosClave:
   - "El caso sigue en desarrollo: deben precisarse los cargos, las medidas procesales y los próximos pasos de la investigación."
 resumenCompartir: "ABC Color informó la detención de Santiago Peña en Asunción. El expresidente quedó a disposición de la Fiscalía en la causa vinculada a Ueno Bank."
 ---
+
+<figure style="margin:1rem 0 1.5rem">
+<div style="position:relative;width:100%;aspect-ratio:16/9;background:#111;border-radius:8px;overflow:hidden">
+<iframe src="https://www.abc.com.py/tv/video/xbuen7q/" title="Santiago Peña oficialmente detenido — ABC Color" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+</div>
+<figcaption style="margin-top:.6rem;font-size:.82rem;color:#737373">Video: ABC Color TV. “Santiago Peña oficialmente detenido”, 6 de noviembre de 2026.</figcaption>
+</figure>
 
 <p><strong>ASUNCIÓN.</strong> Santiago Peña fue detenido y quedó a disposición de la Fiscalía, según informó este viernes ABC Color. El medio paraguayo señaló que el procedimiento se realizó en la residencia del exmandatario, en Asunción, en una jornada atravesada por la crisis institucional que siguió al colapso de Ueno Bank.</p>
 
