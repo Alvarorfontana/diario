@@ -3,7 +3,7 @@ title: "León XIV interpela a la Argentina: el trabajo, la democracia y los lím
 volanta: "MENSAJE EN EL PALACIO LIBERTAD"
 description: "Ante el presidente Javier Milei y representantes de la sociedad argentina, el Papa reclamó proteger la dignidad humana, atender a las familias, ofrecer oportunidades a los jóvenes y cuidar la democracia. Sus definiciones sobre economía y responsabilidad pública abrieron una lectura política inevitable."
 heroImage: "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/08/2026-11-08-viaggio-apostolico-in-argentina---incontro-con-le-aut/1794177599176.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg"
-imageCaption: "León XIV durante el encuentro con las autoridades, la sociedad civil y el cuerpo diplomático en el Palacio Libertad. Fotografía: Vatican Media. Edición: Diario Federal."
+imageCaption: "El papa León XIV en el Palacio Libertad, ex Centro Cultural Kirchner, durante el encuentro con las autoridades, la sociedad civil y el cuerpo diplomático en Buenos Aires. Fotografía: Vatican Media. Epígrafe y edición: Diario Federal."
 section: argentina
 author: Diario Federal
 ciudad: Buenos Aires
