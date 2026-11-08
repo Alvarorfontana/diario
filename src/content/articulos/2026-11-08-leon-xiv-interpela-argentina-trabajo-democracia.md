@@ -5,7 +5,7 @@ description: "Ante el presidente Javier Milei y representantes de la sociedad ar
 heroImage: "https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2026/11/08/2026-11-08-viaggio-apostolico-in-argentina---incontro-con-le-aut/1794177599176.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.750.422.jpeg"
 imageCaption: "El papa León XIV en el Palacio Libertad, ex Centro Cultural Kirchner, durante el encuentro con las autoridades, la sociedad civil y el cuerpo diplomático en Buenos Aires. Fotografía: Vatican Media. Epígrafe y edición: Diario Federal."
 section: argentina
-author: Diario Federal
+author: "Emilio Lahitte"
 ciudad: Buenos Aires
 pubDate: 2026-11-08T23:55:00-03:00
 tapa: true
