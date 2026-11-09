@@ -9,8 +9,8 @@
   "volumenMusica": -17,
   "estilo": "noticiero",
   "subtitulos": true,
-  "rotulo": "LUNES 9 DE NOVIEMBRE DE 2026",
-  "estado": "generar",
+  "rotulo": "9 DE NOVIEMBRE DE 2026",
+  "estado": "listo",
   "publicado": false,
   "bloques": [
     {
@@ -69,5 +69,35 @@
         "inicio": 42
       }
     }
-  ]
+  ],
+  "subtitulosVtt": "/flash/2026-11-09-ultimo-leon-xiv.vtt",
+  "capitulos": [
+    {
+      "t": 5.6,
+      "titulo": "«La economía debe estar al servicio de la persona»"
+    },
+    {
+      "t": 24.2,
+      "titulo": "«Una nación debe preguntarse en qué ha fallado»"
+    },
+    {
+      "t": 35.5,
+      "titulo": "De la frialdad a la sonrisa"
+    },
+    {
+      "t": 47.9,
+      "titulo": "El Papa, con los más frágiles"
+    }
+  ],
+  "duracion": 68.1,
+  "duraciones": [
+    17.4,
+    10.1,
+    11.2,
+    10.4
+  ],
+  "video": "/flash/2026-11-09-ultimo-leon-xiv.mp4",
+  "miniatura": "/flash/2026-11-09-ultimo-leon-xiv.jpg",
+  "version": "20261109124352",
+  "generado": "2026-11-09T12:43:52+00:00"
 }
