@@ -1,0 +1,73 @@
+{
+  "id": "2026-11-09-ultimo-leon-xiv",
+  "tipo": "ultimo",
+  "titulo": "León XIV: del mensaje en el Palacio Libertad a las sonrisas en Claypole",
+  "fecha": "2026-11-09",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": 8,
+  "musica": "/flash/musica/starostin.mp3",
+  "volumenMusica": -17,
+  "estilo": "noticiero",
+  "subtitulos": true,
+  "rotulo": "LUNES 9 DE NOVIEMBRE DE 2026",
+  "estado": "generar",
+  "publicado": false,
+  "bloques": [
+    {
+      "kicker": "Palacio Libertad, anoche",
+      "titulo": "«La economía debe estar al servicio de la persona»",
+      "dato": "Ante Milei",
+      "bajada": "Pidió reconocer los límites del poder y advirtió sobre la corrupción.",
+      "texto": "Anoche, en el Palacio Libertad y ante Javier Milei, León XIV dejó un mensaje que sonó directo al Gobierno. La economía debe estar al servicio de la persona, y no la persona al servicio de la economía, dijo. Pidió reconocer los límites del poder y advirtió que la corrupción erosiona la confianza en las instituciones.",
+      "epigrafe": "León XIV, hoy en Claypole",
+      "fuente": "Vatican News",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-09-ultimo-leon-xiv/claypole-vatican-news.mp4",
+        "inicio": 0
+      }
+    },
+    {
+      "kicker": "Jóvenes y democracia",
+      "titulo": "«Una nación debe preguntarse en qué ha fallado»",
+      "dato": "Emigración juvenil",
+      "bajada": "Reclamó convivir con el que piensa distinto.",
+      "texto": "También habló de los jóvenes que se van del país. Una nación debe preguntarse seriamente en qué ha fallado, planteó. Y reclamó aprender a convivir con el que piensa distinto.",
+      "epigrafe": "León XIV, hoy en Claypole",
+      "fuente": "Vatican News",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-09-ultimo-leon-xiv/claypole-vatican-news.mp4",
+        "inicio": 14
+      }
+    },
+    {
+      "kicker": "Los gestos",
+      "titulo": "De la frialdad a la sonrisa",
+      "dato": "Menos de 15 horas",
+      "bajada": "Serio con Milei en la Rosada, distendido con Kicillof en Claypole.",
+      "texto": "En la Casa Rosada, el Papa se mostró serio y rígido junto a Milei. Esta mañana, en Claypole, parecía otra persona: sonrisas, cercanía y regalos para Axel Kicillof y su comitiva.",
+      "epigrafe": "El Papa con Kicillof y la comitiva bonaerense",
+      "fuente": "Vatican News",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-09-ultimo-leon-xiv/claypole-vatican-news.mp4",
+        "inicio": 27
+      }
+    },
+    {
+      "kicker": "Claypole, Cottolengo Don Orione",
+      "titulo": "El Papa, con los más frágiles",
+      "dato": "Más de 400 residentes",
+      "bajada": "La institución reclama deudas del Estado nacional.",
+      "texto": "León XIV recorre el Cottolengo Don Orione, donde viven más de cuatrocientas personas con discapacidad. Una institución que reclama deudas del Estado nacional por prestaciones y medicamentos.",
+      "epigrafe": "Llegada al Cottolengo Don Orione",
+      "fuente": "Vatican News",
+      "media": {
+        "tipo": "video",
+        "archivo": "data/flash/media/2026-11-09-ultimo-leon-xiv/claypole-vatican-news.mp4",
+        "inicio": 42
+      }
+    }
+  ]
+}
