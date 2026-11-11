@@ -1,0 +1,89 @@
+{
+  "id": "2026-11-11-ultimo-leon-xiv-lujan",
+  "tipo": "ultimo",
+  "titulo": "León XIV en Luján: «momentos de Calvario» y un llamado a la reconciliación",
+  "fecha": "2026-11-11",
+  "voz": "original",
+  "musica": "/flash/musica/starostin.mp3",
+  "estilo": "noticiero",
+  "subtitulos": true,
+  "rotulo": "11 DE NOVIEMBRE DE 2026",
+  "estado": "listo",
+  "publicado": true,
+  "bloques": [
+    {
+      "kicker": "El dolor argentino",
+      "titulo": "«Momentos de Calvario»",
+      "texto": "Muchos hermanos nuestros, o incluso nosotros mismos, nuestras familias, pueden estar viviendo actualmente momentos de Calvario,",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    },
+    {
+      "kicker": "Las causas",
+      "titulo": "Enfermedades, pobreza, falta de trabajo, discriminación",
+      "texto": "sufriendo a causa de enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares, entre otros problemas.",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    },
+    {
+      "kicker": "María al pie de la cruz",
+      "titulo": "María al pie de la cruz, «desgarrado de dolor»",
+      "texto": "En estos momentos oscuros comprendemos los sentimientos de María al pie de la cruz, con su corazón de madre, desgarrado de dolor.",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    },
+    {
+      "kicker": "Una nueva misión",
+      "titulo": "«Una nueva misión»",
+      "texto": "Al mismo tiempo, así como María, en ese terrible momento de su vida, recibió de su Hijo una nueva misión acogiendo en su corazón de madre, a toda la humanidad.",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    },
+    {
+      "kicker": "El llamado",
+      "titulo": "«Procesos de perdón y reconciliación»",
+      "texto": "También nosotros estamos llamados a recibir la gracia de Dios y vivir procesos de perdón y reconciliación",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    },
+    {
+      "kicker": "Lo que renueva",
+      "titulo": "«La paz, la esperanza y la caridad»",
+      "texto": "que renueven en nosotros la paz, la esperanza y la caridad.",
+      "epigrafe": "León XIV, homilía en Luján",
+      "fuente": "Vatican News"
+    }
+  ],
+  "subtitulosVtt": "/flash/2026-11-11-ultimo-leon-xiv-lujan.vtt",
+  "capitulos": [
+    {
+      "t": 4.0,
+      "titulo": "«Momentos de Calvario»"
+    },
+    {
+      "t": 16.1,
+      "titulo": "Enfermedades, pobreza, falta de trabajo, discriminación"
+    },
+    {
+      "t": 29.5,
+      "titulo": "María al pie de la cruz, «desgarrado de dolor»"
+    },
+    {
+      "t": 43.1,
+      "titulo": "«Una nueva misión»"
+    },
+    {
+      "t": 59.1,
+      "titulo": "«Procesos de perdón y reconciliación»"
+    },
+    {
+      "t": 69.4,
+      "titulo": "«La paz, la esperanza y la caridad»"
+    }
+  ],
+  "duracion": 80.2,
+  "video": "/flash/2026-11-11-ultimo-leon-xiv-lujan.mp4",
+  "miniatura": "/flash/2026-11-11-ultimo-leon-xiv-lujan.jpg",
+  "version": "20261111122000",
+  "generado": "2026-11-11T15:20:00+00:00"
+}
