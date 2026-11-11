@@ -1,5 +1,5 @@
 ---
-title: "León XIV, en Luján: una Argentina que vive \"momentos de Calvario\" por la pobreza, la falta de trabajo y la discriminación"
+title: "León XIV, en Luján: \"Muchos hermanos nuestros (...) pueden estar viviendo actualmente momentos de Calvario, sufriendo a causa de enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares\""
 volanta: "VISITA DEL PAPA | LUJÁN"
 description: "Ante más de dos millones de fieles, en la última misa de su visita, el Papa habló de quienes sufren por enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares. Pidió reconciliación, un lugar en la mesa para los que menos tienen y cerró con un llamado: \"Argentina, levántate y camina\"."
 section: argentina
@@ -19,7 +19,7 @@ puntosClave:
   - "Ante más de dos millones de personas, León XIV habló de los argentinos que viven \"momentos de Calvario\" por la pobreza, la falta de trabajo y la discriminación."
   - "El Papa propuso reconciliación, comunión y misión, y pidió un lugar en la mesa para pobres, migrantes, enfermos y presos."
   - "Kicillof fue el anfitrión. Milei no fue a la misa y lo despidió en Ezeiza, antes de su viaje a Perú."
-resumenCompartir: "León XIV, en Luján: una Argentina que vive \"momentos de Calvario\" por la pobreza, la falta de trabajo y la discriminación."
+resumenCompartir: "León XIV, en Luján: \"Muchos hermanos nuestros (...) pueden estar viviendo actualmente momentos de Calvario, sufriendo a causa de enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares\"."
 ---
 
 **LUJÁN, provincia de Buenos Aires.** León XIV eligió la casa de la Virgen de Luján para nombrar el dolor argentino. "Muchos hermanos nuestros, o incluso nosotros mismos, nuestras familias, pueden estar viviendo actualmente momentos de Calvario", dijo ante más de dos millones de personas, en la última misa de su visita. Y enumeró sin rodeos las causas: las enfermedades, la pobreza, la falta de trabajo, la discriminación y las rupturas familiares.
