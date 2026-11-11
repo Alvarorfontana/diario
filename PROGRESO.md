@@ -35,3 +35,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - [ ] Newsletter: definir el envío de boletines.
 - [ ] Evaluador automático: tarea de GitHub que revise cada cambio antes de publicar (build, fotos con epígrafe y fuente,
       sin claves en el código).
+
+- 2026-11-11: Flash de último momento "León XIV en Luján" (voz original del Papa, música Starostin, frases destacadas, sin marca de El Destape; video Vatican News). Miniatura: captura recortada y limpia de logos.
