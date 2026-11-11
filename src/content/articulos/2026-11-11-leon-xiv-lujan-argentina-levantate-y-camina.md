@@ -6,8 +6,8 @@ section: argentina
 region: buenos-aires
 author: Emilio Lahitte
 pubDate: 2026-11-11T12:00:00-03:00
-heroImage: /uploads/2026-11-11-leon-xiv-lujan-papamovil.jpg
-imageCaption: "León XIV saluda desde el papamóvil a la multitud que lo esperó en Luján. Foto: Vatican News."
+heroImage: /uploads/2026-11-11-leon-xiv-lujan-homilia.jpg
+imageCaption: "León XIV lee el cierre de su homilía en Luján, con la casulla celeste y blanca. Captura de video: Clarín."
 tapa: true
 tags:
   - León XIV
