@@ -154,10 +154,11 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 								<select id="f-estilo">
 									<option value="noticiero">Noticiero · foto a pantalla completa y zócalo</option>
 									<option value="clasico">Clásico · placa con la foto al costado</option>
+									<option value="editorial">Editorial · estilo revista, número grande y cortina roja entre noticias</option>
 								</select>
 							</div>
 							<div>
-								<label for="f-subs" style="display:flex;gap:8px;align-items:center;margin-top:30px;font-weight:500"><input type="checkbox" id="f-subs" style="width:auto" checked /> Subtítulos palabra por palabra (diseño Noticiero)</label>
+								<label for="f-subs" style="display:flex;gap:8px;align-items:center;margin-top:30px;font-weight:500"><input type="checkbox" id="f-subs" style="width:auto" checked /> Subtítulos palabra por palabra (diseños Noticiero y Editorial)</label>
 							</div>
 						</div>
 						<label for="f-musica">Música</label>

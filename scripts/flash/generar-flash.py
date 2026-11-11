@@ -15,6 +15,7 @@ Lo corre GitHub Actions (.github/workflows/flash.yml) cada vez que el panel
 Uso local:  python scripts/flash/generar-flash.py [id ...]
 Sin ids, procesa todos los flashes con estado "generar".
 Variable MOTOR=kokoro: usa una voz local (solo para pruebas sin internet).
+Diseños (campo «estilo»): noticiero, clasico y editorial (revista en movimiento, cortina roja entre noticias).
 """
 
 import asyncio
@@ -539,6 +540,200 @@ def placa_cierre_nueva(t):
     return im
 
 
+# ── Diseño "editorial": revista en movimiento ─────────────────────────────────
+# Foto o video a pantalla completa con degradé lateral, número grande del tema, título en serif que entra
+# renglón por renglón, dato en etiqueta roja, barra de temas arriba y cortina roja entre noticias.
+
+ROJO_E = (206, 17, 38); ROSA_E = (255, 96, 106); GRIS_E = (196, 196, 200)
+_velo_e = {}
+
+
+def velo_editorial():
+    """Degradé oscuro a la izquierda y abajo (se calcula una sola vez) para que el texto se lea sobre cualquier foto."""
+    if "v" not in _velo_e:
+        x = np.linspace(0, 1, W, dtype=np.float32)[None, :]
+        y = np.linspace(0, 1, H, dtype=np.float32)[:, None]
+        izq = np.clip(1 - x / 0.68, 0, 1) ** 1.5 * 0.9
+        abajo = np.clip((y - 0.55) / 0.45, 0, 1) ** 1.4 * 0.78
+        arriba = np.clip(1 - y / 0.16, 0, 1) * 0.45
+        a = np.clip(1 - (1 - izq) * (1 - abajo) * (1 - arriba), 0, 0.93)
+        rgba = np.zeros((H, W, 4), dtype=np.uint8)
+        rgba[..., 0:3] = (10, 10, 12)
+        rgba[..., 3] = (a * 255).astype(np.uint8)
+        _velo_e["v"] = Image.fromarray(rgba, "RGBA")
+    return _velo_e["v"]
+
+
+def marca_editorial(d, x, y, a=255, tam=34):
+    q = int(tam * 0.82)
+    d.rectangle([x, y - q / 2, x + q, y + q / 2], fill=ROJO_E + (a,))
+    d.text((x + q + 16, y), "Diario Federal", font=ss(700, tam), fill=WHITE + (a,), anchor="lm")
+    return q + 16 + d.textlength("Diario Federal", font=ss(700, tam))
+
+
+def cortina(im, t, dur=0.55):
+    """Cortina roja que se corre hacia la derecha y descubre la noticia."""
+    if t >= dur: return
+    x0 = int(W * ease(t / dur))
+    d = ImageDraw.Draw(im)
+    d.rectangle([x0, 0, W, H], fill=ROJO_E)
+    d.rectangle([max(0, x0 - 10), 0, x0, H], fill=WHITE)
+
+
+def placa_bloque_editorial(b, t, dur, idx, n, medio, flash, trozos, t_voz, prog):
+    im = medio(t).copy()
+    if im.size != (W, H): im = im.resize((W, H), Image.BILINEAR)
+    im = im.convert("RGBA"); im.alpha_composite(velo_editorial()); im = im.convert("RGB")
+    d = ImageDraw.Draw(im, "RGBA")
+    urgente = flash.get("tipo") == "ultimo"
+    M = 110
+
+    # arriba: marca, rótulo y avance de temas
+    wm = marca_editorial(d, M, 92)
+    tag = ("ÚLTIMO MOMENTO" if urgente else "FLASH SEMANAL") + "  ·  " + fecha_corta(flash)
+    espaciado(d, (M + wm + 34, 93), tag, it(600, 20), GRIS_E, 3)
+    if urgente and int(t * 2) % 2 == 0:
+        d.ellipse([M + wm + 14, 86, M + wm + 26, 98], fill=ROJO_E)
+    if n > 1:
+        seg, sep = 74, 10; x = W - M - n * seg - (n - 1) * sep
+        for j in range(n):
+            d.rectangle([x, 88, x + seg, 94], fill=(255, 255, 255, 70))
+            lleno = seg if j < idx else (int(seg * min(1, t / max(dur, 0.1))) if j == idx else 0)
+            if lleno: d.rectangle([x, 88, x + lleno, 94], fill=WHITE if j < idx else ROJO_E)
+            x += seg + sep
+
+    # bloque de texto, de abajo hacia arriba
+    subs = flash.get("subtitulos", True) is not False
+    base = 905 if subs else 985
+    ancho = 1020
+    for tam in (82, 74, 66, 58):
+        tf = ss(700, tam); lineas = partir_n(d, pantalla(b.get("titulo", "")), tf, ancho)
+        if len(lineas) <= 3: break
+    lineas = lineas[:3]; paso = int(tam * 1.08)
+    baj = partir_n(d, pantalla(b.get("bajada", "")), it(500, 30), ancho)[:2] if b.get("bajada") else []
+    alto_dato = 64 if b.get("dato") else 0
+    y_baj = base - len(baj) * 40
+    y_dato = y_baj - (alto_dato + 18 if alto_dato else 0)
+    y_tit = y_dato - 22 - len(lineas) * paso
+    y_kick = y_tit - 46
+
+    # número del tema, grande y calado
+    if n > 1 or not urgente:
+        num = f"{idx + 1:02d}"
+        con_alfa(im, lambda d, a: d.text((M - 8, y_kick - 34), num, font=ss(700, 168), fill=(255, 255, 255, 0),
+                                         stroke_width=2, stroke_fill=(255, 255, 255, int(a * 0.55)), anchor="ls"),
+                 ease((t - 0.35) / 0.5))
+    if b.get("kicker"):
+        k = pantalla(str(b["kicker"]).upper())
+        def kick(d, a):
+            d.rectangle([M, y_kick - 3, M + int(46 * ease((t - 0.4) / 0.4)), y_kick + 3], fill=ROJO_E + (a,))
+            espaciado(d, (M + 62, y_kick), k, it(700, 22), ROSA_E + (a,), 3.5)
+        con_alfa(im, kick, ease((t - 0.4) / 0.4))
+    for i, ln in enumerate(lineas):
+        e = ease((t - 0.5 - i * 0.12) / 0.5)
+        dy = int(34 * (1 - e))
+        con_alfa(im, lambda d, a, ln=ln, i=i, dy=dy: (
+            d.text((M + 3, y_tit + i * paso + dy + 3), ln, font=tf, fill=(0, 0, 0, int(a * 0.5))),
+            d.text((M, y_tit + i * paso + dy), ln, font=tf, fill=WHITE + (a,))), e)
+    if b.get("dato"):
+        dato = pantalla(b["dato"]); fd = it(700, 32); wdt = d.textlength(dato, font=fd)
+        def chip(d, a):
+            d.rectangle([M, y_dato, M + wdt + 44, y_dato + alto_dato - 8], fill=ROJO_E + (a,))
+            d.text((M + 22, y_dato + (alto_dato - 8) / 2), dato, font=fd, fill=WHITE + (a,), anchor="lm")
+        con_alfa(im, chip, ease((t - 0.75) / 0.4))
+    for i, ln in enumerate(baj):
+        con_alfa(im, lambda d, a, ln=ln, i=i: d.text((M, y_baj + i * 40), ln, font=it(500, 30), fill=GRIS_E + (a,)),
+                 ease((t - 0.9) / 0.4))
+
+    # crédito de la imagen
+    cred = pantalla(" · ".join(x for x in (b.get("epigrafe"), b.get("fuente")) if x))
+    if cred:
+        fc = it(500, 22); cred = recortar(d, cred, fc, 640)
+        d.text((W - M, base + 4), cred, font=fc, fill=(225, 225, 228, 210), anchor="rd")
+        d.rectangle([W - M - d.textlength(cred, font=fc) - 22, base - 12, W - M - d.textlength(cred, font=fc) - 14, base - 4], fill=ROJO_E)
+
+    # subtítulos palabra por palabra: la palabra dicha se pinta de rojo y se subraya
+    if subs:
+        tr, hi = subtitulo_en(trozos, t - t_voz)
+        if tr:
+            fs = it(600, 40); esp = d.textlength(" ", font=fs)
+            ws = [pantalla(w) for w, a, bb in tr]
+            tot = sum(d.textlength(w, font=fs) for w in ws) + esp * (len(ws) - 1)
+            while tot > W - 2 * M and fs.size > 28:
+                fs = it(600, fs.size - 2); esp = d.textlength(" ", font=fs)
+                tot = sum(d.textlength(w, font=fs) for w in ws) + esp * (len(ws) - 1)
+            x = (W - tot) / 2; cy = 1000
+            for j, w in enumerate(ws):
+                ww = d.textlength(w, font=fs)
+                d.text((x + 2, cy + 2), w, font=fs, fill=(0, 0, 0, 170), anchor="lm")
+                d.text((x, cy), w, font=fs, fill=ROSA_E if j == hi else WHITE, anchor="lm")
+                if j == hi: d.rectangle([x, cy + fs.size * 0.62, x + ww, cy + fs.size * 0.62 + 4], fill=ROJO_E)
+                x += ww + esp
+
+    d.rectangle([0, H - 6, int(W * prog), H], fill=ROJO_E)
+    cortina(im, t)
+    return im
+
+
+def placa_intro_editorial(t, flash, bloques):
+    im = Image.new("RGB", (W, H), NEGRO_N)
+    d = ImageDraw.Draw(im, "RGBA")
+    urgente = flash.get("tipo") == "ultimo"
+    ap = int(760 * ease(t / 0.7))
+    d.rectangle([0, 0, ap, H], fill=ROJO_E)
+    try: f = dt.date.fromisoformat(str(flash.get("fecha"))[:10])
+    except Exception: f = dt.date.today()
+    def panel(d, a):
+        espaciado(d, (110, 300), "ÚLTIMO MOMENTO" if urgente else "FLASH SEMANAL", it(700, 26), WHITE + (a,), 6)
+        d.text((100, 352), f"{f.day:02d}.{f.month:02d}", font=ss(700, 236), fill=WHITE + (a,), anchor="lt")
+        d.text((110, 610), str(f.year), font=it(600, 40), fill=(255, 210, 214, a))
+        d.line([110, 690, 650, 690], fill=(255, 255, 255, int(a * 0.5)), width=2)
+        d.text((110, 716), "Las noticias que marcaron" if not urgente else "Lo que está pasando", font=it(500, 30), fill=WHITE + (a,))
+        d.text((110, 756), "la semana en todo el país" if not urgente else "ahora, en pocos minutos", font=it(500, 30), fill=WHITE + (a,))
+    con_alfa(im, panel, ease((t - 0.35) / 0.5))
+    x = 880
+    con_alfa(im, lambda d, a: marca_editorial(d, x, 210, a, 56), ease((t - 0.2) / 0.5))
+    if urgente:
+        b0 = bloques[0] if bloques else {}
+        con_alfa(im, lambda d, a: espaciado(d, (x, 360), pantalla(str(b0.get("kicker", "")).upper()), it(700, 22), ROSA_E + (a,), 3.5), ease((t - 0.6) / 0.4))
+        for i, ln in enumerate(partir_n(d, pantalla(b0.get("titulo", "")), ss(700, 70), W - x - 120)[:4]):
+            con_alfa(im, lambda d, a, i=i, ln=ln: d.text((x, 400 + i * 80), ln, font=ss(700, 70), fill=WHITE + (a,)), ease((t - 0.75 - i * 0.12) / 0.45))
+    else:
+        con_alfa(im, lambda d, a: (espaciado(d, (x, 330), "EN ESTE FLASH", it(700, 20), (160, 160, 166, a), 4),
+                                   d.line([x, 360, W - 120, 360], fill=(70, 70, 76, a), width=2)), ease((t - 0.5) / 0.4))
+        lista = bloques[:6]; paso = 104 if len(lista) <= 4 else 84
+        for i, b in enumerate(lista):
+            yy = 360 + i * paso
+            e = ease((t - 0.7 - i * 0.16) / 0.45); dx = int(60 * (1 - e))
+            def fila(d, a, i=i, b=b, yy=yy, dx=dx):
+                d.text((x + dx, yy + paso / 2), f"{i + 1:02d}", font=ss(700, 40), fill=ROSA_E + (a,), anchor="lm")
+                tf = ss(600, 36 if len(lista) <= 4 else 31)
+                d.text((x + 90 + dx, yy + paso / 2), recortar(d, pantalla(b.get("titulo", "")), tf, W - 120 - x - 90), font=tf, fill=WHITE + (a,), anchor="lm")
+                d.line([x, yy + paso, W - 120, yy + paso], fill=(52, 52, 58, a), width=1)
+            con_alfa(im, fila, e)
+    return im
+
+
+def placa_cierre_editorial(t):
+    im = Image.new("RGB", (W, H), NEGRO_N)
+    d = ImageDraw.Draw(im, "RGBA")
+    d.rectangle([0, 0, W, H], fill=(14, 14, 16))
+    alto = int(H * (1 - ease(t / 0.6)))
+    ancho_m = 96 * 0.82 + 16 + ImageDraw.Draw(im).textlength("Diario Federal", font=ss(700, 96))
+    con_alfa(im, lambda d, a: (marca_editorial(d, (W - ancho_m) / 2, 430, a, 96),
+                               d.rectangle([W / 2 - 40, 318, W / 2 + 40, 324], fill=ROJO_E + (a,))), ease((t - 0.3) / 0.5))
+    con_alfa(im, lambda d, a: d.text((W / 2, 545), "Periodistas, escritores y pensadores de todo el país", font=it(500, 32), fill=(205, 205, 210, a), anchor="mm"), ease((t - 0.5) / 0.5))
+    def url(d, a):
+        txt = "diariofederal.com.ar"; fu = it(700, 38); wu = d.textlength(txt, font=fu)
+        d.rectangle([W / 2 - wu / 2 - 34, 618, W / 2 + wu / 2 + 34, 692], fill=ROJO_E + (a,))
+        d.text((W / 2, 655), txt, font=fu, fill=WHITE + (a,), anchor="mm")
+    con_alfa(im, url, ease((t - 0.7) / 0.5))
+    if alto > 0:
+        ImageDraw.Draw(im).rectangle([0, 0, W, alto], fill=ROJO_E)
+    ImageDraw.Draw(im).rectangle([0, H - 6, W, H], fill=ROJO_E)
+    return im
+
+
 # ── Voz ─────────────────────────────────────────────────────────────────────
 
 def cargar_json(ruta, defecto):
@@ -651,6 +846,7 @@ def generar(flash):
             w.writeframes((np.clip(pista[:int(total * sr)], -1, 1) * 32767).astype(np.int16).tobytes())
 
         nuevo = flash.get("estilo", "noticiero") != "clasico"
+        editorial = flash.get("estilo") == "editorial"
         medios = {}
         if not nuevo:
             for i, b in enumerate(bloques):
@@ -682,7 +878,14 @@ def generar(flash):
             for k, st, dur, vs in linea:
                 if st <= tt < st + dur: break
             lt = tt - st
-            if nuevo:
+            if editorial:
+                if k == "intro": im = placa_intro_editorial(lt, flash, bloques)
+                elif k == "cierre": im = placa_cierre_editorial(lt)
+                else:
+                    i = int(k[1:])
+                    im = placa_bloque_editorial(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
+                                                trozos[i], vs - st, tt / total)
+            elif nuevo:
                 if k == "intro": im = placa_intro_nueva(lt, flash, bloques)
                 elif k == "cierre": im = placa_cierre_nueva(lt)
                 else:
@@ -694,6 +897,9 @@ def generar(flash):
             else:
                 i = int(k[1:]); im = placa_bloque(bloques[i], lt, dur, i, len(bloques), medios[i], flash)
             fade = min(1, lt / 0.25, (dur - lt) / 0.25)
+            if editorial:
+                # entre noticias corre la cortina roja: sólo se funde al empezar y al terminar el video
+                fade = min(1, lt / 0.25) if k == "intro" else (min(1, (dur - lt) / 0.4) if k == "cierre" else 1)
             if fade < 1: im = Image.blend(negro, im, max(0, fade))
             ff.stdin.write(im.tobytes())
         ff.stdin.close(); ff.wait()
