@@ -24,6 +24,7 @@ on:
         options:
           - es-AR-TomasNeural
           - es-AR-ElenaNeural
+          - clonada
 
 permissions:
   contents: write
@@ -52,6 +53,13 @@ jobs:
           pip install edge-tts pyyaml
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
 
+      # Voz clonada de Álvaro (Chatterbox, MIT): sólo se instala si se eligió esa voz
+      - name: Instalar la voz clonada
+        if: ${{ inputs.voz == 'clonada' }}
+        run: |
+          pip install --index-url https://download.pytorch.org/whl/cpu torch torchaudio
+          pip install chatterbox-tts
+
       - name: Generar audios
         timeout-minutes: 40
         continue-on-error: true
@@ -59,6 +67,8 @@ jobs:
           PYTHONUNBUFFERED: '1'
           VOZ: ${{ inputs.voz || 'es-AR-TomasNeural' }}
           TODAS: ${{ inputs.todas && '1' || '' }}
+          VOZ_CLAVE: ${{ secrets.VOZ_CLAVE }}
+          VOZ_REFERENCIA_B64: ${{ secrets.VOZ_REFERENCIA_B64 }}
         run: python scripts/generar-audios.py
 
       - name: Guardar en el repositorio

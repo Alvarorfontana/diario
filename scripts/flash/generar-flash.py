@@ -769,7 +769,19 @@ async def _edge(texto, voz, vel, destino):
 def sintetizar(texto, voz, vel, destino_wav, tmp):
     """Devuelve los tiempos de cada palabra dicha (inicio, fin, palabra), si la voz los informa."""
     palabras = []
-    if os.environ.get("MOTOR") == "kokoro":
+    if voz == "clonada":
+        # Voz clonada de Álvaro (Chatterbox, ver scripts/voz_clonada.py). Si falla, sigue con Tomás.
+        try:
+            sys.path.insert(0, str(RAIZ / "scripts"))
+            import voz_clonada
+            voz_clonada.generar(texto, destino_wav, tmp, vel)
+            voz = None
+        except Exception as e:
+            print(f"  Voz clonada no disponible ({e}); se usa Tomás.", flush=True)
+            voz = "es-AR-TomasNeural"
+    if voz is None:
+        pass
+    elif os.environ.get("MOTOR") == "kokoro":
         from kokoro_onnx import Kokoro
         k = Kokoro(os.environ["KOKORO_MODELO"], os.environ["KOKORO_VOCES"])
         import soundfile as sf

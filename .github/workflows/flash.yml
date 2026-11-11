@@ -26,7 +26,7 @@ concurrency:
 jobs:
   flash:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,9 +41,21 @@ jobs:
           pip install edge-tts pillow numpy
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
 
+      # Voz clonada de Álvaro (Chatterbox, MIT): sólo se instala si algún flash pendiente la pide
+      - name: Instalar la voz clonada
+        run: |
+          if grep -l '"voz": *"clonada"' data/flash/*.json >/dev/null 2>&1; then
+            pip install --index-url https://download.pytorch.org/whl/cpu torch torchaudio
+            pip install chatterbox-tts
+          else
+            echo "Ningún flash usa la voz clonada."
+          fi
+
       - name: Generar videos
         env:
           PYTHONUNBUFFERED: '1'
+          VOZ_CLAVE: ${{ secrets.VOZ_CLAVE }}
+          VOZ_REFERENCIA_B64: ${{ secrets.VOZ_REFERENCIA_B64 }}
         run: python scripts/flash/generar-flash.py ${{ inputs.id }}
 
       - name: Guardar en el repositorio

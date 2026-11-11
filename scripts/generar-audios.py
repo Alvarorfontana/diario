@@ -160,17 +160,29 @@ async def sintetizar(texto: str, destino: Path) -> None:
     with tempfile.TemporaryDirectory() as tmp:
         crudo = Path(tmp) / "voz.mp3"
         ultimo_error = None
-        for intento in range(3):
+        if VOZ == "clonada":
+            # Voz clonada de Álvaro (ver scripts/voz_clonada.py). Si falla, se lee con Tomás.
             try:
-                # Límite por intento: si la conexión se cuelga, se corta y se reintenta
-                await asyncio.wait_for(edge_tts.Communicate(texto, VOZ).save(str(crudo)), timeout=240)
-                if crudo.exists() and crudo.stat().st_size > 1000:
-                    break
-            except Exception as e:  # la conexión a veces se corta: reintentar
-                ultimo_error = e
-            await asyncio.sleep(3 * (intento + 1))
-        else:
-            raise RuntimeError(f"no se pudo generar la voz: {ultimo_error}")
+                sys.path.insert(0, str(Path(__file__).resolve().parent))
+                import voz_clonada
+                crudo = Path(tmp) / "voz.wav"
+                voz_clonada.generar(texto, crudo, tmp)
+            except Exception as e:
+                print(f"  Voz clonada no disponible ({e}); se usa Tomás.")
+                crudo = Path(tmp) / "voz.mp3"
+        voz_edge = "es-AR-TomasNeural" if VOZ == "clonada" else VOZ
+        if crudo.suffix == ".mp3":
+            for intento in range(3):
+                try:
+                    # Límite por intento: si la conexión se cuelga, se corta y se reintenta
+                    await asyncio.wait_for(edge_tts.Communicate(texto, voz_edge).save(str(crudo)), timeout=240)
+                    if crudo.exists() and crudo.stat().st_size > 1000:
+                        break
+                except Exception as e:  # la conexión a veces se corta: reintentar
+                    ultimo_error = e
+                await asyncio.sleep(3 * (intento + 1))
+            else:
+                raise RuntimeError(f"no se pudo generar la voz: {ultimo_error}")
 
         # Achicar: mono, 32 kbps
         subprocess.run(
