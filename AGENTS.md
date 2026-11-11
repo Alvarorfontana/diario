@@ -20,3 +20,7 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Reglas del proyecto
+
+Las reglas de Diario Federal están en `CLAUDE.md` y el estado del trabajo en `PROGRESO.md`. Leer los dos antes de empezar.
