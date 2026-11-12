@@ -5,7 +5,7 @@ description: "Lima colocó US$4.500 millones a 12 y 30 años con pedidos por má
 heroImage: "/uploads/2026-11-12-luis-caputo.jpg"
 imageCaption: "El ministro de Economía, Luis Caputo, en conferencia de prensa. Foto: Diario Federal."
 section: economia
-author: "Redacción"
+author: "Ramiro De la Puente"
 pubDate: 2026-11-12T15:30:00-03:00
 tags:
   - Riesgo país
