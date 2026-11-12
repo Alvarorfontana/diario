@@ -159,9 +159,31 @@ async def sintetizar(texto: str, destino: Path) -> None:
 
     with tempfile.TemporaryDirectory() as tmp:
         crudo = Path(tmp) / "voz.mp3"
-        ultimo_error = None
-        if VOZ == "clonada":
-            # Voz clonada de Álvaro (ver scripts/voz_clonada.py). Si falla, se lee con Tomás.
+
+        if VOZ == "qwen":
+            # La inferencia Qwen corre en un servidor GPU privado; Actions sólo
+            # envía el texto y recibe WAV. El token nunca llega al navegador.
+            import requests
+            endpoint = os.environ.get("TTS_API_URL", "").rstrip("/")
+            token = os.environ.get("TTS_API_TOKEN", "")
+            if not endpoint or not token:
+                raise RuntimeError("faltan los secretos TTS_API_URL o TTS_API_TOKEN")
+            crudo = Path(tmp) / "voz-qwen.wav"
+            respuesta = requests.post(
+                f"{endpoint}/v1/synthesize",
+                json={"text": texto, "language": "Spanish"},
+                headers={"Authorization": f"Bearer {token}", "Accept": "audio/wav"},
+                timeout=(20, 1800),
+            )
+            respuesta.raise_for_status()
+            if "audio/wav" not in respuesta.headers.get("Content-Type", ""):
+                raise RuntimeError("el servicio Qwen no devolvió un WAV")
+            if len(respuesta.content) < 1000:
+                raise RuntimeError("el servicio Qwen devolvió un audio vacío")
+            crudo.write_bytes(respuesta.content)
+
+        elif VOZ == "clonada":
+            # Compatibilidad temporal con el adaptador Chatterbox anterior.
             try:
                 sys.path.insert(0, str(Path(__file__).resolve().parent))
                 import voz_clonada
@@ -170,26 +192,31 @@ async def sintetizar(texto: str, destino: Path) -> None:
             except Exception as e:
                 print(f"  Voz clonada no disponible ({e}); se usa Tomás.")
                 crudo = Path(tmp) / "voz.mp3"
-        voz_edge = "es-AR-TomasNeural" if VOZ == "clonada" else VOZ
+
         if crudo.suffix == ".mp3":
+            voz_edge = "es-AR-TomasNeural" if VOZ == "clonada" else VOZ
+            ultimo_error = None
             for intento in range(3):
                 try:
-                    # Límite por intento: si la conexión se cuelga, se corta y se reintenta
                     await asyncio.wait_for(edge_tts.Communicate(texto, voz_edge).save(str(crudo)), timeout=240)
                     if crudo.exists() and crudo.stat().st_size > 1000:
                         break
-                except Exception as e:  # la conexión a veces se corta: reintentar
+                except Exception as e:
                     ultimo_error = e
                 await asyncio.sleep(3 * (intento + 1))
             else:
                 raise RuntimeError(f"no se pudo generar la voz: {ultimo_error}")
 
-        # Achicar: mono, 32 kbps
+        # MP3 compacto: mono, 24 kHz, 32 kbps (~240 KB por minuto).
+        temporal_mp3 = Path(tmp) / "audio-final.mp3"
         subprocess.run(
             ["ffmpeg", "-y", "-loglevel", "error", "-i", str(crudo),
-             "-ac", "1", "-b:a", BITRATE, "-ar", "24000", str(destino)],
+             "-ac", "1", "-b:a", BITRATE, "-ar", "24000", str(temporal_mp3)],
             check=True,
         )
+        if not temporal_mp3.exists() or temporal_mp3.stat().st_size < 1000:
+            raise RuntimeError("la compresión MP3 produjo un archivo inválido")
+        temporal_mp3.replace(destino)
 
 
 def duracion(ruta: Path) -> int:
