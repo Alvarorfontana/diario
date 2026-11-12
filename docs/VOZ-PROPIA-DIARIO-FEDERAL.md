@@ -80,3 +80,35 @@ La presentación ya escrita para Diario Federal puede servir como guion; falta r
 - [ ] Implementar el cliente HTTP del servicio en el pipeline, sin instalar modelos pesados en GitHub Actions.
 - [ ] Añadir pruebas automáticas para errores, textos largos y preservación de audios existentes.
 - [ ] Aprobar la muestra de voz antes de habilitar la opción en producción.
+
+
+## Integración Qwen añadida en la rama de trabajo
+
+Se agregó una primera integración por HTTP:
+
+- `services/qwen-tts/server.py`: servicio FastAPI privado que carga Qwen3-TTS 12Hz 1.7B Base en GPU, prepara una vez el prompt de clonación y sintetiza el texto en fragmentos.
+- `services/qwen-tts/requirements.txt`: dependencias del servicio.
+- `scripts/generar-audios.py`: opción `VOZ=qwen`, que llama al servicio privado, recibe WAV y lo comprime a MP3 mono 24 kHz / 32 kbps.
+- `.github/workflows/audio-notas.yml`: opción manual `qwen` y lectura de los secretos `TTS_API_URL` y `TTS_API_TOKEN`. No instala el modelo dentro de GitHub Actions.
+
+### Configuración necesaria en el servidor GPU
+
+Variables obligatorias del servicio:
+
+- `TTS_API_TOKEN`: token aleatorio largo.
+- `VOICE_REFERENCE_PATH`: ruta privada al WAV de referencia.
+- `VOICE_REFERENCE_TEXT`: transcripción exacta de esa grabación.
+- Opcionales: `QWEN_MODEL` (por defecto `Qwen/Qwen3-TTS-12Hz-1.7B-Base`), `QWEN_DEVICE` (por defecto `cuda:0`), `TTS_MAX_CHARS` (por defecto 280).
+
+El servicio se inicia con `uvicorn server:app --host 0.0.0.0 --port 8000`, detrás de HTTPS y firewall. No exponer el puerto directamente a Internet sin proxy TLS y controles de acceso. La GPU debe soportar CUDA y bfloat16; FlashAttention 2 debe estar disponible para la configuración indicada.
+
+Secretos necesarios en GitHub Actions:
+
+- `TTS_API_URL`: URL HTTPS del servicio.
+- `TTS_API_TOKEN`: el mismo token configurado en el servidor.
+
+### Estado real y límites
+
+La integración de código está preparada, pero **no está operativa todavía**: falta desplegar el servicio en una GPU, cargar de forma privada la grabación de Álvaro y configurar los dos secretos de GitHub. No seleccionar `qwen` en producción antes de completar esos pasos y aprobar una muestra. Si el servicio falla, la tarea falla sin sustituir ni borrar el MP3 anterior.
+
+La generación larga se divide en fragmentos dentro del servicio y se concatena antes de la compresión MP3. Hay que probar continuidad de timbre y pausas en notas extensas antes de habilitar la opción para publicaciones automáticas.
