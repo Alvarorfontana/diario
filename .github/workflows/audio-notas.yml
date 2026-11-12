@@ -25,6 +25,7 @@ on:
           - es-AR-TomasNeural
           - es-AR-ElenaNeural
           - clonada
+          - qwen
 
 permissions:
   contents: write
@@ -50,7 +51,7 @@ jobs:
 
       - name: Instalar herramientas
         run: |
-          pip install edge-tts pyyaml
+          pip install edge-tts pyyaml requests
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
 
       # Voz clonada de Álvaro (Chatterbox, MIT): sólo se instala si se eligió esa voz
@@ -69,6 +70,8 @@ jobs:
           TODAS: ${{ inputs.todas && '1' || '' }}
           VOZ_CLAVE: ${{ secrets.VOZ_CLAVE }}
           VOZ_REFERENCIA_B64: ${{ secrets.VOZ_REFERENCIA_B64 }}
+          TTS_API_URL: ${{ secrets.TTS_API_URL }}
+          TTS_API_TOKEN: ${{ secrets.TTS_API_TOKEN }}
         run: python scripts/generar-audios.py
 
       - name: Guardar en el repositorio
