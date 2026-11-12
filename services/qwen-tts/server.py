@@ -35,7 +35,7 @@ class SynthesisRequest(BaseModel):
 
 
 def split_text(text: str, limit: int = MAX_CHARS):
-    sentences = re.split(r"(?<=[.!?;:])\\s+", re.sub(r"\\s+", " ", text.strip()))
+    sentences = re.split(r"(?<=[.!?;:])\s+", re.sub(r"\s+", " ", text.strip()))
     chunks, current = [], ""
     for sentence in sentences:
         while len(sentence) > limit:
