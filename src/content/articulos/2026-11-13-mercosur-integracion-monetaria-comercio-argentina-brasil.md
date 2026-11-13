@@ -5,8 +5,8 @@ description: "La depreciación del real vuelve a poner en evidencia las diferenc
 section: economia
 author: Ramiro De la Puente
 pubDate: 2026-11-13T14:00:00-03:00
-heroImage: /uploads/2026-10-28-cumbre-presidentes-brasil-argentina.jpg
-imageCaption: "Argentina y Brasil, los principales socios del Mercosur. La integración regional es una herramienta estratégica para ampliar mercados, fortalecer la producción y mejorar la capacidad de negociación internacional. Imagen de archivo."
+heroImage: https://i0.hippopx.com/photos/529/587/593/countries-flags-argentina-bolivia-preview.jpg
+imageCaption: "Las banderas de Argentina, Bolivia, Brasil, Paraguay y Uruguay, países miembros del Mercosur. Fotografía: Hippopx, licencia CC0 (dominio público)."
 draft: false
 tapa: false
 tags:
