@@ -218,3 +218,12 @@ img { background-color: #eeeeee; }
 /* Páginas internas (Brasil 2026, Contexto Político, legales, etc.): mismos titulares que la portada */
 main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .um-banner { border-radius: 999px; padding: 8px 16px; letter-spacing: 0.12em; }
+
+/* Tablas dentro de las notas (comparaciones por país, series) */
+.prose-articulo .tabla-nota { overflow-x: auto; margin: 1.6em 0; -webkit-overflow-scrolling: touch; }
+.prose-articulo table { width: 100%; border-collapse: collapse; font-family: var(--font-sans); font-size: 0.92rem; line-height: 1.35; }
+.prose-articulo th, .prose-articulo td { padding: 0.55em 0.7em; border-bottom: 1px solid #e5e5e5; text-align: left; vertical-align: top; }
+.prose-articulo thead th { border-bottom: 2px solid #171717; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #525252; white-space: nowrap; }
+.prose-articulo td:not(:first-child), .prose-articulo th:not(:first-child) { text-align: right; white-space: nowrap; }
+.prose-articulo tbody tr:nth-child(even) { background: #fafafa; }
+.prose-articulo td:first-child, .prose-articulo th:first-child { min-width: 9.5rem; hyphens: none; -webkit-hyphens: none; word-break: normal; }
