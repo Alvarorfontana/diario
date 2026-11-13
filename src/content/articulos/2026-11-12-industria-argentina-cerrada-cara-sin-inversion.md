@@ -1,13 +1,13 @@
 ---
 title: "Cerrada, cara y sin inversión: por qué la industria argentina cae más que en casi todo el mundo"
 volanta: "INFORME ESPECIAL | ARGENTINA FRENTE AL MUNDO"
-description: "Mientras Brasil, Chile, Perú, Colombia y España suman empleo industrial, la Argentina perdió 7,1 % en dos años y quedó 97.ª entre 106 países. Desde noviembre de 2023 la producción fabril cayó 7,4 %, las plantas usan el 58 % de sus máquinas y la industria tiene 4.324 empleadores y 108.000 trabajadores menos. Un relevamiento de Diario Federal que compara al país con hasta 217 naciones en 61 variables muestra que la caída no viene de afuera."
+description: "Mientras Brasil, Chile, Perú, Colombia y España suman empleo industrial, la Argentina perdió 7,1 % en dos años y quedó 97.ª entre 106 países. Desde noviembre de 2023 la producción fabril cayó 7,4 %, las plantas usan el 58 % de sus máquinas y la industria perdió 90.924 puestos de trabajo registrados y 4.324 empleadores. Un relevamiento de Diario Federal que compara al país con hasta 217 naciones en 61 variables muestra que la caída no viene de afuera."
 section: economia
 author: "Ramiro De la Puente"
 region: nacional
 pubDate: 2026-11-12T21:30:00-03:00
 heroImage: /uploads/2026-11-04-pauny-tractor-bravo-planta.jpg
-imageCaption: "Un tractor Pauny Bravo en la planta de Las Varillas, Córdoba, la única fábrica nacional de tractores de capitales argentinos. Mientras la región suma empleo industrial, la industria argentina perdió 108.000 puestos desde noviembre de 2023. Foto: Maquinac."
+imageCaption: "Un tractor Pauny Bravo en la planta de Las Varillas, Córdoba, la única fábrica nacional de tractores de capitales argentinos. Mientras la región suma empleo industrial, la industria argentina perdió 90.924 puestos registrados desde noviembre de 2023. Foto: Maquinac."
 tags:
   - Industria
   - Empleo
@@ -17,9 +17,9 @@ tags:
   - Comercio exterior
 puntosClave:
   - "El empleo industrial argentino cayó 7,1 % en dos años: puesto 97 entre 106 países. Brasil sumó 3,6 %, Chile 2,1 % y Colombia 6 %."
-  - "Según la SRT, desde noviembre de 2023 la industria tiene 4.324 empleadores (-8,7 %) y 108.000 trabajadores (-8,9 %) menos."
+  - "Desde noviembre de 2023 la industria perdió 90.924 puestos registrados (-7,6 %, SIPA) y 4.324 empleadores (-8,7 %, SRT)."
   - "Inversión, crédito, inflación y comercio exterior: la Argentina está en el fondo de la tabla mundial en las variables que explican la caída."
-resumenCompartir: "La industria argentina, a contramano del mundo: 97.ª de 106 en empleo industrial, 4.324 empleadores y 108.000 puestos menos desde 2023."
+resumenCompartir: "La industria argentina, a contramano del mundo: 97.ª de 106 en empleo industrial, 90.924 puestos y 4.324 empleadores menos desde 2023."
 ---
 
 ## El ranking
@@ -57,24 +57,24 @@ El último dato del INDEC, de septiembre, confirma la tendencia: la producción 
   <figcaption>Producción industrial (IPI) y asalariados registrados en la industria, 2016-2026. Fuente: INDEC y SIPA, Secretaría de Trabajo (OEDE). Elaboración: MIDTM · Diario Federal.</figcaption>
 </figure>
 
-### 4.324 industrias menos y 108.000 puestos perdidos
+### 90.924 puestos y 4.324 empleadores menos
 
-La serie histórica de la SRT por sector de actividad permite separar la industria del resto. Entre noviembre de 2023 y julio de 2026, la industria manufacturera pasó de **49.622 a 45.298 empleadores asegurados**: 4.324 menos (-8,7 %). Las personas trabajadoras cubiertas en la industria cayeron de 1.215.092 a 1.107.092: **108.000 puestos menos (-8,9 %)**. En número de puestos, es la rama que más empleo perdió en todo el país, por delante de la construcción (-81.089) y del transporte (-72.737).
+Según el Sistema Integrado Previsional Argentino (SIPA), entre noviembre de 2023 y julio de 2026 la industria manufacturera pasó de 1.193.950 a 1.103.026 asalariados registrados: **90.924 puestos menos (-7,6 %)**. Es la rama que más empleo perdió en todo el sector privado, por delante de la construcción (-64.083) y del transporte (-27.255). En el conjunto del sector privado la caída fue de 265.765 puestos (-4,2 %): uno de cada tres empleos perdidos fue industrial.
 
-En toda la economía, en el mismo período, los empleadores con personal registrado pasaron de 512.357 a 480.067 (**-32.290, -6,3 %**) y las personas trabajadoras en unidades productivas, de 9.857.173 a 9.419.562 (**-437.611, -4,4 %**).
+La serie de la Superintendencia de Riesgos del Trabajo (SRT) por sector de actividad muestra el otro lado: las empresas. En el mismo período, la industria pasó de **49.622 a 45.298 empleadores asegurados**, 4.324 menos (-8,7 %). En toda la economía, los empleadores con personal registrado bajaron de 512.357 a 480.067 (-32.290, -6,3 %).
 
 <div class="tabla-nota">
 
-| SRT, unidades productivas | Noviembre de 2023 | Julio de 2026 | Cambio |
+| Noviembre de 2023 a julio de 2026 | Noviembre de 2023 | Julio de 2026 | Cambio |
 |---|---|---|---|
-| **Industria manufacturera: empleadores** | 49.622 | 45.298 | **-4.324 (-8,7 %)** |
-| **Industria manufacturera: trabajadores** | 1.215.092 | 1.107.092 | **-108.000 (-8,9 %)** |
-| Toda la economía: empleadores con personal | 512.357 | 480.067 | -32.290 (-6,3 %) |
-| Toda la economía: trabajadores | 9.857.173 | 9.419.562 | -437.611 (-4,4 %) |
+| **Industria: asalariados registrados (SIPA)** | 1.193.950 | 1.103.026 | **-90.924 (-7,6 %)** |
+| Todo el sector privado: asalariados registrados (SIPA) | 6.372.561 | 6.106.796 | -265.765 (-4,2 %) |
+| **Industria: empleadores (SRT)** | 49.622 | 45.298 | **-4.324 (-8,7 %)** |
+| Toda la economía: empleadores con personal (SRT) | 512.357 | 480.067 | -32.290 (-6,3 %) |
 
 </div>
 
-La industria pierde empresas y empleo más rápido que el promedio: -8,7 % de empleadores contra -6,3 %, y -8,9 % de trabajadores contra -4,4 %. Que un empleador deje de figurar no siempre significa que cerró: puede haberse quedado sin personal declarado. El SIPA, que mide asalariados registrados y no personas cubiertas por una aseguradora, da para la industria una caída de 90.924 puestos en el mismo período. Son dos registros oficiales distintos y los dos marcan la misma caída.
+La industria pierde empleo y empresas más rápido que el promedio: -7,6 % de puestos contra -4,2 %, y -8,7 % de empleadores contra -6,3 %. Que un empleador deje de figurar no siempre significa que cerró: puede haberse quedado sin personal declarado.
 
 ## Afuera caen los que exportan. Acá cae un país cerrado
 
@@ -239,7 +239,7 @@ La estructura está. Lo que muestran los datos es que, desde 2023, se achica má
 - **Organización Internacional del Trabajo**, ILOSTAT: cambio del empleo industrial en dos años ([EMP_TEMP_SEX_ECO_NB_A](https://ilostat.ilo.org/data/?indicator=EMP_TEMP_SEX_ECO_NB_A)), informalidad en la industria ([SDG_0831_SEX_ECO_RT_A](https://ilostat.ilo.org/data/?indicator=SDG_0831_SEX_ECO_RT_A)), participación de los salarios en el PIB ([LAP_2GDP_NOC_RT_A](https://ilostat.ilo.org/data/?indicator=LAP_2GDP_NOC_RT_A)), negociación colectiva y afiliación sindical.
 - **CEPAL**, CEPALSTAT: salario mínimo real, [productividad laboral](https://statistics.cepal.org/portal/cepalstat/dashboard.html?indicator_id=5556&lang=es) y [pobreza](https://statistics.cepal.org/portal/cepalstat/dashboard.html?indicator_id=3347&lang=es).
 - **INDEC**, API de Series de Tiempo (datos.gob.ar): IPI manufacturero, IPI siderúrgico y utilización de la capacidad instalada; [informe del IPI manufacturero de septiembre de 2026](https://www.indec.gob.ar/uploads/informesdeprensa/ipi_manufacturero_11_2630BE216D2B.pdf).
-- **SIPA**, Secretaría de Trabajo, Observatorio de Empleo y Dinámica Empresarial (OEDE): asalariados registrados en el sector privado por rama de actividad, serie desestacionalizada, julio de 2026.
-- **Superintendencia de Riesgos del Trabajo (SRT)**, Departamento de Estudios Estadísticos: [serie histórica de cobertura según sector económico (CIIU 4.ª revisión), unidades productivas](https://www.srt.gob.ar/estadisticas/cf_serie_historica_up.php), cuadros 2.1 y 2.2, enero de 2019 a julio de 2026.
+- **SIPA**, Secretaría de Trabajo, Observatorio de Empleo y Dinámica Empresarial (OEDE): asalariados registrados en el sector privado por rama de actividad, serie desestacionalizada (cuadro A.2.2), julio de 2026.
+- **Superintendencia de Riesgos del Trabajo (SRT)**, Departamento de Estudios Estadísticos: [serie histórica de cobertura según sector económico (CIIU 4.ª revisión), unidades productivas](https://www.srt.gob.ar/estadisticas/cf_serie_historica_up.php), cuadro 2.2 (parte empleadora asegurada), enero de 2019 a julio de 2026.
 
 **Método:** para cada variable se ordena a todos los países con dato según convenga un valor alto (producción, empleo, inversión) o bajo (inflación, desempleo, informalidad), con el último valor de cada país en los últimos tres años, mayormente 2024 y 2025. El puesto se traduce en un puntaje de 0 a 100 (0 = el peor país, 100 = el mejor). Los promedios por área y el índice general promedian posiciones, nunca valores, y todas las variables pesan igual. Como los organismos internacionales publican con demora, la evolución 2023-2026 se mide con las series del INDEC, el SIPA y la SRT. El índice es orientativo.
