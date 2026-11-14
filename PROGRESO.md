@@ -17,7 +17,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## Registro
 
 ### 2026-11-14
-- Portada más limpia (pedido de Álvaro): secciones en menú desplegable (☰) con pocas entradas (Internacional, Argentina, Economía, Opinión + especiales Brasil 2026, Flash, Boletín, Canal, Contexto Político); Deportes, Cultura y Tecnología salen del menú/pie pero se pueden seguir cargando y sus notas van al montón de la portada. "Por sección" pasa a "Más noticias". Sin fechas visibles en notas (quedan en metadatos para Google). Fecha del día chiquita en gris junto al logo (14/11/26, automática). Sin títulos sobre fotos: tapa, destacadas y apertura de sección con foto limpia y título abajo.
+- Portada más limpia (pedido de Álvaro): secciones en menú desplegable (☰) con pocas entradas (Internacional, Argentina, Economía, Opinión + especiales Brasil 2026, Flash, Boletín, Canal, Contexto Político); Deportes, Cultura y Tecnología salen del menú/pie pero se pueden seguir cargando y sus notas van al montón de la portada. "Por sección" pasa a "Más noticias". Sin fechas visibles en notas (quedan en metadatos para Google). Logo centrado y fecha del día en franja finita debajo ("14 nov 2026", automática, estilo El País/NYT). Sin títulos sobre fotos: tapa, destacadas y apertura de sección con foto limpia y título abajo.
 - Flash de último momento (~30 s): "UOM: Bonetti le responde a Mariano Martín y defiende la paritaria", con frases de su nota del 13/11. Voz Tomás, diseño Noticiero. Publicado en /flash (dura 41 s).
 
 ### 2026-11-13
