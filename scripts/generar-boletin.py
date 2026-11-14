@@ -20,7 +20,7 @@ VOICE = "es-AR-TomasNeural"
 MAX_ITEMS = 6
 RATE = "+22%"
 SAMPLE_RATE = 24000
-MUSIC = ROOT / "public/flash/musica/starostin.mp3"
+MUSIC = ROOT / "public/flash/musica/paulyudin.mp3"
 
 
 def clean(s):
