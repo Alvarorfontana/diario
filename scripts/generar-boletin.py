@@ -59,20 +59,40 @@ def clean(s):
     s = re.sub(r"https?://\S+", "", s)
     return re.sub(r"\s+", " ", s).strip()
 
+def concise_text(text, max_words=42):
+    # Recorta descripciones extensas para mantener un boletín ágil y escuchable.
+    text = clean(text)
+    sentences = re.split(r"(?<=[.!?])\\s+", text)
+    selected = []
+    words = 0
+    for sentence in sentences:
+        count = len(sentence.split())
+        if not sentence or words + count > max_words:
+            break
+        selected.append(sentence)
+        words += count
+    if not selected:
+        selected = [" ".join(text.split()[:max_words])]
+    result = " ".join(selected).strip()
+    if result and result[-1] not in ".!?":
+        result += "."
+    return result
+
 def build_script(items, date_label):
     parts = [
-        "Diario Federal. Boletín informativo.",
-        "La información argentina y del mundo, en una mirada nacional y federal.",
-        "Estas son las seis noticias principales de la edición de hoy."
+        "Diario Federal presenta su boletín informativo.",
+        "Un repaso ágil de las noticias más importantes de la Argentina y el mundo.",
+        "Comenzamos."
     ]
     for i, item in enumerate(items, 1):
-        parts.append(f"Noticia {i}. {item['section']}. {item['title']}.")
-        if item["description"]:
-            parts.append(item["description"])
-        if item["points"]:
-            parts.append(item["points"][0])
-    parts.append("Hasta aquí el boletín informativo de Diario Federal. La información continúa en diariofederal punto com punto ar. Diario Federal. Periodismo con mirada nacional y federal.")
-    return "\n\n".join(parts)
+        parts.append(f"Titular {i}. {item['title']}.")
+        summary = concise_text(item["description"], 38) if item["description"] else ""
+        if summary:
+            parts.append(summary)
+        elif item["points"]:
+            parts.append(concise_text(item["points"][0], 32))
+    parts.append("Este fue el boletín de Diario Federal. Más información en diariofederal punto com punto ar. Hasta el próximo encuentro.")
+    return "\\n\\n".join(parts)
 
 async def main():
     OUT.mkdir(parents=True, exist_ok=True)
@@ -90,7 +110,7 @@ async def main():
     target = OUT / name
     with tempfile.TemporaryDirectory() as tmp:
         voice_file = Path(tmp) / "voz.mp3"
-        await edge_tts.Communicate(script, VOICE, rate="-3%", volume="+0%").save(str(voice_file))
+        await edge_tts.Communicate(script, VOICE, rate="+12%", volume="+0%").save(str(voice_file))
         # Cortina instrumental ambiental original, sintetizada localmente con FFmpeg.
         # No se descarga música ni se incorporan grabaciones con derechos de terceros.
         probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -98,10 +118,10 @@ async def main():
                                capture_output=True, text=True, check=True)
         duration = float(probe.stdout.strip())
         bed = Path(tmp) / "cortina.wav"
-        tone = "0.012*sin(2*PI*220*t)+0.010*sin(2*PI*261.63*t)+0.009*sin(2*PI*329.63*t)+0.006*sin(2*PI*392*t)"
+        tone = "0.055*sin(2*PI*220*t)+0.045*sin(2*PI*261.63*t)+0.038*sin(2*PI*329.63*t)+0.028*sin(2*PI*392*t)+0.012*sin(2*PI*110*t)"
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i",
                         f"aevalsrc='{tone}':s=24000:d={duration:.3f}",
-                        "-af", "lowpass=f=900,afade=t=in:st=0:d=2,afade=t=out:st=" + str(max(0,duration-3)) + ":d=3",
+                        "-af", "lowpass=f=1100,afade=t=in:st=0:d=2,afade=t=out:st=" + str(max(0,duration-3)) + ":d=3",
                         str(bed)], check=True)
         subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", str(voice_file), "-i", str(bed),
                         "-filter_complex", "[0:a]volume=1.0[v];[1:a]volume=0.22[m];[v][m]amix=inputs=2:duration=first:dropout_transition=2",
