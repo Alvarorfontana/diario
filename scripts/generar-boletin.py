@@ -21,6 +21,7 @@ MAX_ITEMS = 6
 RATE = "+22%"
 SAMPLE_RATE = 24000
 MUSIC = ROOT / "public/flash/musica/paulyudin.mp3"
+MUSIC_TEMPO = 1.25  # cortina más ágil, ritmo de noticiero
 
 
 def clean(s):
@@ -136,7 +137,7 @@ async def main():
     today = dt.datetime.now(dt.timezone.utc).astimezone(dt.timezone(dt.timedelta(hours=-3)))
     date_label = today.strftime("%d/%m/%Y")
     script = build_script(items)
-    digest = hashlib.sha256((script + RATE).encode()).hexdigest()[:12]
+    digest = hashlib.sha256((script + RATE + MUSIC.name + str(MUSIC_TEMPO)).encode()).hexdigest()[:12]
     name = f"boletin-principal-{today:%Y-%m-%d}-{digest}.mp3"
     target = OUT / name
 
@@ -158,10 +159,10 @@ async def main():
             "ffmpeg", "-y", "-v", "error",
             "-i", str(MUSIC), "-i", str(voice_file),
             "-filter_complex",
-            "[0:a]aloop=loop=-1:size=2e9,atrim=0:" + str(total_duration) + ",aresample=24000,"
+            "[0:a]atempo=" + str(MUSIC_TEMPO) + ",aloop=loop=-1:size=2e9,atrim=0:" + str(total_duration) + ",aresample=24000,"
             "volume=0.42,afade=t=out:st=" + str(max(0, total_duration - 2.2)) + ":d=2.2[bg];"
-            "[1:a]adelay=1500|1500,loudnorm=I=-16:TP=-1.5:LRA=7[v];"
-            "[bg][v]sidechaincompress=threshold=0.025:ratio=8:attack=25:release=500:makeup=1[duck];"
+            "[1:a]adelay=1500|1500,loudnorm=I=-16:TP=-1.5:LRA=7,asplit=2[v][vsc];"
+            "[bg][vsc]sidechaincompress=threshold=0.025:ratio=8:attack=25:release=500:makeup=1[duck];"
             "[duck][v]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.95,"
             "loudnorm=I=-16:TP=-1.5:LRA=9[out]",
             "-map", "[out]", "-ac", "2", "-ar", str(SAMPLE_RATE), "-b:a", "128k", str(target)
