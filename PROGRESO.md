@@ -16,6 +16,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Registro
 
+### 2026-11-13
+- Nota de opinión: "Mariano Martín: periodismo sin código de ética profesional" (Roberto Bonetti, UOM Seccional Capital). Texto textual del PDF, foto cedida por Álvaro. Bonetti sumado a AUTORES con foto de firma.
+
 ### 2026-11-11
 - Nota de tapa: "León XIV se despidió en Luján" (Emilio Lahitte). Salió sin foto; Álvaro sube la de Vatican News desde
   `/admin` con su epígrafe.
