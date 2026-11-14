@@ -4,12 +4,9 @@ import asyncio
 import datetime as dt
 import hashlib
 import json
-import math
 import re
-import struct
 import subprocess
 import tempfile
-import wave
 from pathlib import Path
 
 import yaml
@@ -23,6 +20,7 @@ VOICE = "es-AR-TomasNeural"
 MAX_ITEMS = 6
 RATE = "+22%"
 SAMPLE_RATE = 24000
+MUSIC = ROOT / "public/flash/musica/starostin.mp3"
 
 
 def clean(s):
@@ -84,64 +82,46 @@ def concise_text(text, max_words=30):
 
 
 def build_script(items):
+    """Guion de flash: titulares encadenados, sin enumeración ni rótulos mecánicos."""
     parts = [
-        "Diario Federal. La información, en primer plano.",
-        "Estos son los principales títulos.",
+        "Diario Federal. Flash informativo.",
+        "Las noticias más importantes, en un instante.",
     ]
-    for i, item in enumerate(items, 1):
-        parts.append(f"Titular {i}. {item['title']}.")
-    parts.append("Ahora, las noticias.")
-    for i, item in enumerate(items, 1):
-        section = item["section"].replace("-", " ")
-        parts.append(f"En {section}.")
-        summary = concise_text(item["description"], 30) if item["description"] else ""
+    transitions = [
+        "Vamos con la información.",
+        "En el plano económico.",
+        "Por otra parte, en la Argentina.",
+        "En el escenario internacional.",
+        "Y atención a este tema.",
+        "Además, durante la jornada.",
+    ]
+    for i, item in enumerate(items):
+        section = item["section"].lower().replace("-", " ").strip()
+        if i == 0:
+            lead = "Comenzamos con"
+        else:
+            lead = transitions[min(i, len(transitions) - 1)]
+        title = item["title"].rstrip(".")
+        summary = concise_text(item["description"], 34) if item["description"] else ""
         if not summary and item["points"]:
-            summary = concise_text(item["points"][0], 26)
-        if summary:
+            summary = concise_text(item["points"][0], 30)
+        if section in ("economia", "economía") and i > 0:
+            lead = "En economía,"
+        elif section in ("argentina", "política", "politica") and i > 0:
+            lead = "En la Argentina,"
+        elif section in ("mundo", "internacional") and i > 0:
+            lead = "En el plano internacional,"
+        if i == 0:
+            parts.append(f"{lead}: {title}.")
+        else:
+            parts.append(f"{lead} {title}.")
+        if summary and summary.rstrip(".") != title:
             parts.append(summary)
     parts.append(
-        "Hasta aquí el boletín de Diario Federal. "
-        "Más información, durante toda la jornada, en diariofederal punto com punto ar."
+        "Este fue el flash informativo de Diario Federal. "
+        "La información sigue en diariofederal punto com punto ar."
     )
-    return " ".join(parts)
-
-
-def make_music(path, duration):
-    """Cortina musical original: acordes cálidos, bajo pulsante y acentos rítmicos."""
-    sr = SAMPLE_RATE
-    total = int(sr * duration)
-    chords = [
-        (261.63, 329.63, 392.00),  # Do
-        (220.00, 261.63, 329.63),  # La menor
-        (174.61, 220.00, 261.63),  # Fa
-        (196.00, 246.94, 293.66),  # Sol
-    ]
-    with wave.open(str(path), "wb") as wav:
-        wav.setnchannels(1)
-        wav.setsampwidth(2)
-        wav.setframerate(sr)
-        frames = bytearray()
-        for start in range(0, total, 2048):
-            block = min(2048, total - start)
-            for j in range(block):
-                n = start + j
-                t = n / sr
-                chord = chords[int(t // 3.0) % len(chords)]
-                # Pad armónico suave, con movimiento para evitar un tono plano.
-                pad = sum(math.sin(2 * math.pi * f * t) for f in chord) / 3
-                shimmer = 0.22 * math.sin(2 * math.pi * chord[2] * 2 * t)
-                # Bajo marcado cada medio segundo y pequeño acento tipo pulso radial.
-                beat_phase = t % 0.545
-                beat = math.sin(2 * math.pi * 65.41 * t) * math.exp(-beat_phase * 9) if beat_phase < 0.24 else 0
-                tick_phase = t % 1.09
-                tick = math.sin(2 * math.pi * 1046.5 * t) * math.exp(-tick_phase * 30) if tick_phase < 0.055 else 0
-                fade_in = min(1.0, t / 1.2)
-                fade_out = min(1.0, max(0.0, (duration - t) / 1.8))
-                sample = (0.46 * pad + 0.08 * shimmer + 0.20 * beat + 0.035 * tick) * fade_in * fade_out
-                sample = max(-0.85, min(0.85, sample))
-                frames.extend(struct.pack("<h", int(sample * 32767)))
-            wav.writeframesraw(frames)
-            frames.clear()
+    return " ... ".join(parts)
 
 
 async def main():
@@ -162,7 +142,6 @@ async def main():
 
     with tempfile.TemporaryDirectory() as tmp:
         voice_file = Path(tmp) / "voz.mp3"
-        music_file = Path(tmp) / "cortina.wav"
         await edge_tts.Communicate(script, VOICE, rate=RATE, volume="+0%").save(str(voice_file))
         probe = subprocess.run(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -170,17 +149,22 @@ async def main():
             capture_output=True, text=True, check=True
         )
         voice_duration = float(probe.stdout.strip())
-        make_music(music_file, voice_duration + 2.0)
-        # Dos segundos de identificación musical; luego la voz entra sobre la cortina.
+        if not MUSIC.exists():
+            raise SystemExit(f"No se encuentra la cortina oficial del flash: {MUSIC}")
+        total_duration = voice_duration + 1.5
+        # Se usa la misma música del flash noticiero de Diario Federal.
+        # Arranca sola, sostiene el ritmo y baja automáticamente debajo de la locución.
         subprocess.run([
             "ffmpeg", "-y", "-v", "error",
-            "-i", str(voice_file), "-i", str(music_file),
+            "-i", str(MUSIC), "-i", str(voice_file),
             "-filter_complex",
-            "[0:a]adelay=1600|1600,loudnorm=I=-16:TP=-1.5:LRA=7[v];"
-            "[1:a]volume=0.34,afade=t=out:st=" + str(max(0, voice_duration - 1)) + ":d=2[m];"
-            "[m][v]amix=inputs=2:duration=longest:dropout_transition=1,"
-            "loudnorm=I=-16:TP=-1.5:LRA=7[out]",
-            "-map", "[out]", "-ac", "1", "-ar", str(SAMPLE_RATE), "-b:a", "96k", str(target)
+            "[0:a]aloop=loop=-1:size=2e9,atrim=0:" + str(total_duration) + ",aresample=24000,"
+            "volume=0.42,afade=t=out:st=" + str(max(0, total_duration - 2.2)) + ":d=2.2[bg];"
+            "[1:a]adelay=1500|1500,loudnorm=I=-16:TP=-1.5:LRA=7[v];"
+            "[bg][v]sidechaincompress=threshold=0.025:ratio=8:attack=25:release=500:makeup=1[duck];"
+            "[duck][v]amix=inputs=2:duration=longest:normalize=0,alimiter=limit=0.95,"
+            "loudnorm=I=-16:TP=-1.5:LRA=9[out]",
+            "-map", "[out]", "-ac", "2", "-ar", str(SAMPLE_RATE), "-b:a", "128k", str(target)
         ], check=True)
         probe = subprocess.run(
             ["ffprobe", "-v", "error", "-show_entries", "format=duration",
@@ -202,7 +186,7 @@ async def main():
         "outro": "Más información durante toda la jornada en diariofederal.com.ar.",
     }
     MANIFEST.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"Generado {target} ({seconds}s), seis noticias, voz {VOICE}, ritmo {RATE}.")
+    print(f"Generado {target} ({seconds}s), seis noticias, cortina oficial del flash Diario Federal, voz {VOICE}, ritmo {RATE}.")
 
 
 if __name__ == "__main__":
