@@ -2,6 +2,7 @@
 """Genera el boletín diario de Diario Federal desde las seis notas publicadas más recientes.
 
 Requisitos gratuitos: edge-tts, PyYAML y ffmpeg. No usa API keys ni créditos.
+Ejecución manual o automática desde GitHub Actions para publicar la edición diaria.
 Solo toma artículos con draft=false; nunca lee borradores.
 """
 import asyncio
