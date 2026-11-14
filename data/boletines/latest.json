@@ -2,10 +2,10 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-14",
   "dateLabel": "14/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-14.mp3",
-  "duracion": 150,
+  "archivo": "/boletines/boletin-principal-2026-11-14-2f586879150d.mp3",
+  "duracion": 107,
   "voz": "es-AR-TomasNeural",
-  "hash": "d74c25d39b35",
+  "hash": "2f586879150d",
   "items": [
     {
       "slug": "mariano-martin-periodismo-sin-codigo-de-etica-profesional",
@@ -21,7 +21,7 @@
     },
     {
       "slug": "2026-11-12-milei-500-mercados-30-por-ciento-planeta",
-      "title": "Ni 500 países ni el 30 % del mundo: lo que esconden las cifras de Milei",
+      "title": "Ni 500 países ni el 30 por ciento del mundo: lo que esconden las cifras de Milei",
       "section": "argentina",
       "url": "/articulo/2026-11-12-milei-500-mercados-30-por-ciento-planeta/"
     },
@@ -44,6 +44,6 @@
       "url": "/articulo/2026-11-11-leon-xiv-lujan-argentina-levantate-y-camina/"
     }
   ],
-  "intro": "Diario Federal. Boletín informativo.",
-  "outro": "La información continúa en diariofederal.com.ar."
+  "intro": "Diario Federal. La información, en primer plano.",
+  "outro": "Más información durante toda la jornada en diariofederal.com.ar."
 }
