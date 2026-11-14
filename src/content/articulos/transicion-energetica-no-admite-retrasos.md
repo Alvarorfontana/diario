@@ -2,7 +2,7 @@
 title: 'La transición energética no admite más retrasos'
 description: 'Cada verano sin un plan ambicioso encarece la factura y agrava la emergencia climática. El acuerdo europeo es una oportunidad que no podemos desperdiciar.'
 section: opinion
-author: María Fernández
+author: "Redacción Federal"
 pubDate: 2026-08-21T06:00:00
 heroImage: 'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=1020&h=510&fit=crop'
 ---

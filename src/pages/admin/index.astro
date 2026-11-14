@@ -741,6 +741,7 @@ if (Astro.request.method === 'POST') {
 			if (region && Array.prototype.some.call($('region').options, function (o) { return o.value === region; })) $('region').value = region;
 			if (tema && tema !== 'General') $('tags').value = tema;
 			$('draft').checked = true;
+			if (reporte && reporte.autor) $('author').value = String(reporte.autor).replace(/\s+/g, ' ').trim().slice(0, 80); // firma asignada en el Centro
 			if (reporte) {
 				// Texto propio de la redacción + lista de fuentes consultadas
 				var parrafos = reporte.cuerpoHtml ? String(reporte.cuerpoHtml) : String(reporte.cuerpo || '').split(/\n\s*\n|\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean)

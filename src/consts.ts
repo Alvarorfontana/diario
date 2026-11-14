@@ -72,9 +72,11 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 		bio: 'Periodista.',
 		foto: '/columnistas/carlos-mendes.jpg',
 	},
-	'Alberto González': {
-		bio: 'Autor de ejemplo · Información internacional y política estadounidense.',
-		foto: 'https://i.pravatar.cc/160?img=12',
+	'Mesa Internacional': {
+		bio: 'Equipo de Diario Federal que sigue la política internacional, el Mercosur y la economía global.',
+	},
+	'Redacción Federal': {
+		bio: 'Equipo de Diario Federal que sigue la actualidad de las provincias y la política nacional.',
 	},
 };
 
