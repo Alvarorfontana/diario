@@ -33,7 +33,14 @@ const duracion = (s) => {
           <source src={latest.archivo} type="audio/mpeg" />
           Tu navegador no puede reproducir este audio.
         </audio>
-        <a class="mt-3 inline-flex text-sm font-semibold text-red-700 underline underline-offset-4" href={latest.archivo} download>Descargar boletín MP3</a>
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <a class="inline-flex text-sm font-semibold text-red-700 underline underline-offset-4" href={latest.archivo} download>Descargar boletín MP3</a>
+          <button id="compartir-boletin" type="button" class="inline-flex items-center gap-2 rounded-full bg-neutral-950 px-4 py-2.5 text-sm font-bold text-white hover:bg-red-700">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><path d="m8.6 10.7 6.8-4.4M8.6 13.3l6.8 4.4"></path></svg>
+            Compartir boletín
+          </button>
+          <span id="estado-compartir" class="text-xs text-neutral-500" aria-live="polite"></span>
+        </div>
         <div class="mt-6 border-t border-neutral-200 pt-5">
           <h3 class="text-sm font-bold text-neutral-900">Las seis noticias de esta edición</h3>
           <ol class="mt-3 space-y-3">
@@ -57,4 +64,28 @@ const duracion = (s) => {
     )}
     <p class="mt-8 text-xs text-neutral-500">Diario Federal · Periodismo con mirada nacional y federal.</p>
   </main>
+    <script>
+      const shareButton = document.getElementById("compartir-boletin");
+      const shareStatus = document.getElementById("estado-compartir");
+      shareButton?.addEventListener("click", async () => {
+        const audioUrl = new URL("/boletines/" + "boletin-principal-" + "2026-11-14.mp3", window.location.origin).href;
+        const shareData = {
+          title: "Boletín informativo · Diario Federal",
+          text: "Escuchá el boletín de Diario Federal.",
+          url: window.location.origin + ""
+        };
+        try {
+          if (navigator.share) {
+            await navigator.share(shareData);
+          } else if (navigator.clipboard) {
+            await navigator.clipboard.writeText(shareData.url);
+            shareStatus.textContent = "Enlace copiado para compartir.";
+          } else {
+            shareStatus.textContent = "Usá el enlace de esta página para compartir.";
+          }
+        } catch (error) {
+          if (error?.name !== "AbortError") shareStatus.textContent = "No se pudo abrir la opción de compartir.";
+        }
+      });
+    </script>
 </BaseLayout>
