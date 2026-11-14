@@ -1,5 +1,4 @@
 ---
-import FormattedDate from './FormattedDate.astro';
 import { nombreSeccion, SITE_TITLE, volantaFuerte } from '../consts';
 import { imagenNotaPath } from '../lib/og';
 
@@ -41,9 +40,6 @@ const volanta = data.volanta;
 			</h3>
 			<p class="mt-2 line-clamp-2 text-sm leading-relaxed text-neutral-600">
 				{excerpt}
-			</p>
-			<p class="mt-2 text-xs text-neutral-500">
-				<FormattedDate date={articleDate} />
 			</p>
 		</div>
 	</a>

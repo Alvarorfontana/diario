@@ -45,7 +45,7 @@ const porRegion = REGIONES.map((r) => ({ ...r, notas: articulos.filter((a) => a.
 							<span class="min-w-0">
 								{a.volanta && <span class="block text-[10.5px] font-bold tracking-[0.08em] text-brand uppercase">{a.volanta}</span>}
 								<span class="mt-0.5 block font-display text-[15px] leading-snug font-bold text-ink group-hover:text-brand">{a.title}</span>
-								<span class="mt-1 block text-xs text-neutral-500">{a.ciudad ? `${a.ciudad} · ` : ''}<FormattedDate date={a.date} /></span>
+								<span class="mt-1 block text-xs text-neutral-500">{a.ciudad || ''}</span>
 							</span>
 						</a>
 					))}

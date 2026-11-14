@@ -19,6 +19,10 @@ export const SECCIONES = [
 	{ id: 'opinion', nombre: 'Opinión' },
 ] as const;
 
+// Secciones que se muestran en el menú desplegable, el pie y el 404 (pocas, como los portales).
+// Deportes, Cultura y Tecnología siguen existiendo para cargar notas, pero sus notas van al montón de la portada.
+export const SECCIONES_MENU = SECCIONES.filter((s) => ['internacional', 'argentina', 'economia', 'opinion'].includes(s.id));
+
 export type SeccionId = (typeof SECCIONES)[number]['id'];
 
 export const DISQUS_SHORTNAME = '';

@@ -1,77 +1,72 @@
 ---
-import { SITE_TITLE, SECCIONES } from '../consts';
-import FormattedDate from './FormattedDate.astro';
+import { SITE_TITLE, SECCIONES_MENU } from '../consts';
 
-const hoy = new Date();
 const { pathname } = Astro.url;
-const esPortada = pathname === '/';
+
+// Fecha del día, chiquita y en gris al lado del logo (formato 14/11/26, hora argentina).
+const fechaCorta = (d: Date) =>
+	d.toLocaleDateString('es-AR', { day: 'numeric', month: 'numeric', year: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' });
+const hoy = fechaCorta(new Date());
+
+// Menú desplegable: pocas secciones y los especiales del diario.
+const especiales = [
+	{ href: '/brasil-2026/', nombre: 'Brasil 2026' },
+	{ href: '/flash/', nombre: 'Flash' },
+	{ href: '/boletines/', nombre: 'Boletín' },
+	{ href: '/canal/', nombre: 'Canal' },
+	{ href: '/contexto-politico/', nombre: 'Contexto Político' },
+];
 ---
 
-<!-- Cabecera estilo portal (Astromag): logo a la izquierda, secciones en botoncitos, fija al bajar -->
+<!-- Cabecera: menú desplegable a la izquierda, logo con la fecha chiquita, fija al bajar -->
 <header class="sticky top-0 z-40 bg-white shadow-[0_1px_0_#e6e6e2]">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-2.5">
-		<a href="/" class="flex items-center gap-2 font-display text-[1.6rem] leading-none font-extrabold tracking-[-0.02em] text-ink sm:text-[2rem]">
-			<span class="inline-block h-3 w-3 rounded-[3px] bg-brand sm:h-3.5 sm:w-3.5" aria-hidden="true"></span>{SITE_TITLE}
-		</a>
+		<div class="flex min-w-0 items-center gap-3">
+			<details class="menu-secciones relative">
+				<summary aria-label="Secciones" class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full bg-[#f0f0ec] text-ink transition-colors hover:bg-neutral-200">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+				</summary>
+				<nav aria-label="Secciones" class="absolute left-0 top-[calc(100%+8px)] w-60 rounded-2xl border border-[#e6e6e2] bg-white p-2 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
+					<ul class="text-[15px] font-semibold text-ink">
+						{SECCIONES_MENU.map((s) => (
+							<li><a href={`/seccion/${s.id}/`} class="block rounded-lg px-3 py-2.5 hover:bg-[#f0f0ec]" aria-current={pathname.startsWith(`/seccion/${s.id}`) ? 'page' : undefined}>{s.nombre}</a></li>
+						))}
+					</ul>
+					<ul class="mt-1 border-t border-[#eeeeea] pt-1 text-sm text-neutral-600">
+						{especiales.map((e) => (
+							<li><a href={e.href} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec] hover:text-ink" aria-current={pathname.startsWith(e.href) ? 'page' : undefined}>{e.nombre}</a></li>
+						))}
+					</ul>
+				</nav>
+			</details>
+			<a href="/" class="flex items-center gap-2 font-display text-[1.6rem] leading-none font-extrabold tracking-[-0.02em] text-ink sm:text-[2rem]">
+				<span class="inline-block h-3 w-3 rounded-[3px] bg-brand sm:h-3.5 sm:w-3.5" aria-hidden="true"></span>{SITE_TITLE}
+			</a>
+			<span id="fecha-hoy" class="self-end pb-0.5 text-[10px] font-normal tracking-wide text-neutral-400 sm:text-[11px]">{hoy}</span>
+		</div>
 		<div class="flex items-center gap-2">
-			<span class="hidden text-sm text-neutral-500 first-letter:uppercase lg:inline"><FormattedDate date={hoy} /></span>
 			<a href="/buscar/" aria-label="Buscar" class="flex h-11 w-11 items-center justify-center rounded-full bg-[#f0f0ec] text-ink transition-colors hover:bg-neutral-200">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
 			</a>
-			<a href="/#newsletter"class="hidden rounded-full bg-ink px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand sm:inline-block">Suscribite</a>
+			<a href="/#newsletter" class="hidden rounded-full bg-ink px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand sm:inline-block">Suscribite</a>
 		</div>
 	</div>
-
-	<nav aria-label="Secciones" class="mx-auto max-w-6xl">
-		<ul class="no-scrollbar flex items-center gap-2 overflow-x-auto px-4 pb-3 text-[13px] font-semibold whitespace-nowrap">
-			<li>
-				<a
-					href="/"
-					class={`block rounded-full px-3.5 py-2 transition-colors ${esPortada ? 'bg-brand text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
-					aria-current={esPortada ? 'page' : undefined}
-				>Portada</a>
-			</li>
-			{
-				SECCIONES.map((seccion) => {
-					const activa = pathname.startsWith(`/seccion/${seccion.id}`);
-					return (
-						<li>
-							<a
-								href={`/seccion/${seccion.id}/`}
-								class={`block rounded-full px-3.5 py-2 transition-colors ${activa ? 'bg-brand text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
-								aria-current={activa ? 'page' : undefined}
-							>{seccion.nombre}</a>
-						</li>
-					);
-				})
-			}
-			<li>
-				<a
-					href="/brasil-2026/"
-					class={`block rounded-full border-2 border-brand px-3.5 py-1.5 font-bold transition-colors ${pathname.startsWith('/brasil-2026') ? 'bg-brand text-white' : 'text-brand hover:bg-brand hover:text-white'}`}
-				>Brasil 2026</a>
-			</li>
-			<li>
-				<a
-					href="/flash/"
-					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/flash') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
-					aria-current={pathname.startsWith('/flash') ? 'page' : undefined}
-				><span class="inline-block h-2 w-2 rounded-full bg-brand" aria-hidden="true"></span>Flash</a>
-			</li>
-			<li>
-				<a
-					href="/boletines/"
-					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/boletines') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
-					aria-current={pathname.startsWith('/boletines') ? 'page' : undefined}
-				>Boletín</a>
-			</li>
-			<li>
-				<a
-					href="/canal/"
-					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/canal') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
-					aria-current={pathname.startsWith('/canal') ? 'page' : undefined}
-				><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM10 9.5v5l4.5-2.5z"></path></svg>Canal</a>
-			</li>
-		</ul>
-	</nav>
 </header>
+
+<script is:inline>
+	// La fecha se actualiza sola en el navegador (también en páginas armadas de antemano).
+	(function () {
+		var el = document.getElementById('fecha-hoy');
+		if (el) el.textContent = new Date().toLocaleDateString('es-AR', { day: 'numeric', month: 'numeric', year: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' });
+		// Cerrar el menú al tocar afuera.
+		document.addEventListener('click', function (ev) {
+			document.querySelectorAll('details.menu-secciones[open]').forEach(function (d) {
+				if (!d.contains(ev.target)) d.removeAttribute('open');
+			});
+		});
+	})();
+</script>
+
+<style>
+	.menu-secciones summary::-webkit-details-marker { display: none; }
+</style>

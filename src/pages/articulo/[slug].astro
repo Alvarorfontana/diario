@@ -122,7 +122,7 @@ import { nombreRegion } from '../../lib/regiones';
 				<div>
 					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="text-[15px] font-semibold text-neutral-900 hover:text-brand">{author || 'Redacción'}</a>{ciudad && <span class="text-sm text-neutral-600"> ({ciudad})</span>}
 					<p class="text-xs text-neutral-500">
-						<FormattedDate date={fecha} />{region && <> · <a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a></>}
+						{region && <><a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a></>}
 					</p>
 				</div>
 			</div>
