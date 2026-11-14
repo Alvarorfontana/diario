@@ -748,6 +748,31 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			if (region && Array.prototype.some.call($('region').options, function (o) { return o.value === region; })) $('region').value = region;
 			if (tema && tema !== 'General') $('tags').value = tema;
 			$('draft').checked = true;
+			// Volanta, sección, foto y pie de foto elegidos en la mesa del Centro
+			if (reporte && reporte.volanta) $('volanta').value = String(reporte.volanta).replace(/\s+/g, ' ').trim().slice(0, 120);
+			if (reporte && reporte.seccion && Array.prototype.some.call($('section').options, function (o) { return o.value === reporte.seccion; })) $('section').value = reporte.seccion;
+			if (reporte && reporte.foto && /^https:\/\//i.test(String(reporte.foto))) {
+				var fotoUrl = String(reporte.foto).slice(0, 2000);
+				$('image_url').value = fotoUrl;
+				$('imageCaption').value = String(reporte.epigrafe || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+				$('hero-preview').src = fotoUrl; $('hero-preview').classList.remove('hidden');
+				$('upload-status').textContent = 'Foto traída de la mesa. Copiándola al diario...';
+				// Se intenta guardar una copia propia en /uploads para que no dependa del sitio de origen (vista previa de WhatsApp).
+				(async function () {
+					try {
+						var resp = await fetch(fotoUrl, { mode: 'cors' });
+						if (!resp.ok) throw new Error('HTTP ' + resp.status);
+						var blob = await resizeImage(await resp.blob());
+						var fd = new FormData(); fd.append('file', blob, 'mesa-' + Date.now() + '.jpg');
+						var up = await (await fetch('/api/upload-image', { method: 'POST', body: fd })).json();
+						if (!up.ok) throw new Error(up.error || 'no se pudo subir');
+						if ($('image_url').value === fotoUrl) $('image_url').value = up.url;
+						$('upload-status').textContent = 'Foto de la mesa copiada al diario. Revisá el pie de foto y guardá la nota.';
+					} catch (e) {
+						$('upload-status').textContent = 'La foto quedó enlazada desde su sitio de origen (no se pudo copiar). Si preferís, subila desde el botón.';
+					}
+				})();
+			}
 			if (reporte && reporte.autor) $('author').value = String(reporte.autor).replace(/\s+/g, ' ').trim().slice(0, 80); // firma asignada en el Centro
 			if (reporte) {
 				// Texto propio de la redacción + lista de fuentes consultadas
@@ -762,7 +787,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			var aviso = document.createElement('div');
 			aviso.id = 'aviso-centro';
 			aviso.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:10px 14px;margin:0 0 14px;font-size:14px;line-height:1.45';
-			aviso.innerHTML = (reporte ? '<b>Reporte de la Mesa de edición.</b> Quedó como borrador con tu texto y sus fuentes: revisalo, sumá la foto y destildá "Borrador" cuando esté listo.'
+			aviso.innerHTML = (reporte ? '<b>Reporte de la Mesa de edición.</b> Quedó como borrador con tu texto, sus fuentes y la foto si vino: revisalo y destildá "Borrador" cuando esté listo.'
 				: '<b>Traída del Centro de Información.</b> Quedó como borrador: escribí la nota con tu texto, chequeá la fuente y destildá "Borrador" cuando esté lista.') +
 				(url ? '<br>Fuente original: <a target="_blank" rel="noopener" href="' + esc(url) + '">' + esc(g('medio', 80) || url) + '</a>' : '');
 			var viejo = $('aviso-centro'); if (viejo) viejo.remove();
