@@ -10,7 +10,7 @@
   "estilo": "noticiero",
   "subtitulos": true,
   "cierre": "Diario Federal. Más en diariofederal punto com punto ar.",
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "bloques": [
     {
@@ -50,5 +50,31 @@
         ]
       }
     }
-  ]
+  ],
+  "rotulo": "14 DE NOVIEMBRE DE 2026",
+  "subtitulosVtt": "/flash/2026-11-14-ultimo-uom-bonetti.vtt",
+  "capitulos": [
+    {
+      "t": 5.6,
+      "titulo": "Roberto Bonetti, secretario general de la UOM Capital"
+    },
+    {
+      "t": 16.5,
+      "titulo": "23,5% hasta marzo de 2027"
+    },
+    {
+      "t": 27.3,
+      "titulo": "«La UOM está por encima de cualquier dirigente»"
+    }
+  ],
+  "duracion": 41.1,
+  "duraciones": [
+    9.7,
+    9.6,
+    5.3
+  ],
+  "video": "/flash/2026-11-14-ultimo-uom-bonetti.mp4",
+  "miniatura": "/flash/2026-11-14-ultimo-uom-bonetti.jpg",
+  "version": "20261114214955",
+  "generado": "2026-11-14T21:49:55+00:00"
 }
