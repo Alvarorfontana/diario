@@ -60,6 +60,13 @@ const esPortada = pathname === '/';
 			</li>
 			<li>
 				<a
+					href="/radio/"
+					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/radio') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/radio') ? 'page' : undefined}
+				><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v4M8 6v12M12 3v18M16 7v10M20 10v4"></path></svg>Radio</a>
+			</li>
+			<li>
+				<a
 					href="/canal/"
 					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/canal') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
 					aria-current={pathname.startsWith('/canal') ? 'page' : undefined}
