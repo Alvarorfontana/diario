@@ -1,0 +1,187 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title={`Laboratorio de datos | ${SITE_TITLE}`}
+  description="Gráficos, indicadores económicos, mapas y seguimiento de acontecimientos de Diario Federal."
+  section="Datos"
+>
+  <div class="mx-auto max-w-6xl">
+    <header class="border-b border-neutral-200 pb-6">
+      <p class="text-xs font-extrabold tracking-[0.16em] text-brand uppercase">Diario Federal · Periodismo de datos</p>
+      <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 class="font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Laboratorio de datos</h1>
+          <p class="mt-3 max-w-3xl text-base leading-relaxed text-neutral-600">La actualidad explicada con cifras, mapas y evidencia. Indicadores comparables, visualizaciones electorales y seguimiento geográfico de la cobertura internacional.</p>
+        </div>
+        <span class="rounded-full border border-neutral-200 px-3 py-1.5 text-xs font-semibold text-neutral-600">Fuentes identificadas · Datos abiertos</span>
+      </div>
+    </header>
+
+    <section class="mt-7 grid gap-4 md:grid-cols-2" aria-label="Indicadores económicos">
+      <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div><p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Comparación histórica</p><h2 class="mt-1 font-display text-xl font-bold text-ink">Crecimiento del PIB</h2><p class="mt-1 text-sm text-neutral-500">Variación anual · Argentina, Brasil, Chile y Uruguay</p></div>
+          <span class="text-xs text-neutral-400">Banco Mundial</span>
+        </div>
+        <div id="chart-pib" class="mt-4 h-72 w-full" role="img" aria-label="Gráfico de crecimiento anual del producto interno bruto de cuatro países"></div>
+        <p id="status-pib" class="text-xs text-neutral-500" aria-live="polite">Consultando la serie histórica…</p>
+      </article>
+      <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+        <div class="flex flex-wrap items-start justify-between gap-2">
+          <div><p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Comparación histórica</p><h2 class="mt-1 font-display text-xl font-bold text-ink">Inflación anual</h2><p class="mt-1 text-sm text-neutral-500">Precios al consumidor · cuatro países</p></div>
+          <span class="text-xs text-neutral-400">Banco Mundial</span>
+        </div>
+        <div id="chart-inflacion" class="mt-4 h-72 w-full" role="img" aria-label="Gráfico de inflación anual comparada de cuatro países"></div>
+        <p id="status-inflacion" class="text-xs text-neutral-500" aria-live="polite">Consultando la serie histórica…</p>
+      </article>
+    </section>
+
+    <section class="mt-8 rounded-xl border border-neutral-200 bg-white p-4 sm:p-5" aria-labelledby="mapa-titulo">
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div><p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Seguimiento internacional</p><h2 id="mapa-titulo" class="mt-1 font-display text-2xl font-bold text-ink">Mapa de menciones geográficas en las noticias</h2><p class="mt-1 max-w-3xl text-sm text-neutral-600">Exploración de lugares mencionados en la cobertura internacional de las últimas 24 horas, a partir de GDELT GEO.</p></div>
+        <span id="status-mapa" class="text-xs font-semibold text-neutral-500" aria-live="polite">Preparando mapa…</span>
+      </div>
+      <div id="mapa-cobertura" class="mt-4 h-[420px] w-full overflow-hidden rounded-lg bg-neutral-100"></div>
+      <p class="mt-3 text-xs leading-relaxed text-neutral-500">Importante: los puntos representan lugares mencionados en artículos periodísticos; no certifican que allí haya ocurrido un hecho ni sustituyen la verificación editorial. GDELT procesa cobertura de medios y puede incluir menciones contextuales. Mapa base: OpenStreetMap.</p>
+    </section>
+
+    <section class="mt-8 grid gap-4 md:grid-cols-2">
+      <a href="/elecciones-eeuu/" class="group rounded-xl border border-neutral-200 bg-[#111827] p-5 text-white transition hover:bg-[#1b2636]">
+        <p class="text-[11px] font-extrabold tracking-widest text-red-300 uppercase">Visualización electoral</p>
+        <h2 class="mt-2 font-display text-2xl font-bold">Elecciones de Estados Unidos 2026</h2>
+        <p class="mt-2 text-sm leading-relaxed text-white/75">Mapa por estado, seguimiento de contiendas y fuentes de resultados diferenciadas.</p>
+        <span class="mt-5 inline-block text-sm font-bold text-white underline underline-offset-4">Abrir tablero electoral →</span>
+      </a>
+      <a href="/brasil-2026/" class="group rounded-xl border border-neutral-200 bg-[#f5f4ef] p-5 text-ink transition hover:bg-white">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Elecciones · América Latina</p>
+        <h2 class="mt-2 font-display text-2xl font-bold">Brasil 2026</h2>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-600">Cobertura y seguimiento electoral de Brasil, con información del proceso y sus resultados.</p>
+        <span class="mt-5 inline-block text-sm font-bold text-brand underline underline-offset-4">Abrir cobertura →</span>
+      </a>
+    </section>
+
+    <section class="mt-8 border-t border-neutral-200 pt-5">
+      <h2 class="font-display text-xl font-bold text-ink">Fuentes y metodología</h2>
+      <div class="mt-3 grid gap-3 text-sm sm:grid-cols-3">
+        <div><strong class="text-ink">Banco Mundial</strong><p class="mt-1 text-neutral-600">Series comparables de crecimiento e inflación. Se muestra el último período disponible informado por la fuente.</p><a class="mt-2 inline-block font-semibold text-brand underline" href="https://data.worldbank.org/" target="_blank" rel="noopener noreferrer">Base de datos ↗</a></div>
+        <div><strong class="text-ink">GDELT Project</strong><p class="mt-1 text-neutral-600">Cobertura global de medios y menciones geográficas. No equivale a una base de incidentes verificados.</p><a class="mt-2 inline-block font-semibold text-brand underline" href="https://www.gdeltproject.org/" target="_blank" rel="noopener noreferrer">Documentación ↗</a></div>
+        <div><strong class="text-ink">Criterio editorial</strong><p class="mt-1 text-neutral-600">Cada visualización debe informar fuente, fecha de actualización, unidad, metodología y límites de interpretación.</p></div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script is:inline>
+(() => {
+  const countries = { ARG: 'Argentina', BRA: 'Brasil', CHL: 'Chile', URY: 'Uruguay' };
+  const indicators = [
+    { id: 'NY.GDP.MKTP.KD.ZG', el: 'chart-pib', status: 'status-pib', unit: '%' },
+    { id: 'FP.CPI.TOTL.ZG', el: 'chart-inflacion', status: 'status-inflacion', unit: '%' }
+  ];
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-external="' + src + '"]');
+      if (existing) { if (existing.dataset.loaded === 'true') resolve(); else { existing.addEventListener('load', resolve, { once: true }); existing.addEventListener('error', reject, { once: true }); } return; }
+      const script = document.createElement('script');
+      script.src = src; script.async = true; script.dataset.external = src;
+      script.onload = () => { script.dataset.loaded = 'true'; resolve(); };
+      script.onerror = reject; document.head.appendChild(script);
+    });
+  }
+
+  async function loadIndicator(item) {
+    const status = document.getElementById(item.status);
+    try {
+      const url = 'https://api.worldbank.org/v2/country/ARG;BRA;CHL;URY/indicator/' + item.id + '?format=json&per_page=200';
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const payload = await response.json();
+      const rows = Array.isArray(payload[1]) ? payload[1] : [];
+      const years = [...new Set(rows.map(row => row.date))].sort();
+      const series = Object.keys(countries).map(code => ({
+        name: countries[code],
+        type: 'line',
+        showSymbol: false,
+        connectNulls: false,
+        smooth: false,
+        data: years.map(year => {
+          const row = rows.find(entry => entry.countryiso3code === code && entry.date === year);
+          return row && row.value !== null ? Number(row.value) : null;
+        })
+      }));
+      if (!years.length) throw new Error('La fuente no devolvió períodos.');
+      const chart = echarts.init(document.getElementById(item.el));
+      chart.setOption({
+        animation: false,
+        tooltip: { trigger: 'axis', valueFormatter: value => value == null ? 'Sin dato' : Number(value).toLocaleString('es-AR', { maximumFractionDigits: 2 }) + ' ' + item.unit },
+        legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+        grid: { left: 42, right: 18, top: 18, bottom: 55 },
+        xAxis: { type: 'category', data: years, axisLabel: { color: '#737373', interval: Math.max(0, Math.floor(years.length / 8)) } },
+        yAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value}%' }, splitLine: { lineStyle: { color: '#eeeeea' } } },
+        series
+      });
+      window.addEventListener('resize', () => chart.resize());
+      const lastYear = Math.max(...rows.filter(row => row.value !== null).map(row => Number(row.date)));
+      status.textContent = 'Fuente: Banco Mundial · último año disponible en la serie: ' + (Number.isFinite(lastYear) ? lastYear : 'sin dato') + ' · actualización al consultar.';
+    } catch (error) {
+      status.textContent = 'No se pudo consultar la serie ahora. Fuente: Banco Mundial; el tablero no reemplaza la consulta del dato original.';
+      console.error('Error de indicador:', error);
+    }
+  }
+
+  async function initCharts() {
+    try {
+      await loadScript('https://cdn.jsdelivr.net/npm/echarts@5.6.0/dist/echarts.min.js');
+      await Promise.all(indicators.map(loadIndicator));
+    } catch (error) {
+      indicators.forEach(item => { const status = document.getElementById(item.status); if (status) status.textContent = 'No se pudo cargar el motor de gráficos. Consultá la fuente original del Banco Mundial.'; });
+    }
+  }
+
+  async function initMap() {
+    const status = document.getElementById('status-mapa');
+    try {
+      await loadScript('https://unpkg.com/leaflet@1.9.4/dist/leaflet.js');
+      const map = L.map('mapa-cobertura').setView([18, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+      const query = encodeURIComponent('(war OR conflict OR protest OR strike OR ceasefire)');
+      const endpoint = 'https://api.gdeltproject.org/api/v2/geo/geo?query=' + query + '&mode=PointData&format=GeoJSON&timespan=24h&maxpoints=150';
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const geo = await response.json();
+      const layer = L.geoJSON(geo, {
+        pointToLayer: (feature, latlng) => L.circleMarker(latlng, { radius: 6, color: '#8f1d2c', weight: 1, fillColor: '#bd3445', fillOpacity: 0.72 }),
+        onEachFeature: (feature, layerItem) => {
+          const props = feature.properties || {};
+          const title = document.createElement('strong');
+          title.textContent = String(props.name || props.location || 'Lugar mencionado en la cobertura');
+          const note = document.createElement('p');
+          note.textContent = 'Mención geográfica detectada por GDELT. Verificar el contexto en las fuentes periodísticas.';
+          const wrapper = document.createElement('div');
+          wrapper.append(title, note);
+          layerItem.bindPopup(wrapper);
+        }
+      }).addTo(map);
+      const count = geo.features ? geo.features.length : 0;
+      status.textContent = count + ' ubicaciones devueltas · ventana de 24 horas';
+      if (count) map.fitBounds(layer.getBounds().pad(0.12), { maxZoom: 5 });
+    } catch (error) {
+      status.textContent = 'Mapa temporalmente no disponible; consultar GDELT directamente.';
+      console.error('Error de mapa GDELT:', error);
+    }
+  }
+
+  initCharts();
+  initMap();
+})();
+</script>
