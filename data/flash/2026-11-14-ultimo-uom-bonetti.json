@@ -11,7 +11,7 @@
   "subtitulos": true,
   "cierre": "Diario Federal. Más en diariofederal punto com punto ar.",
   "estado": "listo",
-  "publicado": false,
+  "publicado": true,
   "bloques": [
     {
       "kicker": "Roberto Bonetti dijo",
@@ -76,5 +76,6 @@
   "video": "/flash/2026-11-14-ultimo-uom-bonetti.mp4",
   "miniatura": "/flash/2026-11-14-ultimo-uom-bonetti.jpg",
   "version": "20261114214955",
-  "generado": "2026-11-14T21:49:55+00:00"
+  "generado": "2026-11-14T21:49:55+00:00",
+  "publicadoEl": "2026-11-14T22:01:14+00:00"
 }
