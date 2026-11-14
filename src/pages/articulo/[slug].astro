@@ -88,7 +88,10 @@ import { nombreRegion } from '../../lib/regiones';
 
 	<!-- Barra fija con el titular: aparece al scrollear (estilo El País / Washington Post) -->
 	<div id="barra-fija" class="fixed inset-x-0 top-0 z-50 -translate-y-full border-b border-neutral-200 bg-white/95 shadow-sm backdrop-blur transition-transform duration-200">
-		<div class="mx-auto flex max-w-[1100px] items-center gap-3 px-4 py-2.5">
+		<div class="mx-auto flex max-w-[1100px] items-center gap-3 px-4 py-2">
+			<button id="barra-menu" type="button" aria-label="Secciones" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0f0ec] text-ink hover:bg-neutral-200">
+				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+			</button>
 			<span class="shrink-0 text-[11px] font-bold uppercase tracking-widest text-brand">{nombreSeccion(section || '')}</span>
 			<span class="h-4 w-px shrink-0 bg-neutral-300"></span>
 			<span class="truncate text-sm font-semibold text-neutral-900">{title}</span>
@@ -263,10 +266,23 @@ import { nombreRegion } from '../../lib/regiones';
 		var articulo = document.querySelector('[data-pagefind-body]');
 		if (!articulo) return;
 
+		// El ☰ de la barra abre el mismo menú de secciones de la cabecera (como El País).
+		var botonMenu = document.getElementById('barra-menu');
+		var menuCab = document.querySelector('details.menu-secciones');
+		if (botonMenu && menuCab) {
+			botonMenu.addEventListener('click', function (ev) {
+				ev.stopPropagation();
+				menuCab.open = true;
+				actualizar();
+			});
+			menuCab.addEventListener('toggle', function () { actualizar(); });
+		}
+
 		function actualizar() {
 			var y = window.scrollY || window.pageYOffset;
 			if (barraFija) {
-				var mostrar = y > 420;
+				var menu = document.querySelector('details.menu-secciones');
+				var mostrar = y > 420 && !(menu && menu.open);
 				barraFija.classList.toggle('mostrar', mostrar);
 				// Estilo directo: no depende de clases CSS externas
 				barraFija.style.transform = mostrar ? 'translateY(0)' : '';

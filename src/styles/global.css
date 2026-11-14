@@ -13,6 +13,9 @@
 
 /* Estilo portal (Astromag): fondo gris muy claro, tarjetas blancas redondeadas, rojo sólo para acentos */
 html, body { background-color: #f6f6f4; }
+/* Celular: nada puede ensanchar la página ni el navegador agrandar letras por su cuenta */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html, body { overflow-x: clip; max-width: 100%; }
 body { font-family: var(--font-sans); color: var(--color-ink); font-feature-settings: "kern", "liga"; }
 main { background-color: transparent; }
 .no-scrollbar { scrollbar-width: none; }

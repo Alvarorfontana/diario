@@ -74,7 +74,7 @@ const { title, description, image, ogImage, publishedTime, author, section } = A
 	<body class="flex min-h-screen flex-col font-sans text-neutral-900 antialiased">
 		<Header />
 		<AdBanner position="header" maxAds={1} />
-		<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8">
+		<main class="mx-auto w-full min-w-0 max-w-6xl flex-1 px-4 pt-8">
 			<slot />
 		</main>
 		<AdBanner position="footer" maxAds={2} />

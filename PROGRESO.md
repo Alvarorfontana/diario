@@ -17,6 +17,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## Registro
 
 ### 2026-11-14
+- Celular: en la nota, la barra fija con el titular tapaba el ☰; ahora la barra lleva su propio ☰ que abre el menú de secciones (como El País). Freno general para que nada ensanche la página en el celular (overflow-x: clip) y sin agrandado automático de letras del navegador.
 - Portada más limpia (pedido de Álvaro): secciones en menú desplegable (☰) con pocas entradas (Internacional, Argentina, Economía, Opinión + especiales Brasil 2026, Flash, Boletín, Canal, Contexto Político); Deportes, Cultura y Tecnología salen del menú/pie pero se pueden seguir cargando y sus notas van al montón de la portada. "Por sección" pasa a "Más noticias". Sin fechas visibles en notas (quedan en metadatos para Google). Logo centrado y fecha del día en franja finita debajo ("14 nov 2026", automática, estilo El País/NYT). Sin títulos sobre fotos: tapa, destacadas y apertura de sección con foto limpia y título abajo.
 - Flash de último momento (~30 s): "UOM: Bonetti le responde a Mariano Martín y defiende la paritaria", con frases de su nota del 13/11. Voz Tomás, diseño Noticiero. Publicado en /flash (dura 41 s).
 
