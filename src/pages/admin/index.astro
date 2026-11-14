@@ -2,7 +2,7 @@
 export const prerender = false;
 
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
-import { isAdmin, loginCookie } from '../../lib/auth';
+import { isAdmin, loginCookie, ipDe, minutosBloqueado, registrarFallo, registrarExito } from '../../lib/auth';
 import { SECCIONES } from '../../consts';
 import { REGIONES } from '../../lib/regiones';
 
@@ -12,9 +12,15 @@ const PASSWORD = env.ADMIN_PASSWORD;
 let isAuthenticated = await isAdmin(Astro.request, env);
 let loginError = '';
 
-if (Astro.request.method === 'POST') {
+let direccion: string | undefined;
+try { direccion = Astro.clientAddress; } catch { direccion = undefined; }
+const ipLogin = ipDe(Astro.request, direccion);
+if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLogin) > 0) {
+	loginError = `Demasiados intentos. Probá de nuevo en ${minutosBloqueado(ipLogin)} minutos.`;
+} else if (Astro.request.method === 'POST') {
 	const form = await Astro.request.formData();
 	if (PASSWORD && form.get('password') === PASSWORD) {
+		registrarExito(ipLogin);
 		return new Response(null, {
 			status: 302,
 			headers: {
@@ -23,6 +29,7 @@ if (Astro.request.method === 'POST') {
 			},
 		});
 	}
+	if (PASSWORD && form.get('password') !== null) await registrarFallo(ipLogin);
 	loginError = PASSWORD ? 'Contraseña incorrecta.' : 'Falta configurar ADMIN_PASSWORD en Vercel.';
 }
 ---
