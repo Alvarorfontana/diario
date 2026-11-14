@@ -6,7 +6,7 @@ on:
     - cron: "0 10 * * *"
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [main, feature/boletines-audio-diario-federal]
     paths:
       - "src/content/articulos/**"
       - "scripts/generar-boletin.py"
@@ -26,7 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: [${{ github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -40,8 +40,8 @@ jobs:
         run: python scripts/generar-boletin.py
       - name: Publicar MP3 y ficha del boletín
         run: |
-          git config user.name "Alvarorfontana"
-          git config user.email "alvarorfontana@gmail.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/boletines data/boletines/latest.json
           if git diff --cached --quiet; then
             echo "El boletín no tuvo cambios."
@@ -49,7 +49,7 @@ jobs:
           fi
           git commit -m "Generar boletín diario en audio"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push && exit 0
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
             sleep 5
           done
           exit 1
