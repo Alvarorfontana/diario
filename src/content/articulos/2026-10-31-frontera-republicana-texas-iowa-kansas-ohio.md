@@ -5,7 +5,7 @@ description: "La disputa por el Senado en cuatro estados clave pone bajo la lupa
 heroImage: "https://jamestalarico.com/wp-content/uploads/2025/09/t4tx-hero.webp"
 imageCaption: "James Talarico, candidato demócrata al Senado por Texas, durante un acto de campaña. Fotografía: campaña oficial de Talarico."
 section: "internacional"
-author: "Mesa Internacional"
+author: "Alberto González"
 pubDate: "2026-10-31"
 draft: false
 tapa: false

@@ -2,7 +2,7 @@
 title: 'La cumbre europea sella un acuerdo histórico sobre energía limpia'
 description: 'Los Veintisiete pactan multiplicar su capacidad renovable antes de 2035 y crear un fondo común de 300.000 millones para acelerar la transición energética.'
 section: internacional
-author: "Mesa Internacional"
+author: Laura Giménez
 pubDate: 2026-08-21T08:30:00
 tags: ['Unión Europea', 'Clima']
 heroImage: '../../assets/cumbre-europea.jpg'
