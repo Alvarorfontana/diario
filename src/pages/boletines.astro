@@ -68,11 +68,10 @@ const duracion = (s) => {
       const shareButton = document.getElementById("compartir-boletin");
       const shareStatus = document.getElementById("estado-compartir");
       shareButton?.addEventListener("click", async () => {
-        const audioUrl = new URL("/boletines/" + "boletin-principal-" + "2026-11-14.mp3", window.location.origin).href;
         const shareData = {
           title: "Boletín informativo · Diario Federal",
           text: "Escuchá el boletín de Diario Federal.",
-          url: window.location.origin + ""
+          url: new URL("/boletines/", window.location.origin).href
         };
         try {
           if (navigator.share) {
