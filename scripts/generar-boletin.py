@@ -11,6 +11,7 @@ from pathlib import Path
 
 import yaml
 import edge_tts
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 ARTICLES = ROOT / "src/content/articulos"
@@ -21,6 +22,8 @@ MAX_ITEMS = 6
 RATE = "+22%"
 SAMPLE_RATE = 24000
 MUSIC = ROOT / "public/flash/musica/paulyudin.mp3"
+FONT = ROOT / "scripts/flash/fuentes/inter-700-completa.ttf"
+FONT_MEDIA = ROOT / "scripts/flash/fuentes/inter-600-completa.ttf"
 MUSIC_TEMPO = 1.25  # cortina más ágil, ritmo de noticiero
 
 
@@ -125,6 +128,47 @@ def build_script(items):
     return " ... ".join(parts)
 
 
+def make_cover(path, date_label, seconds, size=(1080, 1080)):
+    """Tapa cuadrada con el logo del diario, para el video de WhatsApp y la vista previa."""
+    W, H = size
+    red, ink = (208, 2, 27), (22, 22, 26)
+    f = lambda n: ImageFont.truetype(str(FONT), n)
+    im = Image.new("RGB", (W, H), "white")
+    d = ImageDraw.Draw(im)
+    d.rectangle([0, 360, W, H], fill=ink)
+    s, ox, oy = 1.9, 90, 70
+    d.rounded_rectangle([ox, oy, ox + 104 * s, oy + 104 * s], radius=22 * s, fill=red)
+    pts = [(34, 48), (86, 48), (86, 61), (49, 61), (49, 74), (81, 74), (81, 87), (49, 87), (49, 112), (34, 112)]
+    d.polygon([(ox + (x - 8) * s, oy + (y - 22) * s) for x, y in pts], fill="white")
+    d.text((ox + 104 * s + 40, oy + 8), "DIARIO", font=f(92), fill=ink)
+    d.text((ox + 104 * s + 40, oy + 100), "FEDERAL", font=f(92), fill=ink)
+    d.rectangle([90, 430, 330, 476], fill=red)
+    d.text((106, 436), "EN AUDIO", font=f(30), fill="white")
+    d.text((84, 500), "FLASH", font=f(170), fill="white")
+    d.text((84, 670), "INFORMATIVO", font=f(112), fill="white")
+    heights = [14, 22, 34, 50, 66, 40, 28, 58, 18, 46, 30, 62, 24, 38]
+    x, i = 90, 0
+    while x < W - 90:
+        h = heights[(i * 5 + 3) % len(heights)]
+        d.rounded_rectangle([x, 880 - h, x + 10, 880 + h], radius=5, fill=red if x < 420 else (90, 90, 98))
+        x += 18
+        i += 1
+    dur = f"{seconds // 60}:{seconds % 60:02d}"
+    d.text((90, 960), f"{date_label}  ·  {dur}", font=ImageFont.truetype(str(FONT_MEDIA), 38), fill=(200, 200, 205))
+    url = "diariofederal.com.ar"
+    d.text((W - 90 - d.textlength(url, font=f(38)), 960), url, font=f(38), fill="white")
+    im.save(path)
+
+
+def make_video(cover, audio, target):
+    """Video liviano (tapa fija + audio) para compartir por WhatsApp."""
+    subprocess.run([
+        "ffmpeg", "-y", "-v", "error", "-loop", "1", "-framerate", "1", "-i", str(cover), "-i", str(audio),
+        "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "1",
+        "-c:a", "aac", "-b:a", "128k", "-shortest", "-movflags", "+faststart", str(target)
+    ], check=True)
+
+
 async def main():
     OUT.mkdir(parents=True, exist_ok=True)
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
@@ -174,11 +218,22 @@ async def main():
         )
         seconds = round(float(probe.stdout.strip()))
 
+    cover = OUT / name.replace(".mp3", ".png")
+    video = OUT / name.replace(".mp3", ".mp4")
+    make_cover(cover, date_label, seconds)
+    make_video(cover, target, video)
+    # Solo se guarda el último video y la última tapa para no engordar el repo.
+    for old in list(OUT.glob("boletin-principal-*.mp4")) + list(OUT.glob("boletin-principal-*.png")):
+        if old not in (cover, video):
+            old.unlink()
+
     manifest = {
         "title": "Boletín informativo principal",
         "date": today.date().isoformat(),
         "dateLabel": date_label,
         "archivo": "/boletines/" + name,
+        "video": "/boletines/" + video.name,
+        "tapa": "/boletines/" + cover.name,
         "duracion": seconds,
         "voz": VOICE,
         "hash": digest,

@@ -32,7 +32,7 @@ jobs:
           python-version: "3.12"
       - name: Instalar herramientas gratuitas
         run: |
-          pip install edge-tts pyyaml
+          pip install edge-tts pyyaml pillow
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
       - name: Generar boletín
         env:

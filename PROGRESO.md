@@ -51,3 +51,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-14 — Boletín de audio: cortina de noticiero
 - Arreglado el filtro de ffmpeg que hacía fallar la generación (la voz se usaba dos veces sin asplit).
 - Cortina: música del flash (Paulyudin) acelerada a 1.25 para ritmo de noticiero. El nombre del MP3 ahora cambia si cambia la música.
+- Boletín: el script arma también una tapa cuadrada con el logo y un video MP4 (tapa + audio) para WhatsApp. Se guarda solo el último video y la última tapa.
+- /boletines: botón "Pasar por WhatsApp" (en celular comparte el video; en computadora abre WhatsApp con el enlace), descarga del video y la tapa como vista previa.
