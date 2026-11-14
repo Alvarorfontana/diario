@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 150" role="img" aria-labelledby="title">
+<title id="title">Diario Federal</title>
+<rect x="8" y="22" width="104" height="104" rx="22" fill="#d0021b"/>
+<path d="M34 48h52v13H49v13h32v13H49v25H34z" fill="#fff"/>
+<text x="136" y="79" font-family="Arial,Helvetica,sans-serif" font-size="46" font-weight="800" letter-spacing="1" fill="#16161a">DIARIO</text>
+<text x="136" y="124" font-family="Arial,Helvetica,sans-serif" font-size="46" font-weight="800" letter-spacing="1" fill="#16161a">FEDERAL</text>
+</svg>

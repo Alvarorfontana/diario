@@ -1,0 +1,55 @@
+name: Boletín diario de audio
+
+on:
+  schedule:
+    # 07:00 de Argentina (UTC-3). GitHub Actions usa UTC.
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main, feature/boletines-audio-diario-federal]
+    paths:
+      - "src/content/articulos/**"
+      - "scripts/generar-boletin.py"
+      - ".github/workflows/boletin-diario.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: boletin-diario
+  cancel-in-progress: false
+
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: [${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Instalar herramientas gratuitas
+        run: |
+          pip install edge-tts pyyaml
+          which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+      - name: Generar boletín
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: python scripts/generar-boletin.py
+      - name: Publicar MP3 y ficha del boletín
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/boletines data/boletines/latest.json
+          if git diff --cached --quiet; then
+            echo "El boletín no tuvo cambios."
+            exit 0
+          fi
+          git commit -m "Generar boletín diario en audio"
+          for i in 1 2 3; do
+            git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+            sleep 5
+          done
+          exit 1
