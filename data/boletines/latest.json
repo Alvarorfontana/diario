@@ -1,9 +1,49 @@
 {
-  "title": "",
-  "date": "",
-  "dateLabel": "",
-  "archivo": "",
-  "duracion": 0,
+  "title": "Boletín informativo principal",
+  "date": "2026-11-14",
+  "dateLabel": "14/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-14.mp3",
+  "duracion": 280,
   "voz": "es-AR-TomasNeural",
-  "items": []
+  "hash": "e9e7d1e996eb",
+  "items": [
+    {
+      "slug": "mariano-martin-periodismo-sin-codigo-de-etica-profesional",
+      "title": "Mariano Martín: periodismo sin código de ética profesional",
+      "section": "opinion",
+      "url": "/articulo/mariano-martin-periodismo-sin-codigo-de-etica-profesional/"
+    },
+    {
+      "slug": "2026-11-13-mercosur-integracion-monetaria-comercio-argentina-brasil",
+      "title": "El Mercosur necesita una estrategia común para defender su producción y avanzar hacia la integración monetaria",
+      "section": "economia",
+      "url": "/articulo/2026-11-13-mercosur-integracion-monetaria-comercio-argentina-brasil/"
+    },
+    {
+      "slug": "2026-11-12-milei-500-mercados-30-por-ciento-planeta",
+      "title": "Ni 500 países ni el 30 % del mundo: lo que esconden las cifras de Milei",
+      "section": "argentina",
+      "url": "/articulo/2026-11-12-milei-500-mercados-30-por-ciento-planeta/"
+    },
+    {
+      "slug": "2026-11-12-industria-argentina-cerrada-cara-sin-inversion",
+      "title": "Cerrada, cara y sin inversión: por qué la industria argentina cae más que en casi todo el mundo",
+      "section": "economia",
+      "url": "/articulo/2026-11-12-industria-argentina-cerrada-cara-sin-inversion/"
+    },
+    {
+      "slug": "2026-11-12-peru-deuda-30-anos-argentina-mira-de-afuera",
+      "title": "Perú consigue deuda a 30 años y Argentina mira de afuera",
+      "section": "economia",
+      "url": "/articulo/2026-11-12-peru-deuda-30-anos-argentina-mira-de-afuera/"
+    },
+    {
+      "slug": "2026-11-11-leon-xiv-lujan-argentina-levantate-y-camina",
+      "title": "León XIV, en Luján: \"Muchos hermanos nuestros (...) pueden estar viviendo actualmente momentos de Calvario, sufriendo a causa de enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares\"",
+      "section": "argentina",
+      "url": "/articulo/2026-11-11-leon-xiv-lujan-argentina-levantate-y-camina/"
+    }
+  ],
+  "intro": "Diario Federal. Boletín informativo.",
+  "outro": "La información continúa en diariofederal.com.ar."
 }
