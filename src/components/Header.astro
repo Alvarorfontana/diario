@@ -47,6 +47,13 @@ const esPortada = pathname === '/';
 			}
 			<li>
 				<a
+					href="/datos/"
+					class={`block rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/datos') ? 'bg-brand text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/datos') ? 'page' : undefined}
+				>Datos</a>
+			</li>
+			<li>
+				<a
 					href="/brasil-2026/"
 					class={`block rounded-full border-2 border-brand px-3.5 py-1.5 font-bold transition-colors ${pathname.startsWith('/brasil-2026') ? 'bg-brand text-white' : 'text-brand hover:bg-brand hover:text-white'}`}
 				>Brasil 2026</a>
@@ -57,6 +64,13 @@ const esPortada = pathname === '/';
 					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/flash') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
 					aria-current={pathname.startsWith('/flash') ? 'page' : undefined}
 				><span class="inline-block h-2 w-2 rounded-full bg-brand" aria-hidden="true"></span>Flash</a>
+			</li>
+			<li>
+				<a
+					href="/multimedia/"
+					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/multimedia') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/multimedia') ? 'page' : undefined}
+				>Multimedia</a>
 			</li>
 			<li>
 				<a
