@@ -60,24 +60,6 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} ogImage={`/api/og-portada.jpg?d=${hoyAR}`}>
 
-	<!-- BOLETÍN DE AUDIO: aparece automáticamente cuando existe un MP3 publicado -->
-	{boletinDiario?.archivo && (
-		<section class="mt-4 overflow-hidden rounded-2xl border border-[#d8d8d2] bg-[#f5f4ef] p-4 sm:p-5">
-			<div class="flex flex-wrap items-center justify-between gap-2">
-				<div>
-					<p class="text-[10px] font-extrabold tracking-[0.14em] text-brand uppercase">Diario Federal · Audio</p>
-					<h2 class="mt-1 font-display text-xl font-extrabold text-ink sm:text-2xl">El boletín informativo</h2>
-					<p class="mt-1 text-xs text-neutral-600">{boletinDiario.dateLabel} · Las noticias del día, en pocos minutos</p>
-				</div>
-				<a href="/boletines/" class="rounded-lg bg-ink px-4 py-2 text-xs font-bold text-white hover:bg-brand">Todas las ediciones</a>
-			</div>
-			<audio class="mt-4 w-full" controls preload="none">
-				<source src={boletinDiario.archivo} type="audio/mpeg" />
-				Tu navegador no puede reproducir este audio.
-			</audio>
-		</section>
-	)}
-
 	<!-- MERCADOS -->
 	<FranjaMercados />
 
@@ -159,6 +141,14 @@ const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].fi
 		</section>
 
 		<aside class="flex flex-col gap-6">
+			<section class="tarjeta flex items-center justify-between gap-3 p-4">
+				<div class="min-w-0">
+					<p class="text-[10px] font-extrabold tracking-[0.14em] text-brand uppercase">Diario Federal · Audio</p>
+					<h2 class="mt-1 font-display text-lg font-extrabold text-ink">Boletín</h2>
+					<p class="mt-0.5 text-xs text-neutral-600">Las noticias para escuchar</p>
+				</div>
+				<a href="/boletines/" aria-label="Escuchar el boletín" class="shrink-0 rounded-full bg-ink px-4 py-2 text-xs font-bold text-white transition-colors hover:bg-brand">Escuchar</a>
+			</section>
 			{masLeidasNotas.length >= 3 && (
 				<section class="tarjeta p-5">
 					<h2 class="titulo-seccion mb-2 text-xl">Lo más leído</h2>
