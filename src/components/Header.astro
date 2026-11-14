@@ -60,6 +60,13 @@ const esPortada = pathname === '/';
 			</li>
 			<li>
 				<a
+					href="/boletines/"
+					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/boletines') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
+					aria-current={pathname.startsWith('/boletines') ? 'page' : undefined}
+				>Boletín</a>
+			</li>
+			<li>
+				<a
 					href="/canal/"
 					class={`flex items-center gap-1.5 rounded-full px-3.5 py-2 transition-colors ${pathname.startsWith('/canal') ? 'bg-ink text-white' : 'bg-[#f0f0ec] text-ink hover:bg-neutral-200'}`}
 					aria-current={pathname.startsWith('/canal') ? 'page' : undefined}
