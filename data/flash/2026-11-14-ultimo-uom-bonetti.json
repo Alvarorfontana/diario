@@ -1,7 +1,7 @@
 {
   "id": "2026-11-14-ultimo-uom-bonetti",
   "tipo": "ultimo",
-  "titulo": "UOM: Bonetti le responde a Mariano Martín y defiende la paritaria",
+  "titulo": "UOM Capital: Roberto Bonetti le responde a Mariano Martín y defiende la paritaria",
   "fecha": "2026-11-14",
   "voz": "es-AR-TomasNeural",
   "velocidad": 8,
@@ -14,10 +14,10 @@
   "publicado": false,
   "bloques": [
     {
-      "kicker": "UOM Capital",
-      "titulo": "Bonetti le responde a Mariano Martín",
-      "texto": "Roberto Bonetti, de la UOM Capital, le respondió a Mariano Martín, de El Destape. Lo acusa de publicar sin consultar a los dirigentes que nombra.",
-      "epigrafe": "Roberto Bonetti, secretario general de la UOM Seccional Capital",
+      "kicker": "Roberto Bonetti dijo",
+      "titulo": "Roberto Bonetti, secretario general de la UOM Capital",
+      "texto": "Roberto Bonetti, secretario general de la UOM Capital, le respondió a Mariano Martín, de El Destape. Lo acusa de publicar sin consultar a los dirigentes que nombra.",
+      "epigrafe": "Roberto Bonetti, secretario general de la UOM Capital",
       "fuente": "Foto cedida",
       "media": {
         "tipo": "foto",
@@ -25,10 +25,10 @@
       }
     },
     {
-      "kicker": "La paritaria",
+      "kicker": "Roberto Bonetti dijo",
       "titulo": "23,5% hasta marzo de 2027",
-      "texto": "Defendió la paritaria del 23,5 por ciento y recordó que Furlán dejó los salarios metalúrgicos un 18,5 por ciento atrás de la inflación.",
-      "epigrafe": "Roberto Bonetti, secretario general de la UOM Seccional Capital",
+      "texto": "El secretario general de la UOM Capital defendió la paritaria del 23,5 por ciento y recordó que Furlán dejó los salarios metalúrgicos un 18,5 por ciento atrás de la inflación.",
+      "epigrafe": "Roberto Bonetti, secretario general de la UOM Capital",
       "fuente": "Archivo Diario Federal",
       "media": {
         "tipo": "foto",
@@ -36,15 +36,18 @@
       }
     },
     {
-      "kicker": "La unidad",
+      "kicker": "Roberto Bonetti dijo",
       "titulo": "«La UOM está por encima de cualquier dirigente»",
-      "texto": "Y pidió unidad: la UOM está por encima de cualquier dirigente circunstancial.",
-      "epigrafe": "Roberto Bonetti, secretario general de la UOM Seccional Capital",
+      "texto": "Y desde la UOM Capital pidió unidad: el gremio está por encima de cualquier dirigente circunstancial.",
+      "epigrafe": "Roberto Bonetti, secretario general de la UOM Capital",
       "fuente": "Foto cedida",
       "media": {
         "tipo": "foto",
         "archivo": "/uploads/roberto-bonetti-uom-capital.jpg",
-        "foco": [0.5, 0.3]
+        "foco": [
+          0.5,
+          0.3
+        ]
       }
     }
   ]
