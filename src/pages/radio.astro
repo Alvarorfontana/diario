@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const titulo = 'Diario Federal Radio';
+const descripcion = 'Una señal musical internacional y los próximos boletines informativos de Diario Federal.';
+---
+
+<BaseLayout title={titulo} description={descripcion}>
+  <section class="overflow-hidden rounded-2xl bg-[#111] text-white">
+    <div class="relative border-b border-white/10 px-5 py-7 sm:px-8 sm:py-9">
+      <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-[#ff6575]">Una nueva señal de Diario Federal</p>
+      <h1 class="mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">Diario Federal <span class="text-[#ff6575]">Radio</span></h1>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/70 sm:text-base">Música internacional durante el día. Información propia, en dos ediciones diarias, próximamente.</p>
+      <div class="mt-5 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-bold text-white/85">
+        <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+        CANAL MUSICAL · REPRODUCTOR OFICIAL
+      </div>
+    </div>
+
+    <div class="grid gap-6 p-4 sm:p-7 lg:grid-cols-[1.4fr_0.8fr]">
+      <div>
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <div>
+            <p class="text-[11px] font-bold uppercase tracking-[0.15em] text-white/45">Al aire</p>
+            <h2 class="mt-1 text-lg font-extrabold">Lofi Girl · música para escuchar</h2>
+          </div>
+          <span class="rounded-full bg-white/10 px-3 py-1 text-[11px] font-bold text-white/70">YouTube oficial</span>
+        </div>
+        <div class="aspect-video overflow-hidden rounded-xl bg-black ring-1 ring-white/10">
+          <iframe
+            class="h-full w-full"
+            src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?rel=0"
+            title="Lofi Girl — transmisión musical oficial en YouTube"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <p class="mt-3 text-xs leading-relaxed text-white/45">La música se reproduce desde el reproductor oficial de YouTube. Para comenzar, tocá el botón de reproducción. La disponibilidad depende de la transmisión y de las opciones de inserción del canal.</p>
+      </div>
+
+      <aside class="flex flex-col gap-4">
+        <div class="rounded-xl border border-white/10 bg-white/[0.04] p-5">
+          <p class="text-[11px] font-extrabold uppercase tracking-[0.15em] text-[#ff6575]">Próximamente</p>
+          <h2 class="mt-2 font-display text-xl font-extrabold">Informativo Diario Federal</h2>
+          <p class="mt-2 text-sm leading-relaxed text-white/65">Dos ediciones diarias, una por la mañana y otra por la noche. La estructura y la producción de los boletines se definirán en una segunda etapa.</p>
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="rounded-lg bg-black/30 p-3">
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-white/40">Edición 1</span>
+              <span class="mt-1 block text-sm font-bold">Mañana</span>
+            </div>
+            <div class="rounded-lg bg-black/30 p-3">
+              <span class="block text-[10px] font-bold uppercase tracking-wider text-white/40">Edición 2</span>
+              <span class="mt-1 block text-sm font-bold">Noche</span>
+            </div>
+          </div>
+        </div>
+        <a href="/" class="inline-flex items-center justify-center rounded-lg bg-[#d0021b] px-4 py-3 text-sm font-extrabold text-white transition hover:bg-[#a30015]">Volver al Diario Federal <span class="ml-2" aria-hidden="true">→</span></a>
+      </aside>
+    </div>
+  </section>
+  <p class="mt-5 text-center text-xs text-neutral-500">Versión de prueba · La señal musical utiliza el contenido y el reproductor del canal oficial. Diario Federal no retransmite ni almacena ese audio.</p>
+</BaseLayout>
