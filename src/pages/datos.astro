@@ -3,6 +3,45 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
 
 export const prerender = true;
+
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+// Datos que baja el proceso diario (.github/workflows/laboratorio-datos.yml) a data/laboratorio/.
+const leer = (n: string) => {
+  try { return JSON.parse(readFileSync(join(process.cwd(), 'data', 'laboratorio', `${n}.json`), 'utf8')); } catch { return null; }
+};
+const ipc = leer('inflacion');
+const riesgo = leer('riesgo-pais');
+const dolar = leer('dolar');
+const reservas = leer('reservas');
+const fmi = leer('fmi');
+
+const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+const mesTexto = (ym: string) => { const [a, m] = ym.split('-'); return `${MESES[Number(m) - 1]} ${a}`; };
+const diaTexto = (f: string) => { const [a, m, d] = f.split('-'); return `${Number(d)}/${Number(m)}/${a.slice(2)}`; };
+const n = (v: number, d = 0) => v.toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d });
+const ultimo = (o: any) => (o?.serie?.length ? o.serie[o.serie.length - 1] : null);
+
+const uIpc = ultimo(ipc), uRiesgo = ultimo(riesgo), uDolar = ultimo(dolar), uRes = ultimo(reservas);
+const brecha = uDolar?.oficial && uDolar?.blue ? ((uDolar.blue / uDolar.oficial - 1) * 100) : null;
+
+// FMI: crecimiento del año en curso y el próximo, por país (tabla y gráfico).
+const anioFmi = fmi?.anio_actual ?? new Date().getFullYear();
+const filasFmi = fmi ? Object.keys(fmi.indicadores.NGDP_RPCH.paises).map((pais) => ({
+  pais,
+  pib: [anioFmi, anioFmi + 1].map((a) => fmi.indicadores.NGDP_RPCH.paises[pais]?.[a] ?? null),
+  inflacion: fmi.indicadores.PCPIPCH.paises[pais]?.[anioFmi] ?? null,
+  desempleo: fmi.indicadores.LUR.paises[pais]?.[anioFmi] ?? null,
+})) : [];
+
+const datosGraficos = {
+  ipc: ipc ? ipc.serie.slice(-36) : [],
+  riesgo: riesgo ? riesgo.serie : [],
+  dolar: dolar ? dolar.serie : [],
+  reservas: reservas ? reservas.serie : [],
+  fmi: { anio: anioFmi, filas: filasFmi },
+};
 ---
 
 <BaseLayout
@@ -22,7 +61,117 @@ export const prerender = true;
       </div>
     </header>
 
-    <section class="mt-7 grid gap-4 md:grid-cols-2" aria-label="Indicadores económicos">
+
+    <!-- ARGENTINA EN DATOS: series que se actualizan solas todos los días -->
+    {(uIpc || uRiesgo || uDolar || uRes) && (
+      <section class="mt-7" aria-labelledby="arg-datos">
+        <div class="flex flex-wrap items-end justify-between gap-2">
+          <h2 id="arg-datos" class="font-display text-2xl font-extrabold text-ink">Argentina en datos</h2>
+          <p class="text-xs text-neutral-500">Se actualiza todos los días con fuentes oficiales</p>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-5">
+          {uIpc && (
+            <div class="rounded-xl border border-neutral-200 bg-white p-4">
+              <p class="text-xs font-semibold text-neutral-500">Inflación mensual</p>
+              <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(uIpc.mensual, 1)} %</p>
+              <p class="mt-1 text-xs text-neutral-500">{mesTexto(uIpc.fecha)} · INDEC</p>
+            </div>
+          )}
+          {uIpc?.interanual != null && (
+            <div class="rounded-xl border border-neutral-200 bg-white p-4">
+              <p class="text-xs font-semibold text-neutral-500">Inflación interanual</p>
+              <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(uIpc.interanual, 1)} %</p>
+              <p class="mt-1 text-xs text-neutral-500">{mesTexto(uIpc.fecha)} · INDEC</p>
+            </div>
+          )}
+          {uRiesgo && (
+            <div class="rounded-xl border border-neutral-200 bg-white p-4">
+              <p class="text-xs font-semibold text-neutral-500">Riesgo país</p>
+              <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(uRiesgo.valor)}</p>
+              <p class="mt-1 text-xs text-neutral-500">puntos básicos · {diaTexto(uRiesgo.fecha)}</p>
+            </div>
+          )}
+          {uDolar && (
+            <div class="rounded-xl border border-neutral-200 bg-white p-4">
+              <p class="text-xs font-semibold text-neutral-500">Dólar oficial / blue</p>
+              <p class="mt-1 font-display text-xl font-extrabold text-ink tabular-nums sm:text-2xl">${n(uDolar.oficial)} <span class="text-neutral-400">/</span> ${n(uDolar.blue)}</p>
+              <p class="mt-1 text-xs text-neutral-500">{brecha !== null ? `brecha ${n(brecha, 1)} % · ` : ''}{diaTexto(uDolar.fecha)}</p>
+            </div>
+          )}
+          {uRes && (
+            <div class="col-span-2 rounded-xl border border-neutral-200 bg-white p-4 lg:col-span-1">
+              <p class="text-xs font-semibold text-neutral-500">Reservas del BCRA</p>
+              <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">US$ {n(uRes.valor)} M</p>
+              <p class="mt-1 text-xs text-neutral-500">{diaTexto(uRes.fecha)} · BCRA</p>
+            </div>
+          )}
+        </div>
+
+        <div class="mt-4 grid gap-4 md:grid-cols-2">
+          {ipc && (
+            <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+              <h3 class="font-display text-lg font-bold text-ink">Inflación mes a mes</h3>
+              <p class="text-sm text-neutral-500">Variación mensual del IPC nacional · últimos 36 meses</p>
+              <div id="g-ipc" class="mt-3 h-64 w-full" role="img" aria-label="Barras de la inflación mensual de los últimos 36 meses"></div>
+              <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={ipc.fuente_url} target="_blank" rel="noopener noreferrer">{ipc.fuente}</a></p>
+            </article>
+          )}
+          {riesgo && (
+            <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+              <h3 class="font-display text-lg font-bold text-ink">Riesgo país</h3>
+              <p class="text-sm text-neutral-500">Puntos básicos · desde {riesgo.serie[0].fecha.slice(0, 4)}</p>
+              <div id="g-riesgo" class="mt-3 h-64 w-full" role="img" aria-label="Línea del riesgo país en puntos básicos"></div>
+              <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={riesgo.fuente_url} target="_blank" rel="noopener noreferrer">{riesgo.fuente}</a></p>
+            </article>
+          )}
+          {dolar && (
+            <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+              <h3 class="font-display text-lg font-bold text-ink">Dólar oficial, blue y MEP</h3>
+              <p class="text-sm text-neutral-500">Cotización de venta en pesos · desde {dolar.serie[0].fecha.slice(0, 4)}</p>
+              <div id="g-dolar" class="mt-3 h-64 w-full" role="img" aria-label="Líneas del dólar oficial, blue y MEP"></div>
+              <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={dolar.fuente_url} target="_blank" rel="noopener noreferrer">{dolar.fuente}</a></p>
+            </article>
+          )}
+          {reservas && (
+            <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+              <h3 class="font-display text-lg font-bold text-ink">Reservas internacionales</h3>
+              <p class="text-sm text-neutral-500">Millones de dólares · desde {reservas.serie[0].fecha.slice(0, 4)}</p>
+              <div id="g-reservas" class="mt-3 h-64 w-full" role="img" aria-label="Línea de las reservas internacionales del BCRA"></div>
+              <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={reservas.fuente_url} target="_blank" rel="noopener noreferrer">{reservas.fuente}</a></p>
+            </article>
+          )}
+        </div>
+
+        {filasFmi.length > 0 && (
+          <article class="mt-4 rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+            <h3 class="font-display text-lg font-bold text-ink">La región según el FMI</h3>
+            <p class="text-sm text-neutral-500">Crecimiento del PIB proyectado para {anioFmi} y {anioFmi + 1} (%)</p>
+            <div id="g-fmi" class="mt-3 h-72 w-full" role="img" aria-label={`Barras del crecimiento proyectado por el FMI para ${anioFmi} y ${anioFmi + 1} en seis países`}></div>
+            <div class="mt-3 overflow-x-auto">
+              <table class="w-full min-w-[460px] text-sm tabular-nums">
+                <thead><tr class="border-b border-neutral-200 text-left text-xs text-neutral-500"><th class="py-2 font-semibold">País</th><th class="py-2 text-right font-semibold">PIB {anioFmi}</th><th class="py-2 text-right font-semibold">PIB {anioFmi + 1}</th><th class="py-2 text-right font-semibold">Inflación {anioFmi}</th><th class="py-2 text-right font-semibold">Desempleo {anioFmi}</th></tr></thead>
+                <tbody>
+                  {filasFmi.map((f) => (
+                    <tr class={`border-b border-neutral-100 ${f.pais === 'Argentina' ? 'font-bold text-ink' : 'text-neutral-700'}`}>
+                      <td class="py-2">{f.pais}</td>
+                      <td class="py-2 text-right">{f.pib[0] != null ? `${n(f.pib[0], 1)} %` : '–'}</td>
+                      <td class="py-2 text-right">{f.pib[1] != null ? `${n(f.pib[1], 1)} %` : '–'}</td>
+                      <td class="py-2 text-right">{f.inflacion != null ? `${n(f.inflacion, 1)} %` : '–'}</td>
+                      <td class="py-2 text-right">{f.desempleo != null ? `${n(f.desempleo, 1)} %` : '–'}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-2 text-xs text-neutral-500">Fuente: <a class="underline" href={fmi.fuente_url} target="_blank" rel="noopener noreferrer">{fmi.fuente}</a>. Los valores del año en curso y siguientes son proyecciones.</p>
+          </article>
+        )}
+        <script type="application/json" id="lab-datos" set:html={JSON.stringify(datosGraficos)}></script>
+      </section>
+    )}
+
+    <section class="mt-8 grid gap-4 md:grid-cols-2" aria-label="Indicadores económicos">
       <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
         <div class="flex flex-wrap items-start justify-between gap-2">
           <div><p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Comparación histórica</p><h2 class="mt-1 font-display text-xl font-bold text-ink">Crecimiento del PIB</h2><p class="mt-1 text-sm text-neutral-500">Variación anual · Argentina, Brasil, Chile y Uruguay</p></div>
@@ -79,16 +228,16 @@ export const prerender = true;
 <script>
   // Gráficos (Apache ECharts) y mapa (Leaflet + OpenStreetMap), incluidos en el sitio: no dependen de otros servidores de código.
   import * as echarts from 'echarts/core';
-  import { LineChart } from 'echarts/charts';
+  import { LineChart, BarChart } from 'echarts/charts';
   import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components';
   import { CanvasRenderer } from 'echarts/renderers';
   import L from 'leaflet';
   import 'leaflet/dist/leaflet.css';
 
-  echarts.use([LineChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer]);
+  echarts.use([LineChart, BarChart, GridComponent, TooltipComponent, LegendComponent, CanvasRenderer]);
 
   const paises: Record<string, string> = { ARG: 'Argentina', BRA: 'Brasil', CHL: 'Chile', URY: 'Uruguay' };
-  const colores = ['#c8102e', '#1f7a4d', '#7a5c00', '#555555'];
+  const colores = ['#c8102e', '#1baf7a', '#eda100', '#7a3fa0']; // paleta validada para daltonismo
   const indicadores = [
     { id: 'NY.GDP.MKTP.KD.ZG', el: 'chart-pib', status: 'status-pib', desde: 1990 },
     // Inflación desde 2000: la hiperinflación de 1989-90 (más de 2000 %) aplastaría el resto de la serie.
@@ -170,6 +319,80 @@ export const prerender = true;
     } catch (e) {
       bloque.classList.add('hidden');
       console.error('Mapa GDELT', e);
+    }
+  }
+
+
+  // ---------- Argentina en datos (archivos propios, sin consultas externas) ----------
+  const ROJO = '#c8102e', AQUA = '#1baf7a', AMARILLO = '#eda100';
+  const ejes = { axisLabel: { color: '#737373' }, axisLine: { lineStyle: { color: '#d4d4d0' } } };
+  // Ejes con fechas diarias: se muestran como mm/aa
+  const ejesFecha = { axisLine: { lineStyle: { color: '#d4d4d0' } }, axisLabel: { color: '#737373', hideOverlap: true, formatter: (f: string) => f.slice(5, 7) + '/' + f.slice(2, 4) } };
+  const grilla = { splitLine: { lineStyle: { color: '#eeeeea' } } };
+  const fmtN = (v: any, d = 0) => (v == null ? 'Sin dato' : Number(v).toLocaleString('es-AR', { minimumFractionDigits: d, maximumFractionDigits: d }));
+  const nodoDatos = document.getElementById('lab-datos');
+  const lab = nodoDatos ? JSON.parse(nodoDatos.textContent || '{}') : null;
+
+  function grafico(id: string, opcion: any) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const c = echarts.init(el);
+    c.setOption({ animation: false, textStyle: { fontFamily: 'Inter, system-ui, sans-serif' }, ...opcion });
+    window.addEventListener('resize', () => c.resize());
+  }
+
+  if (lab) {
+    if (lab.ipc?.length) grafico('g-ipc', {
+      grid: { left: 38, right: 10, top: 12, bottom: 28 },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => fmtN(v, 1) + ' %' },
+      xAxis: { type: 'category', data: lab.ipc.map((p: any) => p.fecha.slice(5) + '/' + p.fecha.slice(2, 4)), ...ejes },
+      yAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value} %' }, ...grilla },
+      series: [{ name: 'Inflación mensual', type: 'bar', data: lab.ipc.map((p: any) => p.mensual), itemStyle: { color: ROJO, borderRadius: [4, 4, 0, 0] }, barCategoryGap: '25%' }],
+    });
+    if (lab.riesgo?.length) grafico('g-riesgo', {
+      grid: { left: 46, right: 12, top: 12, bottom: 28 },
+      tooltip: { trigger: 'axis', valueFormatter: (v: any) => fmtN(v) + ' pb' },
+      xAxis: { type: 'category', data: lab.riesgo.map((p: any) => p.fecha), ...ejesFecha },
+      yAxis: { type: 'value', ...grilla, axisLabel: { color: '#737373', formatter: (v: number) => fmtN(v) } },
+      series: [{ name: 'Riesgo país', type: 'line', showSymbol: false, lineStyle: { width: 2, color: ROJO }, itemStyle: { color: ROJO }, data: lab.riesgo.map((p: any) => p.valor) }],
+    });
+    if (lab.dolar?.length) grafico('g-dolar', {
+      grid: { left: 52, right: 12, top: 12, bottom: 50 },
+      legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+      tooltip: { trigger: 'axis', valueFormatter: (v: any) => '$ ' + fmtN(v, 2) },
+      xAxis: { type: 'category', data: lab.dolar.map((p: any) => p.fecha), ...ejesFecha },
+      yAxis: { type: 'value', ...grilla, axisLabel: { color: '#737373', formatter: (v: number) => fmtN(v) } },
+      series: [
+        { name: 'Oficial', type: 'line', showSymbol: false, connectNulls: true, lineStyle: { width: 2 }, color: ROJO, data: lab.dolar.map((p: any) => p.oficial ?? null) },
+        { name: 'Blue', type: 'line', showSymbol: false, connectNulls: true, lineStyle: { width: 2 }, color: AQUA, data: lab.dolar.map((p: any) => p.blue ?? null) },
+        { name: 'MEP', type: 'line', showSymbol: false, connectNulls: true, lineStyle: { width: 2 }, color: AMARILLO, data: lab.dolar.map((p: any) => p.mep ?? null) },
+      ],
+    });
+    if (lab.reservas?.length) grafico('g-reservas', {
+      grid: { left: 52, right: 12, top: 12, bottom: 28 },
+      tooltip: { trigger: 'axis', valueFormatter: (v: any) => 'US$ ' + fmtN(v) + ' M' },
+      xAxis: { type: 'category', data: lab.reservas.map((p: any) => p.fecha), ...ejesFecha },
+      yAxis: { type: 'value', scale: true, ...grilla, axisLabel: { color: '#737373', formatter: (v: number) => fmtN(v / 1000) + ' mil' } },
+      series: [{ name: 'Reservas', type: 'line', showSymbol: false, lineStyle: { width: 2, color: ROJO }, itemStyle: { color: ROJO }, areaStyle: { color: 'rgba(200,16,46,0.08)' }, data: lab.reservas.map((p: any) => p.valor) }],
+    });
+    if (lab.fmi?.filas?.length) {
+      const filas = lab.fmi.filas;
+      grafico('g-fmi', {
+        grid: { left: 38, right: 10, top: 24, bottom: 50 },
+        legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => fmtN(v, 1) + ' %' },
+        xAxis: { type: 'category', data: filas.map((f: any) => f.pais), ...ejes },
+        yAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value} %' }, ...grilla },
+        series: [0, 1].map((i) => ({
+          name: String(lab.fmi.anio + i),
+          type: 'bar',
+          barGap: '8%',
+          color: i === 0 ? ROJO : '#7a7a7a',
+          itemStyle: { borderRadius: [4, 4, 0, 0] },
+          label: { show: true, position: 'top', color: '#525252', fontSize: 10, formatter: (p: any) => (p.value == null ? '' : fmtN(p.value, 1)) },
+          data: filas.map((f: any) => f.pib[i]),
+        })),
+      });
     }
   }
 
