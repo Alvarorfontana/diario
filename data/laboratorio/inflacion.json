@@ -1,0 +1,594 @@
+{
+ "titulo": "Inflación (IPC nacional)",
+ "unidad": "%",
+ "fuente": "INDEC vía API Series de Tiempo (datos.gob.ar)",
+ "fuente_url": "https://datos.gob.ar/series",
+ "serie": [
+  {
+   "fecha": "2017-02",
+   "mensual": 2.1,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-03",
+   "mensual": 2.4,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-04",
+   "mensual": 2.7,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-05",
+   "mensual": 1.4,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-06",
+   "mensual": 1.2,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-07",
+   "mensual": 1.7,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-08",
+   "mensual": 1.4,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-09",
+   "mensual": 1.9,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-10",
+   "mensual": 1.5,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-11",
+   "mensual": 1.4,
+   "interanual": null
+  },
+  {
+   "fecha": "2017-12",
+   "mensual": 3.1,
+   "interanual": null
+  },
+  {
+   "fecha": "2018-01",
+   "mensual": 1.8,
+   "interanual": 25
+  },
+  {
+   "fecha": "2018-02",
+   "mensual": 2.4,
+   "interanual": 25.4
+  },
+  {
+   "fecha": "2018-03",
+   "mensual": 2.3,
+   "interanual": 25.4
+  },
+  {
+   "fecha": "2018-04",
+   "mensual": 2.7,
+   "interanual": 25.5
+  },
+  {
+   "fecha": "2018-05",
+   "mensual": 2.1,
+   "interanual": 26.3
+  },
+  {
+   "fecha": "2018-06",
+   "mensual": 3.7,
+   "interanual": 29.5
+  },
+  {
+   "fecha": "2018-07",
+   "mensual": 3.1,
+   "interanual": 31.2
+  },
+  {
+   "fecha": "2018-08",
+   "mensual": 3.9,
+   "interanual": 34.4
+  },
+  {
+   "fecha": "2018-09",
+   "mensual": 6.5,
+   "interanual": 40.5
+  },
+  {
+   "fecha": "2018-10",
+   "mensual": 5.4,
+   "interanual": 45.9
+  },
+  {
+   "fecha": "2018-11",
+   "mensual": 3.2,
+   "interanual": 48.5
+  },
+  {
+   "fecha": "2018-12",
+   "mensual": 2.6,
+   "interanual": 47.6
+  },
+  {
+   "fecha": "2019-01",
+   "mensual": 2.9,
+   "interanual": 49.3
+  },
+  {
+   "fecha": "2019-02",
+   "mensual": 3.8,
+   "interanual": 51.3
+  },
+  {
+   "fecha": "2019-03",
+   "mensual": 4.7,
+   "interanual": 54.7
+  },
+  {
+   "fecha": "2019-04",
+   "mensual": 3.4,
+   "interanual": 55.8
+  },
+  {
+   "fecha": "2019-05",
+   "mensual": 3.1,
+   "interanual": 57.3
+  },
+  {
+   "fecha": "2019-06",
+   "mensual": 2.7,
+   "interanual": 55.8
+  },
+  {
+   "fecha": "2019-07",
+   "mensual": 2.2,
+   "interanual": 54.4
+  },
+  {
+   "fecha": "2019-08",
+   "mensual": 4,
+   "interanual": 54.5
+  },
+  {
+   "fecha": "2019-09",
+   "mensual": 5.9,
+   "interanual": 53.5
+  },
+  {
+   "fecha": "2019-10",
+   "mensual": 3.3,
+   "interanual": 50.5
+  },
+  {
+   "fecha": "2019-11",
+   "mensual": 4.3,
+   "interanual": 52.1
+  },
+  {
+   "fecha": "2019-12",
+   "mensual": 3.7,
+   "interanual": 53.8
+  },
+  {
+   "fecha": "2020-01",
+   "mensual": 2.3,
+   "interanual": 52.9
+  },
+  {
+   "fecha": "2020-02",
+   "mensual": 2,
+   "interanual": 50.3
+  },
+  {
+   "fecha": "2020-03",
+   "mensual": 3.3,
+   "interanual": 48.4
+  },
+  {
+   "fecha": "2020-04",
+   "mensual": 1.5,
+   "interanual": 45.6
+  },
+  {
+   "fecha": "2020-05",
+   "mensual": 1.5,
+   "interanual": 43.4
+  },
+  {
+   "fecha": "2020-06",
+   "mensual": 2.2,
+   "interanual": 42.8
+  },
+  {
+   "fecha": "2020-07",
+   "mensual": 1.9,
+   "interanual": 42.4
+  },
+  {
+   "fecha": "2020-08",
+   "mensual": 2.7,
+   "interanual": 40.7
+  },
+  {
+   "fecha": "2020-09",
+   "mensual": 2.8,
+   "interanual": 36.6
+  },
+  {
+   "fecha": "2020-10",
+   "mensual": 3.8,
+   "interanual": 37.2
+  },
+  {
+   "fecha": "2020-11",
+   "mensual": 3.2,
+   "interanual": 35.8
+  },
+  {
+   "fecha": "2020-12",
+   "mensual": 4,
+   "interanual": 36.1
+  },
+  {
+   "fecha": "2021-01",
+   "mensual": 4,
+   "interanual": 38.5
+  },
+  {
+   "fecha": "2021-02",
+   "mensual": 3.6,
+   "interanual": 40.7
+  },
+  {
+   "fecha": "2021-03",
+   "mensual": 4.8,
+   "interanual": 42.6
+  },
+  {
+   "fecha": "2021-04",
+   "mensual": 4.1,
+   "interanual": 46.3
+  },
+  {
+   "fecha": "2021-05",
+   "mensual": 3.3,
+   "interanual": 48.8
+  },
+  {
+   "fecha": "2021-06",
+   "mensual": 3.2,
+   "interanual": 50.2
+  },
+  {
+   "fecha": "2021-07",
+   "mensual": 3,
+   "interanual": 51.8
+  },
+  {
+   "fecha": "2021-08",
+   "mensual": 2.5,
+   "interanual": 51.4
+  },
+  {
+   "fecha": "2021-09",
+   "mensual": 3.5,
+   "interanual": 52.5
+  },
+  {
+   "fecha": "2021-10",
+   "mensual": 3.5,
+   "interanual": 52.1
+  },
+  {
+   "fecha": "2021-11",
+   "mensual": 2.5,
+   "interanual": 51.2
+  },
+  {
+   "fecha": "2021-12",
+   "mensual": 3.8,
+   "interanual": 50.9
+  },
+  {
+   "fecha": "2022-01",
+   "mensual": 3.9,
+   "interanual": 50.7
+  },
+  {
+   "fecha": "2022-02",
+   "mensual": 4.7,
+   "interanual": 52.3
+  },
+  {
+   "fecha": "2022-03",
+   "mensual": 6.7,
+   "interanual": 55.1
+  },
+  {
+   "fecha": "2022-04",
+   "mensual": 6,
+   "interanual": 58
+  },
+  {
+   "fecha": "2022-05",
+   "mensual": 5.1,
+   "interanual": 60.7
+  },
+  {
+   "fecha": "2022-06",
+   "mensual": 5.3,
+   "interanual": 64
+  },
+  {
+   "fecha": "2022-07",
+   "mensual": 7.4,
+   "interanual": 71
+  },
+  {
+   "fecha": "2022-08",
+   "mensual": 7,
+   "interanual": 78.5
+  },
+  {
+   "fecha": "2022-09",
+   "mensual": 6.2,
+   "interanual": 83
+  },
+  {
+   "fecha": "2022-10",
+   "mensual": 6.3,
+   "interanual": 88
+  },
+  {
+   "fecha": "2022-11",
+   "mensual": 4.9,
+   "interanual": 92.4
+  },
+  {
+   "fecha": "2022-12",
+   "mensual": 5.1,
+   "interanual": 94.8
+  },
+  {
+   "fecha": "2023-01",
+   "mensual": 6,
+   "interanual": 98.8
+  },
+  {
+   "fecha": "2023-02",
+   "mensual": 6.6,
+   "interanual": 102.5
+  },
+  {
+   "fecha": "2023-03",
+   "mensual": 7.7,
+   "interanual": 104.3
+  },
+  {
+   "fecha": "2023-04",
+   "mensual": 8.4,
+   "interanual": 108.8
+  },
+  {
+   "fecha": "2023-05",
+   "mensual": 7.8,
+   "interanual": 114.2
+  },
+  {
+   "fecha": "2023-06",
+   "mensual": 6,
+   "interanual": 115.6
+  },
+  {
+   "fecha": "2023-07",
+   "mensual": 6.3,
+   "interanual": 113.4
+  },
+  {
+   "fecha": "2023-08",
+   "mensual": 12.4,
+   "interanual": 124.4
+  },
+  {
+   "fecha": "2023-09",
+   "mensual": 12.7,
+   "interanual": 138.3
+  },
+  {
+   "fecha": "2023-10",
+   "mensual": 8.3,
+   "interanual": 142.7
+  },
+  {
+   "fecha": "2023-11",
+   "mensual": 12.8,
+   "interanual": 160.9
+  },
+  {
+   "fecha": "2023-12",
+   "mensual": 25.5,
+   "interanual": 211.4
+  },
+  {
+   "fecha": "2024-01",
+   "mensual": 20.6,
+   "interanual": 254.2
+  },
+  {
+   "fecha": "2024-02",
+   "mensual": 13.2,
+   "interanual": 276.2
+  },
+  {
+   "fecha": "2024-03",
+   "mensual": 11,
+   "interanual": 287.9
+  },
+  {
+   "fecha": "2024-04",
+   "mensual": 8.8,
+   "interanual": 289.4
+  },
+  {
+   "fecha": "2024-05",
+   "mensual": 4.2,
+   "interanual": 276.4
+  },
+  {
+   "fecha": "2024-06",
+   "mensual": 4.6,
+   "interanual": 271.5
+  },
+  {
+   "fecha": "2024-07",
+   "mensual": 4,
+   "interanual": 263.4
+  },
+  {
+   "fecha": "2024-08",
+   "mensual": 4.2,
+   "interanual": 236.7
+  },
+  {
+   "fecha": "2024-09",
+   "mensual": 3.5,
+   "interanual": 209
+  },
+  {
+   "fecha": "2024-10",
+   "mensual": 2.7,
+   "interanual": 193
+  },
+  {
+   "fecha": "2024-11",
+   "mensual": 2.4,
+   "interanual": 166
+  },
+  {
+   "fecha": "2024-12",
+   "mensual": 2.7,
+   "interanual": 117.8
+  },
+  {
+   "fecha": "2025-01",
+   "mensual": 2.2,
+   "interanual": 84.5
+  },
+  {
+   "fecha": "2025-02",
+   "mensual": 2.4,
+   "interanual": 66.9
+  },
+  {
+   "fecha": "2025-03",
+   "mensual": 3.7,
+   "interanual": 55.9
+  },
+  {
+   "fecha": "2025-04",
+   "mensual": 2.8,
+   "interanual": 47.3
+  },
+  {
+   "fecha": "2025-05",
+   "mensual": 1.5,
+   "interanual": 43.5
+  },
+  {
+   "fecha": "2025-06",
+   "mensual": 1.6,
+   "interanual": 39.4
+  },
+  {
+   "fecha": "2025-07",
+   "mensual": 1.9,
+   "interanual": 36.6
+  },
+  {
+   "fecha": "2025-08",
+   "mensual": 1.9,
+   "interanual": 33.6
+  },
+  {
+   "fecha": "2025-09",
+   "mensual": 2.1,
+   "interanual": 31.8
+  },
+  {
+   "fecha": "2025-10",
+   "mensual": 2.3,
+   "interanual": 31.3
+  },
+  {
+   "fecha": "2025-11",
+   "mensual": 2.5,
+   "interanual": 31.4
+  },
+  {
+   "fecha": "2025-12",
+   "mensual": 2.8,
+   "interanual": 31.5
+  },
+  {
+   "fecha": "2026-01",
+   "mensual": 2.9,
+   "interanual": 32.4
+  },
+  {
+   "fecha": "2026-02",
+   "mensual": 2.9,
+   "interanual": 33.1
+  },
+  {
+   "fecha": "2026-03",
+   "mensual": 3.4,
+   "interanual": 32.6
+  },
+  {
+   "fecha": "2026-04",
+   "mensual": 2.6,
+   "interanual": 32.4
+  },
+  {
+   "fecha": "2026-05",
+   "mensual": 2.1,
+   "interanual": 33.2
+  },
+  {
+   "fecha": "2026-06",
+   "mensual": 1.9,
+   "interanual": 33.5
+  },
+  {
+   "fecha": "2026-07",
+   "mensual": 2.1,
+   "interanual": 33.8
+  },
+  {
+   "fecha": "2026-08",
+   "mensual": 1.7,
+   "interanual": 33.5
+  },
+  {
+   "fecha": "2026-09",
+   "mensual": 1.9,
+   "interanual": 33.4
+  },
+  {
+   "fecha": "2026-10",
+   "mensual": 2.2,
+   "interanual": 33.1
+  }
+ ],
+ "actualizado": "2026-11-15"
+}
