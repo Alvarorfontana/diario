@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../consts';
+import { getEpisodios, hhmmss } from '../lib/podcast';
+
+export const prerender = false;
+const episodios = await getEpisodios();
+const ultimo = episodios[0];
+const radioStream = import.meta.env.PUBLIC_RADIO_STREAM_URL || '';
+---
+
+<BaseLayout
+  title={`Centro Multimedia | ${SITE_TITLE}`}
+  description="Noticias para escuchar, flashes, boletines, podcasts, radio y video de Diario Federal."
+  section="Multimedia"
+>
+  <div class="mx-auto max-w-6xl">
+    <header class="border-b border-neutral-200 pb-6">
+      <p class="text-xs font-extrabold tracking-[0.16em] text-brand uppercase">Diario Federal · Audio y video</p>
+      <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
+        <div><h1 class="font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">Centro Multimedia</h1><p class="mt-3 max-w-3xl text-base leading-relaxed text-neutral-600">La información de Diario Federal también se escucha y se ve. Noticias narradas, flashes informativos, boletines, entrevistas y señales audiovisuales.</p></div>
+        <a href="/podcast.xml" class="rounded-full border border-neutral-200 px-4 py-2 text-sm font-semibold text-ink hover:border-brand hover:text-brand">RSS del podcast ↗</a>
+      </div>
+    </header>
+
+    <section class="mt-7 grid gap-5 lg:grid-cols-[1.4fr_0.8fr]">
+      <article class="rounded-xl bg-ink p-5 text-white sm:p-7">
+        <p class="text-[11px] font-extrabold tracking-widest text-red-300 uppercase">Podcast · Las notas, en voz</p>
+        <h2 class="mt-2 font-display text-3xl font-bold">Escuchá las noticias</h2>
+        {ultimo ? (
+          <>
+            <p class="mt-2 text-sm text-white/70">Última nota disponible · {ultimo.articulo.title}</p>
+            <audio class="mt-5 w-full" controls preload="none">
+              <source src={ultimo.archivo} type="audio/mpeg" />
+              Tu navegador no puede reproducir este audio.
+            </audio>
+            <p class="mt-2 text-xs text-white/60">{episodios.length} episodios disponibles · último audio: {hhmmss(ultimo.duracion)}</p>
+          </>
+        ) : (
+          <p class="mt-3 text-sm text-white/70">Todavía no hay episodios publicados. Cuando se genere el primer audio aparecerá aquí.</p>
+        )}
+        <a href="/escuchar/" class="mt-5 inline-flex min-h-11 items-center rounded-full bg-white px-5 text-sm font-bold text-ink hover:bg-neutral-100">Abrir reproductor y lista completa →</a>
+      </article>
+
+      <section class="rounded-xl border border-neutral-200 bg-[#f7f6f2] p-5">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Radio online</p>
+        <h2 class="mt-2 font-display text-2xl font-bold text-ink">La señal de Diario Federal</h2>
+        {radioStream ? (
+          <>
+            <p class="mt-2 text-sm text-neutral-600">Señal de audio configurada.</p>
+            <audio class="mt-4 w-full" controls preload="none" src={radioStream}>Tu navegador no puede reproducir este audio.</audio>
+          </>
+        ) : (
+          <p class="mt-2 text-sm leading-relaxed text-neutral-600">Próximamente, la radio de Diario Federal en vivo.</p>
+        )}
+        <a href="/canal/" class="mt-5 inline-flex min-h-11 items-center rounded-full border border-neutral-300 px-4 text-sm font-bold text-ink hover:border-brand hover:text-brand">Ver Canal y señales audiovisuales →</a>
+      </section>
+    </section>
+
+    <section class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Formatos multimedia">
+      <a href="/flash/" class="group rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-brand">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Actualidad inmediata</p>
+        <h2 class="mt-2 font-display text-2xl font-bold text-ink">Flash informativo</h2>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-600">Boletines breves de noticias, informes y últimas novedades en formato audiovisual.</p>
+        <span class="mt-5 inline-block text-sm font-bold text-brand">Escuchar y ver flashes →</span>
+      </a>
+      <a href="/boletines/" class="group rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-brand">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Ediciones informativas</p>
+        <h2 class="mt-2 font-display text-2xl font-bold text-ink">Boletines</h2>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-600">Ediciones de audio y video para ponerse al día con la agenda informativa.</p>
+        <span class="mt-5 inline-block text-sm font-bold text-brand">Abrir boletines →</span>
+      </a>
+      <a href="/canal/" class="group rounded-xl border border-neutral-200 bg-white p-5 transition hover:border-brand">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Video y transmisiones</p>
+        <h2 class="mt-2 font-display text-2xl font-bold text-ink">Canal</h2>
+        <p class="mt-2 text-sm leading-relaxed text-neutral-600">Videos, entrevistas, clips y señales informativas disponibles en la plataforma.</p>
+        <span class="mt-5 inline-block text-sm font-bold text-brand">Entrar al Canal →</span>
+      </a>
+    </section>
+
+    <section class="mt-8 rounded-xl border border-neutral-200 p-5">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div><h2 class="font-display text-xl font-bold text-ink">Producción de audio</h2><p class="mt-1 text-sm text-neutral-600">El catálogo de notas narradas se actualiza a medida que se generan nuevos episodios.</p></div>
+        <a href="/escuchar/" class="text-sm font-bold text-brand underline underline-offset-4">Ver todos los episodios</a>
+      </div>
+      {episodios.length > 0 ? (
+        <ol class="mt-4 divide-y divide-neutral-200">
+          {episodios.slice(0, 5).map((ep) => (
+            <li class="flex flex-wrap items-center justify-between gap-3 py-3">
+              <div class="min-w-0"><p class="font-semibold text-ink">{ep.articulo.title}</p><p class="mt-1 text-xs text-neutral-500">{hhmmss(ep.duracion)}</p></div>
+              <a href={ep.archivo} class="shrink-0 text-sm font-semibold text-brand underline underline-offset-4" download>Descargar audio</a>
+            </li>
+          ))}
+        </ol>
+      ) : <p class="mt-4 text-sm text-neutral-500">El archivo de audio se mostrará aquí cuando haya episodios publicados.</p>}
+    </section>
+  </div>
+</BaseLayout>
