@@ -2,20 +2,22 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
 
-export const prerender = true;
+// Se arma en cada visita (con caché de una hora en Vercel) para que los datos del proceso diario
+// aparezcan sin esperar un nuevo deploy: los commits automáticos no disparan deploy en Vercel.
+export const prerender = false;
 
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-
-// Datos que baja el proceso diario (.github/workflows/laboratorio-datos.yml) a data/laboratorio/.
-const leer = (n: string) => {
-  try { return JSON.parse(readFileSync(join(process.cwd(), 'data', 'laboratorio', `${n}.json`), 'utf8')); } catch { return null; }
-};
-const ipc = leer('inflacion');
-const riesgo = leer('riesgo-pais');
-const dolar = leer('dolar');
-const reservas = leer('reservas');
-const fmi = leer('fmi');
+// Copia incluida en el sitio (respaldo si GitHub no responde).
+const incluidos = import.meta.glob('../../data/laboratorio/*.json', { eager: true, import: 'default' }) as Record<string, any>;
+const RAW = 'https://raw.githubusercontent.com/Alvarorfontana/diario/main/data/laboratorio/';
+async function leer(nombre: string) {
+  try {
+    const r = await fetch(RAW + nombre + '.json', { signal: AbortSignal.timeout(4000) });
+    if (r.ok) return await r.json();
+  } catch {}
+  return incluidos[`../../data/laboratorio/${nombre}.json`] ?? null;
+}
+const [ipc, riesgo, dolar, reservas, fmi] = await Promise.all(['inflacion', 'riesgo-pais', 'dolar', 'reservas', 'fmi'].map(leer));
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 const mesTexto = (ym: string) => { const [a, m] = ym.split('-'); return `${MESES[Number(m) - 1]} ${a}`; };
