@@ -55,6 +55,8 @@ function limpiar(f: any, previo: any = {}) {
 			epigrafe: corto(b?.epigrafe, 60),
 			fuente: corto(b?.fuente, 80),
 			...(media ? { media } : {}),
+			// Link a un posteo con video (X, YouTube…): la tarea de GitHub lo baja con yt-dlp al generar
+			...(/^https:\/\/(www\.|m\.|mobile\.)?(x\.com|twitter\.com|youtube\.com|youtu\.be|instagram\.com|tiktok\.com|facebook\.com|fb\.watch)\/[^\s"'<>\\]{3,380}$/.test(corto(b?.videoEnlace, 400)) ? { videoEnlace: corto(b?.videoEnlace, 400) } : {}),
 		};
 	});
 	const musica = typeof f.musica === 'string' && /^(\/flash\/musica\/|data\/flash\/musica\/)[\w.-]+$/.test(f.musica) ? f.musica : '/flash/musica/paulyudin.mp3';

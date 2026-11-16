@@ -83,6 +83,11 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 		<div class="card">
 			<h2>Acceso denegado</h2>
 			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+			<p id="aviso-mesa" style="display:none;margin-top:10px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:6px">Tenés un flash armado en la Mesa esperando: entrá al panel y después volvé a <a href="/admin/flash">Video flash</a>, en esta misma pestaña, y se abre solo.</p>
+			<script is:inline>
+				// Guarda el flash armado en la Mesa para recuperarlo después de iniciar sesión
+				try { if (/^#mesa=/.test(location.hash)) { sessionStorage.setItem('df-mesa-flash', location.hash); document.getElementById('aviso-mesa').style.display = 'block'; } } catch (e) {}
+			</script>
 		</div>
 	) : (
 		<div>
@@ -349,7 +354,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			});
 
 			// ── Editor ────────────────────────────────────────
-			function bloqueVacio() { return { kicker: '', titulo: '', dato: '', bajada: '', texto: '', epigrafe: '', fuente: '' }; }
+			function bloqueVacio() { return { kicker: '', titulo: '', dato: '', bajada: '', texto: '', epigrafe: '', fuente: '', videoEnlace: '' }; }
 			function nuevo() {
 				estado.flash = { id: '', tipo: 'semanal', titulo: '', fecha: hoy(), voz: 'es-AR-TomasNeural', velocidad: 8, musica: MUSICA_BASE[0].ruta, volumenMusica: -17, bloques: [bloqueVacio(), bloqueVacio(), bloqueVacio(), bloqueVacio()] };
 				estado.sha = null; estado.nuevo = true;
@@ -403,6 +408,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 					'<div class="fila">' + campo(i, 'kicker', 'Antetítulo (país · tema)', 30, 'Brasil · Balotaje') + campo(i, 'titulo', 'Título en pantalla', 45, 'Lula, reelecto') + '</div>' +
 					'<div class="fila">' + campo(i, 'dato', 'Dato destacado', 24, '51,79% – 48,21%') + campo(i, 'bajada', 'Bajada', 90, '4.430.191 votos de diferencia') + '</div>' +
 					'<label>Foto o video</label><div class="media-box" id="media-' + i + '"></div>' +
+					campo(i, 'videoEnlace', '…o link de un video de X (se baja solo al generar y reemplaza la foto; YouTube suele bloquearlo)', 400, 'https://x.com/usuario/status/…') +
 					'<div class="fila">' + campo(i, 'epigrafe', 'Epígrafe (qué se ve)', 60, 'Lula, en un acto en San Pablo') + campo(i, 'fuente', 'Fuente', 80, 'Foto: Reuters / Video: @usuario') + '</div></div>';
 			}
 			function pintarMedio(i) {
@@ -760,7 +766,37 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				} catch (e) { msg('No se pudo: ' + e.message, false); }
 			});
 
-			cargarConfig().then(cargarLista);
+			// ── Flash armado en la Mesa de Redacción del Centro (#mesa=…): abre un flash nuevo ya cargado ──
+			var mesaHash = location.hash;
+			try { if (/^#mesa=/.test(mesaHash)) sessionStorage.setItem('df-mesa-flash', mesaHash); else mesaHash = sessionStorage.getItem('df-mesa-flash') || ''; } catch (e) {}
+			function desdeMesa() {
+				var m = (mesaHash || '').match(/^#mesa=(.+)$/); if (!m) return;
+				try { sessionStorage.removeItem('df-mesa-flash'); } catch (e) {}
+				var d; try { d = JSON.parse(decodeURIComponent(m[1])); } catch (e) { return; }
+				nuevo();
+				var f = estado.flash;
+				f.estilo = 'openfilm'; f.subtitulos = true;
+				if (d.tipo === 'ultimo') f.tipo = 'ultimo';
+				f.titulo = cortarLimpio(d.titulo || '', 140);
+				f.bloques = (Array.isArray(d.bloques) ? d.bloques : []).slice(0, 8).map(function (x) {
+					var b = bloqueVacio();
+					b.kicker = cortarLimpio(x.kicker || '', 30); b.titulo = cortarLimpio(x.titulo || '', 45);
+					b.bajada = cortarLimpio(x.bajada || '', 90); b.texto = cortarLimpio(x.texto || '', 900); b.dato = cortarLimpio(x.dato || '', 24);
+					if (/^https:\/\//.test(x.foto || '')) {
+						b.media = { tipo: 'foto', archivo: String(x.foto).slice(0, 500), foco: [0.5, 0.4], _local: x.foto };
+						b.epigrafe = cortarLimpio(x.epigrafe || '', 60); b.fuente = cortarLimpio(x.fuente || fuenteDe(x.foto), 80);
+					}
+					if (/^https:\/\//.test(x.videoEnlace || '')) b.videoEnlace = String(x.videoEnlace).slice(0, 400);
+					return b;
+				});
+				if (!f.bloques.length) f.bloques = [bloqueVacio()];
+				f._editado = true;
+				pintar(); $('ed-titulo').textContent = 'Nuevo flash desde la Mesa';
+				msg('Traído de la Mesa: revisá el texto que lee la voz, el epígrafe y la fuente de cada foto, y tocá generar.');
+				try { history.replaceState(null, '', location.pathname); } catch (e) {}
+			}
+
+			cargarConfig().then(cargarLista).then(desdeMesa);
 		})();
 	</script>
 </body>

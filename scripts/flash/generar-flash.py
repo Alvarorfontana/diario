@@ -135,6 +135,8 @@ def reunir(ruta_rel, tmp):
         except Exception as e:
             print(f"  No se pudo bajar {ruta_rel}: {e}")
             return None
+    if os.path.isabs(ruta_rel) and Path(ruta_rel).exists() and str(ruta_rel).startswith(tempfile.gettempdir()):
+        return Path(ruta_rel)  # video bajado de un link en esta misma corrida
     ruta = RAIZ / ruta_rel.lstrip("/")
     if ruta_rel.startswith(("/flash/", "/uploads/", "/images/", "/media/")):
         ruta = RAIZ / "public" / ruta_rel.lstrip("/")
@@ -175,6 +177,34 @@ def fondo_tema(kicker):
     d.text((-18, 225), palabra, font=f, fill=(38, 38, 38))
     d.rectangle([90, 180, 420, 189], fill=(46, 46, 46))
     return im
+
+
+def bajar_video_enlace(enlace, tmp, idx):
+    """Baja el video de un posteo (X, YouTube…) con yt-dlp. Devuelve (ruta, fuente sugerida) o (None, '')."""
+    try:
+        import yt_dlp
+    except ImportError:
+        print("  yt-dlp no está instalado; se sigue sin el video del link.", flush=True)
+        return None, ""
+    plantilla = str(Path(tmp) / f"enlace{idx}.%(ext)s")
+    opciones = {"outtmpl": plantilla, "quiet": True, "no_warnings": True, "noplaylist": True,
+                "format": "bv*[height<=720][ext=mp4]+ba[ext=m4a]/b[height<=720][ext=mp4]/bv*[height<=720]+ba/b[height<=720]/b",
+                "merge_output_format": "mp4", "max_filesize": 150 * 1024 * 1024, "socket_timeout": 30, "retries": 2}
+    try:
+        with yt_dlp.YoutubeDL(opciones) as ydl:
+            info = ydl.extract_info(enlace, download=True)
+        archivos = sorted(Path(tmp).glob(f"enlace{idx}.*"))
+        ruta = next((a for a in archivos if a.suffix.lower() in (".mp4", ".webm", ".mkv", ".mov")), None)
+        if not ruta: raise RuntimeError("no quedó ningún archivo de video")
+        quien = info.get("uploader_id") or info.get("channel") or info.get("uploader") or ""
+        sitio = {"Twitter": "X"}.get(info.get("extractor_key", ""), info.get("extractor_key", "") or "")
+        quien = ("@" + quien.lstrip("@")) if quien and sitio == "X" else quien
+        fuente = f"Video: {quien} en {sitio}" if quien else (f"Video: {sitio}" if sitio else "")
+        print(f"  Video bajado del link ({sitio}): {ruta.name}, {ruta.stat().st_size // 1024} KB", flush=True)
+        return ruta, fuente
+    except Exception as e:
+        print(f"  No se pudo bajar el video de {enlace}: {e}", flush=True)
+        return None, ""
 
 
 def preparar_medio(b, dur, tmp, idx, pw=PW, ph=PH, nuevo=False):
@@ -829,6 +859,15 @@ def generar(flash):
     cierre = flash.get("cierre") or "Esto fue el flash de Diario Federal. Más noticias en diariofederal punto com punto ar."
 
     with tempfile.TemporaryDirectory() as tmp:
+        # Noticias con link a un video (X, YouTube…): se baja y reemplaza la foto en esta corrida
+        for i, b in enumerate(bloques):
+            enlace = (b.get("videoEnlace") or "").strip()
+            if not enlace: continue
+            ruta, fuente = bajar_video_enlace(enlace, tmp, i)
+            if not ruta: continue
+            if not (b.get("fuente") or "").strip() and fuente: b["fuente"] = fuente[:80]
+            copia = dict(b); copia["media"] = {"tipo": "video", "archivo": str(ruta), "inicio": float((b.get("media") or {}).get("inicio") or 0) if (b.get("media") or {}).get("tipo") == "video" else 0}
+            bloques[i] = copia
         segs = [("intro", intro)] + [(f"b{i}", b["texto"]) for i, b in enumerate(bloques)] + [("cierre", cierre)]
         voces, habladas = {}, {}
         for k, txt in segs:

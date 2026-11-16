@@ -1,0 +1,35 @@
+name: Flash semanal automático (borrador)
+
+# Los domingos arma solo el borrador del flash semanal con las notas de la semana
+# (scripts/flash/flash-semanal-auto.py). Queda en /admin/flash con estado «borrador»
+# y diseño OpenFilm: no genera ni publica nada hasta que Álvaro lo revisa y toca «Generar».
+on:
+  schedule:
+    - cron: '43 14 * * 0'   # domingo 11:43 h de Argentina
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  borrador:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pyyaml
+      - name: Armar el borrador
+        run: python scripts/flash/flash-semanal-auto.py "$(TZ=America/Argentina/Buenos_Aires date +%F)"
+      - name: Guardar
+        run: |
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add data/flash/*-semanal-auto.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo "Nada nuevo."; exit 0; fi
+          git commit -m "Borrador automático del flash semanal"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          exit 1

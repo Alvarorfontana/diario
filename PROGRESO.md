@@ -64,3 +64,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-15: Arreglo en `/api/admin/flash`: guardaba siempre «noticiero» aunque se eligiera Editorial, y pasaba la voz clonada a Tomás. Ahora respeta Editorial, OpenFilm y «Mi voz (clonada)».
 - 2026-11-15: Pronunciación: Kicillof → «Kisilof», Kirchner (y kirchnerismo/kirchnerista) → «Kírshner» (elegido por Álvaro tras escuchar opciones).
 - Pendiente OpenFilm: probar el primer flash real en la tarea de GitHub (tiempo de render, ~8 min por 1,5 min de video).
+- 2026-11-15: Flash: campo «link de un video de X» en cada noticia de /admin/flash. La tarea de GitHub lo baja con yt-dlp (probado con X: anda; YouTube bloquea a los servidores de GitHub) y completa la fuente sola («Video: @usuario en X»).
+- 2026-11-15: /admin/flash abre un flash ya cargado desde la Mesa de Redacción del Centro (botón «Armar video flash con notas», `#mesa=`), en diseño OpenFilm. Si no había sesión, lo guarda y se abre al volver a Video flash en la misma pestaña.
+- 2026-11-15: Flash semanal automático: `.github/workflows/flash-semanal-auto.yml` (domingos 11:43) corre `scripts/flash/flash-semanal-auto.py` y deja un borrador `data/flash/<fecha>-semanal-auto.json` con hasta 5 notas de la semana con foto (tapa primero, máximo dos del mismo tema), diseño OpenFilm. No genera ni publica: se revisa y se toca «Generar».
+- Pendiente: revisar a mano en cada borrador automático la fuente de las fotos sin crédito y el texto de la voz.
