@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-15",
-  "dateLabel": "15/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-15-9f560c533d54.mp3",
-  "video": "/boletines/boletin-principal-2026-11-15-9f560c533d54.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-15-9f560c533d54.png",
-  "duracion": 92,
+  "date": "2026-11-16",
+  "dateLabel": "16/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.mp3",
+  "video": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.png",
+  "duracion": 85,
   "voz": "es-AR-TomasNeural",
-  "hash": "9f560c533d54",
+  "hash": "a4f36403f98d",
   "items": [
+    {
+      "slug": "2026-11-16-lanus-explosion-metrogas-control-estado",
+      "title": "Lanús: la explosión que pone bajo la lupa a MetroGAS y el control del Estado",
+      "section": "argentina",
+      "url": "/articulo/2026-11-16-lanus-explosion-metrogas-control-estado/"
+    },
     {
       "slug": "mariano-martin-periodismo-sin-codigo-de-etica-profesional",
       "title": "Mariano Martín: periodismo sin código de ética profesional",
@@ -38,12 +44,6 @@
       "title": "Perú consigue deuda a 30 años y Argentina mira de afuera",
       "section": "economia",
       "url": "/articulo/2026-11-12-peru-deuda-30-anos-argentina-mira-de-afuera/"
-    },
-    {
-      "slug": "2026-11-11-leon-xiv-lujan-argentina-levantate-y-camina",
-      "title": "León XIV, en Luján: \"Muchos hermanos nuestros (...) pueden estar viviendo actualmente momentos de Calvario, sufriendo a causa de enfermedades, pobreza, falta de trabajo, discriminación o rupturas familiares\"",
-      "section": "argentina",
-      "url": "/articulo/2026-11-11-leon-xiv-lujan-argentina-levantate-y-camina/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
