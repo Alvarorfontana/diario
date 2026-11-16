@@ -1,0 +1,12 @@
+@font-face { font-family: Manrope; font-weight: 400; src: url(manrope-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: Manrope; font-weight: 600; src: url(manrope-latin-600-normal.woff2) format("woff2"); }
+@font-face { font-family: Manrope; font-weight: 700; src: url(manrope-latin-700-normal.woff2) format("woff2"); }
+@font-face { font-family: Manrope; font-weight: 800; src: url(manrope-latin-800-normal.woff2) format("woff2"); }
+:root { --rojo: #d0021b; --rojo-osc: #a30015; --tinta: #16161a; --papel: #f4f2ec; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1920px; height: 1080px; overflow: hidden; background: transparent; font-family: Manrope, sans-serif; color: #fff; }
+.marca { display: flex; align-items: center; gap: 16px; font-weight: 800; letter-spacing: -0.02em; }
+.marca .cuadro { width: 22px; height: 22px; border-radius: 5px; background: var(--rojo); }
+.pill { display: inline-block; background: var(--rojo); color: #fff; font-weight: 800; font-size: 20px; letter-spacing: .14em; text-transform: uppercase; padding: 8px 14px; border-radius: 6px; }
+.subs { position: absolute; left: 96px; width: 1110px; top: 905px; font-size: 38px; line-height: 1.25; font-weight: 800; letter-spacing: -.01em; text-shadow: 0 2px 12px rgba(0,0,0,.6); }
+.subs .w { opacity: .55; } .subs .w.dicha { opacity: 1; } .subs .w.ahora { color: #ff4d5e; opacity: 1; }

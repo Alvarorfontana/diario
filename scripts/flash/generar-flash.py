@@ -15,7 +15,8 @@ Lo corre GitHub Actions (.github/workflows/flash.yml) cada vez que el panel
 Uso local:  python scripts/flash/generar-flash.py [id ...]
 Sin ids, procesa todos los flashes con estado "generar".
 Variable MOTOR=kokoro: usa una voz local (solo para pruebas sin internet).
-Diseños (campo «estilo»): noticiero, clasico y editorial (revista en movimiento, cortina roja entre noticias).
+Diseños (campo «estilo»): noticiero, clasico, editorial (revista en movimiento, cortina roja entre noticias)
+y openfilm (escenas animadas como páginas web, renderizadas con OpenFilm; ver openfilm_flash.py).
 """
 
 import asyncio
@@ -881,40 +882,46 @@ def generar(flash):
             return medios[i]
 
         mudo = Path(tmp) / "mudo.mp4"
-        ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
-                               "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "veryfast",
-                               "-crf", "24", "-pix_fmt", "yuv420p", str(mudo)], stdin=subprocess.PIPE)
-        negro = Image.new("RGB", (W, H), INK)
-        for f in range(int(total * FPS)):
-            tt = f / FPS
-            for k, st, dur, vs in linea:
-                if st <= tt < st + dur: break
-            lt = tt - st
-            if editorial:
-                if k == "intro": im = placa_intro_editorial(lt, flash, bloques)
-                elif k == "cierre": im = placa_cierre_editorial(lt)
-                else:
-                    i = int(k[1:])
-                    im = placa_bloque_editorial(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
+        if flash.get("estilo") == "openfilm":
+            # Diseño OpenFilm: escenas animadas como páginas web (scripts/flash/openfilm_flash.py)
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            import openfilm_flash
+            openfilm_flash.renderizar(flash, bloques, linea, trozos, tmp, reunir, mudo)
+        else:
+            ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "rgb24",
+                                   "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-", "-c:v", "libx264", "-preset", "veryfast",
+                                   "-crf", "24", "-pix_fmt", "yuv420p", str(mudo)], stdin=subprocess.PIPE)
+            negro = Image.new("RGB", (W, H), INK)
+            for f in range(int(total * FPS)):
+                tt = f / FPS
+                for k, st, dur, vs in linea:
+                    if st <= tt < st + dur: break
+                lt = tt - st
+                if editorial:
+                    if k == "intro": im = placa_intro_editorial(lt, flash, bloques)
+                    elif k == "cierre": im = placa_cierre_editorial(lt)
+                    else:
+                        i = int(k[1:])
+                        im = placa_bloque_editorial(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
+                                                    trozos[i], vs - st, tt / total)
+                elif nuevo:
+                    if k == "intro": im = placa_intro_nueva(lt, flash, bloques)
+                    elif k == "cierre": im = placa_cierre_nueva(lt)
+                    else:
+                        i = int(k[1:])
+                        im = placa_bloque_nuevo(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
                                                 trozos[i], vs - st, tt / total)
-            elif nuevo:
-                if k == "intro": im = placa_intro_nueva(lt, flash, bloques)
-                elif k == "cierre": im = placa_cierre_nueva(lt)
+                elif k == "intro": im = placa_intro(lt, flash)
+                elif k == "cierre": im = placa_cierre(lt)
                 else:
-                    i = int(k[1:])
-                    im = placa_bloque_nuevo(bloques[i], lt, dur, i, len(bloques), medio_de(i), flash,
-                                            trozos[i], vs - st, tt / total)
-            elif k == "intro": im = placa_intro(lt, flash)
-            elif k == "cierre": im = placa_cierre(lt)
-            else:
-                i = int(k[1:]); im = placa_bloque(bloques[i], lt, dur, i, len(bloques), medios[i], flash)
-            fade = min(1, lt / 0.25, (dur - lt) / 0.25)
-            if editorial:
-                # entre noticias corre la cortina roja: sólo se funde al empezar y al terminar el video
-                fade = min(1, lt / 0.25) if k == "intro" else (min(1, (dur - lt) / 0.4) if k == "cierre" else 1)
-            if fade < 1: im = Image.blend(negro, im, max(0, fade))
-            ff.stdin.write(im.tobytes())
-        ff.stdin.close(); ff.wait()
+                    i = int(k[1:]); im = placa_bloque(bloques[i], lt, dur, i, len(bloques), medios[i], flash)
+                fade = min(1, lt / 0.25, (dur - lt) / 0.25)
+                if editorial:
+                    # entre noticias corre la cortina roja: sólo se funde al empezar y al terminar el video
+                    fade = min(1, lt / 0.25) if k == "intro" else (min(1, (dur - lt) / 0.4) if k == "cierre" else 1)
+                if fade < 1: im = Image.blend(negro, im, max(0, fade))
+                ff.stdin.write(im.tobytes())
+            ff.stdin.close(); ff.wait()
 
         SALIDA.mkdir(parents=True, exist_ok=True)
         destino = SALIDA / f"{flash['id']}.mp4"

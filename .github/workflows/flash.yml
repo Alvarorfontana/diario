@@ -51,6 +51,19 @@ jobs:
             echo "Ningún flash usa la voz clonada."
           fi
 
+      # Diseño OpenFilm (MIT, gratis): Node y el navegador que dibuja las escenas, sólo si algún flash lo pide
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Preparar OpenFilm
+        run: |
+          if grep -l '"estilo": *"openfilm"' data/flash/*.json >/dev/null 2>&1; then
+            npx -y openfilm@0.3.2 --version
+            npx -y playwright@latest install-deps chromium || true
+          else
+            echo "Ningún flash usa el diseño OpenFilm."
+          fi
+
       - name: Generar videos
         env:
           PYTHONUNBUFFERED: '1'

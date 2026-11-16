@@ -60,3 +60,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Cortina: música del flash (Paulyudin) acelerada a 1.25 para ritmo de noticiero. El nombre del MP3 ahora cambia si cambia la música.
 - Boletín: el script arma también una tapa cuadrada con el logo y un video MP4 (tapa + audio) para WhatsApp. Se guarda solo el último video y la última tapa.
 - /boletines: botón "Pasar por WhatsApp" (en celular comparte el video; en computadora abre WhatsApp con el enlace), descarga del video y la tapa como vista previa.
+- 2026-11-15: Video flash: nuevo diseño **OpenFilm** (cuarto, en /admin/flash → «Diseño del video»). Escenas animadas como páginas web (apertura con lista de temas, placa por noticia con número grande, título palabra por palabra, dato en rojo, cortina roja, barra de temas, video en tarjeta con fondo desenfocado, subtítulos palabra por palabra) renderizadas con OpenFilm 0.3.2 (MIT, gratis) en la tarea de GitHub; voz y música se mezclan igual que antes. Código: `scripts/flash/openfilm_flash.py` y `scripts/flash/openfilm/lib/`. Noticiero, Clásico y Editorial no cambian.
+- 2026-11-15: Arreglo en `/api/admin/flash`: guardaba siempre «noticiero» aunque se eligiera Editorial, y pasaba la voz clonada a Tomás. Ahora respeta Editorial, OpenFilm y «Mi voz (clonada)».
+- 2026-11-15: Pronunciación: Kicillof → «Kisilof», Kirchner (y kirchnerismo/kirchnerista) → «Kírshner» (elegido por Álvaro tras escuchar opciones).
+- Pendiente OpenFilm: probar el primer flash real en la tarea de GitHub (tiempo de render, ~8 min por 1,5 min de video).

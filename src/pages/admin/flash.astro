@@ -156,10 +156,11 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 									<option value="noticiero">Noticiero · foto a pantalla completa y zócalo</option>
 									<option value="clasico">Clásico · placa con la foto al costado</option>
 									<option value="editorial">Editorial · estilo revista, número grande y cortina roja entre noticias</option>
+									<option value="openfilm">OpenFilm · escenas animadas, video en tarjeta y cortina roja (tarda unos minutos más)</option>
 								</select>
 							</div>
 							<div>
-								<label for="f-subs" style="display:flex;gap:8px;align-items:center;margin-top:30px;font-weight:500"><input type="checkbox" id="f-subs" style="width:auto" checked /> Subtítulos palabra por palabra (diseños Noticiero y Editorial)</label>
+								<label for="f-subs" style="display:flex;gap:8px;align-items:center;margin-top:30px;font-weight:500"><input type="checkbox" id="f-subs" style="width:auto" checked /> Subtítulos palabra por palabra (diseños Noticiero, Editorial y OpenFilm)</label>
 							</div>
 						</div>
 						<label for="f-musica">Música</label>
