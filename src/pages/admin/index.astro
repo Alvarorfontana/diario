@@ -204,10 +204,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 									<input type="checkbox" id="tapa" />
 									<label for="tapa">Nota principal de Home (tarjeta grande)</label>
 								</div>
-								<div class="checkbox-wrapper">
-									<input type="checkbox" id="draft" />
-									<label for="draft">Borrador (no se muestra en el sitio)</label>
-								</div>
+								<input type="checkbox" id="draft" hidden />
 							</div>
 							<div class="form-group">
 								<label for="heroFile">Foto de la nota</label>
@@ -273,7 +270,8 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 						<p class="tip">Cada Enter crea un párrafo nuevo. Seleccioná texto para ponerlo en negrita o convertirlo en subtítulo, cita o frase destacada. Las fotos y videos se insertan donde está el cursor; para sacar uno, ubicá el cursor justo debajo y apretá Retroceso.</p>
 					</div>
 
-					<button type="submit" class="btn btn-primary" id="btn-guardar">Guardar nota</button>
+					<button type="submit" class="btn btn-primary" id="btn-publicar" data-draft="false">Publicar nota</button>
+					<button type="submit" class="btn btn-secondary" id="btn-borrador" data-draft="true" style="margin-left: 8px;">Guardar borrador</button>
 					<button type="button" class="btn btn-secondary" id="btn-cancelar" style="margin-left: 8px;">Cancelar</button>
 				</form>
 			</div>
@@ -676,17 +674,18 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 		/* ---------- Guardar ---------- */
 		$('create-form').addEventListener('submit', async function (e) {
 			e.preventDefault();
+			var esBorrador = e.submitter && e.submitter.dataset.draft !== undefined ? e.submitter.dataset.draft === 'true' : $('draft').checked;
 			var contenido = getContent();
 			if (!contenido) { showMsg('La nota no tiene texto.', false); return; }
 			// El diseño de la portada se luce con fotos: avisar antes de publicar una nota sin foto.
-			if (!$('image_url').value.trim() && !$('draft').checked) {
+			if (!$('image_url').value.trim() && !esBorrador) {
 				if (!confirm('Esta nota no tiene foto. En la portada se va a ver un recuadro con la marca en lugar de la imagen.\n\n¿Querés publicarla igual?')) { $('heroFile').focus(); return; }
 			}
 			// Toda foto lleva epígrafe con lo que muestra y su fuente.
-			if ($('image_url').value.trim() && !$('imageCaption').value.trim() && !$('draft').checked) {
+			if ($('image_url').value.trim() && !$('imageCaption').value.trim() && !esBorrador) {
 				if (!confirm('La foto no tiene pie de foto.\n\nConviene contar qué muestra y de dónde es (por ejemplo: "Foto: Prensa Senado").\n\n¿Querés publicarla igual?')) { $('imageCaption').focus(); return; }
 			}
-			var btn = $('btn-guardar'); btn.disabled = true; btn.textContent = 'Guardando…';
+			var btn = e.submitter || $('btn-publicar'); btn.disabled = true; btn.textContent = esBorrador ? 'Guardando borrador…' : 'Publicando…';
 			var payload = {
 				slug: slugify($('slug').value),
 				filename: $('edit-filename').value || undefined,
@@ -695,7 +694,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 				data: {
 					title: $('title').value.trim(), volanta: $('volanta').value.trim(), excerpt: $('excerpt').value.trim(),
 					section: $('section').value, author: $('author').value.trim() || 'Redacción', region: $('region').value, ciudad: $('ciudad').value.trim(), date: $('date').value,
-					breaking: $('breaking').checked, draft: $('draft').checked, tapa: $('tapa').checked,
+					breaking: $('breaking').checked, draft: esBorrador, tapa: $('tapa').checked,
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
 					resumenCompartir: $('resumenCompartir').value.trim(),
@@ -708,11 +707,11 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 				var r = await res.json();
 				if (res.ok && r.ok) {
 					$('form-nuevo').classList.add('hidden');
-					showMsg('Nota guardada. En aproximadamente 1 minuto se ve publicada en el sitio.', true);
+					showMsg(r.draft ? 'Borrador guardado. No aparece en el sitio hasta que elijas “Publicar nota”.' : 'Nota enviada a publicación. Vercel está actualizando el sitio; verificá la nota en la web cuando termine el despliegue.', true);
 					cargarLista();
 				} else showMsg('Error al guardar: ' + (r.error || 'desconocido'), false);
 			} catch (err) { showMsg('Error de conexión al guardar.', false); }
-			btn.disabled = false; btn.textContent = 'Guardar nota';
+			btn.disabled = false; btn.textContent = esBorrador ? 'Guardar borrador' : 'Publicar nota';
 		});
 
 		limpiarFormulario();
