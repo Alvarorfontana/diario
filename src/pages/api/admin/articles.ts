@@ -119,7 +119,7 @@ export const POST = async ({ request, locals }: any) => {
 		if (data.imageCaption) fm.imageCaption = data.imageCaption;
 		if (data.breaking) fm.ultimoMomento = true;
 		if (data.tapa) fm.tapa = true;
-		if (data.draft) fm.draft = true;
+		fm.draft = data.draft === true;
 		fm.tags = Array.isArray(data.tags) ? data.tags : [];
 		const puntos = Array.isArray(data.puntosClave) ? data.puntosClave.map((p: any) => String(p).trim()).filter(Boolean).slice(0, 3) : [];
 		if (puntos.length) fm.puntosClave = puntos;
@@ -138,7 +138,7 @@ export const POST = async ({ request, locals }: any) => {
 			return json({ ok: false, error: 'Ya existe una nota con ese slug. Cambialo o editá la existente.' }, 409);
 		}
 		const nuevoSha = await putFile(cfg, path, texto, `${sha ? 'Editar' : 'Nueva'} nota: ${data.title.slice(0, 60)}`, sha || undefined);
-		return json({ ok: true, sha: nuevoSha, filename: nombre });
+		return json({ ok: true, sha: nuevoSha, filename: nombre, draft: fm.draft === true });
 	} catch (e: any) {
 		return json({ ok: false, error: e.message }, 500);
 	}
