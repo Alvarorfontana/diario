@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-17",
   "dateLabel": "17/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.mp3",
-  "video": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.png",
-  "duracion": 84,
+  "archivo": "/boletines/boletin-principal-2026-11-17-cfe07ba4ca11.mp3",
+  "video": "/boletines/boletin-principal-2026-11-17-cfe07ba4ca11.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-17-cfe07ba4ca11.png",
+  "duracion": 90,
   "voz": "es-AR-TomasNeural",
-  "hash": "1229c42d92d3",
+  "hash": "cfe07ba4ca11",
   "items": [
     {
       "slug": "2026-11-17-leon-xiv-identidad-teologica-latinoamericana",
@@ -17,7 +17,7 @@
     },
     {
       "slug": "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre",
-      "title": "Xi Jinping, Donald Trump y Vladímir Putin participarán en una cumbre",
+      "title": "¿Yalta 2.0 en Shenzhen? Trump, Putin y Xi Jinping ante el nacimiento de otro orden mundial",
       "section": "internacional",
       "url": "/articulo/xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre/"
     },
