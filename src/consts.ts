@@ -80,6 +80,10 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 		bio: 'Autor de ejemplo · Información internacional y política estadounidense.',
 		foto: 'https://i.pravatar.cc/160?img=12',
 	},
+	'Miguel Ángel Barrios': {
+		bio: 'Doctor en Ciencia Política, Dr. en Ciencias de la Educación y especialista en Doctrina Social de la Iglesia. Autor de más de 30 obras sobre América Latina.',
+		foto: 'https://patriagrande.com/wp-content/uploads/2024/03/Barrios-3.jpeg',
+	},
 	'Mesa Internacional': {
 		bio: 'Equipo de Diario Federal que sigue la política internacional, el Mercosur y la economía global.',
 	},
