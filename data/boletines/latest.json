@@ -2,24 +2,30 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-17",
   "dateLabel": "17/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-17-3bfc3db5706d.mp3",
-  "video": "/boletines/boletin-principal-2026-11-17-3bfc3db5706d.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-17-3bfc3db5706d.png",
-  "duracion": 87,
+  "archivo": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.mp3",
+  "video": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.png",
+  "duracion": 82,
   "voz": "es-AR-TomasNeural",
-  "hash": "3bfc3db5706d",
+  "hash": "f92dcb39f7b8",
   "items": [
     {
-      "slug": "2026-11-16-lanus-explosion-metrogas-control-estado",
-      "title": "Lanús: la explosión que pone bajo la lupa a MetroGAS y el control del Estado",
-      "section": "argentina",
-      "url": "/articulo/2026-11-16-lanus-explosion-metrogas-control-estado/"
+      "slug": "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre",
+      "title": "Xi Jinping, Donald Trump y Vladímir Putin participarán en una cumbre",
+      "section": "internacional",
+      "url": "/articulo/xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre/"
     },
     {
       "slug": "2026-11-16-petroleo-desplaza-soja-exportaciones-argentina",
       "title": "El petróleo desplaza a la soja y redefine el perfil exportador argentino: la apuesta extractivista de Milei",
       "section": "economia",
       "url": "/articulo/2026-11-16-petroleo-desplaza-soja-exportaciones-argentina/"
+    },
+    {
+      "slug": "2026-11-16-lanus-explosion-metrogas-control-estado",
+      "title": "Lanús: la explosión que pone bajo la lupa a MetroGAS y el control del Estado",
+      "section": "argentina",
+      "url": "/articulo/2026-11-16-lanus-explosion-metrogas-control-estado/"
     },
     {
       "slug": "mariano-martin-periodismo-sin-codigo-de-etica-profesional",
@@ -38,12 +44,6 @@
       "title": "Ni 500 países ni el 30 por ciento del mundo: lo que esconden las cifras de Milei",
       "section": "argentina",
       "url": "/articulo/2026-11-12-milei-500-mercados-30-por-ciento-planeta/"
-    },
-    {
-      "slug": "2026-11-12-industria-argentina-cerrada-cara-sin-inversion",
-      "title": "Cerrada, cara y sin inversión: por qué la industria argentina cae más que en casi todo el mundo",
-      "section": "economia",
-      "url": "/articulo/2026-11-12-industria-argentina-cerrada-cara-sin-inversion/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
