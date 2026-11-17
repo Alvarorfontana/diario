@@ -1,27 +1,27 @@
 {
  "inflacion": {
   "ok": true,
-  "ultimo_ok": "2026-11-16",
+  "ultimo_ok": "2026-11-17",
   "puntos": 117
  },
  "riesgo-pais": {
   "ok": true,
-  "ultimo_ok": "2026-11-16",
+  "ultimo_ok": "2026-11-17",
   "puntos": 1210
  },
  "dolar": {
   "ok": true,
-  "ultimo_ok": "2026-11-16",
+  "ultimo_ok": "2026-11-17",
   "puntos": 1051
  },
  "reservas": {
   "ok": true,
-  "ultimo_ok": "2026-11-16",
-  "puntos": 935
+  "ultimo_ok": "2026-11-17",
+  "puntos": 936
  },
  "fmi": {
   "ok": true,
-  "ultimo_ok": "2026-11-16",
+  "ultimo_ok": "2026-11-17",
   "puntos": null
  }
 }
