@@ -5,6 +5,8 @@ description: La reunión cumbre se llevará a cabo en la ciudad de Shenzhen y ab
 section: internacional
 author: Emilio Lahitte
 pubDate: 2026-11-17
+heroImage: /uploads/putin-trump-handshake.jpg
+imageCaption: "Vladímir Putin y Donald Trump se saludan durante un encuentro. Foto: Dmitry Azarov / Kommersant Photo / Sipa USA / picture alliance."
 tapa: true
 tags:
   - Geopolítica
