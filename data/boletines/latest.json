@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-17",
   "dateLabel": "17/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.mp3",
-  "video": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-17-f92dcb39f7b8.png",
-  "duracion": 82,
+  "archivo": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.mp3",
+  "video": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-17-1229c42d92d3.png",
+  "duracion": 84,
   "voz": "es-AR-TomasNeural",
-  "hash": "f92dcb39f7b8",
+  "hash": "1229c42d92d3",
   "items": [
+    {
+      "slug": "2026-11-17-leon-xiv-identidad-teologica-latinoamericana",
+      "title": "LEÓN XIV Y LA IDENTIDAD TEOLÓGICA LATINOAMERICANA",
+      "section": "opinion",
+      "url": "/articulo/2026-11-17-leon-xiv-identidad-teologica-latinoamericana/"
+    },
     {
       "slug": "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre",
       "title": "Xi Jinping, Donald Trump y Vladímir Putin participarán en una cumbre",
@@ -38,12 +44,6 @@
       "title": "El Mercosur necesita una estrategia común para defender su producción y avanzar hacia la integración monetaria",
       "section": "economia",
       "url": "/articulo/2026-11-13-mercosur-integracion-monetaria-comercio-argentina-brasil/"
-    },
-    {
-      "slug": "2026-11-12-milei-500-mercados-30-por-ciento-planeta",
-      "title": "Ni 500 países ni el 30 por ciento del mundo: lo que esconden las cifras de Milei",
-      "section": "argentina",
-      "url": "/articulo/2026-11-12-milei-500-mercados-30-por-ciento-planeta/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
