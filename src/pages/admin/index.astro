@@ -750,25 +750,31 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			// Volanta, sección, foto y pie de foto elegidos en la mesa del Centro
 			if (reporte && reporte.volanta) $('volanta').value = String(reporte.volanta).replace(/\s+/g, ' ').trim().slice(0, 120);
 			if (reporte && reporte.seccion && Array.prototype.some.call($('section').options, function (o) { return o.value === reporte.seccion; })) $('section').value = reporte.seccion;
-			if (reporte && reporte.foto && /^https:\/\//i.test(String(reporte.foto))) {
-				var fotoUrl = String(reporte.foto).slice(0, 2000);
-				$('image_url').value = fotoUrl;
+			// La foto puede llegar como https (enlace del medio) o como data:image (archivo de la
+			// Biblioteca de la mesa). En los dos casos se copia a /media del diario.
+			var fotoCruda = String((reporte && reporte.foto) || '');
+			var fotoEsDatos = /^data:image\//i.test(fotoCruda);
+			if (fotoCruda && (fotoEsDatos ? fotoCruda.length <= 2500000 : /^https:\/\//i.test(fotoCruda))) {
+				var fotoUrl = fotoCruda.slice(0, 2500000);
+				// Con data:image no se escribe el campo hasta tener la copia en /media: así nunca
+				// se guarda un base64 gigante dentro de la nota.
+				if (!fotoEsDatos) $('image_url').value = fotoUrl;
 				$('imageCaption').value = String(reporte.epigrafe || '').replace(/\s+/g, ' ').trim().slice(0, 300);
 				$('hero-preview').src = fotoUrl; $('hero-preview').classList.remove('hidden');
-				$('upload-status').textContent = 'Foto traída de la mesa. Copiándola al diario...';
+				$('upload-status').textContent = fotoEsDatos ? 'Foto de la mesa: copiándola al diario…' : 'Foto traída de la mesa. Copiándola al diario...';
 				// Se intenta guardar una copia propia en /uploads para que no dependa del sitio de origen (vista previa de WhatsApp).
 				(async function () {
 					try {
-						var resp = await fetch(fotoUrl, { mode: 'cors' });
+						var resp = await fetch(fotoUrl, fotoEsDatos ? {} : { mode: 'cors' });
 						if (!resp.ok) throw new Error('HTTP ' + resp.status);
 						var blob = await resizeImage(await resp.blob());
 						var fd = new FormData(); fd.append('file', blob, 'mesa-' + Date.now() + '.jpg');
 						var up = await (await fetch('/api/upload-image', { method: 'POST', body: fd })).json();
 						if (!up.ok) throw new Error(up.error || 'no se pudo subir');
-						if ($('image_url').value === fotoUrl) $('image_url').value = up.url;
+						if (fotoEsDatos || $('image_url').value === fotoUrl) $('image_url').value = up.url;
 						$('upload-status').textContent = 'Foto de la mesa copiada al diario. Revisá el pie de foto y guardá la nota.';
 					} catch (e) {
-						$('upload-status').textContent = 'La foto quedó enlazada desde su sitio de origen (no se pudo copiar). Si preferís, subila desde el botón.';
+						$('upload-status').textContent = fotoEsDatos ? 'No se pudo copiar la foto de la Biblioteca. Subila con el botón de la foto.' : 'La foto quedó enlazada desde su sitio de origen (no se pudo copiar). Si preferís, subila desde el botón.';
 					}
 				})();
 			}
