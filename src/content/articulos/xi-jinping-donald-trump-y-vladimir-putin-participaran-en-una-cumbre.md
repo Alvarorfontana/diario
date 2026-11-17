@@ -5,7 +5,7 @@ description: La reunión prevista en Shenzhen reabre la disputa por el orden mun
 section: internacional
 author: Emilio Lahitte
 pubDate: 2026-11-17
-heroImage: https://upload.wikimedia.org/wikipedia/commons/a/a0/Yalta_Conference_1945_Churchill%2C_Stalin%2C_Roosevelt.jpg
+heroImage: https://upload.wikimedia.org/wikipedia/commons/1/19/Yalta_Conference_1945_Churchill%2C_Stalin%2C_Roosevelt.jpg
 imageCaption: "La Conferencia de Yalta, febrero de 1945: Winston Churchill, Franklin D. Roosevelt y Iósif Stalin. Fotografía del Cuerpo de Señales del Ejército de Estados Unidos, colección Naval History and Heritage Command. Dominio público."
 tapa: true
 tags:
