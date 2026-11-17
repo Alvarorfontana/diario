@@ -5,8 +5,7 @@ description: La reunión cumbre se llevará a cabo en la ciudad de Shenzhen y ab
 section: internacional
 author: Emilio Lahitte
 pubDate: 2026-11-17
-ultimoMomento: true
-draft: true
+tapa: true
 tags:
   - Geopolítica
 ---
