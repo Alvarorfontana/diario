@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-17",
   "dateLabel": "17/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-17-c6c81e696c70.mp3",
-  "video": "/boletines/boletin-principal-2026-11-17-c6c81e696c70.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-17-c6c81e696c70.png",
-  "duracion": 89,
+  "archivo": "/boletines/boletin-principal-2026-11-17-349f90864795.mp3",
+  "video": "/boletines/boletin-principal-2026-11-17-349f90864795.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-17-349f90864795.png",
+  "duracion": 90,
   "voz": "es-AR-TomasNeural",
-  "hash": "c6c81e696c70",
+  "hash": "349f90864795",
   "items": [
     {
       "slug": "2026-11-17-leon-xiv-identidad-teologica-latinoamericana",
       "title": "LEÓN XIV Y LA IDENTIDAD TEOLÓGICA LATINOAMERICANA",
       "section": "opinion",
       "url": "/articulo/2026-11-17-leon-xiv-identidad-teologica-latinoamericana/"
+    },
+    {
+      "slug": "ucrania-derriba-puente-de-crimea-con-drones-y-misiles",
+      "title": "Ucrania derriba puente de Crimea con drones y misiles",
+      "section": "internacional",
+      "url": "/articulo/ucrania-derriba-puente-de-crimea-con-drones-y-misiles/"
     },
     {
       "slug": "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre",
@@ -38,12 +44,6 @@
       "title": "Mariano Martín: periodismo sin código de ética profesional",
       "section": "opinion",
       "url": "/articulo/mariano-martin-periodismo-sin-codigo-de-etica-profesional/"
-    },
-    {
-      "slug": "2026-11-13-mercosur-integracion-monetaria-comercio-argentina-brasil",
-      "title": "El Mercosur necesita una estrategia común para defender su producción y avanzar hacia la integración monetaria",
-      "section": "economia",
-      "url": "/articulo/2026-11-13-mercosur-integracion-monetaria-comercio-argentina-brasil/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
