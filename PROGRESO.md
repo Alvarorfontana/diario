@@ -16,6 +16,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Registro
 
+### 2026-11-17
+- Se incorporó a `src/content/articulos/2026-11-17-leon-xiv-identidad-teologica-latinoamericana.md` la nota textual completa de Miguel Ángel Barrios, marcada para tapa, con la pintura de Santo Toribio del Museo Nacional de Bellas Artes (inventario 1918) y enlaces de referencia del Vaticano. Pendiente: retrato editorial en blanco y negro del autor para completar su ficha; no se publica la fotografía original del seminario.
+
 ### 2026-11-14
 - Laboratorio de datos con datos propios: proceso diario `.github/workflows/laboratorio-datos.yml` (19:23 h) corre `scripts/datos/actualizar-laboratorio.mjs` y guarda en `data/laboratorio/` inflación INDEC (datos.gob.ar, respaldo ArgentinaDatos), riesgo país, dólar oficial/blue/MEP (ArgentinaDatos), reservas (API BCRA v4.0) y proyecciones FMI de la región. Si una fuente falla se conserva el último dato (`estado.json`). /datos/ suma "Argentina en datos": 5 indicadores y 5 gráficos + tabla FMI. Pendiente: NASA FIRMS (incendios) y ACLED (conflictos) cuando Álvaro saque las claves gratuitas; conectar el Centro de Información.
 - Laboratorio de datos (/datos/) y Centro multimedia (/multimedia/), tomados del PR 15 y adaptados: en el menú ☰ y en el pie; sin azul; sin fechas visibles; ECharts y Leaflet instalados en el sitio (sin CDN); el mapa GDELT solo aparece si la fuente devuelve datos; radio con "Próximamente" hasta tener señal. Pendiente: conectar el Centro de Información (GDELT + RSS ya recolectados) como fuente del Laboratorio, en vez de consultar GDELT desde el navegador.
