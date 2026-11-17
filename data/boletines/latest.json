@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-16",
   "dateLabel": "16/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.mp3",
-  "video": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-16-a4f36403f98d.png",
-  "duracion": 85,
+  "archivo": "/boletines/boletin-principal-2026-11-16-3bfc3db5706d.mp3",
+  "video": "/boletines/boletin-principal-2026-11-16-3bfc3db5706d.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-16-3bfc3db5706d.png",
+  "duracion": 87,
   "voz": "es-AR-TomasNeural",
-  "hash": "a4f36403f98d",
+  "hash": "3bfc3db5706d",
   "items": [
     {
       "slug": "2026-11-16-lanus-explosion-metrogas-control-estado",
       "title": "Lanús: la explosión que pone bajo la lupa a MetroGAS y el control del Estado",
       "section": "argentina",
       "url": "/articulo/2026-11-16-lanus-explosion-metrogas-control-estado/"
+    },
+    {
+      "slug": "2026-11-16-petroleo-desplaza-soja-exportaciones-argentina",
+      "title": "El petróleo desplaza a la soja y redefine el perfil exportador argentino: la apuesta extractivista de Milei",
+      "section": "economia",
+      "url": "/articulo/2026-11-16-petroleo-desplaza-soja-exportaciones-argentina/"
     },
     {
       "slug": "mariano-martin-periodismo-sin-codigo-de-etica-profesional",
@@ -38,12 +44,6 @@
       "title": "Cerrada, cara y sin inversión: por qué la industria argentina cae más que en casi todo el mundo",
       "section": "economia",
       "url": "/articulo/2026-11-12-industria-argentina-cerrada-cara-sin-inversion/"
-    },
-    {
-      "slug": "2026-11-12-peru-deuda-30-anos-argentina-mira-de-afuera",
-      "title": "Perú consigue deuda a 30 años y Argentina mira de afuera",
-      "section": "economia",
-      "url": "/articulo/2026-11-12-peru-deuda-30-anos-argentina-mira-de-afuera/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
