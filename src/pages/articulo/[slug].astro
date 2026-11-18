@@ -8,6 +8,9 @@ import EscucharNota from '../../components/EscucharNota.astro';
 import ImprimirNota from '../../components/ImprimirNota.astro';
 import AdBanner from '../../components/AdBanner.astro';
 import NewsletterBox from '../../components/NewsletterBox.astro';
+import CompartirFinal from '../../components/CompartirFinal.astro';
+import TePuedeInteresar from '../../components/TePuedeInteresar.astro';
+import SeguiLeyendoFlotante from '../../components/SeguiLeyendoFlotante.astro';
 import { nombreSeccion, SITE_TITLE, slugify, fotoAutor } from '../../consts';
 import { getArticulos } from '../../lib/articles';
 import { ogImagePath, imagenNotaPath } from '../../lib/og';
@@ -58,6 +61,10 @@ const minutosLectura = Math.max(1, Math.round(palabras / 200));
 const relacionados = todos.filter((a) => a.section === section && a.slug !== slug).slice(0, 3);
 // Noticias recientes para la columna lateral, excluyendo la nota que se está leyendo.
 const ultimasRelacionadas = todos.filter((a) => a.slug !== slug).slice(0, 5);
+// Próxima nota para la barrita flotante "Seguí leyendo" y otra distinta para "Te puede interesar".
+const proximaNota = relacionados[0] ?? ultimasRelacionadas[0];
+const notaInteresar = todos.find((a) => a.slug !== slug && a.slug !== proximaNota?.slug && a.section !== section) ?? ultimasRelacionadas.find((a) => a.slug !== proximaNota?.slug);
+const fotoChica = (a?: (typeof todos)[number]) => a?.image_url ? (/^https?:\/\//i.test(a.image_url) ? imagenNotaPath(a.slug, a.image_url, 320) : a.image_url) : undefined;
 
 // Datos estructurados para Google (Schema.org NewsArticle)
 const siteOrigin = Astro.site ?? Astro.url.origin;
@@ -195,6 +202,24 @@ import { nombreRegion } from '../../lib/regiones';
 			<Content />
 		</div>
 
+		{notaInteresar && <TePuedeInteresar slug={notaInteresar.slug} title={notaInteresar.title} />}
+
+		<CompartirFinal url={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString()} title={title} />
+
+		{
+			tags && Array.isArray(tags) && tags.length > 0 && (
+				<section class="mt-8" aria-label="Temas relacionados" data-no-imprimir>
+					<h2 class="flex items-center gap-2 font-display text-xl font-extrabold text-ink"><span class="text-2xl font-normal leading-none" aria-hidden="true">+</span>Temas relacionados</h2>
+					<div class="mt-4 flex flex-wrap gap-2.5">
+						{tags.map((etiqueta: string) => (
+							<a href={`/tag/${slugify(etiqueta)}/`} class="rounded-full bg-[#f0f0ec] px-4 py-2 text-[14px] text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-ink">{etiqueta}</a>
+						))}
+						<a href="/" class="rounded-full bg-[#f0f0ec] px-4 py-2 text-[14px] text-neutral-700 transition-colors hover:bg-neutral-200 hover:text-ink">Últimas noticias</a>
+					</div>
+				</section>
+			)
+		}
+
 		{
 			correccion && (
 				<aside class="mt-10 border-l-4 border-neutral-400 bg-neutral-50 px-5 py-4" aria-label="Fe de erratas">
@@ -257,6 +282,8 @@ import { nombreRegion } from '../../lib/regiones';
 	}
 
 	<div class="mx-auto max-w-6xl"><NewsletterBox /></div>
+
+	{proximaNota && <SeguiLeyendoFlotante slug={proximaNota.slug} title={proximaNota.title} foto={fotoChica(proximaNota)} />}
 </BaseLayout>
 
 <script is:inline define:vars={{ slugVisita: slug }}>

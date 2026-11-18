@@ -1,0 +1,55 @@
+---
+// Barrita flotante abajo con la próxima nota (estilo Infobae).
+// Aparece después de leer un tramo de la nota y se cierra con la X (no vuelve en la sesión).
+interface Props {
+	slug: string;
+	title: string;
+	foto?: string;
+}
+const { slug, title, foto } = Astro.props;
+---
+
+<div id="segui-leyendo" class="segui-leyendo fixed inset-x-0 bottom-0 z-30 px-3" style="padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));" hidden data-no-imprimir>
+	<div class="mx-auto flex max-w-[640px] items-center gap-3 rounded-2xl border border-[#e2e2dc] bg-white p-2.5 shadow-[0_-6px_24px_rgba(0,0,0,0.14)]">
+		<a href={`/articulo/${slug}/`} class="group flex min-w-0 flex-1 items-center gap-3">
+			{foto && <img src={foto} alt="" width="72" height="54" class="h-[54px] w-[72px] shrink-0 rounded-lg bg-neutral-200 object-cover" loading="lazy" />}
+			<span class="min-w-0">
+				<span class="block text-[10.5px] font-extrabold tracking-[0.1em] text-brand uppercase">Seguí leyendo</span>
+				<span class="line-clamp-2 font-display text-[15px] leading-snug font-extrabold text-ink group-hover:text-brand">{title}</span>
+			</span>
+		</a>
+		<button type="button" id="segui-leyendo-cerrar" aria-label="Cerrar" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#f0f0ec] text-ink hover:bg-neutral-200">
+			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+		</button>
+	</div>
+</div>
+
+<style>
+	.segui-leyendo { transform: translateY(120%); transition: transform 0.3s ease; }
+	.segui-leyendo.mostrar { transform: translateY(0); }
+	@media print { .segui-leyendo { display: none !important; } }
+</style>
+
+<script is:inline>
+	(function () {
+		var barra = document.getElementById('segui-leyendo');
+		var cerrar = document.getElementById('segui-leyendo-cerrar');
+		if (!barra) return;
+		try { if (sessionStorage.getItem('segui-leyendo-cerrada')) return; } catch (e) {}
+		barra.hidden = false;
+		var cerrada = false;
+		cerrar && cerrar.addEventListener('click', function () {
+			cerrada = true;
+			barra.classList.remove('mostrar');
+			try { sessionStorage.setItem('segui-leyendo-cerrada', '1'); } catch (e) {}
+		});
+		function revisar() {
+			if (cerrada) return;
+			var alto = document.documentElement.scrollHeight - window.innerHeight;
+			var avance = alto > 0 ? (window.scrollY || window.pageYOffset) / alto : 0;
+			barra.classList.toggle('mostrar', avance > 0.3);
+		}
+		window.addEventListener('scroll', revisar, { passive: true });
+		revisar();
+	})();
+</script>

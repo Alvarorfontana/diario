@@ -51,9 +51,11 @@ const fotoPortada = (a: (typeof articulos)[number], ancho = 1200) => a.image_url
 
 const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean).map((w) => w[0]).join('').toUpperCase().slice(0, 2);
 
-// Último momento: las notas marcadas en el panel, y si no hay, las más recientes.
-const marcadas = articulos.filter((a) => a.breaking);
-const ticker = (marcadas.length > 0 ? marcadas : [tapa, ...resto.slice(0, 4)].filter(Boolean)).slice(0, 6);
+// Último momento: las notas marcadas en el panel en las últimas 48 horas van primero,
+// y se completa con las más recientes. Así la franja nunca queda clavada en marcas viejas.
+const LIMITE_ULTIMO_MOMENTO = Date.now() - 48 * 60 * 60 * 1000;
+const marcadas = articulos.filter((a) => a.breaking && a.date.valueOf() >= LIMITE_ULTIMO_MOMENTO);
+const ticker = [...new Set([...marcadas, ...articulos])].slice(0, 6);
 ---
 
 <BaseLayout title={HOME_TITLE} description={SITE_DESCRIPTION} ogImage={`/api/og-portada.jpg?d=${hoyAR}`}>

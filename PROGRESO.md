@@ -16,6 +16,11 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Registro
 
+### 2026-11-18
+- Último momento: la franja quedaba clavada en notas viejas marcadas (25, la última del 6/11). Ahora las marcas valen 48 horas y se completa con lo último publicado.
+- Logo "EL DIARIO" más grande: 30 px en el celular (antes 23) y 42 en la compu (antes 32).
+- Nota (ideas de Infobae): compartir al final con WhatsApp, Facebook, X, LinkedIn y Telegram; recuadro "Te puede interesar" a mitad del texto; "Temas relacionados" abajo con los hashtags; barrita flotante "Seguí leyendo" con la próxima nota y X para cerrar.
+
 ### 2026-11-17
 - Se incorporó a `src/content/articulos/2026-11-17-leon-xiv-identidad-teologica-latinoamericana.md` la nota textual completa de Miguel Ángel Barrios, marcada para tapa, con la pintura de Santo Toribio del Museo Nacional de Bellas Artes (inventario 1918) y enlaces de referencia del Vaticano. Pendiente: retrato editorial en blanco y negro del autor para completar su ficha; no se publica la fotografía original del seminario.
 
