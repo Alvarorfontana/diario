@@ -90,5 +90,8 @@ import { SITE_TITLE } from '../consts';
 		temporizador = setTimeout(buscar, 250);
 	});
 
-	cargarArticulos();
+	// Si se llega desde el buscador del menú (/buscar/?q=…), se busca apenas cargan las notas.
+	const inicial = new URLSearchParams(location.search).get('q');
+	if (inicial) $input.value = inicial;
+	cargarArticulos().then(() => { if ($input.value.trim()) buscar(); });
 </script>

@@ -1,5 +1,6 @@
 ---
-import { SITE_TITLE, SECCIONES_MENU } from '../consts';
+import { SITE_TITLE, SECCIONES } from '../consts';
+import { REGIONES } from '../lib/regiones';
 
 const { pathname } = Astro.url;
 
@@ -11,8 +12,16 @@ const fechaCorta = (d: Date) => {
 };
 const hoy = fechaCorta(new Date());
 
-// Menú desplegable: pocas secciones y los especiales del diario.
+// Barra de temas bajo el logo: las secciones, las regiones y Minuto a minuto al final, en negrita.
+const barraTemas = [
+	...SECCIONES.map((x) => ({ href: `/seccion/${x.id}/`, nombre: x.nombre, fuerte: false })),
+	...REGIONES.map((r) => ({ href: `/region/${r.id}/`, nombre: r.nombre, fuerte: false })),
+	{ href: '/minuto-a-minuto/', nombre: 'Minuto a minuto', fuerte: true },
+];
+
+// Menú desplegable: buscador, portada, todas las secciones, regiones y los especiales del diario.
 const especiales = [
+	{ href: '/minuto-a-minuto/', nombre: 'Minuto a minuto' },
 	{ href: '/datos/', nombre: 'Laboratorio de datos' },
 	{ href: '/multimedia/', nombre: 'Multimedia y audio' },
 	{ href: '/brasil-2026/', nombre: 'Brasil 2026' },
@@ -20,6 +29,9 @@ const especiales = [
 	{ href: '/boletines/', nombre: 'Boletín' },
 	{ href: '/canal/', nombre: 'Canal' },
 	{ href: '/contexto-politico/', nombre: 'Contexto Político' },
+	{ href: '/elecciones-eeuu/', nombre: 'Elecciones en EE. UU.' },
+	{ href: '/escuchar/', nombre: 'Escuchar (podcast)' },
+	{ href: '/fin-de-semana/', nombre: 'Edición de fin de semana' },
 ];
 ---
 
@@ -31,13 +43,28 @@ const especiales = [
 				<summary aria-label="Secciones" class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-full bg-[#f0f0ec] text-ink transition-colors hover:bg-neutral-200">
 					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
 				</summary>
-				<nav aria-label="Secciones" class="absolute left-0 top-[calc(100%+8px)] w-60 rounded-2xl border border-[#e6e6e2] bg-white p-2 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
+				<nav aria-label="Secciones" class="absolute left-0 top-[calc(100%+8px)] max-h-[calc(100vh-90px)] w-72 overflow-y-auto rounded-2xl border border-[#e6e6e2] bg-white p-2 shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
+					<!-- Buscador dentro del menú (estilo El País) -->
+					<form action="/buscar/" method="get" role="search" class="m-1 mb-2 flex items-center rounded-lg bg-[#f0f0ec]">
+						<input name="q" type="search" placeholder="Buscar contenido" aria-label="Buscar contenido" class="min-w-0 flex-1 bg-transparent px-3 py-2.5 text-sm text-ink placeholder:text-neutral-500 focus:outline-none" />
+						<button type="submit" aria-label="Buscar" class="flex h-10 w-10 items-center justify-center text-ink">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+						</button>
+					</form>
 					<ul class="text-[15px] font-semibold text-ink">
-						{SECCIONES_MENU.map((s) => (
+						<li><a href="/" class="block rounded-lg px-3 py-2.5 hover:bg-[#f0f0ec]" aria-current={pathname === '/' ? 'page' : undefined}>Portada</a></li>
+						{SECCIONES.map((s) => (
 							<li><a href={`/seccion/${s.id}/`} class="block rounded-lg px-3 py-2.5 hover:bg-[#f0f0ec]" aria-current={pathname.startsWith(`/seccion/${s.id}`) ? 'page' : undefined}>{s.nombre}</a></li>
 						))}
 					</ul>
-					<ul class="mt-1 border-t border-[#eeeeea] pt-1 text-sm text-neutral-600">
+					<p class="mt-1 border-t border-[#eeeeea] px-3 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Regiones</p>
+					<ul class="text-sm font-medium text-ink">
+						{REGIONES.map((r) => (
+							<li><a href={`/region/${r.id}/`} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec]" aria-current={pathname.startsWith(`/region/${r.id}`) ? 'page' : undefined}>{r.nombre} <span class="text-xs font-normal text-neutral-500">· {r.descripcion}</span></a></li>
+						))}
+					</ul>
+					<p class="mt-1 border-t border-[#eeeeea] px-3 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Especiales</p>
+					<ul class="text-sm text-neutral-600">
 						{especiales.map((e) => (
 							<li><a href={e.href} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec] hover:text-ink" aria-current={pathname.startsWith(e.href) ? 'page' : undefined}>{e.nombre}</a></li>
 						))}
@@ -49,17 +76,32 @@ const especiales = [
 				<span class="inline-block h-3 w-3 rounded-[3px] bg-brand sm:h-3.5 sm:w-3.5" aria-hidden="true"></span>{SITE_TITLE}
 		</a>
 		<div class="flex items-center justify-end gap-2">
-			<a href="/buscar/" aria-label="Buscar" class="flex h-11 w-11 items-center justify-center rounded-full bg-[#f0f0ec] text-ink transition-colors hover:bg-neutral-200">
+			<a href="/buscar/" aria-label="Buscar" class="hidden h-11 w-11 sm:flex items-center justify-center rounded-full bg-[#f0f0ec] text-ink transition-colors hover:bg-neutral-200">
 				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
 			</a>
-			<a href="/#newsletter" class="hidden rounded-full bg-ink px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-brand sm:inline-block">Suscribite</a>
+			<!-- En el celular el buscador vive en el menú, así entra el botón de suscripción -->
+			<a href="/#newsletter" class="inline-block rounded-full bg-ink px-3 py-2 text-[13px] font-bold text-white transition-colors hover:bg-brand sm:px-4 sm:py-2.5 sm:text-sm">Suscribite</a>
 		</div>
 	</div>
+	<!-- Barra de temas arriba, estilo El País: secciones, regiones y el especial en negrita. En el celular se desliza de costado. -->
+	<nav aria-label="Temas" class="border-t border-[#eeeeea]">
+		<ul class="barra-temas mx-auto flex max-w-6xl items-center justify-between gap-0 overflow-x-auto whitespace-nowrap px-2 text-[11.5px] font-semibold uppercase tracking-[0.02em] text-ink">
+			{barraTemas.map((t) => (
+				<li><a href={t.href} class:list={['block px-2 py-2.5 hover:text-brand', t.fuerte && 'font-extrabold border-l border-[#e6e6e2]']} aria-current={pathname.startsWith(t.href) ? 'page' : undefined}>{t.nombre}</a></li>
+			))}
+		</ul>
+	</nav>
 	<!-- Franja con la fecha del día (estilo NYT / El País) -->
 	<div class="border-t border-[#eeeeea]">
 		<p id="fecha-hoy" class="mx-auto max-w-6xl px-4 py-1.5 text-center text-[12px] tracking-wide text-neutral-500">{hoy}</p>
 	</div>
 </header>
+
+<style>
+	.barra-temas { scrollbar-width: none; }
+	.barra-temas::-webkit-scrollbar { display: none; }
+	.barra-temas a[aria-current='page'] { color: var(--color-brand, #c8102e); }
+</style>
 
 <script is:inline>
 	// La fecha se actualiza sola en el navegador (también en páginas armadas de antemano).
