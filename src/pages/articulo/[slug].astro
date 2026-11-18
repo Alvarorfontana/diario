@@ -39,6 +39,12 @@ const ogImage = ogImagePath(slug, image_url);
 const fotoVisible = /^https?:\/\//i.test(image_url) ? imagenNotaPath(slug, image_url) : image_url;
 
 const fecha = new Date(date);
+// Fecha de la firma, como El País: 17 NOV 2026 - 14:09 ART (hora argentina)
+const fechaFirma = (() => {
+	const p = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'America/Argentina/Buenos_Aires' }).formatToParts(fecha);
+	const v = (t: string) => p.find((x) => x.type === t)?.value ?? '';
+	return `${v('day')} ${v('month').replace('.', '').toUpperCase()} ${v('year')} - ${v('hour')}:${v('minute')} ART`;
+})();
 
 // Foto del autor. Mientras no haya foto cargada en consts.ts, se usa una ilustración provisoria.
 const fotoFirma = fotoAutor(author || '') ?? '/autores/foto-provisoria.svg';
@@ -120,19 +126,24 @@ import { nombreRegion } from '../../lib/regiones';
 				{title}
 			</h1>
 			<p class="mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
-			<div class="mt-6 flex items-center gap-3.5">
-				<img src={fotoFirma} alt="" width="56" height="56" class="h-14 w-14 shrink-0 rounded-full bg-neutral-200 object-cover" loading="eager" />
-				<div>
-					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="text-[15px] font-semibold text-neutral-900 hover:text-brand">{author || 'Redacción'}</a>{ciudad && <span class="text-sm text-neutral-600"> ({ciudad})</span>}
-					<p class="text-xs text-neutral-500">
-						{region && <><a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a></>}
+			<!-- Firma estilo El País: foto, nombre en versalitas con serif, lugar y fecha, una línea y abajo compartir + Google -->
+			<div class="mt-7 flex items-start gap-4">
+				<img src={fotoFirma} alt="" width="64" height="64" class="h-16 w-16 shrink-0 rounded-full bg-neutral-200 object-cover" loading="eager" />
+				<div class="min-w-0 flex-1">
+					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="font-serif text-[15px] font-bold uppercase tracking-[0.02em] text-ink hover:text-brand">{author || 'Redacción'}</a>
+					<p class="mt-1 text-[12px] text-neutral-600">
+						{ciudad && <>{ciudad} - </>}{!ciudad && region && <><a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a> - </>}{fechaFirma}
 					</p>
+					<div class="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-[#d9d9d4] pt-3" data-no-imprimir>
+						<ShareButtons url={Astro.url.href} title={title}>
+							<ImprimirNota />
+						</ShareButtons>
+						<a href="https://www.google.com/preferences/source?q=diariofederal.com.ar" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-[#d9d9d4] bg-white px-3.5 py-1.5 text-[12.5px] font-medium text-ink hover:border-neutral-400">
+							<svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+							Añadir EL DIARIO en Google
+						</a>
+					</div>
 				</div>
-			</div>
-			<div class="mt-5" data-no-imprimir>
-				<ShareButtons url={Astro.url.href} title={title}>
-					<ImprimirNota />
-				</ShareButtons>
 			</div>
 
 			<div data-no-imprimir>
