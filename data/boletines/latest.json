@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-18",
   "dateLabel": "18/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-18-c0f22332dd99.mp3",
-  "video": "/boletines/boletin-principal-2026-11-18-c0f22332dd99.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-18-c0f22332dd99.png",
-  "duracion": 99,
+  "archivo": "/boletines/boletin-principal-2026-11-18-11a4322c8967.mp3",
+  "video": "/boletines/boletin-principal-2026-11-18-11a4322c8967.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-18-11a4322c8967.png",
+  "duracion": 101,
   "voz": "es-AR-TomasNeural",
-  "hash": "c0f22332dd99",
+  "hash": "11a4322c8967",
   "items": [
     {
       "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
       "title": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo",
       "section": "internacional",
       "url": "/articulo/cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida/"
+    },
+    {
+      "slug": "2026-11-18-san-fernando-unidad-para-todos-menos-para-uno",
+      "title": "San Fernando: unidad para todos, menos para uno",
+      "section": "argentina",
+      "url": "/articulo/2026-11-18-san-fernando-unidad-para-todos-menos-para-uno/"
     },
     {
       "slug": "2026-11-18-java4shell-ia-encontro-grieta-cimientos-digitales",
@@ -38,12 +44,6 @@
       "title": "¿Yalta 2.0 en Shenzhen? Trump, Putin y Xi Jinping ante el nacimiento de otro orden mundial",
       "section": "internacional",
       "url": "/articulo/xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre/"
-    },
-    {
-      "slug": "2026-11-16-petroleo-desplaza-soja-exportaciones-argentina",
-      "title": "El petróleo desplaza a la soja y redefine el perfil exportador argentino: la apuesta extractivista de Milei",
-      "section": "economia",
-      "url": "/articulo/2026-11-16-petroleo-desplaza-soja-exportaciones-argentina/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
