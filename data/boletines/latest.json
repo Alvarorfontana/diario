@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-18",
   "dateLabel": "18/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-18-11a4322c8967.mp3",
-  "video": "/boletines/boletin-principal-2026-11-18-11a4322c8967.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-18-11a4322c8967.png",
+  "archivo": "/boletines/boletin-principal-2026-11-18-f071668cae68.mp3",
+  "video": "/boletines/boletin-principal-2026-11-18-f071668cae68.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-18-f071668cae68.png",
   "duracion": 101,
   "voz": "es-AR-TomasNeural",
-  "hash": "11a4322c8967",
+  "hash": "f071668cae68",
   "items": [
     {
       "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
@@ -29,7 +29,7 @@
     },
     {
       "slug": "2026-11-17-leon-xiv-identidad-teologica-latinoamericana",
-      "title": "LEÓN XIV Y LA IDENTIDAD TEOLÓGICA LATINOAMERICANA",
+      "title": "León XIV y la identidad teológica latinoamericana",
       "section": "opinion",
       "url": "/articulo/2026-11-17-leon-xiv-identidad-teologica-latinoamericana/"
     },
