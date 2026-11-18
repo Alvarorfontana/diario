@@ -20,7 +20,6 @@ puntosClave:
 resumenCompartir: Una IA halló en tres horas y por menos de 200 dólares una falla crítica en Java, el motor invisible de bancos, hospitales y Estados.
 ---
 
-<p><strong>Por Ramiro De la Puente</strong></p>
 
 <p>Por menos de 200 dólares y en apenas tres horas, una inteligencia artificial ayudó a encontrar una grieta en los cimientos invisibles de bancos, hospitales y gobiernos de todo el mundo. El hallazgo, bautizado <em>Java4Shell</em>, revela la fragilidad de la infraestructura digital que heredamos y plantea una pregunta incómoda: qué pasa cuando máquinas cada vez más veloces auditan —y también reescriben— sistemas que la humanidad apenas termina de comprender.</p>
 

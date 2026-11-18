@@ -17,7 +17,6 @@ tags:
   - Orden mundial
 ---
 
-<p><strong>Por Emilio Lahitte</strong></p>
 
 <p>La reunión anunciada para el 19 de noviembre en Shenzhen, China, entre Donald Trump, Xi Jinping y Vladímir Putin excede largamente el protocolo diplomático. Será el primer encuentro trilateral de los tres mandatarios y se realizará en el marco de la cumbre de la APEC. La confirmación fue comunicada por el Ministerio de Relaciones Exteriores chino y ratificada por Washington y Moscú. <a href="https://www.fmprc.gov.cn/eng/xw/zyxw/202611/t20261116_12059663.html">La diplomacia de Pekín</a> presentó la cita como una instancia para hablar de paz mundial y estabilidad estratégica.</p>
 

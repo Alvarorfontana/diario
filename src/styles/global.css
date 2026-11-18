@@ -47,7 +47,8 @@ img { background-color: #eeeeee; }
 .nav-fija.pegada .logo-mini { display: inline-flex; }
 
 /* Capitular */
-.prose-articulo > p:first-of-type::first-letter {
+.prose-articulo > p:first-of-type:not(:has(> strong:only-child))::first-letter,
+.prose-articulo > p:first-of-type:has(> strong:only-child) + p::first-letter {
 	font-family: var(--font-display);
 	font-weight: 900;
 	font-size: 3.4em;
