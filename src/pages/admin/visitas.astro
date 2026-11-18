@@ -1,0 +1,128 @@
+---
+// Contador privado de visitas: lo ve solo quien entró al panel. No se muestra en el sitio.
+export const prerender = false;
+
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import { resumenVisitas, visitasActivas } from '../../lib/visitas';
+import { getArticulos } from '../../lib/articles';
+
+const env = getRuntimeEnv(Astro.locals);
+const isAuthenticated = await isAdmin(Astro.request, env);
+Astro.response.headers.set('cache-control', 'no-store');
+Astro.response.headers.set('x-robots-tag', 'noindex');
+
+const activo = visitasActivas(Astro.locals);
+const resumen = isAuthenticated && activo ? await resumenVisitas(30, Astro.locals) : null;
+const titulos = new Map<string, string>();
+if (resumen) {
+	for (const a of await getArticulos()) titulos.set(a.slug, a.title);
+}
+
+const fmt = (n: number) => n.toLocaleString('es-AR');
+const suma = (desde: number, hasta: number, campo: 'paginas' | 'personas' | 'notas') =>
+	resumen ? resumen.dias.slice(desde, hasta).reduce((t, d) => t + d[campo], 0) : 0;
+const hoy = resumen?.dias[0];
+const ayer = resumen?.dias[1];
+const max = resumen ? Math.max(1, ...resumen.dias.map((d) => d.paginas)) : 1;
+const fechaCorta = (f: string) => {
+	const [, m, d] = f.split('-');
+	return `${d}/${m}`;
+};
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="robots" content="noindex, nofollow" />
+	<title>Visitas - Admin</title>
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 30px auto; padding: 16px; background: #f5f5f5; color: #1f2937; }
+		.card { background: white; padding: 22px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); margin-bottom: 18px; }
+		.btn { padding: 9px 16px; border-radius: 4px; font-weight: 600; text-decoration: none; display: inline-block; background: #6b7280; color: white; }
+		.cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+		.cifra { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 14px; }
+		.cifra b { display: block; font-size: 28px; line-height: 1.1; }
+		.cifra span { font-size: 13px; color: #6b7280; }
+		table { width: 100%; border-collapse: collapse; font-size: 14px; }
+		td, th { padding: 7px 6px; border-bottom: 1px solid #eee; text-align: left; }
+		td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+		.barra { height: 8px; background: #e93323; border-radius: 4px; min-width: 2px; }
+		.nota { color: #6b7280; font-size: 13px; }
+		a.titulo { color: #1f2937; }
+	</style>
+</head>
+<body>
+	{!isAuthenticated ? (
+		<div class="card">
+			<h2>Acceso denegado</h2>
+			<p>Tenés que entrar al <a href="/admin">panel principal</a> primero.</p>
+		</div>
+	) : !activo ? (
+		<div class="card">
+			<h1>📈 Visitas</h1>
+			<p>El contador necesita la base gratuita de Upstash Redis conectada en Vercel (Storage). Es la misma que usa “Lo más leído”.</p>
+			<a href="/admin" class="btn">← Volver al Admin</a>
+		</div>
+	) : !resumen ? (
+		<div class="card">
+			<h1>📈 Visitas</h1>
+			<p>No se pudieron leer los números en este momento. Probá recargar en un rato.</p>
+			<a href="/admin" class="btn">← Volver al Admin</a>
+		</div>
+	) : (
+		<div>
+			<div class="card">
+				<h1 style="margin-top:0">📈 Visitas</h1>
+				<p class="nota">Solo lo ve quien entró al panel. Cuenta personas reales con el navegador (no robots), una vez por página y por sesión. Horario de Argentina.</p>
+				<a href="/admin" class="btn">← Volver al Admin</a>
+			</div>
+
+			<div class="card cifras">
+				<div class="cifra"><b>{fmt(hoy!.personas)}</b><span>personas hoy (ayer {fmt(ayer!.personas)})</span></div>
+				<div class="cifra"><b>{fmt(hoy!.paginas)}</b><span>páginas vistas hoy (ayer {fmt(ayer!.paginas)})</span></div>
+				<div class="cifra"><b>{fmt(suma(0, 7, 'paginas'))}</b><span>páginas vistas, últimos 7 días</span></div>
+				<div class="cifra"><b>{fmt(suma(0, 30, 'notas'))}</b><span>lecturas de notas, últimos 30 días</span></div>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0">Día por día</h3>
+				<table>
+					<thead><tr><th>Día</th><th class="n">Personas</th><th class="n">Páginas</th><th class="n">Notas leídas</th><th style="width:35%"></th></tr></thead>
+					<tbody>
+						{resumen.dias.map((d) => (
+							<tr>
+								<td>{fechaCorta(d.fecha)}</td>
+								<td class="n">{fmt(d.personas)}</td>
+								<td class="n">{fmt(d.paginas)}</td>
+								<td class="n">{fmt(d.notas)}</td>
+								<td><div class="barra" style={`width:${Math.round((d.paginas / max) * 100)}%`}></div></td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+				<p class="nota">Las páginas vistas y las personas se empezaron a contar el 18/11/2026; antes de esa fecha figuran en cero.</p>
+			</div>
+
+			<div class="card">
+				<h3 style="margin-top:0">Notas más leídas (30 días)</h3>
+				{resumen.notas.length === 0 ? <p class="nota">Todavía no hay lecturas registradas.</p> : (
+					<table>
+						<tbody>
+							{resumen.notas.map((n, i) => (
+								<tr>
+									<td class="n" style="width:2em">{i + 1}</td>
+									<td><a class="titulo" href={`/articulo/${n.slug}/`} target="_blank">{titulos.get(n.slug) ?? n.slug}</a></td>
+									<td class="n">{fmt(n.visitas)}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				)}
+			</div>
+		</div>
+	)}
+</body>
+</html>

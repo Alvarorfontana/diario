@@ -278,3 +278,13 @@ figcaption,
 /* Franja de mercados: verde si baja, rojo si sube (respecto de la cotización anterior) */
 .mercado-baja { color: #15803d; }
 .mercado-sube { color: #d0021b; }
+
+/* Enlaces dentro de las notas en celeste (pedido de Álvaro, 18/11/2026).
+   Celeste oscuro para que se lea bien sobre fondo blanco. Vale para todos los enlaces del texto. */
+.prose-articulo a,
+.prose-articulo a.enlace-interno,
+.prose-articulo a.enlace-fuente { color: #0284c7; }
+.prose-articulo a:visited,
+.prose-articulo a.enlace-fuente:visited { color: #0369a1; }
+.prose-articulo a:hover { color: #0369a1; }
+.prose-articulo aside a { color: inherit; }

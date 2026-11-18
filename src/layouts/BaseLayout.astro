@@ -41,6 +41,15 @@ const { title, description, image, ogImage, publishedTime, author, section } = A
 		<!-- Vercel Web Analytics (contador de visitas) — no borrar -->
 		<script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 		<script is:inline defer src="/_vercel/insights/script.js"></script>
+		<!-- Contador privado de visitas (se ve solo en /admin/visitas). No cuenta el panel ni robots sin JavaScript. -->
+		<script is:inline>
+			try {
+				if (location.pathname.indexOf('/admin') !== 0 && !sessionStorage.getItem('pv:' + location.pathname)) {
+					sessionStorage.setItem('pv:' + location.pathname, '1');
+					fetch('/api/visita', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pagina: true }), keepalive: true }).catch(function () {});
+				}
+			} catch (e) {}
+		</script>
 		{GA_ID && (
 			<>
 				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>

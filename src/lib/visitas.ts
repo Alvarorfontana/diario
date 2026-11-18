@@ -48,9 +48,64 @@ export async function sumarVisita(slug: string, locals?: unknown): Promise<boole
 	const k = clave(new Date());
 	const r = await pipeline(cfg, [
 		['ZINCRBY', k, 1, slug],
-		['EXPIRE', k, (DIAS + 1) * 24 * 60 * 60],
+		['EXPIRE', k, GUARDAR_DIAS * 24 * 60 * 60],
 	]);
 	return r !== null;
+}
+
+// ---- Contador privado del panel (/admin/visitas) ----
+// Guarda 31 días: páginas vistas por día y personas distintas por día (HyperLogLog sobre un
+// código anónimo de conexión + navegador; no se guarda la IP ni se usan cookies).
+const GUARDAR_DIAS = 31;
+
+function dia(d: Date): string {
+	return clave(d).slice('visitas:'.length);
+}
+
+export async function sumarPagina(visitante: string, locals?: unknown): Promise<boolean> {
+	const cfg = config(locals);
+	if (!cfg) return false;
+	const d = dia(new Date());
+	const ttl = GUARDAR_DIAS * 24 * 60 * 60;
+	const r = await pipeline(cfg, [
+		['INCR', 'paginas:' + d],
+		['EXPIRE', 'paginas:' + d, ttl],
+		['PFADD', 'personas:' + d, visitante],
+		['EXPIRE', 'personas:' + d, ttl],
+	]);
+	return r !== null;
+}
+
+export interface ResumenVisitas {
+	dias: { fecha: string; paginas: number; personas: number; notas: number }[];
+	notas: { slug: string; visitas: number }[];
+}
+
+/** Resumen para el panel: últimos `cantidadDias` días y notas más leídas del período. */
+export async function resumenVisitas(cantidadDias = 30, locals?: unknown): Promise<ResumenVisitas | null> {
+	const cfg = config(locals);
+	if (!cfg) return null;
+	const ahora = Date.now();
+	const fechas = Array.from({ length: cantidadDias }, (_, i) => dia(new Date(ahora - i * 24 * 60 * 60 * 1000)));
+	const comandos: (string | number)[][] = [];
+	for (const f of fechas) {
+		comandos.push(['GET', 'paginas:' + f], ['PFCOUNT', 'personas:' + f], ['ZRANGE', 'visitas:' + f, 0, -1, 'WITHSCORES']);
+	}
+	const r = await pipeline(cfg, comandos);
+	if (!r) return null;
+	const porNota = new Map<string, number>();
+	const dias = fechas.map((fecha, i) => {
+		const lista: string[] = Array.isArray(r[i * 3 + 2]?.result) ? r[i * 3 + 2].result : [];
+		let notas = 0;
+		for (let j = 0; j + 1 < lista.length; j += 2) {
+			const n = Number(lista[j + 1] || 0);
+			notas += n;
+			porNota.set(lista[j], (porNota.get(lista[j]) ?? 0) + n);
+		}
+		return { fecha, paginas: Number(r[i * 3]?.result || 0), personas: Number(r[i * 3 + 1]?.result || 0), notas };
+	});
+	const notas = [...porNota.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30).map(([slug, visitas]) => ({ slug, visitas }));
+	return { dias, notas };
 }
 
 /** Devuelve los slugs más leídos de los últimos días, del más al menos leído. */

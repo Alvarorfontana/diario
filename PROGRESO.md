@@ -17,6 +17,10 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## Registro
 
 ### 2026-11-18
+- Guía de estilo (`GUIA-DE-ESTILO.md`) para todas las personas que escriben: noticias hasta 760 palabras, análisis/informes/crónicas hasta 1.200, opinión tal cual sin límite; estructura, títulos, cifras, fuentes, enlaces, epígrafes y correcciones. Enlazada desde `CLAUDE.md` y `AGENTS.md`.
+- Panel: contador de palabras debajo del texto de la nota, con selector Noticia / Análisis y aviso en rojo al pasar el límite. En Opinión solo informa.
+- Enlaces dentro de las notas en celeste (`#0284c7`; visitados `#0369a1`).
+- Contador privado de visitas en `/admin/visitas` (botón "📈 Visitas" en el panel): personas y páginas vistas por día, lecturas de notas y ranking de 30 días. Usa el mismo Upstash Redis gratuito de "Lo más leído"; las lecturas por nota ahora se guardan 31 días (antes 4). Pendiente: si Upstash no está conectado en Vercel, el panel lo avisa.
 - Tipografía, segunda vuelta: revisadas portada y 33 notas, solo quedan Newsreader e Inter. Los recuadros, gráficos y fuentes armados a mano dentro de las notas pasan a Inter (había Georgia y tamaños sueltos). Firma del autor en Inter. Bajadas en Newsreader, como el texto.
 - Contexto Político: se sacaron todos los enlaces a Substack (mostraban el nombre real). Quedan solo los textos (título, fecha, resumen).
 - Redes: los íconos de Facebook, X, etc. quedan solo como dibujo, sin enlace a ninguna cuenta (pedido de Álvaro). Los botones de compartir nota siguen.

@@ -133,6 +133,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 					<a href="/admin/en-vivo/" class="btn btn-secondary" style="margin-left: 10px;">En vivo</a>
 					<a href="/admin/flash/" class="btn btn-secondary" style="margin-left: 10px;">🎬 Video flash</a>
 					<a href="/admin/comentarios/" class="btn btn-secondary" style="margin-left: 10px;">Comentarios</a>
+					<a href="/admin/visitas/" class="btn btn-secondary" style="margin-left: 10px;">📈 Visitas</a>
 					<a href="/" class="btn btn-secondary" style="margin-left: 10px;">Ver sitio</a>
 				</div>
 			</div>
@@ -266,6 +267,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 						</div>
 						<div id="editor" contenteditable="true" data-ph="Escribí o pegá el texto de la nota. Al pegar se conservan párrafos, negritas y subtítulos."></div>
 						<textarea id="html-source" class="hidden"></textarea>
+						<p id="contador-palabras" class="tip" style="margin-top:6px;font-weight:600"></p>
 						<input type="file" id="img-file" accept="image/*" class="hidden" />
 						<p class="tip">Cada Enter crea un párrafo nuevo. Seleccioná texto para ponerlo en negrita o convertirlo en subtítulo, cita o frase destacada. Las fotos y videos se insertan donde está el cursor; para sacar uno, ubicá el cursor justo debajo y apretá Retroceso.</p>
 					</div>
@@ -800,6 +802,46 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			try { history.replaceState(null, '', location.pathname); } catch (e) {}
 		})();
 		}
+	</script>
+	<script is:inline>
+		// Contador de palabras de la nota (guía de estilo: GUIA-DE-ESTILO.md).
+		// Noticias hasta 760 palabras; análisis, informes y crónicas hasta 1.200; opinión sin límite.
+		(function () {
+			var ed = document.getElementById('editor');
+			var src = document.getElementById('html-source');
+			var sec = document.getElementById('section');
+			var out = document.getElementById('contador-palabras');
+			if (!ed || !out) return;
+			var tipo = document.createElement('select');
+			tipo.id = 'tipo-nota';
+			tipo.style.cssText = 'margin-left:8px;padding:4px;font-size:13px';
+			tipo.innerHTML = '<option value="760">Noticia (hasta 760)</option><option value="1200">Análisis / informe / crónica (hasta 1.200)</option>';
+			var caja = document.createElement('span');
+			function contar() {
+				var html = src && !src.classList.contains('hidden') ? src.value : ed.innerHTML;
+				var div = document.createElement('div');
+				div.innerHTML = html;
+				var texto = (div.textContent || '').trim();
+				var n = texto ? (texto.match(/[\p{L}\p{N}]+(?:[.,'’-][\p{L}\p{N}]+)*/gu) || []).length : 0;
+				var opinion = sec && sec.value === 'opinion';
+				var limite = Number(tipo.value);
+				var msg, color;
+				if (opinion) { msg = n + ' palabras · Opinión: se publica tal cual, sin límite'; color = '#4b5563'; }
+				else if (n > limite) { msg = n + ' palabras · se pasa por ' + (n - limite) + ' del límite de ' + limite.toLocaleString('es-AR'); color = '#b91c1c'; }
+				else if (n > limite * 0.9) { msg = n + ' palabras · cerca del límite de ' + limite.toLocaleString('es-AR'); color = '#b45309'; }
+				else { msg = n + ' palabras · dentro del límite de ' + limite.toLocaleString('es-AR'); color = '#15803d'; }
+				caja.textContent = msg;
+				out.style.color = color;
+				tipo.style.display = opinion ? 'none' : '';
+			}
+			out.appendChild(caja);
+			out.appendChild(tipo);
+			['input', 'keyup', 'paste'].forEach(function (e) { ed.addEventListener(e, contar); if (src) src.addEventListener(e, contar); });
+			if (sec) sec.addEventListener('change', contar);
+			tipo.addEventListener('change', contar);
+			setInterval(contar, 1500); // también al abrir una nota guardada
+			contar();
+		})();
 	</script>
 </body>
 </html>
