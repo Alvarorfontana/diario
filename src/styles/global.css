@@ -235,3 +235,10 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .prose-articulo td:not(:first-child), .prose-articulo th:not(:first-child) { text-align: right; white-space: nowrap; }
 .prose-articulo tbody tr:nth-child(even) { background: #fafafa; }
 .prose-articulo td:first-child, .prose-articulo th:first-child { min-width: 9.5rem; hyphens: none; -webkit-hyphens: none; word-break: normal; }
+
+/* Uniformidad dentro de las notas: los recuadros, gráficos, fuentes y epígrafes armados a mano
+   (con estilos propios en la nota) usan siempre Inter, la letra de interfaz. El texto corrido,
+   títulos y citas siguen en Newsreader. Así no aparece Georgia ni otras letras sueltas. */
+.prose-articulo [style]:not(blockquote):not([style*="italic"]),
+.prose-articulo [style]:not(blockquote):not([style*="italic"]) * { font-family: var(--font-sans) !important; }
+.prose-articulo figcaption, .prose-articulo small, .prose-articulo caption { font-family: var(--font-sans); }
