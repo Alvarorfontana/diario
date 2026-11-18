@@ -17,6 +17,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## Registro
 
 ### 2026-11-18
+- Contexto Político: se sacaron todos los enlaces a Substack (mostraban el nombre real). Quedan solo los textos (título, fecha, resumen).
 - Redes: los íconos de Facebook, X, etc. quedan solo como dibujo, sin enlace a ninguna cuenta (pedido de Álvaro). Los botones de compartir nota siguen.
 - Tipografía unificada en dos familias, como El País y el NYT: Newsreader (titulares y texto de las notas) e Inter (menú, volantas, fechas, logo). Se sacó Manrope. Titulares siempre en mayúscula y minúscula: se corrigieron dos que estaban en mayúsculas sostenidas (León XIV).
 - Último momento: la franja quedaba clavada en notas viejas marcadas (25, la última del 6/11). Ahora las marcas valen 48 horas y se completa con lo último publicado.
