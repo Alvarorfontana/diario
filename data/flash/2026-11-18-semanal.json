@@ -63,7 +63,7 @@
     }
   ],
   "estado": "listo",
-  "publicado": false,
+  "publicado": true,
   "rotulo": "SEMANA DEL 18 DE NOVIEMBRE DE 2026",
   "subtitulosVtt": "/flash/2026-11-18-semanal.vtt",
   "capitulos": [
@@ -72,7 +72,7 @@
       "titulo": "Cerró una fábrica de fertilizantes de Bunge"
     },
     {
-      "t": 46.0,
+      "t": 46,
       "titulo": "Axel Kicillof destinó millones a la ciencia"
     },
     {
@@ -84,10 +84,11 @@
   "duraciones": [
     38.4,
     25.4,
-    24.0
+    24
   ],
   "video": "/flash/2026-11-18-semanal.mp4",
   "miniatura": "/flash/2026-11-18-semanal.jpg",
   "version": "20261118154322",
-  "generado": "2026-11-18T15:43:22+00:00"
+  "generado": "2026-11-18T15:43:22+00:00",
+  "publicadoEl": "2026-11-18T15:48:33.578Z"
 }
