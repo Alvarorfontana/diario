@@ -79,3 +79,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-18: SEO (informe Seobility, 69 %): título largo solo para la portada (`HOME_TITLE`), meta descripción nueva de ~150 caracteres, texto ALT en todas las imágenes públicas (título de la nota, nombre del autor o del video) y logo + «Diario Federal» en el Schema de la organización. La marca EL DIARIO no cambia. Pendiente: backlinks (1 solo dominio) y revisar la redirección http→https en Vercel.
 
 - 2026-11-18: Nota «Java4Shell: una IA encontró en tres horas una grieta en los cimientos digitales…» (sección Tecnología, firma Ramiro De la Puente), con ilustración propia en `/uploads/2026-11-18-java4shell-ilustracion.jpg` y fuentes verificadas enlazadas. Nueva clase CSS `a.enlace-fuente` (azul #1a73e8) para que los hipervínculos de fuentes se vean en azul en las notas que la usen; las demás notas no cambian.
+
+- 2026-11-18: Crónica «San Fernando: unidad para todos, menos para uno» (Argentina, región Buenos Aires, firma nueva Delia Saravia, sin foto de autor). Ilustración propia de la sala con una butaca vacía en `/uploads/2026-11-18-san-fernando-butaca-vacia.jpg`.
