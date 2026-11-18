@@ -22,7 +22,7 @@
 					var el = document.createElement('div');
 					el.className = 'flex items-baseline gap-2 rounded-xl bg-white px-3.5 py-2 text-[13px] whitespace-nowrap shadow-[inset_0_0_0_1px_#e6e6e2]';
 					var n = document.createElement('span'); n.className = 'font-semibold text-neutral-600'; n.textContent = it.nombre;
-					var v = document.createElement('span'); v.className = 'font-display font-extrabold text-ink tabular-nums'; v.textContent = it.valor;
+					var v = document.createElement('span'); v.className = 'font-sans font-extrabold text-ink tabular-nums'; v.textContent = it.valor;
 					el.appendChild(n); el.appendChild(v);
 					if (it.detalle) { var t = document.createElement('span'); t.className = 'text-[11px] text-neutral-500'; t.textContent = it.detalle; el.appendChild(t); }
 					lista.appendChild(el);

@@ -1,5 +1,5 @@
 ---
-title: 'LEÓN XIV Y LA IDENTIDAD TEOLÓGICA LATINOAMERICANA'
+title: 'León XIV y la identidad teológica latinoamericana'
 description: 'Santo Toribio de Mogrovejo: raíz y horizonte. Una lectura pastoral, social y geopolítica del viaje apostólico de León XIV y de la identidad histórica de la Iglesia latinoamericana.'
 section: opinion
 author: 'Prof. Dr. Miguel Ángel Barrios'

@@ -1,5 +1,5 @@
 ---
-title: "CÓRDOBA: ROSSI RECHAZÓ LA INDIFERENCIA Y LEÓN XIV PUSO EL HAMBRE Y EL DESEMPLEO EN EL CENTRO DEL DEBATE"
+title: "Córdoba: Rossi rechazó la indiferencia y León XIV puso el hambre y el desempleo en el centro del debate"
 volanta: "IGLESIA Y POLÍTICA | LA VISITA PAPAL"
 description: "En Córdoba, ante una multitud de 650.000 personas, León XIV reclamó respuestas frente al hambre, la injusticia y la falta de trabajo. El cardenal Ángel Rossi pidió una Iglesia que no cruce los brazos ante el sufrimiento. Las definiciones del Papa sobre el mundo laboral y la reacción sindical completan un mensaje que contrasta con el rumbo económico del Gobierno."
 section: argentina
