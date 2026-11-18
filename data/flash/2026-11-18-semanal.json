@@ -1,0 +1,67 @@
+{
+  "id": "2026-11-18-semanal",
+  "tipo": "semanal",
+  "titulo": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo; Axel Kicillof destinó millones a",
+  "fecha": "2026-11-18",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": -10,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -17,
+  "estilo": "openfilm",
+  "subtitulos": true,
+  "bloques": [
+    {
+      "kicker": "Economía",
+      "titulo": "Cerró una fábrica de fertilizantes de Bunge",
+      "dato": "",
+      "bajada": "El 26 de octubre la multinacional Bunge anunció el cierre definitivo de su planta de…",
+      "texto": "El 26 de octubre la multinacional Bunge anunció el cierre definitivo de su planta de fertilizantes en Campana, a la altura del kilómetro 79,4 de la Ruta Nacional 9. La decisión, comunicada sin previo aviso, dejó a 110 trabajadores directos sin empleo y, según el sindicato químico y petroquímico de Zárate‑Campana, a otros 140 empleados tercerizados, sumando un total de 250 puestos de trabajo afectados. La fábrica, que operaba durante más de cincuenta años, producía fertilizantes líquidos como tiosulfato de amonio y tiosulfato de potasio.",
+      "epigrafe": "",
+      "fuente": "Foto: Página/12",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.pagina12.com.ar/resizer/v2/7CQWSI55W5GD3CHZMBMO7CVFZY.jpg?smart=true&auth=745093e51f300eb445d4d7e1320fdf2a6425b2716ded269585e0b6faa064d99b&width=1200&height=630",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Ciencia en Buenos Aires",
+      "titulo": "Axel Kicillof destinó millones a la ciencia",
+      "dato": "",
+      "bajada": "La inversión de $3.800 millones alcanzará a 108 proyectos de investigación científica,…",
+      "texto": "La inversión de $3.800 millones alcanzará a 108 proyectos de investigación científica, tecnológica y social en territorio bonaerense. El gobernador bonaerense Axel Kicillof informó el lunes que destinará $3.800 millones para financiar 108 proyectos de investigación científica, tecnológica y social en la provincia de Buenos Aires, según publicó Zona Norte Diario.",
+      "epigrafe": "",
+      "fuente": "Foto: Zona Norte Diario",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.zonanortediario.com.ar/wp-content/uploads/2026/11/DSC2472-scaled.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Cumbre trilateral en Asia",
+      "titulo": "Xi Jinping, Donald Trump y Vladímir Putin",
+      "dato": "",
+      "bajada": "La reunión cumbre se llevará a cabo en la ciudad de Shenzhen y abordará el desarme",
+      "texto": "La reunión cumbre se llevará a cabo en la ciudad de Shenzhen y abordará el desarme nuclear y diversos conflictos internacionales. Los presidentes Xi Jinping, Donald Trump y Vladímir Putin participarán de una cumbre trilateral en la ciudad de Shenzhen, según informaron medios internacionales.De acuerdo con Euronews, la reunión abordará el desarme nuclear y la situación de los conflictos en Ucrania e Irán.",
+      "epigrafe": "",
+      "fuente": "Foto: Euronews Español",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://images.euronews.com/articles/stories/09/99/47/85/1200x675_cmsv2_cd76b49a-e5e1-5304-9d6b-20bd2d6d7f62-9994785.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    }
+  ],
+  "estado": "generar",
+  "publicado": false
+}
