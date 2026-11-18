@@ -36,7 +36,7 @@ Valen para cualquier persona o IA que trabaje en este repo. Antes de empezar, le
 9. Ninguna clave ni grabación de voz en claro: el repo es público. Usar secretos de GitHub o Vercel.
 10. **Tipografía fija: una sola letra para leer.** Titular, bajada (copete, clase `bajada`), epígrafe (clase `epigrafe`) y texto de la nota van todos en Newsreader: titulares en 700, bajadas y epígrafes en regular gris. Inter queda solo para rótulos chicos: menú, volantas, fechas, firma, botones, recuadros, gráficos, mercados y logo. Las reglas viven al final de `src/styles/global.css`; toda bajada nueva lleva `class="bajada"`. No agregar otras familias (ni Georgia, ni Manrope, ni letras de sistema), tampoco con estilos dentro de una nota.
 11. **Titulares siempre en mayúscula y minúscula** (tipo oración), nunca todo en mayúsculas. Las mayúsculas sostenidas quedan solo para volantas y rótulos chicos en Inter.
-12. **Sin enlaces a cuentas personales** (Facebook, X, Substack u otras): los íconos de redes van solo como dibujo. Los botones de compartir nota sí quedan, sin mencionar ninguna cuenta.
+12. **Redes solo como dibujo, sin ninguna acción.** Los íconos de redes (WhatsApp, X, Facebook, LinkedIn, Telegram, Instagram, YouTube) arriba y abajo de la nota y en el pie van como dibujo: sin enlace, sin botón que funcione, sin remitir a ninguna cuenta. Solo quedan activos imprimir/PDF, mail y copiar enlace.
 
 ### Después de cada cambio
 1. `npm run build` sin errores.

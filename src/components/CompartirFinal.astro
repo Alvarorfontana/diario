@@ -14,20 +14,20 @@ const circulo = 'flex h-12 w-12 items-center justify-center rounded-full border 
 <section class="mt-10 border-y border-[#e2e2dc] py-6 text-center" aria-label="Compartir la nota" data-no-imprimir>
 	<p class="text-[14px] font-semibold text-neutral-600">Compartir nota:</p>
 	<div class="mt-4 flex flex-wrap items-center justify-center gap-3">
-		<a href={`https://wa.me/?text=${texto}%20${enlace}`} target="_blank" rel="noopener" class={circulo} aria-label="Compartir por WhatsApp">
+		<span class={`${circulo} cursor-default pointer-events-none`} aria-hidden="true">
 			<svg viewBox="0 0 24 24" class="h-[22px] w-[22px] fill-current" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.1-.7.1-.8 1-.9 1.2-.3.2-.6.1a8.2 8.2 0 0 1-4-3.5c-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.8.4 3.5 3.5 0 0 0-1.1 2.6 6 6 0 0 0 1.3 3.2 13.8 13.8 0 0 0 5.3 4.7c2 .8 2.7.9 3.7.8a3.1 3.1 0 0 0 2-1.4 2.5 2.5 0 0 0 .2-1.4c-.1-.2-.3-.3-.6-.4ZM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8Zm8.4-18.2A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.6A11.8 11.8 0 0 0 23.8 12a11.7 11.7 0 0 0-3.4-8.4Z"/></svg>
-		</a>
-		<a href={`https://www.facebook.com/sharer/sharer.php?u=${enlace}`} target="_blank" rel="noopener" class={circulo} aria-label="Compartir en Facebook">
+		</span>
+		<span class={`${circulo} cursor-default pointer-events-none`} aria-hidden="true">
 			<svg viewBox="0 0 24 24" class="h-[22px] w-[22px] fill-current" aria-hidden="true"><path d="M13.5 21.9v-7.7h2.6l.4-3h-3V9.3c0-.9.3-1.5 1.5-1.5h1.6V5.1a22 22 0 0 0-2.4-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.7v3h2.6v7.7Z"/></svg>
-		</a>
-		<a href={`https://x.com/intent/post?text=${texto}&url=${enlace}`} target="_blank" rel="noopener" class={circulo} aria-label="Compartir en X">
+		</span>
+		<span class={`${circulo} cursor-default pointer-events-none`} aria-hidden="true">
 			<svg viewBox="0 0 24 24" class="h-[19px] w-[19px] fill-current" aria-hidden="true"><path d="M18.9 2H22l-7.2 8.2L23.3 22h-6.6l-5.2-6.8L5.5 22H2.4l7.7-8.8L2 2h6.8l4.7 6.2Zm-1.1 18h1.7L7.3 3.9H5.5Z"/></svg>
-		</a>
-		<a href={`https://www.linkedin.com/sharing/share-offsite/?url=${enlace}`} target="_blank" rel="noopener" class={circulo} aria-label="Compartir en LinkedIn">
+		</span>
+		<span class={`${circulo} cursor-default pointer-events-none`} aria-hidden="true">
 			<svg viewBox="0 0 24 24" class="h-[20px] w-[20px] fill-current" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4v11H3v-11Zm6.5 0h3.8v1.6h.1c.5-1 1.8-2 3.8-2 4 0 4.8 2.6 4.8 6v5.4h-4v-4.8c0-1.2 0-2.7-1.6-2.7s-1.9 1.3-1.9 2.6v4.9h-4v-11Z"/></svg>
-		</a>
-		<a href={`https://t.me/share/url?url=${enlace}&text=${texto}`} target="_blank" rel="noopener" class={circulo} aria-label="Compartir por Telegram">
+		</span>
+		<span class={`${circulo} cursor-default pointer-events-none`} aria-hidden="true">
 			<svg viewBox="0 0 24 24" class="h-[20px] w-[20px] fill-current" aria-hidden="true"><path d="M21.9 4.3 18.6 20c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.2-8.3c.4-.4-.1-.6-.6-.2L6 13.6l-4.9-1.5c-1.1-.3-1.1-1.1.2-1.6l19.2-7.4c.9-.3 1.7.2 1.4 1.2Z"/></svg>
-		</a>
+		</span>
 	</div>
 </section>

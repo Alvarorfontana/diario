@@ -95,3 +95,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 - 18/11/2026: Tipografía unificada en todo el sitio como LPO: titulares Newsreader 700 parejos (tapa, tarjetas, listas, secciones, nota), bajadas y epígrafes en Inter regular (clases `bajada` y `epigrafe`). Franja de mercados: cada dólar muestra la variación contra el cierre anterior (ArgentinaDatos), verde si baja y rojo si sube.
 - 18/11/2026 (2): Pedido de Álvaro: una sola letra para leer. Bajadas y epígrafes pasan a Newsreader, igual que titular y texto de la nota; Inter solo en rótulos chicos.
+- 18/11/2026 (3): Botones de redes arriba y abajo de cada nota pasan a ser solo dibujo, sin enlace ni acción. Quedan activos imprimir, mail y copiar enlace.
