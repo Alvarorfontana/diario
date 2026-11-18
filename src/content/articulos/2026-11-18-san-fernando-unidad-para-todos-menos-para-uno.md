@@ -4,7 +4,7 @@ volanta: "PERONISMO"
 description: "El Frente Renovador y el Peronismo Federal sellaron su alianza en el Teatro Otamendi. Hablaron de unidad, de 2027 y de ganarle a Milei. El gobernador bonaerense no estaba invitado. Ese silencio fue el discurso más fuerte de la noche."
 section: "argentina"
 region: "buenos-aires"
-author: "Delia Saravia"
+author: "Mariano Miranda"
 pubDate: 2026-11-18
 heroImage: "/uploads/2026-11-18-san-fernando-butaca-vacia.jpg"
 imageCaption: "Una sala llena y una butaca vacía en primera fila. Ilustración: Diario Federal."

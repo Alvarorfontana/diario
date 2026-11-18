@@ -71,6 +71,9 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Ramiro De la Puente': {
 		foto: '/autores/ramiro-de-la-puente.jpg',
 	},
+	'Mariano Miranda': {
+		foto: '/autores/mariano-miranda.jpg',
+	},
 	'Roberto Bonetti': {
 		bio: 'Secretario General de la Unión Obrera Metalúrgica Seccional Capital.',
 		foto: '/autores/roberto-bonetti.jpg',
