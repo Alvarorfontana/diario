@@ -22,7 +22,7 @@ const iniciales = nombre.split(' ').filter(Boolean).map((w) => w[0]).join('').to
 <BaseLayout title={`${nombre} | ${SITE_TITLE}`} description={ficha.bio ?? `Todas las notas de ${nombre} en ${SITE_TITLE}.`}>
 	<section class="tarjeta flex flex-col items-start gap-5 p-6 sm:flex-row sm:items-center sm:p-8">
 		{foto ? (
-			<img src={foto} alt="" class="h-24 w-24 shrink-0 rounded-full object-cover" />
+			<img src={foto} alt={`Foto de ${nombre}`} class="h-24 w-24 shrink-0 rounded-full object-cover" />
 		) : (
 			<span class="flex h-24 w-24 shrink-0 items-center justify-center rounded-full bg-ink font-display text-3xl font-extrabold text-white" aria-hidden="true">{iniciales}</span>
 		)}

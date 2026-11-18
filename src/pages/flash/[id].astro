@@ -23,7 +23,7 @@ const descripcion = flash.bloques.map((b) => b.titulo).filter(Boolean).join(' ·
 					<div class="mt-3 grid grid-cols-2 gap-4 sm:grid-cols-4">
 						{otros.map((f) => (
 							<a href={`/flash/${f.id}/`} class="text-[#f2f2f0]">
-								{miniUrl(f) ? <img src={miniUrl(f)} alt="" class="aspect-video w-full object-cover" loading="lazy" /> : <span class="block aspect-video w-full bg-[#2a2a2a]"></span>}
+								{miniUrl(f) ? <img src={miniUrl(f)} alt={`Video flash: ${f.titulo}`} class="aspect-video w-full object-cover" loading="lazy" /> : <span class="block aspect-video w-full bg-[#2a2a2a]"></span>}
 								<span class="mt-1.5 block text-sm leading-snug font-semibold">{f.titulo}</span>
 							</a>
 						))}

@@ -42,7 +42,7 @@ const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean)
 					<p class="mt-5 text-sm text-ink">Por <b>{tapa.author}</b></p>
 				</div>
 				<figure class="min-w-0">
-					<img src={tapa.image_url} alt="" class="aspect-[4/5] w-full object-cover" />
+					<img src={tapa.image_url} alt={`Foto: ${tapa.title}`} class="aspect-[4/5] w-full object-cover" />
 				</figure>
 			</a>
 		)}
@@ -53,7 +53,7 @@ const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean)
 				<div class="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
 					{lecturas.map((a) => (
 						<a href={`/articulo/${a.slug}/`} class="group block min-w-0">
-							<img src={a.image_url} alt="" class="aspect-[3/2] w-full object-cover" loading="lazy" />
+							<img src={a.image_url} alt={`Foto: ${a.title}`} class="aspect-[3/2] w-full object-cover" loading="lazy" />
 							<p class="mt-4 text-[11px] font-bold tracking-[0.1em] text-neutral-600 uppercase">{a.volanta || nombreSeccion(a.section)}</p>
 							<h3 class="mt-1.5 font-display text-2xl leading-[1.15] font-semibold text-ink group-hover:underline">{a.title}</h3>
 							<p class="mt-2 line-clamp-3 font-display text-[17px] leading-relaxed text-neutral-700">{a.excerpt}</p>
@@ -70,7 +70,7 @@ const iniciales = (nombre: string) => (nombre || 'R').split(' ').filter(Boolean)
 					{opinion.map((a) => (
 						<a href={`/articulo/${a.slug}/`} class="group flex items-start gap-4">
 							{FOTOS_COLUMNISTAS[a.author] ? (
-								<img src={FOTOS_COLUMNISTAS[a.author]} alt="" class="h-16 w-16 shrink-0 rounded-full object-cover grayscale" loading="lazy" />
+								<img src={FOTOS_COLUMNISTAS[a.author]} alt={`Foto de ${a.author}`} class="h-16 w-16 shrink-0 rounded-full object-cover grayscale" loading="lazy" />
 							) : (
 								<span class="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#f7f6f2] font-display text-lg" aria-hidden="true">{iniciales(a.author)}</span>
 							)}

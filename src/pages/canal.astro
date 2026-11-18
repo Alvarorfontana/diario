@@ -54,7 +54,7 @@ const muestra = [1, 2, 3];
 				<h2 class="border-b-2 border-white pb-2 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Siguientes</h2>
 				{siguientes.length > 0 ? siguientes.map((v) => (
 					<a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener" class="flex gap-3 border-b border-[#333333] py-3 text-[#f2f2f0] last:border-0">
-						<img src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt="" class="aspect-video w-28 shrink-0 object-cover" loading="lazy" />
+						<img src={`https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`} alt={`Video: ${v.titulo}`} class="aspect-video w-28 shrink-0 object-cover" loading="lazy" />
 						<span>
 							<span class="block font-display text-base leading-snug font-bold text-white">{v.titulo}</span>
 							{v.duracion && <span class="mt-1 block text-xs text-[#b8b8b4]">{v.duracion}</span>}
@@ -73,7 +73,7 @@ const muestra = [1, 2, 3];
 		<div class="no-scrollbar mt-3 flex gap-3 overflow-x-auto pb-1">
 			{CLIPS.length > 0 ? CLIPS.map((c) => (
 				<a href={`https://www.youtube.com/shorts/${c.id}`} target="_blank" rel="noopener" class="w-36 shrink-0 text-[#f2f2f0]">
-					<img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} alt="" class="aspect-[9/16] w-full object-cover" loading="lazy" />
+					<img src={`https://i.ytimg.com/vi/${c.id}/hqdefault.jpg`} alt={`Clip: ${c.titulo}`} class="aspect-[9/16] w-full object-cover" loading="lazy" />
 					<span class="mt-1.5 block text-sm leading-snug">{c.titulo}</span>
 				</a>
 			)) : [1, 2, 3, 4].map(() => (

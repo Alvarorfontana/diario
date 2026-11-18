@@ -28,7 +28,7 @@ const url = new URL(principal ? `/flash/${principal.id}/` : '/flash/', Astro.sit
 					<h2 class="border-b-2 border-white pb-2 text-xs font-extrabold tracking-[0.14em] text-white uppercase">Anteriores</h2>
 					{anteriores.length > 0 ? anteriores.slice(0, 12).map((f) => (
 						<a href={`/flash/${f.id}/`} class="flex gap-3 border-b border-[#333333] py-3 text-[#f2f2f0] last:border-0">
-							{miniUrl(f) ? <img src={miniUrl(f)} alt="" class="aspect-video w-28 shrink-0 object-cover" loading="lazy" /> : <span class="aspect-video w-28 shrink-0 bg-[#2a2a2a]"></span>}
+							{miniUrl(f) ? <img src={miniUrl(f)} alt={`Video flash: ${f.titulo}`} class="aspect-video w-28 shrink-0 object-cover" loading="lazy" /> : <span class="aspect-video w-28 shrink-0 bg-[#2a2a2a]"></span>}
 							<span>
 								<span class={`block text-[10px] font-bold tracking-[0.1em] uppercase ${f.tipo === 'ultimo' ? 'text-[#ff5a6e]' : 'text-[#b8b8b4]'}`}>{etiqueta(f)}</span>
 								<span class="block font-display text-base leading-snug font-bold text-white">{f.titulo}</span>

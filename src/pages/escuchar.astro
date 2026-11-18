@@ -23,7 +23,7 @@ const feed = new URL('/podcast.xml', Astro.site ?? Astro.url.origin).href;
 <BaseLayout title={`Escuchar | ${SITE_TITLE}`} description="Las notas de EL DIARIO para escuchar, una detrás de otra, como un podcast.">
 	<div class="mx-auto max-w-3xl">
 		<header class="flex items-center gap-4 sm:gap-5">
-			<img src={PODCAST.portada} alt="" width="112" height="112" class="h-20 w-20 shrink-0 rounded-2xl sm:h-28 sm:w-28" />
+			<img src={PODCAST.portada} alt={PODCAST.titulo} width="112" height="112" class="h-20 w-20 shrink-0 rounded-2xl sm:h-28 sm:w-28" />
 			<div class="min-w-0">
 				<p class="text-xs font-bold tracking-[0.08em] text-brand uppercase">Podcast</p>
 				<h1 class="mt-1 font-display text-[1.7rem] leading-tight font-extrabold text-ink sm:text-4xl">Las notas, en voz</h1>

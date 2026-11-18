@@ -1,7 +1,10 @@
 // Datos globales del sitio. Edita estos valores para personalizar tu diario.
 
 export const SITE_TITLE = 'EL DIARIO';
-export const SITE_DESCRIPTION = 'Actualidad, análisis y opinión.';
+export const SITE_DESCRIPTION =
+	'Diario Federal: noticias de Argentina y el mundo desde todas las provincias. Política, economía, energía, internacional y opinión con mirada nacional y federal.';
+// Título largo solo para la portada (Google). La marca sigue siendo SITE_TITLE.
+export const HOME_TITLE = 'EL DIARIO | Diario Federal: noticias de Argentina, las provincias y el mundo';
 
 export const ADMIN_CREDENTIALS = {
 	email: 'admin@eldiario.local',

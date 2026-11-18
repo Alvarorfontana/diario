@@ -52,7 +52,7 @@ const safeImage = (url: string) => /^https:\/\//i.test(url) ? url : '';
     <h2 class="mb-6 font-serif text-2xl font-bold">Archivo cronológico de publicaciones</h2>
     <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {ordered.map(post => <article class="border-t border-neutral-300 pt-4">
-        {safeImage(post.image) && <a href={post.url} target="_blank" rel="noopener noreferrer"><img src={safeImage(post.image)} alt="" loading="lazy" class="mb-4 aspect-video w-full object-cover" /></a>}
+        {safeImage(post.image) && <a href={post.url} target="_blank" rel="noopener noreferrer"><img src={safeImage(post.image)} alt={`Foto: ${post.title}`} loading="lazy" class="mb-4 aspect-video w-full object-cover" /></a>}
         <p class="text-[11px] font-bold uppercase tracking-wider text-red-700">{classify(post.title)}</p>
         <h3 class="mt-2 font-serif text-xl font-bold leading-tight"><a href={post.url} target="_blank" rel="noopener noreferrer" class="hover:text-red-700">{post.title} ↗</a></h3>
         {validDate(post.date) && <time class="mt-2 block text-xs text-neutral-500" datetime={new Date(post.date).toISOString()}>{new Date(post.date).toLocaleDateString('es-AR', { day:'numeric',month:'long',year:'numeric' })}</time>}

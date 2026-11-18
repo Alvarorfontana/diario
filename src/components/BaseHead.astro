@@ -67,13 +67,13 @@ const jsonLd = publishedTime
 			inLanguage: 'es-AR',
 			...(section ? { articleSection: section } : {}),
 			author: [{ '@type': 'Person', name: author || 'Redacción' }],
-			publisher: { '@type': 'NewsMediaOrganization', name: SITE_TITLE, url: siteOrigin },
+			publisher: { '@type': 'NewsMediaOrganization', name: SITE_TITLE, url: siteOrigin, logo: { '@type': 'ImageObject', url: `${siteOrigin}/icons/icon-512.png`, width: 512, height: 512 } },
 			mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalURL.href },
 		}
 	: {
 			'@context': 'https://schema.org',
 			'@graph': [
-				{ '@type': 'NewsMediaOrganization', '@id': `${siteOrigin}/#organization`, name: SITE_TITLE, url: siteOrigin },
+				{ '@type': 'NewsMediaOrganization', '@id': `${siteOrigin}/#organization`, name: SITE_TITLE, alternateName: 'Diario Federal', url: siteOrigin, logo: { '@type': 'ImageObject', url: `${siteOrigin}/icons/icon-512.png`, width: 512, height: 512 } },
 				{
 					'@type': 'WebSite',
 					'@id': `${siteOrigin}/#website`,

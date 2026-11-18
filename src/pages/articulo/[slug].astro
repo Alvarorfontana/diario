@@ -128,7 +128,7 @@ import { nombreRegion } from '../../lib/regiones';
 			<p class="mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
 			<!-- Firma estilo El País: foto, nombre en versalitas con serif, lugar y fecha, una línea y abajo compartir + Google -->
 			<div class="mt-7 flex items-start gap-4">
-				<img src={fotoFirma} alt="" width="64" height="64" class="h-16 w-16 shrink-0 rounded-full bg-neutral-200 object-cover" loading="eager" />
+				<img src={fotoFirma} alt={`Foto de ${author || "la redacción"}`} width="64" height="64" class="h-16 w-16 shrink-0 rounded-full bg-neutral-200 object-cover" loading="eager" />
 				<div class="min-w-0 flex-1">
 					<a href={`/autor/${slugify(author || 'Redacción')}/`} class="font-serif text-[15px] font-bold uppercase tracking-[0.02em] text-ink hover:text-brand">{author || 'Redacción'}</a>
 					<p class="mt-1 text-[12px] text-neutral-600">

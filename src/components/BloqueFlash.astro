@@ -7,7 +7,7 @@ const f = ultimoFlash();
 {f && (
 	<a href={`/flash/${f.id}/`} class="group block overflow-hidden rounded-2xl bg-ink text-white">
 		<span class="relative block aspect-video bg-[#2a2a2a]">
-			{miniUrl(f) && <img src={miniUrl(f)} alt="" class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100" loading="lazy" />}
+			{miniUrl(f) && <img src={miniUrl(f)} alt={`Video flash: ${f.titulo}`} class="h-full w-full object-cover opacity-90 transition-opacity group-hover:opacity-100" loading="lazy" />}
 			<span class="absolute inset-0 flex items-center justify-center">
 				<span class="flex h-14 w-14 items-center justify-center rounded-full bg-brand shadow-lg" aria-hidden="true">
 					<svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff"><path d="M7 4l13 8-13 8z"></path></svg>
