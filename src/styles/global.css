@@ -242,3 +242,35 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .prose-articulo [style]:not(blockquote):not([style*="italic"]),
 .prose-articulo [style]:not(blockquote):not([style*="italic"]) * { font-family: var(--font-sans) !important; }
 .prose-articulo figcaption, .prose-articulo small, .prose-articulo caption { font-family: var(--font-sans); }
+
+/* ───────── Tipografía uniforme (estilo LPO / El País) ─────────
+   Una sola receta en todo el sitio, de la tapa a la última nota:
+   · Titulares: Newsreader 700, interletrado apretado. Sin mezclar negrita y extranegrita.
+   · Bajadas (copete) y epígrafes: Inter regular, gris.
+   Estas reglas van fuera de las capas de Tailwind, así ganan sobre cualquier clase suelta. */
+.font-display,
+:is(h1, h2, h3, h4).font-serif,
+.titulo-seccion {
+	font-family: var(--font-display);
+	font-weight: 700;
+	letter-spacing: -0.015em;
+	font-style: normal;
+}
+.bajada {
+	font-family: var(--font-sans);
+	font-weight: 400;
+	font-style: normal;
+	letter-spacing: 0;
+	color: #4a4a4a;
+}
+.epigrafe,
+figcaption {
+	font-family: var(--font-sans);
+	font-weight: 400;
+	font-style: normal;
+	color: #6b6b6b;
+}
+
+/* Franja de mercados: verde si baja, rojo si sube (respecto de la cotización anterior) */
+.mercado-baja { color: #15803d; }
+.mercado-sube { color: #d0021b; }

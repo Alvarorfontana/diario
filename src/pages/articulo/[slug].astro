@@ -132,7 +132,7 @@ import { nombreRegion } from '../../lib/regiones';
 			<h1 class="mt-3 font-display text-[1.85rem] leading-[1.14] font-extrabold tracking-[-0.015em] text-ink sm:text-[2.6rem]">
 				{title}
 			</h1>
-			<p class="mt-4 font-serif text-[19px] leading-relaxed text-neutral-600 sm:text-xl">{excerpt}</p>
+			<p class="bajada mt-4 text-[17px] leading-relaxed text-neutral-600 sm:text-[19px]">{excerpt}</p>
 			<!-- Firma estilo El País: foto, nombre en versalitas con serif, lugar y fecha, una línea y abajo compartir + Google -->
 			<div class="mt-7 flex items-start gap-4">
 				<img src={fotoFirma} alt={`Foto de ${author || "la redacción"}`} width="64" height="64" class="h-16 w-16 shrink-0 rounded-full bg-neutral-200 object-cover" loading="eager" />
@@ -160,7 +160,7 @@ import { nombreRegion } from '../../lib/regiones';
 			{image_url && (
 				<figure class="mt-6">
 					<img src={fotoVisible} data-fallback-src={/^https?:\/\//i.test(image_url) ? image_url : undefined} alt={title} class={`w-full rounded-2xl ${slug === "2026-11-06-santiago-pena-detenido-fiscalia-ueno-bank" ? "aspect-[4/5] max-h-[560px] w-full object-contain object-top rounded-2xl bg-neutral-100" : "aspect-video object-cover object-center"}`} loading="eager" />
-					{imageCaption && <figcaption class="mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
+					{imageCaption && <figcaption class="epigrafe mt-2 text-sm text-neutral-500">{imageCaption}</figcaption>}
 				</figure>
 			)}
 

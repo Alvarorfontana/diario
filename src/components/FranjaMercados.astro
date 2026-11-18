@@ -21,9 +21,17 @@
 				d.items.forEach(function (it) {
 					var el = document.createElement('div');
 					el.className = 'flex items-baseline gap-2 rounded-xl bg-white px-3.5 py-2 text-[13px] whitespace-nowrap shadow-[inset_0_0_0_1px_#e6e6e2]';
-					var n = document.createElement('span'); n.className = 'font-semibold text-neutral-600'; n.textContent = it.nombre;
+					var n = document.createElement('span'); n.className = 'font-sans font-semibold text-neutral-600'; n.textContent = it.nombre;
 					var v = document.createElement('span'); v.className = 'font-sans font-extrabold text-ink tabular-nums'; v.textContent = it.valor;
 					el.appendChild(n); el.appendChild(v);
+					// Verde si baja, rojo si sube, respecto del cierre anterior
+					if (typeof it.variacion === 'number') {
+						var x = it.variacion, p = document.createElement('span');
+						p.className = 'font-sans text-[12px] font-bold tabular-nums ' + (x > 0 ? 'mercado-sube' : x < 0 ? 'mercado-baja' : 'text-neutral-500');
+						p.textContent = (x > 0 ? '▲ ' : x < 0 ? '▼ ' : '= ') + Math.abs(x).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+						if (x !== 0) v.classList.add(x > 0 ? 'mercado-sube' : 'mercado-baja');
+						el.appendChild(p);
+					}
 					if (it.detalle) { var t = document.createElement('span'); t.className = 'text-[11px] text-neutral-500'; t.textContent = it.detalle; el.appendChild(t); }
 					lista.appendChild(el);
 				});

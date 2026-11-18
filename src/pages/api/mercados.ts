@@ -25,6 +25,21 @@ async function traer(url: string) {
 	}
 }
 
+// Cotización de cierre del día hábil anterior (ArgentinaDatos, gratuita), para saber si el dólar sube o baja.
+// Prueba hacia atrás hasta encontrar un día con dato (fines de semana y feriados no tienen).
+function fechaAR(diasAtras: number) {
+	const d = new Date(Date.now() - 3 * 3600 * 1000 - diasAtras * 86400 * 1000);
+	return `${d.getUTCFullYear()}/${String(d.getUTCMonth() + 1).padStart(2, '0')}/${String(d.getUTCDate()).padStart(2, '0')}`;
+}
+async function ventaAnterior(casa: string): Promise<number | null> {
+	for (let i = 1; i <= 6; i++) {
+		const r = await traer(`https://api.argentinadatos.com/v1/cotizaciones/dolares/${casa}/${fechaAR(i)}`);
+		const v = Array.isArray(r) ? r[0]?.venta : r?.venta;
+		if (typeof v === 'number' && v > 0) return v;
+	}
+	return null;
+}
+
 export const GET = async () => {
 	const [dolares, riesgo, euro] = await Promise.all([
 		traer('https://dolarapi.com/v1/dolares'),
@@ -32,14 +47,19 @@ export const GET = async () => {
 		traer('https://dolarapi.com/v1/cotizaciones/eur'),
 	]);
 
-	const items: { nombre: string; valor: string; detalle?: string }[] = [];
+	const items: { nombre: string; valor: string; detalle?: string; variacion?: number }[] = [];
 	if (Array.isArray(dolares)) {
-		for (const casa of Object.keys(CASAS)) {
+		const casas = Object.keys(CASAS);
+		const anteriores = await Promise.all(casas.map((c) => ventaAnterior(c)));
+		casas.forEach((casa, i) => {
 			const d = dolares.find((x: any) => x?.casa === casa);
 			if (d && typeof d.venta === 'number') {
-				items.push({ nombre: CASAS[casa], valor: `$${d.venta.toLocaleString('es-AR')}`, detalle: 'venta' });
+				const ant = anteriores[i];
+				const item: (typeof items)[number] = { nombre: CASAS[casa], valor: `$${d.venta.toLocaleString('es-AR')}`, detalle: 'venta' };
+				if (ant) item.variacion = Math.round(((d.venta - ant) / ant) * 10000) / 100;
+				items.push(item);
 			}
-		}
+		});
 	}
 	if (euro && typeof euro.venta === 'number') {
 		items.push({ nombre: 'Euro', valor: `$${euro.venta.toLocaleString('es-AR')}`, detalle: 'venta' });

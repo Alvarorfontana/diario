@@ -114,7 +114,7 @@ const ticker = [...new Set([...marcadas, ...articulos])].slice(0, 6);
 						{tapa.breaking || tapa === notaRiesgoPais ? <><span class="titila inline-block h-1.5 w-1.5 rounded-full bg-brand"></span>Último momento</> : (tapa.volanta || nombreSeccion(tapa.section))}
 					</span>
 					<h1 class="mt-2 font-display text-[1.75rem] leading-[1.12] font-extrabold tracking-[-0.015em] text-ink group-hover:text-brand sm:text-4xl lg:text-[2.3rem]">{tapa.title}</h1>
-					<p class="mt-3 line-clamp-4 max-w-3xl text-base leading-relaxed text-neutral-600 sm:text-lg">{tapa.excerpt}</p>
+					<p class="bajada mt-3 line-clamp-4 max-w-3xl text-base leading-relaxed text-neutral-600 sm:text-lg">{tapa.excerpt}</p>
 					<p class="mt-3 text-xs text-neutral-500">{tapa.author}</p>
 				</div>
 			</a>

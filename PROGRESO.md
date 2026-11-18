@@ -92,3 +92,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-18: Nota «Java4Shell: una IA encontró en tres horas una grieta en los cimientos digitales…» (sección Tecnología, firma Ramiro De la Puente), con ilustración propia en `/uploads/2026-11-18-java4shell-ilustracion.jpg` y fuentes verificadas enlazadas. Nueva clase CSS `a.enlace-fuente` (azul #1a73e8) para que los hipervínculos de fuentes se vean en azul en las notas que la usen; las demás notas no cambian.
 
 - 2026-11-18: Crónica «San Fernando: unidad para todos, menos para uno» (Argentina, región Buenos Aires, firma nueva Mariano Miranda, con foto en blanco y negro en `/autores/mariano-miranda.jpg` (alta en AUTORES de consts.ts)). Ilustración propia de la sala con una butaca vacía en `/uploads/2026-11-18-san-fernando-butaca-vacia.jpg`.
+
+- 18/11/2026: Tipografía unificada en todo el sitio como LPO: titulares Newsreader 700 parejos (tapa, tarjetas, listas, secciones, nota), bajadas y epígrafes en Inter regular (clases `bajada` y `epigrafe`). Franja de mercados: cada dólar muestra la variación contra el cierre anterior (ArgentinaDatos), verde si baja y rojo si sube.

@@ -34,7 +34,7 @@ Valen para cualquier persona o IA que trabaje en este repo. Antes de empezar, le
 7. Notas y fotos viven en el repo, sin base de datos. Solo comentarios y suscripciones pueden ir a Supabase.
 8. El proyecto de Vercel con el dominio es `diario-5z4k`. No crear otros proyectos conectados al repo.
 9. Ninguna clave ni grabación de voz en claro: el repo es público. Usar secretos de GitHub o Vercel.
-10. **Tipografía fija: solo dos letras, como El País.** Newsreader para titulares, bajadas y texto de las notas; Inter para menú, volantas, firma, fechas, epígrafes, recuadros, gráficos y logo. No agregar otras familias (ni Georgia, ni Manrope, ni letras de sistema), tampoco con estilos dentro de una nota.
+10. **Tipografía fija: solo dos letras, estilo LPO / El País.** Titulares en Newsreader 700 (siempre la misma negrita, nada de extranegrita suelta) y texto corrido de las notas en Newsreader. Bajadas (copete, clase `bajada`) y epígrafes (clase `epigrafe`) en Inter regular gris, igual que menú, volantas, firma, fechas, recuadros, gráficos y logo. Las reglas viven al final de `src/styles/global.css`: toda bajada nueva lleva `class="bajada"`. No agregar otras familias (ni Georgia, ni Manrope, ni letras de sistema), tampoco con estilos dentro de una nota.
 11. **Titulares siempre en mayúscula y minúscula** (tipo oración), nunca todo en mayúsculas. Las mayúsculas sostenidas quedan solo para volantas y rótulos chicos en Inter.
 12. **Sin enlaces a cuentas personales** (Facebook, X, Substack u otras): los íconos de redes van solo como dibujo. Los botones de compartir nota sí quedan, sin mencionar ninguna cuenta.
 
