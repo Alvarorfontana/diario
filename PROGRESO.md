@@ -19,6 +19,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ### 2026-11-18
 - Último momento: la franja quedaba clavada en notas viejas marcadas (25, la última del 6/11). Ahora las marcas valen 48 horas y se completa con lo último publicado.
 - Logo "EL DIARIO" más grande: 30 px en el celular (antes 23) y 42 en la compu (antes 32).
+- Botones de X y Facebook de arriba (en la firma): eran solo el dibujo, ahora comparten de verdad.
 - Nota (ideas de Infobae): compartir al final con WhatsApp, Facebook, X, LinkedIn y Telegram; recuadro "Te puede interesar" a mitad del texto; "Temas relacionados" abajo con los hashtags; barrita flotante "Seguí leyendo" con la próxima nota y X para cerrar.
 
 ### 2026-11-17
