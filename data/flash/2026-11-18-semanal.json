@@ -62,6 +62,32 @@
       }
     }
   ],
-  "estado": "generar",
-  "publicado": false
+  "estado": "listo",
+  "publicado": false,
+  "rotulo": "SEMANA DEL 18 DE NOVIEMBRE DE 2026",
+  "subtitulosVtt": "/flash/2026-11-18-semanal.vtt",
+  "capitulos": [
+    {
+      "t": 6.4,
+      "titulo": "Cerró una fábrica de fertilizantes de Bunge"
+    },
+    {
+      "t": 46.0,
+      "titulo": "Axel Kicillof destinó millones a la ciencia"
+    },
+    {
+      "t": 72.6,
+      "titulo": "Xi Jinping, Donald Trump y Vladímir Putin"
+    }
+  ],
+  "duracion": 107.4,
+  "duraciones": [
+    38.4,
+    25.4,
+    24.0
+  ],
+  "video": "/flash/2026-11-18-semanal.mp4",
+  "miniatura": "/flash/2026-11-18-semanal.jpg",
+  "version": "20261118154322",
+  "generado": "2026-11-18T15:43:22+00:00"
 }
