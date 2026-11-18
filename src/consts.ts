@@ -30,9 +30,10 @@ export type SeccionId = (typeof SECCIONES)[number]['id'];
 
 export const DISQUS_SHORTNAME = '';
 
+// Sin enlaces a cuentas: Álvaro pidió que se vean solo los íconos (18/11/2026).
 export const SOCIAL_LINKS = [
 	{ nombre: 'X (Twitter)', url: '#', icono: 'x' },
-	{ nombre: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61595974264717', icono: 'facebook' },
+	{ nombre: 'Facebook', url: '#', icono: 'facebook' },
 	{ nombre: 'Instagram', url: '#', icono: 'instagram' },
 	{ nombre: 'YouTube', url: '#', icono: 'youtube' },
 	{ nombre: 'Canal de WhatsApp', url: '#', icono: 'whatsapp' },

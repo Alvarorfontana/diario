@@ -21,22 +21,11 @@ const iconos: Record<string, string> = {
 					<path fill="currentColor" d={iconos[red.icono]} />
 				</svg>
 			);
-			// Sin URL configurada ('#') el icono se muestra atenuado y no clicable
-			return red.url === '#' ? (
-				<span class="cursor-default text-neutral-300" title={red.nombre}>
+			// Solo el dibujo, sin enlace a ninguna cuenta
+			return (
+				<span class="cursor-default text-neutral-500" title={red.nombre}>
 					{iconoSvg}
 				</span>
-			) : (
-				<a
-					href={red.url}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="text-neutral-500 transition-colors hover:text-brand"
-					aria-label={red.nombre}
-					title={red.nombre}
-				>
-					{iconoSvg}
-				</a>
 			);
 		})
 	}
