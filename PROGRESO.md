@@ -94,3 +94,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-18: Crónica «San Fernando: unidad para todos, menos para uno» (Argentina, región Buenos Aires, firma nueva Mariano Miranda, con foto en blanco y negro en `/autores/mariano-miranda.jpg` (alta en AUTORES de consts.ts)). Ilustración propia de la sala con una butaca vacía en `/uploads/2026-11-18-san-fernando-butaca-vacia.jpg`.
 
 - 18/11/2026: Tipografía unificada en todo el sitio como LPO: titulares Newsreader 700 parejos (tapa, tarjetas, listas, secciones, nota), bajadas y epígrafes en Inter regular (clases `bajada` y `epigrafe`). Franja de mercados: cada dólar muestra la variación contra el cierre anterior (ArgentinaDatos), verde si baja y rojo si sube.
+- 18/11/2026 (2): Pedido de Álvaro: una sola letra para leer. Bajadas y epígrafes pasan a Newsreader, igual que titular y texto de la nota; Inter solo en rótulos chicos.

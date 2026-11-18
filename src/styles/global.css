@@ -243,10 +243,12 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 .prose-articulo [style]:not(blockquote):not([style*="italic"]) * { font-family: var(--font-sans) !important; }
 .prose-articulo figcaption, .prose-articulo small, .prose-articulo caption { font-family: var(--font-sans); }
 
-/* ───────── Tipografía uniforme (estilo LPO / El País) ─────────
-   Una sola receta en todo el sitio, de la tapa a la última nota:
-   · Titulares: Newsreader 700, interletrado apretado. Sin mezclar negrita y extranegrita.
-   · Bajadas (copete) y epígrafes: Inter regular, gris.
+/* ───────── Tipografía uniforme: UNA sola letra para leer ─────────
+   Titular, bajada (copete), epígrafe y texto de la nota van todos en Newsreader,
+   la misma letra de punta a punta, en la tapa, las tarjetas, las secciones y dentro de cada nota.
+   · Titulares: Newsreader 700.
+   · Bajadas y epígrafes: Newsreader regular, gris.
+   Inter queda solo para rótulos chicos: menú, volantas, fechas, firma, botones y mercados.
    Estas reglas van fuera de las capas de Tailwind, así ganan sobre cualquier clase suelta. */
 .font-display,
 :is(h1, h2, h3, h4).font-serif,
@@ -257,15 +259,17 @@ main .font-serif { font-family: var(--font-display); letter-spacing: -0.015em; }
 	font-style: normal;
 }
 .bajada {
-	font-family: var(--font-sans);
+	font-family: var(--font-serif);
 	font-weight: 400;
 	font-style: normal;
 	letter-spacing: 0;
 	color: #4a4a4a;
+	font-size: 1.08em;
 }
 .epigrafe,
-figcaption {
-	font-family: var(--font-sans);
+figcaption,
+.prose-articulo figcaption {
+	font-family: var(--font-serif);
 	font-weight: 400;
 	font-style: normal;
 	color: #6b6b6b;
