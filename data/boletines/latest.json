@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-19",
   "dateLabel": "19/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.mp3",
-  "video": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.png",
-  "duracion": 101,
+  "archivo": "/boletines/boletin-principal-2026-11-19-13fac99be26c.mp3",
+  "video": "/boletines/boletin-principal-2026-11-19-13fac99be26c.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-19-13fac99be26c.png",
+  "duracion": 100,
   "voz": "es-AR-TomasNeural",
-  "hash": "f5ce9dbcffdf",
+  "hash": "13fac99be26c",
   "items": [
+    {
+      "slug": "2026-11-19-saul-ubaldini-a-20-anos",
+      "title": "Saúl Ubaldini, a 20 años: la voz ronca del movimiento obrero",
+      "section": "argentina",
+      "url": "/articulo/2026-11-19-saul-ubaldini-a-20-anos/"
+    },
     {
       "slug": "2026-11-19-de-yalta-a-shenzhen-quien-es-quien",
       "title": "De Yalta a Shenzhen: quién es quién en el nuevo reparto",
@@ -38,12 +44,6 @@
       "title": "Java4Shell: una inteligencia artificial encontró en tres horas una grieta en los cimientos digitales de bancos, hospitales y Estados",
       "section": "tecnologia",
       "url": "/articulo/2026-11-18-java4shell-ia-encontro-grieta-cimientos-digitales/"
-    },
-    {
-      "slug": "2026-11-17-leon-xiv-identidad-teologica-latinoamericana",
-      "title": "León XIV y la identidad teológica latinoamericana",
-      "section": "opinion",
-      "url": "/articulo/2026-11-17-leon-xiv-identidad-teologica-latinoamericana/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
