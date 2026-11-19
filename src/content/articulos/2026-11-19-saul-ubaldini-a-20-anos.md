@@ -3,7 +3,7 @@ title: "Saúl Ubaldini, a 20 años: la voz ronca del movimiento obrero"
 volanta: "MEMORIA OBRERA | CGT"
 description: "Murió el 19 de noviembre de 2006. Enfrentó a la dictadura, condujo la CGT de los trece paros y dejó una forma de hablar que todavía resuena en todo el país."
 section: argentina
-author: Emilio Lahitte
+author: Carlos Mendes
 pubDate: 2026-11-19T13:30:00-03:00
 heroImage: /uploads/2026-11-19-saul-ubaldini-acto-cgt.jpg
 imageCaption: "Saúl Ubaldini habla desde el palco en un acto de la CGT, en los años ochenta. Imagen de archivo: fotograma de un video del discurso."
