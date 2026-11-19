@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-19",
   "dateLabel": "19/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-19-13fac99be26c.mp3",
-  "video": "/boletines/boletin-principal-2026-11-19-13fac99be26c.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-19-13fac99be26c.png",
+  "archivo": "/boletines/boletin-principal-2026-11-19-a716c3439ba8.mp3",
+  "video": "/boletines/boletin-principal-2026-11-19-a716c3439ba8.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-19-a716c3439ba8.png",
   "duracion": 100,
   "voz": "es-AR-TomasNeural",
-  "hash": "13fac99be26c",
+  "hash": "a716c3439ba8",
   "items": [
     {
       "slug": "2026-11-19-saul-ubaldini-a-20-anos",
@@ -28,12 +28,6 @@
       "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
     },
     {
-      "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
-      "title": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo",
-      "section": "internacional",
-      "url": "/articulo/cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida/"
-    },
-    {
       "slug": "2026-11-18-san-fernando-unidad-para-todos-menos-para-uno",
       "title": "San Fernando: unidad para todos, menos para uno",
       "section": "argentina",
@@ -44,6 +38,12 @@
       "title": "Java4Shell: una inteligencia artificial encontró en tres horas una grieta en los cimientos digitales de bancos, hospitales y Estados",
       "section": "tecnologia",
       "url": "/articulo/2026-11-18-java4shell-ia-encontro-grieta-cimientos-digitales/"
+    },
+    {
+      "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
+      "title": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo",
+      "section": "internacional",
+      "url": "/articulo/cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
