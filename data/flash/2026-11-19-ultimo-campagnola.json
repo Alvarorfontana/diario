@@ -65,6 +65,31 @@
       }
     }
   ],
-  "estado": "generar",
-  "publicado": false
+  "estado": "listo",
+  "publicado": false,
+  "subtitulosVtt": "/flash/2026-11-19-ultimo-campagnola.vtt",
+  "capitulos": [
+    {
+      "t": 6.0,
+      "titulo": "Cierra La Campagnola tras 93 años"
+    },
+    {
+      "t": 28.8,
+      "titulo": "Terminó la cumbre de Shenzhen"
+    },
+    {
+      "t": 48.2,
+      "titulo": "Dictamen para suspender las PASO"
+    }
+  ],
+  "duracion": 78.1,
+  "duraciones": [
+    21.6,
+    18.2,
+    21.1
+  ],
+  "video": "/flash/2026-11-19-ultimo-campagnola.mp4",
+  "miniatura": "/flash/2026-11-19-ultimo-campagnola.jpg",
+  "version": "20261119221210",
+  "generado": "2026-11-19T22:12:10+00:00"
 }
