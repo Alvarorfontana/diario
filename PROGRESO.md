@@ -106,3 +106,6 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-19: Corrección de Álvaro: el botón de compartir por WhatsApp de cada nota (arriba en la firma y abajo en «Compartir nota») vuelve a funcionar (abre WhatsApp con título y enlace). X, Facebook, LinkedIn y Telegram siguen solo como dibujo. Regla 12 de CLAUDE.md actualizada.
 
 - 2026-11-19: Despertador de la Central de noticias. Los horarios gratis de GitHub del repo centro-informacion se atrasaban horas o no se disparaban (el 19/11 no corrió ninguna edición de la mañana). Ahora Vercel Cron (puntual) llama a `/api/despertar-central` a las 5 y a las 16 de Argentina (8 y 19 UTC; en el plan gratis cae dentro de esa hora) y la ruta pide a GitHub correr «Recolectar noticias» con la clave `GITHUB_PAT` (o `CENTRAL_GITHUB_TOKEN` si se carga aparte). Los horarios de GitHub quedan como respaldo y se saltean solos si ya hubo recolección reciente. Abrir la ruta a mano no dispara nada: solo dice si la clave sirve. Pendiente: confirmar que `GITHUB_PAT` tiene permiso sobre centro-informacion.
+
+## 2026-11-19
+- Nota de tapa: "Saúl Ubaldini, a 20 años" (Emilio Lahitte), con foto de archivo (fotograma de discurso). Pendiente: reemplazar por foto de Ubaldini ante una multitud si Álvaro la envía.
