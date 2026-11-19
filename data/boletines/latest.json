@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-18",
-  "dateLabel": "18/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-18-f071668cae68.mp3",
-  "video": "/boletines/boletin-principal-2026-11-18-f071668cae68.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-18-f071668cae68.png",
-  "duracion": 101,
+  "date": "2026-11-19",
+  "dateLabel": "19/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-19-401cc370fed3.mp3",
+  "video": "/boletines/boletin-principal-2026-11-19-401cc370fed3.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-19-401cc370fed3.png",
+  "duracion": 96,
   "voz": "es-AR-TomasNeural",
-  "hash": "f071668cae68",
+  "hash": "401cc370fed3",
   "items": [
+    {
+      "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
+      "title": "Milei explica por qué la inflación argentina se frenó este año",
+      "section": "economia",
+      "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
+    },
     {
       "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
       "title": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo",
@@ -38,12 +44,6 @@
       "title": "Ucrania derriba puente de Crimea con drones y misiles",
       "section": "internacional",
       "url": "/articulo/ucrania-derriba-puente-de-crimea-con-drones-y-misiles/"
-    },
-    {
-      "slug": "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre",
-      "title": "¿Yalta 2.0 en Shenzhen? Trump, Putin y Xi Jinping ante el nacimiento de otro orden mundial",
-      "section": "internacional",
-      "url": "/articulo/xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
