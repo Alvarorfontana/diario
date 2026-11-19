@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-19",
   "dateLabel": "19/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-19-401cc370fed3.mp3",
-  "video": "/boletines/boletin-principal-2026-11-19-401cc370fed3.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-19-401cc370fed3.png",
-  "duracion": 96,
+  "archivo": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.mp3",
+  "video": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-19-f5ce9dbcffdf.png",
+  "duracion": 101,
   "voz": "es-AR-TomasNeural",
-  "hash": "401cc370fed3",
+  "hash": "f5ce9dbcffdf",
   "items": [
+    {
+      "slug": "2026-11-19-de-yalta-a-shenzhen-quien-es-quien",
+      "title": "De Yalta a Shenzhen: quién es quién en el nuevo reparto",
+      "section": "internacional",
+      "url": "/articulo/2026-11-19-de-yalta-a-shenzhen-quien-es-quien/"
+    },
     {
       "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
       "title": "Milei explica por qué la inflación argentina se frenó este año",
@@ -38,12 +44,6 @@
       "title": "León XIV y la identidad teológica latinoamericana",
       "section": "opinion",
       "url": "/articulo/2026-11-17-leon-xiv-identidad-teologica-latinoamericana/"
-    },
-    {
-      "slug": "ucrania-derriba-puente-de-crimea-con-drones-y-misiles",
-      "title": "Ucrania derriba puente de Crimea con drones y misiles",
-      "section": "internacional",
-      "url": "/articulo/ucrania-derriba-puente-de-crimea-con-drones-y-misiles/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
