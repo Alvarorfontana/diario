@@ -1,0 +1,70 @@
+{
+  "id": "2026-11-19-ultimo-campagnola",
+  "tipo": "ultimo",
+  "titulo": "Cierra La Campagnola en Mar del Plata, termina la cumbre de Shenzhen y avanza la suspensión de las PASO",
+  "fecha": "2026-11-19",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": 14,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -18,
+  "estilo": "noticiero",
+  "subtitulos": true,
+  "intro": "Diario Federal. Las noticias de este jueves.",
+  "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
+  "rotulo": "19 DE NOVIEMBRE DE 2026",
+  "bloques": [
+    {
+      "kicker": "Mar del Plata",
+      "titulo": "Cierra La Campagnola tras 93 años",
+      "dato": "80 familias sin trabajo",
+      "bajada": "Arcor confirmó el cierre de la planta de conservas del puerto, abierta en 1933.",
+      "texto": "Mar del Plata perdió una de sus fábricas más antiguas. Arcor confirmó el cierre definitivo de la planta de conservas de La Campagnola en el puerto, que funcionaba desde 1933. Quedan sin trabajo unos ochenta empleados. La empresa habla de falta de caballa y de un cambio en el negocio: ahora va a importar la lata terminada. Los trabajadores se enteraron pocas horas antes del anuncio.",
+      "epigrafe": "Planta de La Campagnola en el puerto de Mar del Plata",
+      "fuente": "Foto: Infobae",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.infobae.com/resizer/v2/QXTKENK56RAABNKUKJMZB7XP2I.jpg?auth=a9d877be8405bed7dee0198292d08661e5ea6fb3a7dd22ae2a5e71e296f625cd&smart=true&width=1200&height=630&quality=85",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Internacional",
+      "titulo": "Terminó la cumbre de Shenzhen",
+      "dato": "Sin mención a Ucrania ni a Irán",
+      "bajada": "Xi Jinping recibió a Trump y a Putin al margen de la APEC.",
+      "texto": "En China terminó la cumbre de Shenzhen. Xi Jinping recibió a Donald Trump y a Vladímir Putin, en la primera reunión a solas de las tres grandes potencias nucleares. La declaración conjunta habló de reformar la ONU y de reducir los riesgos nucleares. No mencionó Ucrania ni Irán. Hubo mucha retórica y pocos acuerdos concretos.",
+      "epigrafe": "Foto de familia de la cumbre de la APEC en Shenzhen",
+      "fuente": "Foto: vía The Guardian",
+      "media": {
+        "tipo": "foto",
+        "archivo": "/uploads/2026-11-19-apec-shenzhen-foto-de-familia.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Política",
+      "titulo": "Dictamen para suspender las PASO",
+      "dato": "Se vota el jueves 26",
+      "bajada": "El oficialismo retiró las colectoras para conseguir las firmas en el Senado.",
+      "texto": "En el Senado, el oficialismo consiguió dictamen para suspender las PASO de 2027. Para lograrlo tuvo que retirar las listas colectoras. El proyecto se debate el jueves 26. Mientras el Gobierno festeja, Javier Milei volvió a decir en una entrevista televisiva que es mentira que la gente no llega a fin de mes, y llamó chantas a los consultores que advierten por la caída del poder adquisitivo.",
+      "epigrafe": "Javier Milei, el 12 de noviembre en Buenos Aires",
+      "fuente": "Foto: Ámbito",
+      "media": {
+        "tipo": "foto",
+        "archivo": "/uploads/2026-11-12-milei-gala-endeavor.jpg",
+        "foco": [
+          0.5,
+          0.35
+        ]
+      }
+    }
+  ],
+  "estado": "generar",
+  "publicado": false
+}
