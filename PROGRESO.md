@@ -111,3 +111,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nota de tapa: "Saúl Ubaldini, a 20 años" (Emilio Lahitte), con foto de archivo (fotograma de discurso). Pendiente: reemplazar por foto de Ubaldini ante una multitud si Álvaro la envía.
 
 - 2026-11-20: Nota de tapa «La Cámpora propone: «Furlanismo sin Furlán»» (Argentina, volanta LA CAUSA UOM, firma nueva Camilo Fernández con foto en `/autores/camilo-fernandez.jpg`, alta en AUTORES de consts.ts). Texto textual del PDF de Álvaro (1.389 palabras, sin cambios ni recortes por pedido expreso; se respetan grafías del original como «Abél»). Foto de Abel Furlán en `/uploads/2026-11-20-abel-furlan-uom.jpg`. Pendiente: confirmar fuente de la foto (epígrafe dice «Foto: archivo»).
+
+## 2026-11-20 — Flash de último momento (Benavídez, riesgo país, provincia, UNICEF, dietas)
+- Se armó y generó `data/flash/2026-11-20-ultimo-benavidez-riesgo-pais.json` (1:34, voz Tomás). Video de Benavídez recortado sin logo ni zócalo de C5N, con crédito "Video: C5N".
+- Pendiente: Álvaro escucha el audio y lo publica desde /admin/flash.
