@@ -64,6 +64,41 @@
       "fuente": ""
     }
   ],
-  "estado": "generar",
-  "publicado": false
+  "estado": "listo",
+  "publicado": false,
+  "subtitulosVtt": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.vtt",
+  "capitulos": [
+    {
+      "t": 6.1,
+      "titulo": "Saquean un supermercado en Benavídez"
+    },
+    {
+      "t": 33.4,
+      "titulo": "El riesgo país rompió los mil puntos"
+    },
+    {
+      "t": 46.1,
+      "titulo": "Cae la actividad y cae la recaudación"
+    },
+    {
+      "t": 63.5,
+      "titulo": "Cuatro de cada diez familias con chicos no llegan"
+    },
+    {
+      "t": 76.7,
+      "titulo": "La dieta de los senadores pasa los 13 millones"
+    }
+  ],
+  "duracion": 94.5,
+  "duraciones": [
+    26.2,
+    11.5,
+    16.2,
+    12.0,
+    9.1
+  ],
+  "video": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.mp4",
+  "miniatura": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.jpg",
+  "version": "20261120171521",
+  "generado": "2026-11-20T17:15:21+00:00"
 }
