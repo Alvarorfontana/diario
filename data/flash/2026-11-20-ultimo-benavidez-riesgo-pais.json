@@ -1,7 +1,7 @@
 {
   "id": "2026-11-20-ultimo-benavidez-riesgo-pais",
   "tipo": "ultimo",
-  "titulo": "Saqueo en Benavídez, el riesgo país pasa los mil puntos y UNICEF alerta por los chicos",
+  "titulo": "Saqueo en Benavídez, riesgo país en mil puntos, UNICEF y la jubilada presa por comida",
   "fecha": "2026-11-20",
   "voz": "es-AR-TomasNeural",
   "velocidad": 14,
@@ -18,7 +18,7 @@
       "titulo": "Saquean un supermercado en Benavídez",
       "dato": "Un detenido y once aprehendidos",
       "bajada": "Vecinos saquearon el local de dueños chinos tras una denuncia por abuso contra un nene de 11 años.",
-      "texto": "Benavídez, partido de Tigre. Vecinos saquearon un supermercado de dueños chinos. El dueño está detenido, denunciado por abusar de un nene de once años. Hubo destrozos, pintadas y gomas quemadas. El clima social está al rojo vivo. Hace diez días hubo saqueos en Salta. Y una jubilada de la mínima pasó treinta y cinco días presa por intentar llevarse carne de un supermercado. Tenía la heladera vacía, contó.",
+      "texto": "Benavídez, partido de Tigre. Vecinos saquearon un supermercado de dueños chinos. El dueño está detenido, denunciado por abusar de un nene de once años. Hubo destrozos, pintadas y gomas quemadas. El clima social está al rojo vivo. Hace diez días también hubo saqueos en Salta.",
       "epigrafe": "Supermercado saqueado en Benavídez, partido de Tigre, este viernes",
       "fuente": "Video: C5N",
       "media": {
@@ -33,8 +33,16 @@
       "dato": "1.038 puntos",
       "bajada": "Es el nivel más alto en trece meses. En julio estaba en 402.",
       "texto": "El riesgo país rompió los mil puntos. Llegó a mil treinta y ocho, lo más alto en trece meses. En julio estaba en cuatrocientos dos. Se multiplicó por dos y medio en cuatro meses.",
-      "epigrafe": "",
-      "fuente": "Fuente: JP Morgan"
+      "epigrafe": "Pantalla de cotizaciones",
+      "fuente": "Imagen ilustrativa · Dato: JP Morgan",
+      "media": {
+        "tipo": "foto",
+        "archivo": "/uploads/1790622140842-riesgopais.jpg",
+        "foco": [
+          0.5,
+          0.5
+        ]
+      }
     },
     {
       "kicker": "Provincia de Buenos Aires",
@@ -42,8 +50,16 @@
       "dato": "Construcción −15%",
       "bajada": "ARBA informó caídas en industria, construcción y comercio. La recaudación propia bajó 3,5% real.",
       "texto": "En la provincia de Buenos Aires, la industria cae más del diez por ciento. La construcción, quince. El comercio, siete. Lo dijo el jefe de ARBA, Cristian Girard, ante la Legislatura. Hasta septiembre, la recaudación propia ya perdió tres y medio por ciento real.",
-      "epigrafe": "",
-      "fuente": "Fuentes: ARBA y Banco Provincia"
+      "epigrafe": "Cristian Girard, titular de ARBA, en la Legislatura bonaerense",
+      "fuente": "Foto: Ámbito",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://media.ambito.com/p/234656b5ae85597dd1b1d834ba20d268/adjuntos/239/imagenes/043/779/0043779455/1200x675/1007x545:1027x565/cristian-girard-la-legislatura.jpeg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
     },
     {
       "kicker": "UNICEF",
@@ -51,20 +67,36 @@
       "dato": "41% de los hogares",
       "bajada": "Son 2,7 millones de familias. En el 12% de los hogares ya se achicaron las porciones de los chicos.",
       "texto": "Y el dato que duele. Según UNICEF, cuatro de cada diez familias con chicos no llegan a fin de mes. Son dos millones setecientos mil hogares. En uno de cada ocho, a los chicos ya les achican el plato.",
-      "epigrafe": "",
-      "fuente": "Fuente: UNICEF Argentina"
+      "epigrafe": "Informe de UNICEF sobre hogares con chicos",
+      "fuente": "Foto: El Tribuno de Jujuy",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://uscdn.eltribunodejujuy.com/112026/1795184471770.jpg?&cw=1200&ch=630",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
     },
     {
-      "kicker": "Congreso",
-      "titulo": "La dieta de los senadores pasa los 13 millones",
-      "dato": "Más de $13 millones",
-      "bajada": "Con los aumentos ya acordados, la dieta bruta supera esa cifra desde enero.",
-      "texto": "Mientras tanto, en el Senado, la realidad es otra. Con los aumentos ya acordados, la dieta de un senador va a superar los trece millones de pesos brutos por mes desde enero.",
-      "epigrafe": "",
-      "fuente": ""
+      "kicker": "Jubilados",
+      "titulo": "Presa 35 días por intentar llevarse carne",
+      "dato": "Fianza de $150.000",
+      "bajada": "Estela Chávez cobra la mínima. La detuvieron en un Carrefour de Núñez con carne, salchichas y fiambre.",
+      "texto": "Y una historia que lo resume todo. Estela Chávez cobra la jubilación mínima. Pasó treinta y cinco días presa por intentar llevarse carne, salchichas y fiambre de un Carrefour de Núñez. Su familia juntó ciento cincuenta mil pesos de fianza. La jubilación apenas me alcanza para los remedios y los servicios, contó. Es la primera vez en mi vida que no puedo comer un pedazo de carne.",
+      "epigrafe": "Estela Chávez, jubilada",
+      "fuente": "Foto: C5N",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://media.c5n.com/p/1fea3de4276245fea98a28ebc9a3cdee/adjuntos/326/imagenes/000/408/0000408030/1200x675/smart/estela-chavez-jubilada.jpg",
+        "foco": [
+          0.5,
+          0.35
+        ]
+      }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "subtitulosVtt": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.vtt",
   "capitulos": [
