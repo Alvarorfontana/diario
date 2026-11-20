@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-20",
   "dateLabel": "20/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-20-772588600dfa.mp3",
-  "video": "/boletines/boletin-principal-2026-11-20-772588600dfa.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-20-772588600dfa.png",
-  "duracion": 94,
+  "archivo": "/boletines/boletin-principal-2026-11-20-1b695547db35.mp3",
+  "video": "/boletines/boletin-principal-2026-11-20-1b695547db35.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-20-1b695547db35.png",
+  "duracion": 88,
   "voz": "es-AR-TomasNeural",
-  "hash": "772588600dfa",
+  "hash": "1b695547db35",
   "items": [
     {
       "slug": "2026-11-20-la-campora-propone-furlanismo-sin-furlan",
       "title": "La Cámpora propone: «Furlanismo sin Furlán»",
       "section": "argentina",
       "url": "/articulo/2026-11-20-la-campora-propone-furlanismo-sin-furlan/"
+    },
+    {
+      "slug": "2026-11-20-patentes-pct-senado-reserva-laboratorios",
+      "title": "Patentes: el Senado abrió la puerta que pidió Washington, pero se guardó una llave",
+      "section": "economia",
+      "url": "/articulo/2026-11-20-patentes-pct-senado-reserva-laboratorios/"
     },
     {
       "slug": "2026-11-19-saul-ubaldini-a-20-anos",
@@ -38,12 +44,6 @@
       "title": "Milei explica por qué la inflación argentina se frenó este año",
       "section": "economia",
       "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
-    },
-    {
-      "slug": "2026-11-18-san-fernando-unidad-para-todos-menos-para-uno",
-      "title": "San Fernando: unidad para todos, menos para uno",
-      "section": "argentina",
-      "url": "/articulo/2026-11-18-san-fernando-unidad-para-todos-menos-para-uno/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
