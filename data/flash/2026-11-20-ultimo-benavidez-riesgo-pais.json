@@ -110,7 +110,7 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "subtitulosVtt": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.vtt",
   "capitulos": [
@@ -150,6 +150,6 @@
   ],
   "video": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.mp4",
   "miniatura": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.jpg",
-  "version": "20261120173539",
-  "generado": "2026-11-20T17:35:39+00:00"
+  "version": "20261120174802",
+  "generado": "2026-11-20T17:48:02+00:00"
 }
