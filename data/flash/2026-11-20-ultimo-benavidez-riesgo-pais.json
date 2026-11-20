@@ -1,0 +1,69 @@
+{
+  "id": "2026-11-20-ultimo-benavidez-riesgo-pais",
+  "tipo": "ultimo",
+  "titulo": "Saqueo en Benavídez, el riesgo país pasa los mil puntos y UNICEF alerta por los chicos",
+  "fecha": "2026-11-20",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": 14,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -18,
+  "estilo": "noticiero",
+  "subtitulos": true,
+  "intro": "Diario Federal. Las noticias de este viernes.",
+  "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
+  "rotulo": "20 DE NOVIEMBRE DE 2026",
+  "bloques": [
+    {
+      "kicker": "Tigre",
+      "titulo": "Saquean un supermercado en Benavídez",
+      "dato": "Un detenido y once aprehendidos",
+      "bajada": "Vecinos saquearon el local de dueños chinos tras una denuncia por abuso contra un nene de 11 años.",
+      "texto": "Benavídez, partido de Tigre. Vecinos saquearon un supermercado de dueños chinos. El dueño está detenido, denunciado por abusar de un nene de once años. Hubo destrozos, pintadas y gomas quemadas. El clima social está al rojo vivo. Hace diez días hubo saqueos en Salta. Y una jubilada de la mínima pasó treinta y cinco días presa por intentar llevarse carne de un supermercado. Tenía la heladera vacía, contó.",
+      "epigrafe": "Supermercado saqueado en Benavídez, partido de Tigre, este viernes",
+      "fuente": "Video: C5N",
+      "media": {
+        "tipo": "video",
+        "archivo": "/uploads/2026-11-20-benavidez-saqueo.mp4",
+        "inicio": 0
+      }
+    },
+    {
+      "kicker": "Economía",
+      "titulo": "El riesgo país rompió los mil puntos",
+      "dato": "1.038 puntos",
+      "bajada": "Es el nivel más alto en trece meses. En julio estaba en 402.",
+      "texto": "El riesgo país rompió los mil puntos. Llegó a mil treinta y ocho, lo más alto en trece meses. En julio estaba en cuatrocientos dos. Se multiplicó por dos y medio en cuatro meses.",
+      "epigrafe": "",
+      "fuente": "Fuente: JP Morgan"
+    },
+    {
+      "kicker": "Provincia de Buenos Aires",
+      "titulo": "Cae la actividad y cae la recaudación",
+      "dato": "Construcción −15%",
+      "bajada": "ARBA informó caídas en industria, construcción y comercio. La recaudación propia bajó 3,5% real.",
+      "texto": "En la provincia de Buenos Aires, la industria cae más del diez por ciento. La construcción, quince. El comercio, siete. Lo dijo el jefe de ARBA, Cristian Girard, ante la Legislatura. Hasta septiembre, la recaudación propia ya perdió tres y medio por ciento real.",
+      "epigrafe": "",
+      "fuente": "Fuentes: ARBA y Banco Provincia"
+    },
+    {
+      "kicker": "UNICEF",
+      "titulo": "Cuatro de cada diez familias con chicos no llegan",
+      "dato": "41% de los hogares",
+      "bajada": "Son 2,7 millones de familias. En el 12% de los hogares ya se achicaron las porciones de los chicos.",
+      "texto": "Y el dato que duele. Según UNICEF, cuatro de cada diez familias con chicos no llegan a fin de mes. Son dos millones setecientos mil hogares. En uno de cada ocho, a los chicos ya les achican el plato.",
+      "epigrafe": "",
+      "fuente": "Fuente: UNICEF Argentina"
+    },
+    {
+      "kicker": "Congreso",
+      "titulo": "La dieta de los senadores pasa los 13 millones",
+      "dato": "Más de $13 millones",
+      "bajada": "Con los aumentos ya acordados, la dieta bruta supera esa cifra desde enero.",
+      "texto": "Mientras tanto, en el Senado, la realidad es otra. Con los aumentos ya acordados, la dieta de un senador va a superar los trece millones de pesos brutos por mes desde enero.",
+      "epigrafe": "",
+      "fuente": ""
+    }
+  ],
+  "estado": "generar",
+  "publicado": false
+}
