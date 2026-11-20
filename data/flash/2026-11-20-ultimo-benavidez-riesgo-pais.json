@@ -94,9 +94,23 @@
           0.35
         ]
       }
+    },
+    {
+      "kicker": "Núñez",
+      "titulo": "Ollas frente al Carrefour donde la detuvieron",
+      "dato": "«Ninguna presa por comer»",
+      "bajada": "Organizaciones sociales protestaron este viernes frente al supermercado de avenida Cabildo.",
+      "texto": "Hoy, frente a ese mismo Carrefour, vecinos y organizaciones sociales pusieron ollas vacías en la vereda. Ninguna presa por comer, decían los carteles. Y otro: con hambre no hay libertad.",
+      "epigrafe": "Protesta frente al Carrefour de Núñez, este viernes",
+      "fuente": "Video enviado a Diario Federal",
+      "media": {
+        "tipo": "video",
+        "archivo": "/uploads/2026-11-20-carrefour-nunez-olla.mp4",
+        "inicio": 0
+      }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "subtitulosVtt": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.vtt",
   "capitulos": [
