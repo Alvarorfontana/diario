@@ -17,7 +17,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## Registro
 
 ### 2026-11-20
-- Nota publicada: "Patentes: el Senado abrió la puerta que pidió Washington, pero se guardó una llave" (Ramiro De la Puente, economía), con ilustración propia de laboratorios y patentes. Pendiente: reemplazarla por la foto del Senado si llega.
+- Nota publicada: "Patentes: el Senado abrió la puerta que pidió Washington, pero se guardó una llave" (Ramiro De la Puente, economía), con foto de pastillas sobre un billete de dólar (fuente: CureCompass).
 
 ### 2026-11-18
 - Guía de estilo (`GUIA-DE-ESTILO.md`) para todas las personas que escriben: noticias hasta 760 palabras, análisis/informes/crónicas hasta 1.200, opinión tal cual sin límite; estructura, títulos, cifras, fuentes, enlaces, epígrafes y correcciones. Enlazada desde `CLAUDE.md` y `AGENTS.md`.

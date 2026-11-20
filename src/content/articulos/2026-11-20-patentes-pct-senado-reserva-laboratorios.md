@@ -6,8 +6,8 @@ section: "economia"
 region: "nacional"
 author: "Ramiro De la Puente"
 pubDate: 2026-11-20
-heroImage: /uploads/2026-11-20-patentes-pct-ilustracion.jpg
-imageCaption: "Ilustración: la puerta del sistema internacional de patentes se abre sobre el estante de los laboratorios, mientras la Argentina conserva la llave del Capítulo II. Diario Federal."
+heroImage: /uploads/2026-11-20-patentes-pastillas-dolar.jpg
+imageCaption: "Pastillas y cápsulas sobre un billete de cien dólares: el costo de los medicamentos, en el centro de la discusión por las patentes. Foto: CureCompass."
 tags:
   - Patentes
   - PCT
