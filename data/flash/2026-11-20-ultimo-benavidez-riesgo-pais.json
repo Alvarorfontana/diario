@@ -110,7 +110,7 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "subtitulosVtt": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.vtt",
   "capitulos": [
@@ -133,18 +133,23 @@
     {
       "t": 68.9,
       "titulo": "Presa 35 días por intentar llevarse carne"
+    },
+    {
+      "t": 91.7,
+      "titulo": "Ollas frente al Carrefour donde la detuvieron"
     }
   ],
-  "duracion": 99.2,
+  "duracion": 111.3,
   "duraciones": [
     18.4,
     11.5,
     16.2,
     12.0,
-    21.5
+    21.5,
+    11.0
   ],
   "video": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.mp4",
   "miniatura": "/flash/2026-11-20-ultimo-benavidez-riesgo-pais.jpg",
-  "version": "20261120172907",
-  "generado": "2026-11-20T17:29:07+00:00"
+  "version": "20261120173539",
+  "generado": "2026-11-20T17:35:39+00:00"
 }
