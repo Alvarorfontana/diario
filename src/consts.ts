@@ -75,6 +75,9 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Mariano Miranda': {
 		foto: '/autores/mariano-miranda.jpg',
 	},
+	'Camilo Fernández': {
+		foto: '/autores/camilo-fernandez.jpg',
+	},
 	'Roberto Bonetti': {
 		bio: 'Secretario General de la Unión Obrera Metalúrgica Seccional Capital.',
 		foto: '/autores/roberto-bonetti.jpg',
