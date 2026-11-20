@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-19",
-  "dateLabel": "19/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-19-0cdb01d1bb8a.mp3",
-  "video": "/boletines/boletin-principal-2026-11-19-0cdb01d1bb8a.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-19-0cdb01d1bb8a.png",
-  "duracion": 100,
+  "date": "2026-11-20",
+  "dateLabel": "20/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-20-772588600dfa.mp3",
+  "video": "/boletines/boletin-principal-2026-11-20-772588600dfa.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-20-772588600dfa.png",
+  "duracion": 94,
   "voz": "es-AR-TomasNeural",
-  "hash": "0cdb01d1bb8a",
+  "hash": "772588600dfa",
   "items": [
+    {
+      "slug": "2026-11-20-la-campora-propone-furlanismo-sin-furlan",
+      "title": "La Cámpora propone: «Furlanismo sin Furlán»",
+      "section": "argentina",
+      "url": "/articulo/2026-11-20-la-campora-propone-furlanismo-sin-furlan/"
+    },
     {
       "slug": "2026-11-19-saul-ubaldini-a-20-anos",
       "title": "Saúl Ubaldini, a 20 años: la voz ronca del movimiento obrero",
@@ -22,22 +28,16 @@
       "url": "/articulo/2026-11-19-de-yalta-a-shenzhen-quien-es-quien/"
     },
     {
-      "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
-      "title": "Milei explica por qué la inflación argentina se frenó este año",
-      "section": "economia",
-      "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
-    },
-    {
       "slug": "cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil",
       "title": "Cierra La Campagnola en Mar del Plata: se apaga una fábrica de 93 años y 80 familias quedan sin trabajo",
       "section": "economia",
       "url": "/articulo/cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil/"
     },
     {
-      "slug": "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida",
-      "title": "Cerró una fábrica de fertilizantes de Bunge en Campana y alertan por la pérdida de 250 puestos de trabajo",
-      "section": "internacional",
-      "url": "/articulo/cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida/"
+      "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
+      "title": "Milei explica por qué la inflación argentina se frenó este año",
+      "section": "economia",
+      "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
     },
     {
       "slug": "2026-11-18-san-fernando-unidad-para-todos-menos-para-uno",
