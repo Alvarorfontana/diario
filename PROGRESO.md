@@ -115,3 +115,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-20 — Flash de último momento (Benavídez, riesgo país, provincia, UNICEF, dietas)
 - Se armó y generó `data/flash/2026-11-20-ultimo-benavidez-riesgo-pais.json` (1:34, voz Tomás). Video de Benavídez recortado sin logo ni zócalo de C5N, con crédito "Video: C5N".
 - Pendiente: Álvaro escucha el audio y lo publica desde /admin/flash.
+- Actualizado: fotos en todos los bloques, la jubilada Estela Chávez reemplaza a las dietas del Senado y se suma la protesta frente al Carrefour de Núñez (1:51).
