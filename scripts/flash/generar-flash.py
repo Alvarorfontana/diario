@@ -936,6 +936,10 @@ def generar(flash):
                 for k, st, dur, vs in linea:
                     if st <= tt < st + dur: break
                 lt = tt - st
+                lt_real = lt
+                # Tapa: la placa de entrada aparece completa desde el primer cuadro (logo y "Último momento"),
+                # sin fundido desde negro, para que la vista previa de WhatsApp no quede en negro.
+                if k == "intro": lt = lt + 2.0
                 if editorial:
                     if k == "intro": im = placa_intro_editorial(lt, flash, bloques)
                     elif k == "cierre": im = placa_cierre_editorial(lt)
@@ -954,10 +958,12 @@ def generar(flash):
                 elif k == "cierre": im = placa_cierre(lt)
                 else:
                     i = int(k[1:]); im = placa_bloque(bloques[i], lt, dur, i, len(bloques), medios[i], flash)
+                lt = lt_real
                 fade = min(1, lt / 0.25, (dur - lt) / 0.25)
+                if k == "intro": fade = min(1, (dur - lt) / 0.25)
                 if editorial:
-                    # entre noticias corre la cortina roja: sólo se funde al empezar y al terminar el video
-                    fade = min(1, lt / 0.25) if k == "intro" else (min(1, (dur - lt) / 0.4) if k == "cierre" else 1)
+                    # entre noticias corre la cortina roja: sólo se funde al terminar el video (la tapa arranca entera)
+                    fade = 1 if k == "intro" else (min(1, (dur - lt) / 0.4) if k == "cierre" else 1)
                 if fade < 1: im = Image.blend(negro, im, max(0, fade))
                 ff.stdin.write(im.tobytes())
             ff.stdin.close(); ff.wait()
