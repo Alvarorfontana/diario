@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-20",
   "dateLabel": "20/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-20-4b5aef5220e2.mp3",
-  "video": "/boletines/boletin-principal-2026-11-20-4b5aef5220e2.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-20-4b5aef5220e2.png",
-  "duracion": 88,
+  "archivo": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.mp3",
+  "video": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.png",
+  "duracion": 90,
   "voz": "es-AR-TomasNeural",
-  "hash": "4b5aef5220e2",
+  "hash": "d22cff443ea3",
   "items": [
+    {
+      "slug": "2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots",
+      "title": "El Niño pone al Paraná en nivel de evacuación frente a Entre Ríos",
+      "section": "argentina",
+      "url": "/articulo/2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots/"
+    },
     {
       "slug": "2026-11-20-la-campora-propone-furlanismo-sin-furlan",
       "title": "La Cámpora propone: «Furlanismo sin Furlán»",
@@ -32,12 +38,6 @@
       "title": "De Yalta a Shenzhen: quién es quién en el nuevo reparto",
       "section": "internacional",
       "url": "/articulo/2026-11-19-de-yalta-a-shenzhen-quien-es-quien/"
-    },
-    {
-      "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
-      "title": "Milei explica por qué la inflación argentina se frenó este año",
-      "section": "economia",
-      "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
     },
     {
       "slug": "cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil",
