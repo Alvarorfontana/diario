@@ -124,3 +124,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-20 · Nota: El Niño pone al Paraná en nivel de evacuación frente a Entre Ríos
 - Nota de Emilio Lahitte (sección Argentina, volanta Ciencia y clima) con datos de DOTS · Observatorio y 8 gráficos en `public/images/nino-2026-11-*.png`, cada uno con epígrafe y fuente.
 - Pendiente: el diario no tiene sección Ciencia; si se crea, mover la nota ahí.
+
+## 2026-11-21 · Nota: El fantasma de 1999: el real se hunde y Llach pide devaluar
+- Análisis económico, firma Claudio Vila · 1.093 palabras · dentro del límite de 1.200.
+- Portada propia `public/images/2026-11-efecto-caipirinha.png` (gráfico de Diario Federal, datos INDEC y JP Morgan).
+- Nuevo autor en `AUTORES` (`src/consts.ts`) con foto `public/autores/claudio-vila.jpg`.
