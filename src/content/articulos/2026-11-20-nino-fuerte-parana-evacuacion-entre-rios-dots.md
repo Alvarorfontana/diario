@@ -96,7 +96,9 @@ Cruzando mapas de población y de relieve, DOTS estima que en Santa Fe-Paraná u
 
 *Familias en barrios populares a 15 kilómetros o menos de cada puerto. Gráfico: DOTS · Observatorio, con datos del RENABAP (versión 2023).*
 
-DOTS no registra cifras de evacuados: no existe un registro público y abierto que las reúna para toda la cuenca.
+Según la Agencia Federal de Emergencias, al 16 de noviembre había **4.547 personas evacuadas y autoevacuadas** en 26 localidades de Chaco, Corrientes, Santa Fe y Entre Ríos. Chaco concentraba 2.242 y Corrientes, 2.005, de acuerdo con el [monitoreo diario de la Organización Panamericana de la Salud](https://www.paho.org/es/monitoreo-amenazas-naturales/monitoreo-amenazas-naturales-16-noviembre-2026), que reúne los partes oficiales.
+
+En Entre Ríos, la Dirección Provincial de Defensa Civil informó el 12 de noviembre [63 familias evacuadas o autoevacuadas](https://www.elonce.com/uid-892590), con los mayores operativos en Paraná y La Paz.
 
 ## Qué sigue
 
