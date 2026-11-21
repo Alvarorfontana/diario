@@ -90,7 +90,7 @@ El cálculo completa los meses que faltan con el clima de todos los años, sin c
 
 En un radio de 15 kilómetros de las cuatro localidades en evacuación hay **136 barrios populares y unas 20.600 familias**, según el [Registro Nacional de Barrios Populares](https://www.argentina.gob.ar/habitat/renabap). Solo en Santa Fe y Paraná son 91 barrios.
 
-Cruzando mapas de población y de relieve, DOTS estima que en Santa Fe-Paraná unas **104.000 personas** viven en terrenos que el río podría cubrir si llega al nivel de evacuación. En Goya, 64.000: nueve de cada diez habitantes. En La Paz y Diamante, unas 5.000 cada una. Es una estimación por relieve: no considera defensas ni terraplenes.
+Cruzando mapas de población y de relieve, DOTS estima que en Santa Fe-Paraná unas **104.000 personas** viven en terrenos que el río podría cubrir si llega al nivel de evacuación. En Goya, 64.000: nueve de cada diez habitantes. En La Paz y Diamante, unas 5.000 cada una: las dos ciudades están sobre las barrancas entrerrianas, y por eso su exposición es mucho menor. Es una estimación por relieve: no considera defensas ni terraplenes.
 
 ![Familias en barrios populares cerca de cada puerto, según el nivel del río.](/images/nino-2026-11-familias-expuestas.png)
 
