@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-20",
   "dateLabel": "20/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.mp3",
-  "video": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-20-d22cff443ea3.png",
-  "duracion": 90,
+  "archivo": "/boletines/boletin-principal-2026-11-20-b492afed83ac.mp3",
+  "video": "/boletines/boletin-principal-2026-11-20-b492afed83ac.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-20-b492afed83ac.png",
+  "duracion": 87,
   "voz": "es-AR-TomasNeural",
-  "hash": "d22cff443ea3",
+  "hash": "b492afed83ac",
   "items": [
     {
       "slug": "2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots",
@@ -40,10 +40,10 @@
       "url": "/articulo/2026-11-19-de-yalta-a-shenzhen-quien-es-quien/"
     },
     {
-      "slug": "cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil",
-      "title": "Cierra La Campagnola en Mar del Plata: se apaga una fábrica de 93 años y 80 familias quedan sin trabajo",
+      "slug": "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano",
+      "title": "Milei explica por qué la inflación argentina se frenó este año",
       "section": "economia",
-      "url": "/articulo/cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil/"
+      "url": "/articulo/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
