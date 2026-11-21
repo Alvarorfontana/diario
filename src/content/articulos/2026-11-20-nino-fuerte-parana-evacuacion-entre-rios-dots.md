@@ -96,10 +96,27 @@ Cruzando mapas de población y de relieve, DOTS estima que en Santa Fe-Paraná u
 
 *Familias en barrios populares a 15 kilómetros o menos de cada puerto. Gráfico: DOTS · Observatorio, con datos del RENABAP (versión 2023).*
 
-Según la Agencia Federal de Emergencias, al 16 de noviembre había **4.547 personas evacuadas y autoevacuadas** en 26 localidades de Chaco, Corrientes, Santa Fe y Entre Ríos. Chaco concentraba 2.242 y Corrientes, 2.005, de acuerdo con el [monitoreo diario de la Organización Panamericana de la Salud](https://www.paho.org/es/monitoreo-amenazas-naturales/monitoreo-amenazas-naturales-16-noviembre-2026), que reúne los partes oficiales.
+Según la Agencia Federal de Emergencias, al 16 de noviembre había **4.547 personas evacuadas y autoevacuadas** en 26 localidades de Chaco, Corrientes, Santa Fe y Entre Ríos. Chaco concentraba 2.242 y Corrientes, 2.005: 468 en centros oficiales y 1.537 autoevacuadas. En Corrientes, las localidades más afectadas eran la capital (687 personas), Itatí (518), Paso de la Patria (228) e Isla Apipé (211). Santa Fe registraba 164 personas afectadas y más de 200 trasladadas a centros de asistencia en la capital.
 
-En Entre Ríos, la Dirección Provincial de Defensa Civil informó el 12 de noviembre [63 familias evacuadas o autoevacuadas](https://www.elonce.com/uid-892590), con los mayores operativos en Paraná y La Paz.
+En Entre Ríos, la Dirección Provincial de Defensa Civil informó el 12 de noviembre 63 familias evacuadas o autoevacuadas, con los mayores operativos en Paraná y La Paz. En la capital entrerriana, el 16 de noviembre unas 50 personas seguían en viviendas inundadas en Bajada Grande, donde recibían asistencia médica.
+
+Las cifras provienen del monitoreo diario de la Organización Panamericana de la Salud, que reúne los partes oficiales de cada país y que DOTS sigue en forma automática.
 
 ## Qué sigue
 
 En los próximos días el Paraná seguirá alto frente a Entre Ríos mientras llega la bajante desde Corrientes. El dato a mirar es la lluvia en el sur de Brasil y Paraguay durante diciembre y enero: con El Niño firme hasta marzo, un nuevo pulso sobre un río que todavía está alto dejaría poco margen. NOAA actualizará su pronóstico el segundo jueves de diciembre.
+
+## Fuentes
+
+- [DOTS · Observatorio](https://observatorio-agro.vercel.app): integración y procesamiento de los datos, gráficos y estimaciones de esta nota.
+- [NOAA, Centro de Predicción Climática](https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/): índices ONI, RONI y Niño 3.4, y pronóstico oficial de El Niño.
+- [NOAA/PMEL, boyas TAO/TRITON](https://www.pmel.noaa.gov/gtmba/): temperatura del mar en profundidad.
+- NOAA OISST 2.1: temperatura diaria de la superficie del mar.
+- [CCSR/IRI, Universidad de Columbia](https://forecast.ccsr.columbia.edu/forecasts/enso/forecast): pronóstico de El Niño de noviembre de 2026.
+- [Instituto Nacional del Agua](https://www.ina.gob.ar) y Prefectura Naval Argentina: alturas y niveles de alerta y evacuación.
+- Copernicus (Unión Europea): radar Sentinel-1, reconstrucción climática ERA5 y caudales GloFAS.
+- AquaCrop (FAO): simulación del agua disponible para los cultivos.
+- WorldPop (Universidad de Southampton) y MERIT Hydro (Universidad de Tokio): población expuesta por relieve.
+- [Registro Nacional de Barrios Populares](https://www.argentina.gob.ar/habitat/renabap) (versión 2023).
+- [Organización Panamericana de la Salud, monitoreo del 16 de noviembre](https://www.paho.org/es/monitoreo-amenazas-naturales/monitoreo-amenazas-naturales-16-noviembre-2026): partes de la Agencia Federal de Emergencias y de las provincias.
+- [Defensa Civil de Entre Ríos, parte del 12 de noviembre](https://www.elonce.com/uid-892590), difundido por Elonce.
