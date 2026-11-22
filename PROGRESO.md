@@ -140,3 +140,10 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Foto del Congreso provincial transmitido en pantalla (`public/uploads/2026-11-22-pj-bonaerense-congreso.jpg`), con epígrafe y fuente: prensa Jorge Ferraresi.
 - Enlaza a la nota del 18/11 sobre San Fernando. Incluye recuadro sobre la interna del 15 de marzo.
 - Pendiente: actualizar el "qué sigue" después de la sesión del Senado del jueves 26 sobre las PASO.
+
+## 2026-11-22 · Nota: cosas tomadas de El País
+- Foto de la firma de arriba en blanco y negro.
+- Burbuja con el número de comentarios al lado de compartir (lleva a los comentarios) y "Comentarios - N" en el título del bloque.
+- Nuevo bloque "Sobre la firma" al final de la nota (`src/components/SobreLaFirma.astro`): foto en blanco y negro, nombre, "Ver biografía" desplegable si hay bio en AUTORES, y enlace a todas sus notas.
+- "Últimas noticias" muestra la hora (o la fecha si no es de hoy). La página se arma en cada visita: se actualiza sola, sin despliegues extra.
+- Pendiente: cargar bios en AUTORES (Emilio Lahitte, Claudio Vila, Camilo Fernández y demás) para que aparezca "Ver biografía".

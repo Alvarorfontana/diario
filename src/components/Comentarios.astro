@@ -8,7 +8,7 @@ const { identifier, title } = Astro.props;
 ---
 
 <section id="comentarios" class="tarjeta mx-auto mt-12 max-w-3xl scroll-mt-20 p-5 sm:p-7">
-	<h2 class="titulo-seccion">Comentarios</h2>
+	<h2 class="titulo-seccion">Comentarios<span class="ml-1 inline-flex items-center gap-1.5 font-sans text-[1rem] font-semibold text-neutral-600"><span aria-hidden="true">-</span> <span data-cuenta-comentarios>0</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 4c4.97 0 9 3.36 9 7.5S16.97 19 12 19c-1.1 0-2.15-.16-3.12-.46L4 20l1.4-3.6C4.5 15.1 3 13.4 3 11.5 3 7.36 7.03 4 12 4z"></path></svg></span></h2>
 	<p class="mt-1 text-sm text-neutral-500">
 		Opiná sobre este artículo. Los comentarios se publican después de que los revisa la redacción.
 	</p>
@@ -66,6 +66,9 @@ const { identifier, title } = Astro.props;
 		try {
 			const res = await fetch('/api/comments?articleId=' + encodeURIComponent(articleId));
 			const comments = await res.json();
+			// Número de comentarios publicados: en este título y en la burbuja de arriba de la nota.
+			const total = Array.isArray(comments) ? comments.length : 0;
+			document.querySelectorAll('[data-cuenta-comentarios]').forEach((n) => { n.textContent = String(total); });
 
 			if (!Array.isArray(comments) || !comments.length) {
 				el.innerHTML = '<p class="text-sm text-neutral-400">No hay comentarios todavía. ¡Sé el primero!</p>';
