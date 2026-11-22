@@ -1,0 +1,46 @@
+---
+// Fotos de la nota que se agrandan al tocarlas (estilo Telegraph / Folha):
+// pantalla completa con su epígrafe. Se cierra con la X, tocando afuera o con Escape.
+---
+
+<div id="foto-grande" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-black/92 p-4" role="dialog" aria-modal="true" aria-label="Foto ampliada" data-no-imprimir>
+	<button type="button" id="foto-grande-cerrar" aria-label="Cerrar" class="absolute top-3 right-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25">
+		<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+	</button>
+	<img id="foto-grande-img" alt="" class="max-h-[80vh] max-w-full rounded-lg object-contain" style="background:transparent" />
+	<p id="foto-grande-epigrafe" class="mt-3 max-w-[760px] text-center font-sans text-[14px] leading-snug text-white/85"></p>
+</div>
+
+<style is:global>
+	.nota-articulo figure img, .prose-articulo img { cursor: zoom-in; }
+</style>
+
+<script is:inline>
+	(function () {
+		var caja = document.getElementById('foto-grande');
+		var img = document.getElementById('foto-grande-img');
+		var epi = document.getElementById('foto-grande-epigrafe');
+		if (!caja || !img) return;
+		function abrir(fuente) {
+			img.src = fuente.currentSrc || fuente.src;
+			img.alt = fuente.alt || '';
+			var fig = fuente.closest('figure');
+			var cap = fig && fig.querySelector('figcaption');
+			epi.textContent = cap ? cap.textContent.trim() : '';
+			caja.classList.remove('hidden');
+			caja.classList.add('flex');
+			document.body.style.overflow = 'hidden';
+		}
+		function cerrar() {
+			caja.classList.add('hidden');
+			caja.classList.remove('flex');
+			document.body.style.overflow = '';
+		}
+		document.querySelectorAll('.nota-articulo figure img, .prose-articulo img').forEach(function (f) {
+			if (f.closest('a')) return; // si la foto ya es un enlace, se respeta
+			f.addEventListener('click', function () { abrir(f); });
+		});
+		caja.addEventListener('click', function (e) { if (e.target !== img) cerrar(); });
+		document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(); });
+	})();
+</script>

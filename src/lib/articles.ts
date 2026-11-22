@@ -13,6 +13,8 @@ export interface Articulo {
 	// Región de la nota (elegida en el panel o deducida). undefined = nacional.
 	region?: RegionId;
 	date: Date;
+	// Última actualización (si la nota se editó después de publicada)
+	updated?: Date;
 	image_url: string;
 	imageCaption?: string;
 	tags: string[];
@@ -57,6 +59,7 @@ export async function getArticulos(): Promise<Articulo[]> {
 						? undefined
 						: d.region ?? (d.section === 'internacional' ? undefined : deducirRegion([d.volanta, d.title, d.description, d.ciudad, ...(d.tags ?? [])].filter(Boolean).join(' . '))),
 				date: d.pubDate as Date,
+				updated: (d.updatedDate as Date | undefined) ?? undefined,
 				image_url: imagen(d.heroImage),
 				imageCaption: d.imageCaption,
 				tags: d.tags ?? [],

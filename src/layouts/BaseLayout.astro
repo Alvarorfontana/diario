@@ -26,6 +26,14 @@ const { title, description, image, ogImage, publishedTime, author, section } = A
 <!doctype html>
 <html lang="es">
 	<head>
+		<!-- Preferencias del lector (letra y modo noche): se aplican antes de dibujar la página -->
+		<script is:inline>
+			try {
+				var r = document.documentElement;
+				var l = localStorage.getItem('df-letra'); if (l) r.setAttribute('data-letra', l);
+				if (localStorage.getItem('df-noche') === '1') r.classList.add('modo-noche');
+			} catch (e) {}
+		</script>
 		<BaseHead
 			title={title}
 			description={description}

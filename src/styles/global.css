@@ -288,3 +288,16 @@ figcaption,
 .prose-articulo a.enlace-fuente:visited { color: #0369a1; }
 .prose-articulo a:hover { color: #0369a1; }
 .prose-articulo aside a { color: inherit; }
+
+
+/* ===== Opciones de lectura (botón "Aa" de la nota) ===== */
+html[data-letra="-1"] .prose-articulo { font-size: 1.08rem !important; }
+html[data-letra="1"] .prose-articulo { font-size: 1.4rem !important; }
+html[data-letra="2"] .prose-articulo { font-size: 1.6rem !important; }
+
+/* Modo noche: se invierten los colores y se devuelven fotos y videos a su color real */
+html.modo-noche { filter: invert(0.92) hue-rotate(180deg); background: #f6f6f4; }
+html.modo-noche img, html.modo-noche video, html.modo-noche iframe, html.modo-noche canvas, html.modo-noche [style*="background-image"] { filter: invert(1) hue-rotate(180deg); }
+html.modo-noche #foto-grande { filter: invert(1) hue-rotate(180deg); }
+html.modo-noche #foto-grande img { filter: none; }
+@media print { html.modo-noche { filter: none; } }

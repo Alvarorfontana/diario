@@ -152,3 +152,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Barra de accesos abajo en el celular (`src/components/BarraInferior.astro`): Portada, El Flash, Canal, Escuchar y Regiones. No sale en las notas (ahí está "Seguí leyendo") ni en /admin.
 - "Escuchá esta nota" en azul (#1a73e8), botón cuadrado como Le Figaro. Excepción a la regla "sin azul" pedida por Álvaro.
 - Decidido: no poner "Creá tu cuenta" ni nada que trabe la lectura. Los mails se juntan con los boletines.
+
+## 2026-11-22 · Opciones de lectura (ideas de NYT, Guardian, La Nación, Telegraph)
+- Botón "Aa" en la nota (`OpcionesLectura.astro`): letra más chica/más grande y modo noche. Se recuerda en el navegador del lector y vale en todo el sitio.
+- Fotos de la nota se agrandan a pantalla completa con su epígrafe (`FotoAmpliable.astro`).
+- Aviso de nota vieja arriba del título si tiene más de 6 meses (estilo The Guardian).
+- "Actualizado: día - hora" debajo de la firma. El panel /admin lo marca solo al editar una nota ya publicada (`updatedDate`).

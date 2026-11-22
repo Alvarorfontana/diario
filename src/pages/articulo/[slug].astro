@@ -12,6 +12,8 @@ import CompartirFinal from '../../components/CompartirFinal.astro';
 import TePuedeInteresar from '../../components/TePuedeInteresar.astro';
 import SeguiLeyendoFlotante from '../../components/SeguiLeyendoFlotante.astro';
 import SobreLaFirma from '../../components/SobreLaFirma.astro';
+import OpcionesLectura from '../../components/OpcionesLectura.astro';
+import FotoAmpliable from '../../components/FotoAmpliable.astro';
 import { nombreSeccion, SITE_TITLE, slugify, fotoAutor } from '../../consts';
 import { getArticulos } from '../../lib/articles';
 import { ogImagePath, imagenNotaPath } from '../../lib/og';
@@ -31,7 +33,7 @@ if (!articulo) {
 	return Astro.redirect('/404');
 }
 
-const { title, volanta, excerpt, section, author, ciudad, region, date, image_url, imageCaption, tags, puntosClave, resumenCompartir, correccion } = articulo;
+const { title, volanta, excerpt, section, author, ciudad, region, date, updated, image_url, imageCaption, tags, puntosClave, resumenCompartir, correccion } = articulo;
 const { Content } = await render(articulo.entry);
 
 // Portada propia de 1200x630 para las vistas previas (WhatsApp, Facebook, X).
@@ -59,6 +61,18 @@ const horaNota = (d: string | Date) => {
 	return new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', timeZone: 'America/Argentina/Buenos_Aires' }).format(f).replace('.', '');
 };
 
+// "Actualizado" (estilo NYT): solo si la nota se editó más de una hora después de publicada.
+const fechaAct = updated ? new Date(updated) : null;
+const actualizado = fechaAct && fechaAct.getTime() - fecha.getTime() > 3600_000 ? (() => {
+	const p = new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23', timeZone: 'America/Argentina/Buenos_Aires' }).formatToParts(fechaAct);
+	const v = (t: string) => p.find((x) => x.type === t)?.value ?? '';
+	return `${v('day')} ${v('month').replace('.', '').toUpperCase()} - ${v('hour')}:${v('minute')} ART`;
+})() : null;
+
+// Aviso de nota vieja (estilo The Guardian): si tiene más de seis meses.
+const diasNota = Math.floor((Date.now() - fecha.getTime()) / 86_400_000);
+const avisoVieja = diasNota >= 365 ? `Esta nota tiene más de ${Math.floor(diasNota / 365) === 1 ? 'un año' : `${Math.floor(diasNota / 365)} años`}` : diasNota >= 180 ? `Esta nota tiene más de ${Math.floor(diasNota / 30)} meses` : null;
+
 // Foto del autor. Mientras no haya foto cargada en consts.ts, se usa una ilustración provisoria.
 const fotoFirma = fotoAutor(author || '') ?? '/autores/foto-provisoria.svg';
 
@@ -85,7 +99,7 @@ const schema = {
 	description: excerpt ?? '',
 	...(image_url ? { image: [new URL(image_url, siteOrigin).toString()] } : {}),
 	datePublished: fecha.toISOString(),
-	dateModified: fecha.toISOString(),
+	dateModified: (fechaAct ?? fecha).toISOString(),
 	author: { '@type': 'Person', name: author || 'Redacción' },
 	publisher: {
 		'@type': 'Organization',
@@ -130,6 +144,12 @@ import { nombreRegion } from '../../lib/regiones';
 		</div>
 
 		<header class="mx-auto w-full max-w-[760px] lg:max-w-none">
+			{avisoVieja && (
+				<p class="mb-4 inline-flex items-center gap-2 rounded-md bg-[#fff4cc] px-3 py-1.5 font-sans text-[13px] font-bold text-[#6b4e00]" role="note">
+					<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+					{avisoVieja}
+				</p>
+			)}
 			<div class="flex items-center gap-3">
 				<a href={`/seccion/${section}/`} class="rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white" data-pagefind-filter="Sección">{nombreSeccion(section || '')}</a>
 				<span class="text-xs text-neutral-500">{minutosLectura} min de lectura</span>
@@ -151,14 +171,18 @@ import { nombreRegion } from '../../lib/regiones';
 					<p class="mt-1 text-[12px] text-neutral-600">
 						{ciudad && <>{ciudad} - </>}{!ciudad && region && <><a href={`/region/${region}/`} class="hover:text-brand">{nombreRegion(region)}</a> - </>}{fechaFirma}
 					</p>
+					{actualizado && <p class="mt-0.5 text-[12px] text-neutral-600">Actualizado: {actualizado}</p>}
 					<div class="mt-3 flex flex-wrap items-center justify-between gap-3 border-t border-[#d9d9d4] pt-3" data-no-imprimir>
 						<ShareButtons url={Astro.url.href} title={title}>
 							<ImprimirNota />
 						</ShareButtons>
+						<div class="flex items-center gap-2">
+						<OpcionesLectura />
 						<a href="#comentarios" aria-label="Ir a los comentarios" class="inline-flex items-center gap-1.5 rounded-full bg-[#f0f0ec] px-3.5 py-1.5 text-[14px] font-semibold text-ink hover:bg-neutral-200">
 							<span data-cuenta-comentarios>0</span>
 							<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 4c4.97 0 9 3.36 9 7.5S16.97 19 12 19c-1.1 0-2.15-.16-3.12-.46L4 20l1.4-3.6C4.5 15.1 3 13.4 3 11.5 3 7.36 7.03 4 12 4z"></path></svg>
 						</a>
+						</div>
 						<a href="https://www.google.com/preferences/source?q=diariofederal.com.ar" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full border border-[#d9d9d4] bg-white px-3.5 py-1.5 text-[12.5px] font-medium text-ink hover:border-neutral-400">
 							<svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
 							Añadir EL DIARIO en Google
@@ -299,6 +323,7 @@ import { nombreRegion } from '../../lib/regiones';
 
 	<div class="mx-auto max-w-6xl"><NewsletterBox /></div>
 
+	<FotoAmpliable />
 	{proximaNota && <SeguiLeyendoFlotante slug={proximaNota.slug} title={proximaNota.title} foto={fotoChica(proximaNota)} />}
 </BaseLayout>
 

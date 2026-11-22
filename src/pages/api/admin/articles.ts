@@ -120,6 +120,8 @@ export const POST = async ({ request, locals }: any) => {
 		if (data.breaking) fm.ultimoMomento = true;
 		if (data.tapa) fm.tapa = true;
 		fm.draft = data.draft === true;
+		// Si se edita una nota ya existente y publicada, queda la hora de la actualización (como NYT o Washington Post).
+		if (sha && !fm.draft) fm.updatedDate = new Date().toISOString();
 		fm.tags = Array.isArray(data.tags) ? data.tags : [];
 		const puntos = Array.isArray(data.puntosClave) ? data.puntosClave.map((p: any) => String(p).trim()).filter(Boolean).slice(0, 3) : [];
 		if (puntos.length) fm.puntosClave = puntos;
