@@ -329,6 +329,14 @@ const datosGraficos = {
                   <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={clima.fuenteNinoUrl} target="_blank" rel="noopener noreferrer">{clima.fuenteNino}</a>, procesado por DOTS · Observatorio. Referencia 1991-2020.</p>
                 </article>
               )}
+              {clima.lluviaEnso.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">¿Cuánto más llueve con El Niño?</h3>
+                  <p class="text-sm text-neutral-500">Lluvia de octubre a marzo con El Niño fuerte y con La Niña, comparada con los años normales (%), ciudad por ciudad</p>
+                  <div id="g-lluvia-enso" class="mt-3 h-[560px] w-full" role="img" aria-label="Barras por ciudad: cuánto cambia la lluvia de octubre a marzo con El Niño fuerte y con La Niña"></div>
+                  <p class="text-xs text-neutral-500">Fuente: Copernicus ERA5 (vía Open-Meteo) e índice ONI de la NOAA, procesados por DOTS · Observatorio. Período {clima.lluviaEnsoPeriodo || '1991-2026'}. Ojo: desde 1991 hubo pocas temporadas de El Niño fuerte (1997-98, 2015-16 y 2023-24), así que es una tendencia, no una regla.</p>
+                </article>
+              )}
               {clima.rios && (
                 <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
                   <h3 class="font-display text-lg font-bold text-ink">Ríos de la Cuenca del Plata</h3>
@@ -566,6 +574,20 @@ const datosGraficos = {
         series: [
           { name: 'Nacional', type: 'bar', stack: 'm', color: ROJO, data: ind.maquinaria.map((p: any) => p.nacional) },
           { name: 'Importada', type: 'bar', stack: 'm', color: '#b5b5b0', itemStyle: { borderRadius: [3, 3, 0, 0] }, data: ind.maquinaria.map((p: any) => p.importada) },
+        ],
+      });
+    }
+    if (lab.clima?.lluviaEnso?.length) {
+      const ll = [...lab.clima.lluviaEnso].reverse();
+      grafico('g-lluvia-enso', {
+        grid: { left: 130, right: 40, top: 8, bottom: 50 },
+        legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => (v == null ? 'Sin dato' : (v > 0 ? '+' : '') + fmtN(v) + ' %') },
+        xAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value} %' }, ...grilla },
+        yAxis: { type: 'category', data: ll.map((c: any) => c.ciudad), axisLabel: { color: '#404040', fontSize: 11 }, axisLine: { lineStyle: { color: '#d4d4d0' } } },
+        series: [
+          { name: 'Con El Niño fuerte', type: 'bar', color: ROJO, barGap: '10%', itemStyle: { borderRadius: 2 }, data: ll.map((c: any) => c.ninoFuerte) },
+          { name: 'Con La Niña', type: 'bar', color: '#2b6cb0', itemStyle: { borderRadius: 2 }, data: ll.map((c: any) => c.nina) },
         ],
       });
     }

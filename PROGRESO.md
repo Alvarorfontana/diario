@@ -169,3 +169,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Pendiente: `data/nino_crecidas.json` en observatorio-agro está sin actualizar desde el 18/10; revisar el robot nino-crecidas en ese repo. Hasta entonces el bloque de ríos no aparece.
 
 - Se sumaron 4 gráficos más al observatorio metalúrgico, con datos que ya juntan sus robots (sin robots nuevos): producción por rama (IPI, variación interanual), empleo registrado por trimestre (OEDE-SIPA, sin terminales), importaciones que compiten (INDEC comex) y maquinaria agrícola nacional vs. importada (INDEC).
+- DOTS: nuevo gráfico "¿Cuánto más llueve con El Niño?" (lluvia oct-mar con El Niño fuerte y con La Niña frente a años neutrales, 24 ciudades), de `data/enso_sudamerica.json` de observatorio-agro. DOTS guarda casi todo dentro de su propio sitio con clave; los archivos públicos son pocos.

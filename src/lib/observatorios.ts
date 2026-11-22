@@ -43,6 +43,9 @@ export interface DatosClima {
 	nino34: Punto[];
 	fuenteNino: string;
 	fuenteNinoUrl: string;
+	// Lluvia de octubre a marzo con El Niño fuerte y con La Niña, frente a años neutrales (%), por ciudad
+	lluviaEnso: { ciudad: string; ninoFuerte: number | null; nina: number | null }[];
+	lluviaEnsoPeriodo: string;
 	rios: null | {
 		actualizado: string;
 		niveles: Record<string, number>;
@@ -129,10 +132,25 @@ export async function datosIndustria(): Promise<DatosIndustria | null> {
 
 export async function datosClima(): Promise<DatosClima | null> {
 	const base = `${RAW}/observatorio-agro/main`;
-	const [enso, crecidas] = await Promise.all([
+	const [enso, crecidas, ensoSA] = await Promise.all([
 		leer(`${base}/public/data/enso-ersst.json`),
 		leer(`${base}/data/nino_crecidas.json`),
+		leer(`${base}/data/enso_sudamerica.json`),
 	]);
+	// Ciudades argentinas y de la Cuenca del Plata, de norte a sur.
+	const CIUDADES: [string, string][] = [
+		['salta', 'Salta'], ['tucuman', 'Tucumán'], ['santiago-del-estero', 'Santiago del Estero'], ['formosa', 'Formosa'],
+		['asuncion', 'Asunción (PY)'], ['resistencia', 'Resistencia'], ['corrientes', 'Corrientes'], ['posadas', 'Posadas'],
+		['encarnacion', 'Encarnación (PY)'], ['reconquista', 'Reconquista'], ['santa-fe', 'Santa Fe'], ['parana', 'Paraná'],
+		['cordoba', 'Córdoba'], ['rosario', 'Rosario'], ['salto-uy', 'Salto (UY)'], ['gualeguaychu', 'Gualeguaychú'],
+		['pergamino', 'Pergamino'], ['junin', 'Junín'], ['buenos-aires', 'Buenos Aires'], ['montevideo', 'Montevideo (UY)'],
+		['mendoza', 'Mendoza'], ['santa-rosa', 'Santa Rosa'], ['bahia-blanca', 'Bahía Blanca'], ['neuquen', 'Neuquén'],
+	];
+	const lluviaEnso = CIUDADES.map(([id, ciudad]) => {
+		const g = ensoSA?.places?.[id]?.warm?.groups;
+		if (!g) return null;
+		return { ciudad, ninoFuerte: g['El Niño fuerte o muy fuerte']?.vs_neutral_pct ?? null, nina: g['La Niña']?.vs_neutral_pct ?? null };
+	}).filter(Boolean) as DatosClima['lluviaEnso'];
 	const meses: string[] = enso?.months ?? [];
 	const n34: number[] = enso?.indices?.nino34 ?? [];
 	const nino34 = meses.map((m, i) => ({ periodo: m, valor: n34[i] })).filter((p) => typeof p.valor === 'number').slice(-36);
@@ -148,6 +166,6 @@ export async function datosClima(): Promise<DatosClima | null> {
 			alertas: (crecidas.alertas ?? []).filter((a: any) => a.level !== 'Normal').slice(0, 8).map((a: any) => ({ lugar: a.place, rio: a.river, nivel: a.level })),
 		};
 	}
-	if (!nino34.length && !rios) return null;
-	return { nino34, fuenteNino: enso?.source ?? 'NOAA', fuenteNinoUrl: enso?.source_url ?? 'https://psl.noaa.gov/', rios };
+	if (!nino34.length && !rios && !lluviaEnso.length) return null;
+	return { lluviaEnso, lluviaEnsoPeriodo: ensoSA?.period ?? '', nino34, fuenteNino: enso?.source ?? 'NOAA', fuenteNinoUrl: enso?.source_url ?? 'https://psl.noaa.gov/', rios };
 }
