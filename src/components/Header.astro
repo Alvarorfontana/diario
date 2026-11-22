@@ -35,8 +35,9 @@ const especiales = [
 ];
 ---
 
-<!-- Cabecera: menú desplegable a la izquierda, logo con la fecha chiquita, fija al bajar -->
-<header class="sticky top-0 z-40 bg-white shadow-[0_1px_0_#e6e6e2]">
+<!-- Cabecera: menú desplegable a la izquierda, logo con la fecha chiquita, fija al bajar.
+     Se esconde mientras se baja leyendo y vuelve apenas se sube un poco. -->
+<header id="cabecera" class="sticky top-0 z-40 bg-white shadow-[0_1px_0_#e6e6e2]">
 	<div class="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-2.5">
 		<div class="flex items-center">
 			<details class="menu-secciones relative">
@@ -123,4 +124,41 @@ const especiales = [
 
 <style>
 	.menu-secciones summary::-webkit-details-marker { display: none; }
+	#cabecera { transition: transform 0.25s ease; will-change: transform; }
+	#cabecera.cabecera-oculta { transform: translateY(-100%); }
+	@media (prefers-reduced-motion: reduce) { #cabecera { transition: none; } }
 </style>
+
+<script is:inline>
+	// Cabecera que se esconde al bajar y reaparece al subir (como los diarios grandes en el celular).
+	(function () {
+		var cab = document.getElementById('cabecera');
+		if (!cab) return;
+		var ultimo = window.scrollY || 0;
+		var pendiente = false;
+		function menuAbierto() { return !!document.querySelector('details.menu-secciones[open]'); }
+		function revisar() {
+			pendiente = false;
+			var y = window.scrollY || 0;
+			var dif = y - ultimo;
+			// En las notas, cuando aparece la barra fina con el título, la cabecera grande se corre.
+			var barra = document.getElementById('barra-fija');
+			var barraVisible = barra && barra.classList.contains('mostrar');
+			if (menuAbierto() || y < cab.offsetHeight) {
+				cab.classList.remove('cabecera-oculta');
+			} else if (barraVisible) {
+				cab.classList.add('cabecera-oculta');
+			} else if (dif > 6) {
+				cab.classList.add('cabecera-oculta');
+			} else if (dif < -6) {
+				cab.classList.remove('cabecera-oculta');
+			}
+			if (Math.abs(dif) > 6) ultimo = y;
+		}
+		function pedir() { if (!pendiente) { pendiente = true; requestAnimationFrame(revisar); } }
+		window.addEventListener('scroll', pedir, { passive: true });
+		document.querySelectorAll('details.menu-secciones').forEach(function (d) {
+			d.addEventListener('toggle', revisar);
+		});
+	})();
+</script>
