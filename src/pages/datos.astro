@@ -232,6 +232,7 @@ const datosGraficos = {
         {industria && (
           <div class="mt-4">
             <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Industria metalúrgica</p>
+            <p class="mt-1 max-w-3xl text-sm leading-relaxed text-neutral-600"><strong class="text-ink">Qué es:</strong> el observatorio de la industria metalúrgica de Diario Federal sigue cómo están las fábricas del sector en todo el país. Junta datos públicos de producción, uso de la capacidad, empleo y situación de cada planta (cierres, despidos, suspensiones). Las fuentes son el INDEC, la Cámara Argentina del Acero, el Boletín Oficial, el Banco Central y la prensa. Cada número dice de dónde sale y de qué mes es.</p>
             <div class="mt-2 grid grid-cols-2 gap-3 lg:grid-cols-4">
               {industria.ucMetalmecanica.at(-1) && (
                 <div class="rounded-xl border border-neutral-200 bg-white p-4">
@@ -284,6 +285,7 @@ const datosGraficos = {
         {clima && (
           <div class="mt-7">
             <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">DOTS · Clima y ríos</p>
+            <p class="mt-1 max-w-3xl text-sm leading-relaxed text-neutral-600"><strong class="text-ink">Qué es:</strong> DOTS es el observatorio agroclimático y satelital de Diario Federal. Sigue el clima, las lluvias, El Niño y la altura de los ríos de la Cuenca del Plata (Paraná, Uruguay, Paraguay e Iguazú), con imágenes de satélite y datos de organismos como la NOAA de Estados Unidos y los servicios hidrológicos de la región. Sirve para anticipar crecidas, sequías y su impacto en el campo y en las ciudades ribereñas.</p>
             <div class="mt-2 grid gap-4 md:grid-cols-2">
               {clima.nino34.length > 0 && (
                 <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">

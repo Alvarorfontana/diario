@@ -164,5 +164,6 @@ Las reglas de trabajo están en `CLAUDE.md`.
   - Industria metalúrgica (repo miprimerrepo): capacidad usada metalmecánica / metales básicos / industria (INDEC), acero crudo (Cámara Argentina del Acero) y plantas en alerta del semáforo.
   - DOTS (repo observatorio-agro): El Niño / La Niña, región Niño 3.4 (NOAA ERSST v5) y estado de los ríos de la Cuenca del Plata.
 - Los ríos solo se muestran si el dato tiene menos de 48 horas, para no mostrar alertas viejas como actuales.
+- Cada observatorio lleva un texto corto "Qué es" (DOTS y la industria metalúrgica).
 - Tarjeta "Laboratorio de datos" en el costado de cada nota, con enlace a los gráficos.
 - Pendiente: `data/nino_crecidas.json` en observatorio-agro está sin actualizar desde el 18/10; revisar el robot nino-crecidas en ese repo. Hasta entonces el bloque de ríos no aparece.
