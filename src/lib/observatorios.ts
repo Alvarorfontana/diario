@@ -26,6 +26,17 @@ export interface DatosIndustria {
 	plantasAmarillo: number;
 	plantasTotal: number;
 	fuenteIndec: string;
+	// Variación interanual de la producción por rama (IPI del INDEC)
+	ramas: { nombre: string; variacion: number }[];
+	ramasPeriodo: string | null;
+	// Puestos de trabajo registrados en el sector (sin terminales automotrices), por trimestre
+	empleo: { periodo: string; valor: number }[];
+	fuenteEmpleo: string;
+	// Importaciones metalúrgicas que compiten con lo hecho acá, millones de dólares por mes
+	importaciones: { periodo: string; valor: number }[];
+	fuenteImpo: string;
+	// Ventas de maquinaria agrícola por trimestre: nacional contra importada (unidades)
+	maquinaria: { periodo: string; nacional: number; importada: number }[];
 }
 
 export interface DatosClima {
@@ -43,10 +54,12 @@ const ultimos = (serie: Punto[] | undefined, n: number) => (serie ?? []).filter(
 
 export async function datosIndustria(): Promise<DatosIndustria | null> {
 	const base = `${RAW}/miprimerrepo/main/data`;
-	const [indec, acero, semaforo] = await Promise.all([
+	const [indec, acero, semaforo, oede, impo] = await Promise.all([
 		leer(`${base}/indec-series.json`),
 		leer(`${base}/acero-caa.json`),
 		leer(`${base}/semaforo.json`),
+		leer(`${base}/empleo-oede.json`),
+		leer(`${base}/importaciones.json`),
 	]);
 	if (!indec?.series) return null;
 	const serie = (clave: string) => indec.series.find((s: any) => s.clave === clave);
@@ -54,7 +67,54 @@ export async function datosIndustria(): Promise<DatosIndustria | null> {
 	if (!met) return null;
 	const meses = acero?.meses ? Object.keys(acero.meses).sort() : [];
 	const plantas: any[] = semaforo?.plantas ?? [];
+	// Producción por rama: último mes contra el mismo mes del año anterior.
+	const RAMAS: [string, string][] = [
+		['ipi-siderurgia', 'Siderurgia'], ['ipi-fundicion', 'Fundición'], ['ipi-aluminio', 'Aluminio'],
+		['ipi-productos-metal', 'Productos de metal'], ['ipi-estructuras-metalicas', 'Estructuras metálicas'],
+		['ipi-maquinaria-agropecuaria', 'Maquinaria agrícola'], ['ipi-maquinaria-uso-general', 'Maquinaria general'],
+		['ipi-linea-blanca', 'Línea blanca'], ['ipi-electricos', 'Equipos eléctricos'], ['ipi-autopartes', 'Autopartes'],
+		['ipi-carrocerias-remolques', 'Carrocerías y remolques'],
+	];
+	let ramasPeriodo: string | null = null;
+	const ramas = RAMAS.map(([clave, nombre]) => {
+		const d: Punto[] = serie(clave)?.datos ?? [];
+		const u = d.at(-1);
+		if (!u) return null;
+		const [a, m] = u.periodo.split('-');
+		const antes = d.find((p) => p.periodo === `${Number(a) - 1}-${m}`);
+		if (!antes?.valor) return null;
+		ramasPeriodo = ramasPeriodo ?? u.periodo;
+		return { nombre, variacion: Math.round((u.valor / antes.valor - 1) * 1000) / 10 };
+	}).filter(Boolean).sort((x: any, y: any) => x.variacion - y.variacion) as { nombre: string; variacion: number }[];
+
+	// Empleo: suma de las ramas metalúrgicas, sin terminales automotrices (como hace la fuente).
+	const empleo: { periodo: string; valor: number }[] = [];
+	if (oede?.ramas && oede?.trimestres) {
+		oede.trimestres.forEach((t: string, i: number) => {
+			let total = 0;
+			for (const r of Object.values<any>(oede.ramas)) if (r.grupo !== '3410' && typeof r.trim?.[i] === 'number') total += r.trim[i];
+			if (total > 0) empleo.push({ periodo: t, valor: total });
+		});
+	}
+
+	// Importaciones: suma de todos los rubros por mes, últimos 24 meses.
+	const sumaImpo: Record<string, number> = {};
+	for (const sImpo of impo?.series ?? []) for (const p of sImpo.datos ?? []) if (typeof p.valor === 'number') sumaImpo[p.periodo] = (sumaImpo[p.periodo] ?? 0) + p.valor;
+	const importaciones = Object.keys(sumaImpo).sort().slice(-24).map((m) => ({ periodo: m, valor: Math.round(sumaImpo[m]) }));
+
+	// Maquinaria agrícola: tractores + cosechadoras + implementos.
+	const trimestres = (serie('maqagro-tractores-nacionales')?.datos ?? []).map((p: Punto) => p.periodo).slice(-8);
+	const suma = (tipo: string, t: string) => ['tractores', 'cosechadoras', 'implementos'].reduce((acc, k) => acc + (serie(`maqagro-${k}-${tipo}`)?.datos?.find((p: Punto) => p.periodo === t)?.valor ?? 0), 0);
+	const maquinaria = trimestres.map((t: string) => ({ periodo: t, nacional: suma('nacionales', t), importada: suma('importadas', t) }));
+
 	return {
+		ramas,
+		ramasPeriodo,
+		empleo,
+		fuenteEmpleo: oede?.url ?? 'https://www.argentina.gob.ar/trabajo/estadisticas',
+		importaciones,
+		fuenteImpo: 'https://comex.indec.gob.ar/',
+		maquinaria,
 		actualizado: indec.actualizado,
 		ucMetalmecanica: ultimos(met.datos, 36),
 		ucGeneral: ultimos(serie('uci-general')?.datos, 36),

@@ -279,6 +279,40 @@ const datosGraficos = {
                 </article>
               )}
             </div>
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
+              {industria.ramas.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Producción por rama</h3>
+                  <p class="text-sm text-neutral-500">Cuánto cambió frente al mismo mes del año anterior{industria.ramasPeriodo ? ` · ${mesTexto(industria.ramasPeriodo)}` : ''}</p>
+                  <div id="g-ramas" class="mt-3 h-80 w-full" role="img" aria-label="Barras horizontales con la variación interanual de la producción de cada rama metalúrgica"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href="https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-6-14" target="_blank" rel="noopener noreferrer">INDEC, Índice de producción industrial manufacturero (IPI)</a></p>
+                </article>
+              )}
+              {industria.empleo.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Empleo en la metalurgia</h3>
+                  <p class="text-sm text-neutral-500">Puestos de trabajo registrados del sector privado, por trimestre · sin terminales automotrices</p>
+                  <div id="g-empleo" class="mt-3 h-80 w-full" role="img" aria-label="Línea de puestos de trabajo registrados en la metalurgia por trimestre"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteEmpleo} target="_blank" rel="noopener noreferrer">OEDE, Ministerio de Capital Humano, sobre datos del SIPA</a></p>
+                </article>
+              )}
+              {industria.importaciones.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Importaciones que compiten con la industria local</h3>
+                  <p class="text-sm text-neutral-500">Acero, aluminio, herramientas, maquinaria, línea blanca, autopartes y equipos eléctricos · millones de dólares por mes</p>
+                  <div id="g-impo" class="mt-3 h-64 w-full" role="img" aria-label="Barras de importaciones metalúrgicas mensuales en millones de dólares"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteImpo} target="_blank" rel="noopener noreferrer">INDEC, comercio exterior de bienes</a></p>
+                </article>
+              )}
+              {industria.maquinaria.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Maquinaria agrícola: nacional o importada</h3>
+                  <p class="text-sm text-neutral-500">Tractores, cosechadoras e implementos vendidos por trimestre (unidades)</p>
+                  <div id="g-maquinaria" class="mt-3 h-64 w-full" role="img" aria-label="Barras apiladas de maquinaria agrícola vendida, nacional e importada"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href="https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-6-17" target="_blank" rel="noopener noreferrer">INDEC, Indicadores de coyuntura de la actividad de maquinaria agrícola</a></p>
+                </article>
+              )}
+            </div>
           </div>
         )}
 
@@ -501,6 +535,38 @@ const datosGraficos = {
         xAxis: { type: 'category', data: ind.acero.map((p: any) => p.periodo.slice(5) + '/' + p.periodo.slice(2, 4)), ...ejes },
         yAxis: { type: 'value', axisLabel: { color: '#737373' }, ...grilla },
         series: [{ name: 'Acero crudo', type: 'bar', data: ind.acero.map((p: any) => Math.round(p.crudo / 1000)), itemStyle: { color: ROJO, borderRadius: [4, 4, 0, 0] }, barCategoryGap: '25%' }],
+      });
+      if (ind.ramas?.length) grafico('g-ramas', {
+        grid: { left: 150, right: 44, top: 6, bottom: 20 },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => (v > 0 ? '+' : '') + fmtN(v, 1) + ' %' },
+        xAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value} %' }, ...grilla },
+        yAxis: { type: 'category', data: ind.ramas.map((r: any) => r.nombre), axisLabel: { color: '#404040' }, axisLine: { lineStyle: { color: '#d4d4d0' } } },
+        series: [{ type: 'bar', barCategoryGap: '30%', label: { show: true, position: 'right', color: '#404040', fontSize: 11, formatter: (p: any) => (p.value > 0 ? '+' : '') + fmtN(p.value, 1) + ' %' }, data: ind.ramas.map((r: any) => ({ value: r.variacion, itemStyle: { color: r.variacion >= 0 ? AQUA : ROJO, borderRadius: 3 } })) }],
+      });
+      if (ind.empleo?.length) grafico('g-empleo', {
+        grid: { left: 56, right: 12, top: 12, bottom: 28 },
+        tooltip: { trigger: 'axis', valueFormatter: (v: any) => fmtN(v) + ' puestos' },
+        xAxis: { type: 'category', data: ind.empleo.map((p: any) => p.periodo.replace('T', ' T')), ...ejes },
+        yAxis: { type: 'value', scale: true, axisLabel: { color: '#737373', formatter: (v: number) => fmtN(v / 1000) + ' mil' }, ...grilla },
+        series: [{ name: 'Puestos', type: 'line', symbolSize: 6, lineStyle: { width: 2.5, color: ROJO }, itemStyle: { color: ROJO }, areaStyle: { color: 'rgba(200,16,46,0.08)' }, data: ind.empleo.map((p: any) => p.valor) }],
+      });
+      if (ind.importaciones?.length) grafico('g-impo', {
+        grid: { left: 44, right: 10, top: 12, bottom: 28 },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => 'US$ ' + fmtN(v) + ' M' },
+        xAxis: { type: 'category', data: ind.importaciones.map((p: any) => p.periodo.slice(5) + '/' + p.periodo.slice(2, 4)), ...ejes },
+        yAxis: { type: 'value', axisLabel: { color: '#737373' }, ...grilla },
+        series: [{ name: 'Importaciones', type: 'bar', data: ind.importaciones.map((p: any) => p.valor), itemStyle: { color: '#7a7a7a', borderRadius: [3, 3, 0, 0] }, barCategoryGap: '25%' }],
+      });
+      if (ind.maquinaria?.length) grafico('g-maquinaria', {
+        grid: { left: 44, right: 10, top: 12, bottom: 50 },
+        legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => fmtN(v) + ' unidades' },
+        xAxis: { type: 'category', data: ind.maquinaria.map((p: any) => p.periodo.replace('-', ' ')), ...ejes },
+        yAxis: { type: 'value', axisLabel: { color: '#737373' }, ...grilla },
+        series: [
+          { name: 'Nacional', type: 'bar', stack: 'm', color: ROJO, data: ind.maquinaria.map((p: any) => p.nacional) },
+          { name: 'Importada', type: 'bar', stack: 'm', color: '#b5b5b0', itemStyle: { borderRadius: [3, 3, 0, 0] }, data: ind.maquinaria.map((p: any) => p.importada) },
+        ],
       });
     }
     if (lab.clima?.nino34?.length) grafico('g-nino', {

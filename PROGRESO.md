@@ -167,3 +167,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Cada observatorio lleva un texto corto "Qué es" (DOTS y la industria metalúrgica).
 - Tarjeta "Laboratorio de datos" en el costado de cada nota, con enlace a los gráficos.
 - Pendiente: `data/nino_crecidas.json` en observatorio-agro está sin actualizar desde el 18/10; revisar el robot nino-crecidas en ese repo. Hasta entonces el bloque de ríos no aparece.
+
+- Se sumaron 4 gráficos más al observatorio metalúrgico, con datos que ya juntan sus robots (sin robots nuevos): producción por rama (IPI, variación interanual), empleo registrado por trimestre (OEDE-SIPA, sin terminales), importaciones que compiten (INDEC comex) y maquinaria agrícola nacional vs. importada (INDEC).
