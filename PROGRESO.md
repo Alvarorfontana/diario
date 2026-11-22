@@ -129,3 +129,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Análisis económico, firma Claudio Vila · 1.093 palabras · dentro del límite de 1.200.
 - Portada propia `public/images/2026-11-efecto-caipirinha.png` (gráfico de Diario Federal, datos INDEC y JP Morgan).
 - Nuevo autor en `AUTORES` (`src/consts.ts`) con foto `public/autores/claudio-vila.jpg`.
+
+## 2026-11-21 · Crónica metalúrgica
+- Nueva nota "Seis de cada diez máquinas paradas: la metalurgia llegó al límite" (economía, Redacción Diario Federal, 1.196 palabras). Portada: gráfico producción vs. empleo por rama (INDEC y OEDE–SIPA), con epígrafe y fuente. Datos del observatorio MIDTM.
+- Pendiente: el cierre es de postura y no incluye un "qué sigue" con fecha.
