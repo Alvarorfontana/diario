@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-22",
   "dateLabel": "22/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-22-c92ce35f9cef.mp3",
-  "video": "/boletines/boletin-principal-2026-11-22-c92ce35f9cef.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-22-c92ce35f9cef.png",
-  "duracion": 90,
+  "archivo": "/boletines/boletin-principal-2026-11-22-cc7fb34ffe96.mp3",
+  "video": "/boletines/boletin-principal-2026-11-22-cc7fb34ffe96.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-22-cc7fb34ffe96.png",
+  "duracion": 94,
   "voz": "es-AR-TomasNeural",
-  "hash": "c92ce35f9cef",
+  "hash": "cc7fb34ffe96",
   "items": [
     {
       "slug": "2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense",
@@ -20,6 +20,12 @@
       "title": "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha",
       "section": "economia",
       "url": "/articulo/2026-11-22-rigi-mucho-anuncio-poca-plata/"
+    },
+    {
+      "slug": "2026-11-22-laboratorio-de-datos-tres-senales",
+      "title": "El Paraná en evacuación, El Niño firme y la metalurgia al 40 por ciento",
+      "section": "argentina",
+      "url": "/articulo/2026-11-22-laboratorio-de-datos-tres-senales/"
     },
     {
       "slug": "2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas",
@@ -38,12 +44,6 @@
       "title": "El Niño pone al Paraná en nivel de evacuación frente a Entre Ríos",
       "section": "argentina",
       "url": "/articulo/2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots/"
-    },
-    {
-      "slug": "2026-11-20-la-campora-propone-furlanismo-sin-furlan",
-      "title": "La Cámpora propone: «Furlanismo sin Furlán»",
-      "section": "argentina",
-      "url": "/articulo/2026-11-20-la-campora-propone-furlanismo-sin-furlan/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
