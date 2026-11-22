@@ -20,6 +20,17 @@ async function leer(nombre: string) {
 const [ipc, riesgo, dolar, reservas, fmi] = await Promise.all(['inflacion', 'riesgo-pais', 'dolar', 'reservas', 'fmi'].map(leer));
 // Observatorios propios (industria metalúrgica y DOTS): se leen de los archivos que publican sus robots.
 const [industria, clima] = await Promise.all([datosIndustria(), datosClima()]);
+// Seguimiento del RIGI: lo comprometido, lo que entró y qué proyectos ya existían (data/laboratorio/rigi.json).
+const rigi = await leer('rigi');
+const rigiGrupos = rigi ? rigi.grupos.map((g: any) => {
+  const ps = rigi.proyectos.filter((p: any) => p.grupo === g.id);
+  const millones = ps.reduce((s: number, p: any) => s + p.millones, 0);
+  return { ...g, proyectos: ps.sort((a: any, b: any) => b.millones - a.millones), cantidad: ps.length, millones, pct: (millones / rigi.comprometido.millones) * 100 };
+}) : [];
+const rigiPrevios = rigiGrupos.filter((g: any) => g.id === 'funcionaba' || g.id === 'enmarcha');
+const rigiPreviosMillones = rigiPrevios.reduce((s: number, g: any) => s + g.millones, 0);
+const rigiPreviosCantidad = rigiPrevios.reduce((s: number, g: any) => s + g.cantidad, 0);
+const rigiMaxCrono = rigi ? Math.max(...rigi.cronograma.map((c: any) => c.millones)) : 1;
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -389,6 +400,75 @@ const datosGraficos = {
             </div>
           </div>
         )}
+      </section>
+    )}
+
+    <!-- SEGUIMIENTO DEL RIGI: comprometido vs. ingresado y proyectos que ya existían -->
+    {rigi && (
+      <section id="rigi" class="mt-8 scroll-mt-20 rounded-xl border border-neutral-200 bg-white p-4 sm:p-5" aria-labelledby="rigi-titulo">
+        <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Seguimiento económico</p>
+        <h2 id="rigi-titulo" class="mt-1 font-display text-2xl font-bold text-ink">RIGI: lo anunciado, lo que entró y lo que ya estaba</h2>
+        <p class="mt-1 max-w-3xl text-sm text-neutral-600">El Régimen de Incentivo para Grandes Inversiones da beneficios impositivos, aduaneros y cambiarios por 30 años. Acá separamos la plata comprometida de la que ingresó y revisamos, proyecto por proyecto, cuáles ya existían antes del régimen.</p>
+
+        <div class="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div class="rounded-lg bg-[#f6f6f3] p-3"><p class="text-[11px] font-bold tracking-wide text-neutral-500 uppercase">Comprometido</p><p class="mt-1 font-display text-2xl font-bold text-ink">US$ {n(rigi.comprometido.millones)} M</p><p class="text-xs text-neutral-500">{rigi.comprometido.proyectos} proyectos aprobados, hasta 2056</p></div>
+          <div class="rounded-lg bg-[#f6f6f3] p-3"><p class="text-[11px] font-bold tracking-wide text-neutral-500 uppercase">Ingresó (neto)</p><p class="mt-1 font-display text-2xl font-bold text-brand">US$ {n(rigi.ingresado.neto)} M</p><p class="text-xs text-neutral-500">hasta {rigi.ingresado.hasta} (bruto: US$ {n(rigi.ingresado.bruto)} M)</p></div>
+          <div class="rounded-lg bg-[#f6f6f3] p-3"><p class="text-[11px] font-bold tracking-wide text-neutral-500 uppercase">Ya existían</p><p class="mt-1 font-display text-2xl font-bold text-ink">{rigiPreviosCantidad} de {rigi.comprometido.proyectos}</p><p class="text-xs text-neutral-500">ampliaciones o proyectos ya en marcha</p></div>
+          <div class="rounded-lg bg-[#f6f6f3] p-3"><p class="text-[11px] font-bold tracking-wide text-neutral-500 uppercase">Su peso en la plata</p><p class="mt-1 font-display text-2xl font-bold text-ink">{n((rigiPreviosMillones / rigi.comprometido.millones) * 100)} %</p><p class="text-xs text-neutral-500">US$ {n(rigiPreviosMillones)} M de lo comprometido</p></div>
+        </div>
+
+        <div class="mt-5 grid gap-5 lg:grid-cols-2">
+          <article>
+            <h3 class="font-display text-lg font-bold text-ink">Comprometido vs. ingresado a marzo de 2026</h3>
+            <p class="text-xs text-neutral-500">Millones de dólares · proyectos aprobados en ese momento</p>
+            <div class="mt-3 space-y-2 text-sm">
+              <div><div class="flex justify-between"><span>Aprobado</span><strong>US$ {n(rigi.ingresado.aprobadoEseMomento)} M</strong></div><div class="mt-1 h-4 rounded bg-[#4b4b4b]" style="width:100%"></div></div>
+              <div><div class="flex justify-between"><span>Ingresó bruto</span><strong>US$ {n(rigi.ingresado.bruto)} M</strong></div><div class="mt-1 h-4 rounded bg-[#c0392b]" style={`width:${Math.max(1.5, rigi.ingresado.bruto / rigi.ingresado.aprobadoEseMomento * 100)}%`}></div></div>
+              <div><div class="flex justify-between"><span>Ingresó neto</span><strong>US$ {n(rigi.ingresado.neto)} M</strong></div><div class="mt-1 h-4 rounded bg-[#7a1f1f]" style={`width:${Math.max(1.5, rigi.ingresado.neto / rigi.ingresado.aprobadoEseMomento * 100)}%`}></div></div>
+            </div>
+            <h3 class="mt-5 font-display text-lg font-bold text-ink">Cuándo llegaría la plata</h3>
+            <p class="text-xs text-neutral-500">Inversión prevista por año, millones de dólares</p>
+            <div class="mt-3 flex h-36 items-end gap-1.5">
+              {rigi.cronograma.map((c: any) => (
+                <div class="flex flex-1 flex-col items-center justify-end" title={`${c.anio}: US$ ${n(c.millones)} M`}>
+                  <span class="text-[10px] text-neutral-500">{n(c.millones / 1000, 1)}</span>
+                  <div class="w-full rounded-t bg-[#c0392b]" style={`height:${(c.millones / rigiMaxCrono) * 100}px`}></div>
+                  <span class="mt-1 text-[10px] text-neutral-500">{String(c.anio).slice(2)}</span>
+                </div>
+              ))}
+            </div>
+            <p class="mt-1 text-[11px] text-neutral-400">Valores en miles de millones. El cronograma sigue hasta 2056.</p>
+          </article>
+
+          <article>
+            <h3 class="font-display text-lg font-bold text-ink">¿Cuánto ya existía antes del RIGI?</h3>
+            <p class="text-xs text-neutral-500">27 proyectos aprobados según su situación en julio de 2024</p>
+            <div class="mt-3 flex h-5 overflow-hidden rounded">
+              {rigiGrupos.map((g: any) => <div style={`width:${g.pct}%;background:${g.color}`} title={`${g.nombre}: ${n(g.pct, 1)} %`}></div>)}
+            </div>
+            <ul class="mt-3 space-y-2 text-sm">
+              {rigiGrupos.map((g: any) => (
+                <li class="flex items-center justify-between gap-3"><span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${g.color}`}></span>{g.nombre}</span><span class="shrink-0 text-xs text-neutral-600"><strong class="text-ink">{g.cantidad}</strong> · US$ {n(g.millones)} M · {n(g.pct, 1)} %</span></li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        <details class="mt-5 rounded-lg border border-neutral-200">
+          <summary class="cursor-pointer px-3 py-2 text-sm font-semibold text-ink">Ver los 27 proyectos uno por uno</summary>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-[#f6f6f3] text-[11px] tracking-wide text-neutral-500 uppercase"><tr><th class="px-3 py-2">Proyecto</th><th class="px-3 py-2">Provincia</th><th class="px-3 py-2 text-right">US$ M</th><th class="px-3 py-2">Situación antes del RIGI</th></tr></thead>
+              <tbody class="divide-y divide-[#eeeeea]">
+                {rigiGrupos.flatMap((g: any) => g.proyectos.map((p: any) => (
+                  <tr class="align-top"><td class="px-3 py-2"><strong class="text-ink">{p.nombre}</strong><br /><span class="text-xs text-neutral-500">{p.empresa}</span></td><td class="px-3 py-2 text-xs text-neutral-600">{p.provincia}</td><td class="px-3 py-2 text-right font-semibold">{n(p.millones)}</td><td class="px-3 py-2 text-xs text-neutral-600"><span class="mr-1 inline-block h-2.5 w-2.5 rounded-sm" style={`background:${g.color}`}></span>{p.dato}</td></tr>
+                )))}
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <p class="mt-3 text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Laboratorio de datos · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con resoluciones del Boletín Oficial, el estudio de la Bolsa de Comercio de Rosario (noviembre de 2026) y datos del Banco Central. La clasificación es propia; el corte es la ley que creó el RIGI ({rigi.corte}). Actualizado {diaTexto(rigi.actualizado)}.</span></p>
       </section>
     )}
 

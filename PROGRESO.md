@@ -176,3 +176,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - DOTS: los robots guardan sus resultados en la rama `datos` de observatorio-agro (no en main). Ahora el diario lee de ahí: ríos de la Cuenca del Plata (cada 2 horas), pronóstico de El Niño de la NOAA, focos de incendio en la Argentina (NASA FIRMS) y evacuados por país (partes oficiales resumidos por OPS).
 - Resuelto el pendiente del robot de ríos: funcionaba, se estaba leyendo la rama equivocada.
 - Fuentes de los observatorios: ahora dicen "DOTS · Observatorio de Diario Federal" u "Observatorio de la Industria Metalúrgica · Diario Federal", con el origen de los datos en letra chica y sin enlaces externos (regla 16 de CLAUDE.md).
+
+## 2026-11-22 · Nota y seguimiento del RIGI (Laboratorio de datos)
+- Nota: "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha" (economía, firma Emilio Lahitte) · unas 900 palabras · dentro del límite de 1.200. Imagen principal: gráfico propio (`public/uploads/2026-11-22-rigi-anunciado-vs-real.png`) con epígrafe y fuente.
+- Nueva sección "RIGI: lo anunciado, lo que entró y lo que ya estaba" en /datos (ancla `#rigi`), al final de los bloques, sin sacar nada. Lee `data/laboratorio/rigi.json`: comprometido, ingresado según el BCRA, cronograma por año y los 27 proyectos clasificados según su situación en julio de 2024.
+- Pendiente: actualizar cada trimestre el ingreso de dólares (BCRA) y sumar los proyectos aprobados después de los 27 (La Rinconada y los dos de TGS).
