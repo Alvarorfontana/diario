@@ -133,3 +133,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-21 · Crónica metalúrgica
 - Nueva nota "Seis de cada diez máquinas paradas: la metalurgia llegó al límite" (economía, Redacción Diario Federal, 1.196 palabras). Portada: gráfico producción vs. empleo por rama (INDEC y OEDE–SIPA), con epígrafe y fuente. Datos del observatorio MIDTM.
 - Pendiente: el cierre es de postura y no incluye un "qué sigue" con fecha.
+- Firmas de la redacción (Redacción, Redacción Diario Federal, Diario Federal, Redacción Federal, Mesa Internacional) llevan el isotipo del diario como foto (/autores/redaccion.svg).

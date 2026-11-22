@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="EL DIARIO">
+  <rect width="128" height="128" fill="#16161a"/>
+  <rect x="30" y="30" width="18" height="18" rx="3" fill="#d0021b"/>
+  <text x="64" y="86" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="800" font-size="34" fill="#ffffff" text-anchor="middle">ED</text>
+</svg>
