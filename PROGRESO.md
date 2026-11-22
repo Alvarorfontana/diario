@@ -16,6 +16,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Registro
 
+### 2026-11-22
+- Cabecera: se esconde al bajar leyendo y vuelve apenas se sube (como Infobae y El País en el celular). En las notas, al bajar queda solo la barra fina con sección, título y línea de progreso. No se sacó nada.
+
 ### 2026-11-20
 - Nota publicada: "Patentes: el Senado abrió la puerta que pidió Washington, pero se guardó una llave" (Ramiro De la Puente, economía), con foto de pastillas sobre un billete de dólar (fuente: CureCompass).
 
