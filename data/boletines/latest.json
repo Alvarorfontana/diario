@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-21",
   "dateLabel": "21/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-21-e402de238c2d.mp3",
-  "video": "/boletines/boletin-principal-2026-11-21-e402de238c2d.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-21-e402de238c2d.png",
+  "archivo": "/boletines/boletin-principal-2026-11-21-10ea104fc535.mp3",
+  "video": "/boletines/boletin-principal-2026-11-21-10ea104fc535.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-21-10ea104fc535.png",
   "duracion": 89,
   "voz": "es-AR-TomasNeural",
-  "hash": "e402de238c2d",
+  "hash": "10ea104fc535",
   "items": [
+    {
+      "slug": "2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas",
+      "title": "Seis de cada diez máquinas paradas: la metalurgia llegó al límite",
+      "section": "economia",
+      "url": "/articulo/2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas/"
+    },
     {
       "slug": "2026-11-21-fantasma-1999-real-llach-pide-devaluar",
       "title": "El fantasma de 1999: el real se hunde y Llach pide devaluar",
@@ -38,12 +44,6 @@
       "title": "Saúl Ubaldini, a 20 años: la voz ronca del movimiento obrero",
       "section": "argentina",
       "url": "/articulo/2026-11-19-saul-ubaldini-a-20-anos/"
-    },
-    {
-      "slug": "2026-11-19-de-yalta-a-shenzhen-quien-es-quien",
-      "title": "De Yalta a Shenzhen: quién es quién en el nuevo reparto",
-      "section": "internacional",
-      "url": "/articulo/2026-11-19-de-yalta-a-shenzhen-quien-es-quien/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
