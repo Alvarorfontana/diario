@@ -172,3 +172,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - DOTS: nuevo gráfico "¿Cuánto más llueve con El Niño?" (lluvia oct-mar con El Niño fuerte y con La Niña frente a años neutrales, 24 ciudades), de `data/enso_sudamerica.json` de observatorio-agro. DOTS guarda casi todo dentro de su propio sitio con clave; los archivos públicos son pocos.
 - DOTS: los robots guardan sus resultados en la rama `datos` de observatorio-agro (no en main). Ahora el diario lee de ahí: ríos de la Cuenca del Plata (cada 2 horas), pronóstico de El Niño de la NOAA, focos de incendio en la Argentina (NASA FIRMS) y evacuados por país (partes oficiales resumidos por OPS).
 - Resuelto el pendiente del robot de ríos: funcionaba, se estaba leyendo la rama equivocada.
+- Fuentes de los observatorios: ahora dicen "DOTS · Observatorio de Diario Federal" u "Observatorio de la Industria Metalúrgica · Diario Federal", con el origen de los datos en letra chica y sin enlaces externos (regla 16 de CLAUDE.md).

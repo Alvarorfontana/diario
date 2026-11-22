@@ -268,14 +268,14 @@ const datosGraficos = {
                 <h3 class="font-display text-lg font-bold text-ink">¿Cuánto de las fábricas se usa?</h3>
                 <p class="text-sm text-neutral-500">Capacidad instalada en uso · últimos 36 meses</p>
                 <div id="g-capacidad" class="mt-3 h-64 w-full" role="img" aria-label="Líneas de capacidad usada en la metalmecánica, los metales básicos y toda la industria"></div>
-                <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteIndec} target="_blank" rel="noopener noreferrer">INDEC, Utilización de la capacidad instalada en la industria</a></p>
+                <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con datos del INDEC (utilización de la capacidad instalada).</span></p>
               </article>
               {industria.acero.length > 0 && (
                 <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
                   <h3 class="font-display text-lg font-bold text-ink">Producción de acero crudo</h3>
                   <p class="text-sm text-neutral-500">Miles de toneladas por mes</p>
                   <div id="g-acero" class="mt-3 h-64 w-full" role="img" aria-label="Barras de producción mensual de acero crudo"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.acero.at(-1)!.fuente} target="_blank" rel="noopener noreferrer">Cámara Argentina del Acero, informe mensual</a></p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con los informes mensuales de la Cámara Argentina del Acero.</span></p>
                 </article>
               )}
             </div>
@@ -285,7 +285,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">Producción por rama</h3>
                   <p class="text-sm text-neutral-500">Cuánto cambió frente al mismo mes del año anterior{industria.ramasPeriodo ? ` · ${mesTexto(industria.ramasPeriodo)}` : ''}</p>
                   <div id="g-ramas" class="mt-3 h-80 w-full" role="img" aria-label="Barras horizontales con la variación interanual de la producción de cada rama metalúrgica"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href="https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-6-14" target="_blank" rel="noopener noreferrer">INDEC, Índice de producción industrial manufacturero (IPI)</a></p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con el índice de producción industrial (IPI) del INDEC.</span></p>
                 </article>
               )}
               {industria.empleo.length > 0 && (
@@ -293,7 +293,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">Empleo en la metalurgia</h3>
                   <p class="text-sm text-neutral-500">Puestos de trabajo registrados del sector privado, por trimestre · sin terminales automotrices</p>
                   <div id="g-empleo" class="mt-3 h-80 w-full" role="img" aria-label="Línea de puestos de trabajo registrados en la metalurgia por trimestre"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteEmpleo} target="_blank" rel="noopener noreferrer">OEDE, Ministerio de Capital Humano, sobre datos del SIPA</a></p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con datos del Ministerio de Capital Humano (OEDE) sobre registros del SIPA.</span></p>
                 </article>
               )}
               {industria.importaciones.length > 0 && (
@@ -301,7 +301,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">Importaciones que compiten con la industria local</h3>
                   <p class="text-sm text-neutral-500">Acero, aluminio, herramientas, maquinaria, línea blanca, autopartes y equipos eléctricos · millones de dólares por mes</p>
                   <div id="g-impo" class="mt-3 h-64 w-full" role="img" aria-label="Barras de importaciones metalúrgicas mensuales en millones de dólares"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteImpo} target="_blank" rel="noopener noreferrer">INDEC, comercio exterior de bienes</a></p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con datos de comercio exterior del INDEC.</span></p>
                 </article>
               )}
               {industria.maquinaria.length > 0 && (
@@ -309,7 +309,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">Maquinaria agrícola: nacional o importada</h3>
                   <p class="text-sm text-neutral-500">Tractores, cosechadoras e implementos vendidos por trimestre (unidades)</p>
                   <div id="g-maquinaria" class="mt-3 h-64 w-full" role="img" aria-label="Barras apiladas de maquinaria agrícola vendida, nacional e importada"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href="https://www.indec.gob.ar/indec/web/Nivel4-Tema-3-6-17" target="_blank" rel="noopener noreferrer">INDEC, Indicadores de coyuntura de la actividad de maquinaria agrícola</a></p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: Observatorio de la Industria Metalúrgica · Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con datos de maquinaria agrícola del INDEC.</span></p>
                 </article>
               )}
             </div>
@@ -326,7 +326,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">El Niño y La Niña</h3>
                   <p class="text-sm text-neutral-500">Temperatura del mar en el Pacífico (región Niño 3.4), cuánto se aparta de lo normal. Más de +0,5 °C es El Niño; menos de −0,5 °C es La Niña.</p>
                   <div id="g-nino" class="mt-3 h-64 w-full" role="img" aria-label="Barras de la anomalía de temperatura del mar en la región Niño 3.4"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={clima.fuenteNinoUrl} target="_blank" rel="noopener noreferrer">{clima.fuenteNino}</a>, procesado por DOTS · Observatorio. Referencia 1991-2020.</p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con la temperatura del mar de la NOAA (ERSST v5). Referencia 1991-2020.</span></p>
                 </article>
               )}
               {clima.lluviaEnso.length > 0 && (
@@ -334,7 +334,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">¿Cuánto más llueve con El Niño?</h3>
                   <p class="text-sm text-neutral-500">Lluvia de octubre a marzo con El Niño fuerte y con La Niña, comparada con los años normales (%), ciudad por ciudad</p>
                   <div id="g-lluvia-enso" class="mt-3 h-[560px] w-full" role="img" aria-label="Barras por ciudad: cuánto cambia la lluvia de octubre a marzo con El Niño fuerte y con La Niña"></div>
-                  <p class="text-xs text-neutral-500">Fuente: Copernicus ERA5 (vía Open-Meteo) e índice ONI de la NOAA, procesados por DOTS · Observatorio. Período {clima.lluviaEnsoPeriodo || '1991-2026'}. Ojo: desde 1991 hubo pocas temporadas de El Niño fuerte (1997-98, 2015-16 y 2023-24), así que es una tendencia, no una regla.</p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con datos de Copernicus ERA5 y el índice ONI de la NOAA. Período {clima.lluviaEnsoPeriodo || '1991-2026'}. Desde 1991 hubo pocas temporadas de El Niño fuerte (1997-98, 2015-16 y 2023-24): es una tendencia, no una regla.</span></p>
                 </article>
               )}
               {clima.pronostico.length > 0 && (
@@ -342,7 +342,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">¿Sigue El Niño? El pronóstico</h3>
                   <p class="text-sm text-neutral-500">Probabilidad de El Niño, neutral o La Niña en los próximos trimestres (cada barra son tres meses: NDE = noviembre, diciembre y enero)</p>
                   <div id="g-pronostico" class="mt-3 h-64 w-full" role="img" aria-label="Barras apiladas con la probabilidad de El Niño, neutral y La Niña por trimestre"></div>
-                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={clima.pronosticoUrl} target="_blank" rel="noopener noreferrer">Centro de Predicción Climática de la NOAA</a>{clima.pronosticoEmitido ? `, emitido ${mesTexto(clima.pronosticoEmitido)}` : ''}. Recopilado por DOTS · Observatorio.</p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con el pronóstico del Centro de Predicción Climática de la NOAA{clima.pronosticoEmitido ? `, emitido ${mesTexto(clima.pronosticoEmitido)}` : ''}.</span></p>
                 </article>
               )}
               {clima.focos.length > 0 && (
@@ -350,7 +350,7 @@ const datosGraficos = {
                   <h3 class="font-display text-lg font-bold text-ink">Focos de incendio en la Argentina</h3>
                   <p class="text-sm text-neutral-500">Puntos de calor detectados por satélite, por mes · el último mes está en curso</p>
                   <div id="g-focos" class="mt-3 h-64 w-full" role="img" aria-label="Barras de focos de incendio detectados por satélite en la Argentina por mes"></div>
-                  <p class="text-xs text-neutral-500">Fuente: {clima.focosFuente}, procesado por DOTS · Observatorio.</p>
+                  <p class="text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con detecciones satelitales de focos de calor de la NASA (FIRMS MODIS).</span></p>
                 </article>
               )}
               {clima.evacuados.length > 0 && (
@@ -362,11 +362,11 @@ const datosGraficos = {
                       <li class="py-3">
                         <p class="text-[13px] font-bold text-ink">{e.pais} <span class="font-normal text-neutral-500">· {diaTexto(e.fecha)}</span></p>
                         <p class="mt-1 text-[14px] leading-snug text-neutral-700">{e.texto}{e.texto.length >= 260 ? '…' : ''}</p>
-                        {e.url && <a class="mt-1 inline-block text-xs text-neutral-500 underline" href={e.url} target="_blank" rel="noopener noreferrer">{e.organismo}</a>}
+                        <p class="mt-1 text-[11px] text-neutral-400">{e.organismo}</p>
                       </li>
                     ))}
                   </ul>
-                  <p class="mt-1 text-xs text-neutral-500">Fuente: OPS/OMS, Monitoreo de Amenazas Naturales, que resume los partes oficiales. Recopilado por DOTS · Observatorio. Las cifras son las que informó cada organismo.</p>
+                  <p class="mt-1 text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con los partes oficiales de cada país que resume la OPS/OMS. Las cifras son las que informó cada organismo.</span></p>
                 </article>
               )}
               {clima.rios && (
@@ -383,7 +383,7 @@ const datosGraficos = {
                       <li class="flex items-center justify-between gap-3 py-2"><span><strong class="text-ink">{a.lugar}</strong> <span class="text-neutral-500">· río {a.rio}</span></span><span class="shrink-0 text-xs font-bold text-neutral-700">{a.nivel}</span></li>
                     ))}
                   </ul>
-                  <p class="mt-2 text-xs text-neutral-500">Fuente: alturas de ríos oficiales, procesadas por DOTS · Observatorio. Actualizado {new Date(clima.rios.actualizado).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' })}.</p>
+                  <p class="mt-2 text-xs text-neutral-500"><strong class="font-semibold text-neutral-700">Fuente: DOTS · Observatorio de Diario Federal</strong><br /><span class="text-[11px] text-neutral-400">Elaborado con alturas de ríos oficiales de la región. Actualizado {new Date(clima.rios.actualizado).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' })}.</span></p>
                 </article>
               )}
             </div>

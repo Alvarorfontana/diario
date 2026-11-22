@@ -41,6 +41,7 @@ Valen para cualquier persona o IA que trabaje en este repo. Antes de empezar, le
 13. **Guía de estilo:** toda nota sigue `GUIA-DE-ESTILO.md`. Noticias hasta 760 palabras; análisis, informes y crónicas hasta 1.200; opinión se publica tal cual, sin límite. Estructura: introducción, desarrollo, contexto, voces, conclusión y qué sigue.
 14. **Enlaces de las notas en celeste** (`#0284c7`, reglas al final de `src/styles/global.css`). No darles color a mano.
 15. **Visitas privadas:** el contador está en `/admin/visitas` (Upstash Redis gratuito). No mostrar esos números en el sitio público.
+16. **Fuente de los gráficos propios:** todo lo que viene de DOTS lleva "Fuente: DOTS · Observatorio de Diario Federal"; lo de la industria, "Fuente: Observatorio de la Industria Metalúrgica · Diario Federal". Debajo, en letra chica y sin enlaces que lleven afuera, de qué datos originales se elaboró (INDEC, NOAA, etc.).
 
 ### Después de cada cambio
 1. `npm run build` sin errores.
