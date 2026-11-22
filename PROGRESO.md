@@ -147,3 +147,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nuevo bloque "Sobre la firma" al final de la nota (`src/components/SobreLaFirma.astro`): foto en blanco y negro, nombre, "Ver biografía" desplegable si hay bio en AUTORES, y enlace a todas sus notas.
 - "Últimas noticias" muestra la hora (o la fecha si no es de hoy). La página se arma en cada visita: se actualiza sola, sin despliegues extra.
 - Pendiente: cargar bios en AUTORES (Emilio Lahitte, Claudio Vila, Camilo Fernández y demás) para que aparezca "Ver biografía".
+
+## 2026-11-22 · Cosas tomadas de Le Figaro
+- Barra de accesos abajo en el celular (`src/components/BarraInferior.astro`): Portada, El Flash, Canal, Escuchar y Regiones. No sale en las notas (ahí está "Seguí leyendo") ni en /admin.
+- "Escuchá esta nota" en azul (#1a73e8), botón cuadrado como Le Figaro. Excepción a la regla "sin azul" pedida por Álvaro.
+- Decidido: no poner "Creá tu cuenta" ni nada que trabe la lectura. Los mails se juntan con los boletines.

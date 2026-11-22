@@ -1,0 +1,37 @@
+---
+// Barra fija abajo en el celular (estilo Le Figaro): accesos directos a portada,
+// flash, canal, audio y regiones. No sale en las notas (ahí está "Seguí leyendo")
+// ni en el panel /admin.
+const ruta = Astro.url.pathname;
+const mostrar = !ruta.startsWith('/articulo/') && !ruta.startsWith('/admin');
+const items = [
+	{ href: '/', label: 'Portada', activo: ruta === '/', icono: 'M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z' },
+	{ href: '/flash/', label: 'El Flash', activo: ruta.startsWith('/flash'), icono: 'M13 2 4 14h7l-1 8 9-12h-7z' },
+	{ href: '/canal/', label: 'Canal', activo: ruta.startsWith('/canal'), icono: 'M3 6h18v12H3zM10 9.5v5l4.5-2.5z' },
+	{ href: '/escuchar/', label: 'Escuchar', activo: ruta.startsWith('/escuchar'), icono: 'M4 15v-3a8 8 0 0 1 16 0v3M4 15h3v5H5a1 1 0 0 1-1-1zM20 15h-3v5h2a1 1 0 0 0 1-1z' },
+	{ href: '/#portada-regional', label: 'Regiones', activo: ruta.startsWith('/region'), icono: 'M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21zM12 12a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z' },
+];
+---
+
+{mostrar && (
+	<nav id="barra-inferior" aria-label="Accesos rápidos" class="fixed inset-x-0 bottom-0 z-40 border-t border-[#e2e2dc] bg-white/97 backdrop-blur md:hidden" style="padding-bottom: env(safe-area-inset-bottom, 0px);" data-no-imprimir>
+		<ul class="mx-auto flex max-w-[640px] items-stretch justify-between">
+			{items.map((it) => (
+				<li class="flex-1">
+					<a href={it.href} aria-current={it.activo ? 'page' : undefined} class={`flex flex-col items-center gap-1 pt-2 pb-1.5 font-sans text-[11px] font-semibold ${it.activo ? 'text-brand' : 'text-ink'}`}>
+						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d={it.icono}></path></svg>
+						{it.label}
+					</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+)}
+
+<style is:global>
+	@media (max-width: 767px) {
+		body:has(#barra-inferior) { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+		body:has(#barra-inferior) #instalar-app { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
+	}
+	@media print { #barra-inferior { display: none !important; } }
+</style>

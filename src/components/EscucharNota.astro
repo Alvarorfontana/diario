@@ -30,7 +30,7 @@ const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 			<div class="flex items-center gap-2">
 				<button
 					type="button"
-					class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white transition-colors hover:bg-brand-dark"
+					class="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[#1a73e8] text-white transition-colors hover:bg-[#1558b0]"
 					aria-label="Escuchar la nota"
 					data-play
 				>
@@ -40,7 +40,7 @@ const minutos = duracion ? Math.max(1, Math.round(duracion / 60)) : 0;
 
 				<div class="min-w-0 flex-1">
 					<div class="flex items-baseline justify-between gap-2">
-						<p class="truncate text-[13px] font-bold text-ink">Escuchá esta nota<span class="hidden font-normal text-neutral-500 sm:inline">{duracion ? ` · ${minutos} min` : ''}</span></p>
+						<p class="truncate text-[13px] font-bold text-[#1a73e8]">Escuchá esta nota<span class="hidden font-normal text-neutral-500 sm:inline">{duracion ? ` · ${minutos} min` : ''}</span></p>
 						<p class="shrink-0 text-[11px] tabular-nums text-neutral-500"><span data-actual>0:00</span> / <span data-total>{mmss(duracion)}</span></p>
 					</div>
 					<input
