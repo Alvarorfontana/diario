@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-21",
-  "dateLabel": "21/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-21-10ea104fc535.mp3",
-  "video": "/boletines/boletin-principal-2026-11-21-10ea104fc535.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-21-10ea104fc535.png",
+  "date": "2026-11-22",
+  "dateLabel": "22/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-22-24cfb31b6758.mp3",
+  "video": "/boletines/boletin-principal-2026-11-22-24cfb31b6758.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-22-24cfb31b6758.png",
   "duracion": 89,
   "voz": "es-AR-TomasNeural",
-  "hash": "10ea104fc535",
+  "hash": "24cfb31b6758",
   "items": [
+    {
+      "slug": "2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense",
+      "title": "Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense",
+      "section": "argentina",
+      "url": "/articulo/2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense/"
+    },
     {
       "slug": "2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas",
       "title": "Seis de cada diez máquinas paradas: la metalurgia llegó al límite",
@@ -38,12 +44,6 @@
       "title": "Patentes: el Senado abrió la puerta que pidió Washington, pero se guardó una llave",
       "section": "economia",
       "url": "/articulo/2026-11-20-patentes-pct-senado-reserva-laboratorios/"
-    },
-    {
-      "slug": "2026-11-19-saul-ubaldini-a-20-anos",
-      "title": "Saúl Ubaldini, a 20 años: la voz ronca del movimiento obrero",
-      "section": "argentina",
-      "url": "/articulo/2026-11-19-saul-ubaldini-a-20-anos/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
