@@ -170,3 +170,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 - Se sumaron 4 gráficos más al observatorio metalúrgico, con datos que ya juntan sus robots (sin robots nuevos): producción por rama (IPI, variación interanual), empleo registrado por trimestre (OEDE-SIPA, sin terminales), importaciones que compiten (INDEC comex) y maquinaria agrícola nacional vs. importada (INDEC).
 - DOTS: nuevo gráfico "¿Cuánto más llueve con El Niño?" (lluvia oct-mar con El Niño fuerte y con La Niña frente a años neutrales, 24 ciudades), de `data/enso_sudamerica.json` de observatorio-agro. DOTS guarda casi todo dentro de su propio sitio con clave; los archivos públicos son pocos.
+- DOTS: los robots guardan sus resultados en la rama `datos` de observatorio-agro (no en main). Ahora el diario lee de ahí: ríos de la Cuenca del Plata (cada 2 horas), pronóstico de El Niño de la NOAA, focos de incendio en la Argentina (NASA FIRMS) y evacuados por país (partes oficiales resumidos por OPS).
+- Resuelto el pendiente del robot de ríos: funcionaba, se estaba leyendo la rama equivocada.

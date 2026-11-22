@@ -43,6 +43,16 @@ export interface DatosClima {
 	nino34: Punto[];
 	fuenteNino: string;
 	fuenteNinoUrl: string;
+	// Pronóstico oficial de la NOAA: probabilidad de El Niño, neutral y La Niña por trimestre
+	pronostico: { trimestre: string; nino: number; neutral: number; nina: number }[];
+	pronosticoEmitido: string;
+	pronosticoUrl: string;
+	// Focos de incendio detectados por satélite en la Argentina, por mes
+	focos: { periodo: string; valor: number }[];
+	focosFuente: string;
+	// Último parte de evacuados por país
+	evacuados: { pais: string; fecha: string; texto: string; organismo: string; url: string }[];
+	evacuadosNota: string;
 	// Lluvia de octubre a marzo con El Niño fuerte y con La Niña, frente a años neutrales (%), por ciudad
 	lluviaEnso: { ciudad: string; ninoFuerte: number | null; nina: number | null }[];
 	lluviaEnsoPeriodo: string;
@@ -132,11 +142,25 @@ export async function datosIndustria(): Promise<DatosIndustria | null> {
 
 export async function datosClima(): Promise<DatosClima | null> {
 	const base = `${RAW}/observatorio-agro/main`;
-	const [enso, crecidas, ensoSA] = await Promise.all([
+	// Los robots de DOTS guardan sus resultados en la rama "datos" (así no publican la web de DOTS a cada rato).
+	const datos = `${RAW}/observatorio-agro/datos/data`;
+	const [enso, crecidas, ensoSA, pron, focosH, evac] = await Promise.all([
 		leer(`${base}/public/data/enso-ersst.json`),
-		leer(`${base}/data/nino_crecidas.json`),
-		leer(`${base}/data/enso_sudamerica.json`),
+		leer(`${datos}/nino_crecidas.json`),
+		leer(`${datos}/enso_sudamerica.json`),
+		leer(`${datos}/enso_pronostico.json`),
+		leer(`${datos}/focos_historia.json`),
+		leer(`${datos}/evacuados.json`),
 	]);
+	const pronostico = (pron?.cpc?.probabilidades ?? []).slice(0, 9).map((p: any) => ({ trimestre: p.season, nino: p.el_nino ?? 0, neutral: p.neutral ?? 0, nina: p.la_nina ?? 0 }));
+	const mesesFocos = Object.keys(focosH?.months ?? {}).sort().slice(-24);
+	const focos = mesesFocos.map((m) => ({
+		periodo: m,
+		valor: Object.entries<number>(focosH.months[m]?.prov ?? {}).reduce((acc, [k, v]) => (k.startsWith('Argentina|') ? acc + (Number(v) || 0) : acc), 0),
+	}));
+	const evacuados = Object.values<any>(evac?.ultimo_por_pais ?? {})
+		.sort((a, b) => String(b.fecha_informe).localeCompare(String(a.fecha_informe)))
+		.map((e) => ({ pais: e.pais, fecha: e.fecha_informe, texto: String(e.texto ?? '').slice(0, 260), organismo: e.organismo || e.fuente || 'OPS', url: e.url }));
 	// Ciudades argentinas y de la Cuenca del Plata, de norte a sur.
 	const CIUDADES: [string, string][] = [
 		['salta', 'Salta'], ['tucuman', 'Tucumán'], ['santiago-del-estero', 'Santiago del Estero'], ['formosa', 'Formosa'],
@@ -166,6 +190,10 @@ export async function datosClima(): Promise<DatosClima | null> {
 			alertas: (crecidas.alertas ?? []).filter((a: any) => a.level !== 'Normal').slice(0, 8).map((a: any) => ({ lugar: a.place, rio: a.river, nivel: a.level })),
 		};
 	}
-	if (!nino34.length && !rios && !lluviaEnso.length) return null;
-	return { lluviaEnso, lluviaEnsoPeriodo: ensoSA?.period ?? '', nino34, fuenteNino: enso?.source ?? 'NOAA', fuenteNinoUrl: enso?.source_url ?? 'https://psl.noaa.gov/', rios };
+	if (!nino34.length && !rios && !lluviaEnso.length && !pronostico.length) return null;
+	return {
+		pronostico, pronosticoEmitido: pron?.cpc?.emitido ?? '', pronosticoUrl: pron?.cpc?.url ?? 'https://www.cpc.ncep.noaa.gov/',
+		focos, focosFuente: focosH?.source ?? 'NASA FIRMS',
+		evacuados, evacuadosNota: evac?.nota ?? '',
+		lluviaEnso, lluviaEnsoPeriodo: ensoSA?.period ?? '', nino34, fuenteNino: enso?.source ?? 'NOAA', fuenteNinoUrl: enso?.source_url ?? 'https://psl.noaa.gov/', rios };
 }
