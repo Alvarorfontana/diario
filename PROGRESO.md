@@ -134,3 +134,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nueva nota "Seis de cada diez máquinas paradas: la metalurgia llegó al límite" (economía, Redacción Diario Federal, 1.196 palabras). Portada: gráfico producción vs. empleo por rama (INDEC y OEDE–SIPA), con epígrafe y fuente. Datos del observatorio MIDTM.
 - Pendiente: el cierre es de postura y no incluye un "qué sigue" con fecha.
 - Firmas de la redacción (Redacción, Redacción Diario Federal, Diario Federal, Redacción Federal, Mesa Internacional) llevan el isotipo del diario como foto (/autores/redaccion.svg).
+
+## 2026-11-22 · Nota: Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense
+- Análisis político, firma Emilio Lahitte (Argentina, región Buenos Aires) · 1.100 palabras aprox. · dentro del límite de 1.200.
+- Foto del Congreso provincial transmitido en pantalla (`public/uploads/2026-11-22-pj-bonaerense-congreso.jpg`), con epígrafe y fuente: prensa Jorge Ferraresi.
+- Enlaza a la nota del 18/11 sobre San Fernando. Incluye recuadro sobre la interna del 15 de marzo.
+- Pendiente: actualizar el "qué sigue" después de la sesión del Senado del jueves 26 sobre las PASO.
