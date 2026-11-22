@@ -158,3 +158,11 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Fotos de la nota se agrandan a pantalla completa con su epígrafe (`FotoAmpliable.astro`).
 - Aviso de nota vieja arriba del título si tiene más de 6 meses (estilo The Guardian).
 - "Actualizado: día - hora" debajo de la firma. El panel /admin lo marca solo al editar una nota ya publicada (`updatedDate`).
+
+## 2026-11-22 · Observatorios en el Laboratorio de datos
+- Nueva sección "Observatorios de Diario Federal" en /datos (`src/lib/observatorios.ts`). Lee los archivos públicos que publican los robots de los otros repos, sin tocarlos:
+  - Industria metalúrgica (repo miprimerrepo): capacidad usada metalmecánica / metales básicos / industria (INDEC), acero crudo (Cámara Argentina del Acero) y plantas en alerta del semáforo.
+  - DOTS (repo observatorio-agro): El Niño / La Niña, región Niño 3.4 (NOAA ERSST v5) y estado de los ríos de la Cuenca del Plata.
+- Los ríos solo se muestran si el dato tiene menos de 48 horas, para no mostrar alertas viejas como actuales.
+- Tarjeta "Laboratorio de datos" en el costado de cada nota, con enlace a los gráficos.
+- Pendiente: `data/nino_crecidas.json` en observatorio-agro está sin actualizar desde el 18/10; revisar el robot nino-crecidas en ese repo. Hasta entonces el bloque de ríos no aparece.

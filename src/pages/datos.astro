@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
+import { datosIndustria, datosClima } from '../lib/observatorios';
 
 // Se arma en cada visita (con caché de una hora en Vercel) para que los datos del proceso diario
 // aparezcan sin esperar un nuevo deploy: los commits automáticos no disparan deploy en Vercel.
@@ -17,6 +18,8 @@ async function leer(nombre: string) {
   return incluidos[`../../data/laboratorio/${nombre}.json`] ?? null;
 }
 const [ipc, riesgo, dolar, reservas, fmi] = await Promise.all(['inflacion', 'riesgo-pais', 'dolar', 'reservas', 'fmi'].map(leer));
+// Observatorios propios (industria metalúrgica y DOTS): se leen de los archivos que publican sus robots.
+const [industria, clima] = await Promise.all([datosIndustria(), datosClima()]);
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -43,6 +46,8 @@ const datosGraficos = {
   dolar: dolar ? dolar.serie : [],
   reservas: reservas ? reservas.serie : [],
   fmi: { anio: anioFmi, filas: filasFmi },
+  industria,
+  clima,
 };
 ---
 
@@ -216,6 +221,101 @@ const datosGraficos = {
       </a>
     </section>
 
+    <!-- OBSERVATORIOS PROPIOS: industria metalúrgica y DOTS (clima y ríos). Se actualizan solos con sus robots. -->
+    {(industria || clima) && (
+      <section id="observatorios" class="mt-8 scroll-mt-20" aria-labelledby="obs-titulo">
+        <div class="flex flex-wrap items-end justify-between gap-2">
+          <h2 id="obs-titulo" class="font-display text-2xl font-extrabold text-ink">Observatorios de Diario Federal</h2>
+          <p class="text-xs text-neutral-500">Datos propios que se actualizan solos · con su fuente</p>
+        </div>
+
+        {industria && (
+          <div class="mt-4">
+            <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">Industria metalúrgica</p>
+            <div class="mt-2 grid grid-cols-2 gap-3 lg:grid-cols-4">
+              {industria.ucMetalmecanica.at(-1) && (
+                <div class="rounded-xl border border-neutral-200 bg-white p-4">
+                  <p class="text-xs font-semibold text-neutral-500">Capacidad usada · metalmecánica</p>
+                  <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(industria.ucMetalmecanica.at(-1)!.valor, 1)} %</p>
+                  <p class="mt-1 text-xs text-neutral-500">{mesTexto(industria.ucMetalmecanica.at(-1)!.periodo)} · INDEC</p>
+                </div>
+              )}
+              {industria.ucGeneral.at(-1) && (
+                <div class="rounded-xl border border-neutral-200 bg-white p-4">
+                  <p class="text-xs font-semibold text-neutral-500">Capacidad usada · toda la industria</p>
+                  <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(industria.ucGeneral.at(-1)!.valor, 1)} %</p>
+                  <p class="mt-1 text-xs text-neutral-500">{mesTexto(industria.ucGeneral.at(-1)!.periodo)} · INDEC</p>
+                </div>
+              )}
+              {industria.acero.at(-1) && (
+                <div class="rounded-xl border border-neutral-200 bg-white p-4">
+                  <p class="text-xs font-semibold text-neutral-500">Acero crudo producido</p>
+                  <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{n(industria.acero.at(-1)!.crudo / 1000)} mil t</p>
+                  <p class="mt-1 text-xs text-neutral-500">{mesTexto(industria.acero.at(-1)!.periodo)}{industria.acero.at(-1)!.varInteranual != null ? ` · ${industria.acero.at(-1)!.varInteranual! > 0 ? '+' : ''}${n(industria.acero.at(-1)!.varInteranual!, 1)} % interanual` : ''} · Cámara Argentina del Acero</p>
+                </div>
+              )}
+              {industria.plantasTotal > 0 && (
+                <div class="rounded-xl border border-neutral-200 bg-white p-4">
+                  <p class="text-xs font-semibold text-neutral-500">Plantas en alerta</p>
+                  <p class="mt-1 font-display text-3xl font-extrabold text-ink tabular-nums">{industria.plantasRojo + industria.plantasAmarillo} <span class="text-base font-semibold text-neutral-500">de {industria.plantasTotal}</span></p>
+                  <p class="mt-1 text-xs text-neutral-500">{industria.plantasRojo} en rojo y {industria.plantasAmarillo} en amarillo · cierres, despidos y suspensiones informados</p>
+                </div>
+              )}
+            </div>
+            <div class="mt-4 grid gap-4 md:grid-cols-2">
+              <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                <h3 class="font-display text-lg font-bold text-ink">¿Cuánto de las fábricas se usa?</h3>
+                <p class="text-sm text-neutral-500">Capacidad instalada en uso · últimos 36 meses</p>
+                <div id="g-capacidad" class="mt-3 h-64 w-full" role="img" aria-label="Líneas de capacidad usada en la metalmecánica, los metales básicos y toda la industria"></div>
+                <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.fuenteIndec} target="_blank" rel="noopener noreferrer">INDEC, Utilización de la capacidad instalada en la industria</a></p>
+              </article>
+              {industria.acero.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Producción de acero crudo</h3>
+                  <p class="text-sm text-neutral-500">Miles de toneladas por mes</p>
+                  <div id="g-acero" class="mt-3 h-64 w-full" role="img" aria-label="Barras de producción mensual de acero crudo"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={industria.acero.at(-1)!.fuente} target="_blank" rel="noopener noreferrer">Cámara Argentina del Acero, informe mensual</a></p>
+                </article>
+              )}
+            </div>
+          </div>
+        )}
+
+        {clima && (
+          <div class="mt-7">
+            <p class="text-[11px] font-extrabold tracking-widest text-brand uppercase">DOTS · Clima y ríos</p>
+            <div class="mt-2 grid gap-4 md:grid-cols-2">
+              {clima.nino34.length > 0 && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">El Niño y La Niña</h3>
+                  <p class="text-sm text-neutral-500">Temperatura del mar en el Pacífico (región Niño 3.4), cuánto se aparta de lo normal. Más de +0,5 °C es El Niño; menos de −0,5 °C es La Niña.</p>
+                  <div id="g-nino" class="mt-3 h-64 w-full" role="img" aria-label="Barras de la anomalía de temperatura del mar en la región Niño 3.4"></div>
+                  <p class="text-xs text-neutral-500">Fuente: <a class="underline" href={clima.fuenteNinoUrl} target="_blank" rel="noopener noreferrer">{clima.fuenteNino}</a>, procesado por DOTS · Observatorio. Referencia 1991-2020.</p>
+                </article>
+              )}
+              {clima.rios && (
+                <article class="rounded-xl border border-neutral-200 bg-white p-4 sm:p-5">
+                  <h3 class="font-display text-lg font-bold text-ink">Ríos de la Cuenca del Plata</h3>
+                  <p class="text-sm text-neutral-500">Estado de las localidades que sigue el observatorio</p>
+                  <div class="mt-3 flex flex-wrap gap-2 text-xs font-bold">
+                    {['Evacuación', 'Alerta', 'Atención', 'Normal'].map((nv) => (
+                      <span class={`rounded-full px-3 py-1 ${nv === 'Evacuación' ? 'bg-[#c8102e] text-white' : nv === 'Alerta' ? 'bg-[#eda100] text-white' : nv === 'Atención' ? 'bg-[#fff4cc] text-[#6b4e00]' : 'bg-[#e8f5ee] text-[#1b6b45]'}`}>{nv}: {clima.rios!.niveles[nv] ?? 0}</span>
+                    ))}
+                  </div>
+                  <ul class="mt-3 divide-y divide-[#eeeeea] text-sm">
+                    {clima.rios.alertas.map((a) => (
+                      <li class="flex items-center justify-between gap-3 py-2"><span><strong class="text-ink">{a.lugar}</strong> <span class="text-neutral-500">· río {a.rio}</span></span><span class="shrink-0 text-xs font-bold text-neutral-700">{a.nivel}</span></li>
+                    ))}
+                  </ul>
+                  <p class="mt-2 text-xs text-neutral-500">Fuente: alturas de ríos oficiales, procesadas por DOTS · Observatorio. Actualizado {new Date(clima.rios.actualizado).toLocaleString('es-AR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'America/Argentina/Buenos_Aires' })}.</p>
+                </article>
+              )}
+            </div>
+          </div>
+        )}
+      </section>
+    )}
+
     <section class="mt-8 border-t border-neutral-200 pt-5">
       <h2 class="font-display text-xl font-bold text-ink">Fuentes y metodología</h2>
       <div class="mt-3 grid gap-3 text-sm sm:grid-cols-3">
@@ -376,6 +476,37 @@ const datosGraficos = {
       xAxis: { type: 'category', data: lab.reservas.map((p: any) => p.fecha), ...ejesFecha },
       yAxis: { type: 'value', scale: true, ...grilla, axisLabel: { color: '#737373', formatter: (v: number) => fmtN(v / 1000) + ' mil' } },
       series: [{ name: 'Reservas', type: 'line', showSymbol: false, lineStyle: { width: 2, color: ROJO }, itemStyle: { color: ROJO }, areaStyle: { color: 'rgba(200,16,46,0.08)' }, data: lab.reservas.map((p: any) => p.valor) }],
+    });
+    if (lab.industria?.ucMetalmecanica?.length) {
+      const ind = lab.industria;
+      const meses = ind.ucMetalmecanica.map((p: any) => p.periodo);
+      const valor = (serie: any[]) => meses.map((m: string) => serie.find((p: any) => p.periodo === m)?.valor ?? null);
+      grafico('g-capacidad', {
+        grid: { left: 38, right: 12, top: 12, bottom: 70 },
+        legend: { bottom: 0, textStyle: { color: '#525252', fontSize: 11 } },
+        tooltip: { trigger: 'axis', valueFormatter: (v: any) => fmtN(v, 1) + ' %' },
+        xAxis: { type: 'category', data: meses.map((m: string) => m.slice(5) + '/' + m.slice(2, 4)), ...ejes },
+        yAxis: { type: 'value', min: 0, max: 100, axisLabel: { color: '#737373', formatter: '{value} %' }, ...grilla },
+        series: [
+          { name: 'Metalmecánica', type: 'line', showSymbol: false, lineStyle: { width: 2.5 }, color: ROJO, data: valor(ind.ucMetalmecanica) },
+          { name: 'Metales básicos', type: 'line', showSymbol: false, lineStyle: { width: 2 }, color: AMARILLO, data: valor(ind.ucMetalicas) },
+          { name: 'Toda la industria', type: 'line', showSymbol: false, lineStyle: { width: 2, type: 'dashed' }, color: '#7a7a7a', data: valor(ind.ucGeneral) },
+        ],
+      });
+      if (ind.acero?.length) grafico('g-acero', {
+        grid: { left: 38, right: 10, top: 12, bottom: 28 },
+        tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => fmtN(v) + ' mil t' },
+        xAxis: { type: 'category', data: ind.acero.map((p: any) => p.periodo.slice(5) + '/' + p.periodo.slice(2, 4)), ...ejes },
+        yAxis: { type: 'value', axisLabel: { color: '#737373' }, ...grilla },
+        series: [{ name: 'Acero crudo', type: 'bar', data: ind.acero.map((p: any) => Math.round(p.crudo / 1000)), itemStyle: { color: ROJO, borderRadius: [4, 4, 0, 0] }, barCategoryGap: '25%' }],
+      });
+    }
+    if (lab.clima?.nino34?.length) grafico('g-nino', {
+      grid: { left: 40, right: 10, top: 12, bottom: 28 },
+      tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' }, valueFormatter: (v: any) => (v > 0 ? '+' : '') + fmtN(v, 2) + ' °C' },
+      xAxis: { type: 'category', data: lab.clima.nino34.map((p: any) => p.periodo.slice(5) + '/' + p.periodo.slice(2, 4)), ...ejes },
+      yAxis: { type: 'value', axisLabel: { color: '#737373', formatter: '{value} °' }, ...grilla },
+      series: [{ name: 'Niño 3.4', type: 'bar', barCategoryGap: '20%', data: lab.clima.nino34.map((p: any) => ({ value: Math.round(p.valor * 100) / 100, itemStyle: { color: p.valor >= 0.5 ? ROJO : p.valor <= -0.5 ? '#2b6cb0' : '#b5b5b0', borderRadius: 3 } })) }],
     });
     if (lab.fmi?.filas?.length) {
       const filas = lab.fmi.filas;
