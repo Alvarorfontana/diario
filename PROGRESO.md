@@ -181,3 +181,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nota: "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha" (economía, firma Emilio Lahitte) · unas 900 palabras · dentro del límite de 1.200. Imagen principal: gráfico propio (`public/uploads/2026-11-22-rigi-anunciado-vs-real.png`) con epígrafe y fuente.
 - Nueva sección "RIGI: lo anunciado, lo que entró y lo que ya estaba" en /datos (ancla `#rigi`), al final de los bloques, sin sacar nada. Lee `data/laboratorio/rigi.json`: comprometido, ingresado según el BCRA, cronograma por año y los 27 proyectos clasificados según su situación en julio de 2024.
 - Pendiente: actualizar cada trimestre el ingreso de dólares (BCRA) y sumar los proyectos aprobados después de los 27 (La Rinconada y los dos de TGS).
+
+## 2026-11-22 · Nota con los datos del Laboratorio
+- Nota: "El Paraná en evacuación, El Niño firme y la metalurgia al 40%" (Argentina, Redacción Diario Federal) · 913 palabras · dentro del límite de 1.200. Sale en Último momento.
+- Usa los datos en vivo de los dos observatorios (DOTS e industria metalúrgica) y explica qué es el Laboratorio, con enlaces a /datos.
+- Portada: gráfico propio de tres paneles (`public/uploads/2026-11-22-laboratorio-tres-senales.png`) con epígrafe y fuente.
+- Pendiente: anunciar el Laboratorio afuera del sitio (boletín de Brevo y canal de WhatsApp).
