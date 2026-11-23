@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-23",
   "dateLabel": "23/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-23-cc7fb34ffe96.mp3",
-  "video": "/boletines/boletin-principal-2026-11-23-cc7fb34ffe96.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-23-cc7fb34ffe96.png",
-  "duracion": 94,
+  "archivo": "/boletines/boletin-principal-2026-11-23-632c007d2b87.mp3",
+  "video": "/boletines/boletin-principal-2026-11-23-632c007d2b87.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-23-632c007d2b87.png",
+  "duracion": 93,
   "voz": "es-AR-TomasNeural",
-  "hash": "cc7fb34ffe96",
+  "hash": "632c007d2b87",
   "items": [
+    {
+      "slug": "2026-11-23-santucho-la-uba-y-el-silencio-de-grabois",
+      "title": "Santucho, la UBA y el silencio de Grabois",
+      "section": "opinion",
+      "url": "/articulo/2026-11-23-santucho-la-uba-y-el-silencio-de-grabois/"
+    },
     {
       "slug": "2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense",
       "title": "Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense",
@@ -38,12 +44,6 @@
       "title": "El fantasma de 1999: el real se hunde y Llach pide devaluar",
       "section": "economia",
       "url": "/articulo/2026-11-21-fantasma-1999-real-llach-pide-devaluar/"
-    },
-    {
-      "slug": "2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots",
-      "title": "El Niño pone al Paraná en nivel de evacuación frente a Entre Ríos",
-      "section": "argentina",
-      "url": "/articulo/2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
