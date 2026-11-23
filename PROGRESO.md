@@ -187,3 +187,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Usa los datos en vivo de los dos observatorios (DOTS e industria metalúrgica) y explica qué es el Laboratorio, con enlaces a /datos.
 - Portada: gráfico propio de tres paneles (`public/uploads/2026-11-22-laboratorio-tres-senales.png`) con epígrafe y fuente.
 - Pendiente: anunciar el Laboratorio afuera del sitio (boletín de Brevo y canal de WhatsApp).
+
+## 2026-11-23 · Nota de opinión sobre el homenaje a Santucho en la UBA
+- Nota: "Santucho, la UBA y el silencio de Grabois" (Opinión, Claudio Vila) · 3.297 palabras · opinión, sin límite. Con fuentes al pie.
+- Portada de la nota: fotograma de archivo (`public/uploads/santucho-archivo-difilm.jpg`) con epígrafe y fuente Archivo DiFilm.
+- Pendiente: actualizar si Grabois habla o si el Consejo Superior de la UBA se pronuncia (miércoles 25).
