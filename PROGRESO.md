@@ -202,3 +202,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Datos verificados y enlazados a sus fuentes; se corrigieron cifras del borrador que no tenían respaldo (TIR mediana del IAMC, bono de Brasil al 6,4%, revisión de la paritaria en enero).
 - Imagen de tapa: gráfico propio del riesgo país junio-noviembre (`public/uploads/2026-11-24-riesgo-pais-junio-noviembre.png`).
 - Pendiente: actualizar con el resultado del EMAE de septiembre (INDEC, 16 h).
+
+## 2026-11-24 · Nota: el ajuste sobre los cuerpos (PAMI)
+- Nota de análisis "El ajuste sobre los cuerpos: cómo se vació el PAMI" (Argentina, Redacción) · 1.166 palabras · dentro del límite de 1.200. Marcada como tapa.
+- Datos enlazados a sus fuentes (CEPA, OPC, Decreto 1412/2026, prestadores). Tres gráficos propios en el cuerpo y foto de sede del PAMI (archivo) con epígrafe.
+- Pendiente: buscar crédito real de la foto o reemplazarla por una propia; actualizar con los pagos a prestadores de diciembre.
