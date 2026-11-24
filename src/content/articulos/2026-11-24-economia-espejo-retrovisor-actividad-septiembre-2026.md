@@ -3,10 +3,10 @@ title: "La economía en el espejo retrovisor: la Argentina conoce hoy los númer
 volanta: "ACTIVIDAD ECONÓMICA"
 description: "El INDEC publicó los datos de actividad de septiembre: diez sectores retrocedieron y la industria volvió a mostrar dificultades. Mientras tanto, los indicadores de octubre y las expectativas empresariales anticipan un escenario complejo."
 section: economia
-author: "Redacción Economía"
+author: "Emilio Lahitte"
 pubDate: 2026-11-24T17:40:00
-heroImage: "https://www.supplychainbrain.com/ext/resources/2025/07/03/argentina-manufacturing-factory-iStock-1198042349.webp"
-imageCaption: "Imagen ilustrativa de una planta industrial."
+heroImage: "/images/emae-agosto-industria-linea-montaje.jpg"
+imageCaption: "Línea de montaje de motores en una planta industrial. Imagen de archivo."
 tapa: false
 tags: ["Economía", "Actividad económica", "INDEC", "Industria", "Argentina", "EMAE"]
 puntosClave:
@@ -17,7 +17,7 @@ puntosClave:
 
 # La economía en el espejo retrovisor
 
-El Instituto Nacional de Estadística y Censos publicó este martes los datos del Estimador Mensual de Actividad Económica (EMAE) correspondientes a septiembre. El indicador registró una caída interanual del 1,2%, aunque mostró una mejora mensual desestacionalizada del 1,1%. La tendencia-ciclo, en cambio, permaneció sin variación.
+El Instituto Nacional de Estadística y Censos publicó este martes los datos del [Estimador Mensual de Actividad Económica (EMAE) de septiembre](https://www.indec.gob.ar/uploads/informesdeprensa/emae_11_26C3D902DB86.pdf). El indicador registró una caída interanual del 1,2%, aunque mostró una mejora mensual desestacionalizada del 1,1%. La tendencia-ciclo, en cambio, permaneció sin variación.
 
 La publicación permite conocer con precisión qué ocurrió dos meses atrás, pero no describe por sí sola la situación que atraviesa hoy la economía. La Argentina está terminando noviembre y, entre el cierre del período medido y la difusión del informe, la actividad siguió su curso. Esa distancia temporal obliga a leer las estadísticas oficiales junto con otros indicadores más recientes.
 
@@ -25,7 +25,7 @@ El dato de septiembre no debe confundirse con una medición de octubre o noviemb
 
 ## Octubre: las señales que llegan desde las fábricas
 
-Los datos sectoriales más recientes muestran que las dificultades industriales continuaron. La encuesta de tendencia de negocios en la industria manufacturera difundida por el INDEC el 19 de noviembre registró un indicador de confianza empresarial de -20 puntos en octubre.
+Los datos sectoriales más recientes muestran que las dificultades industriales continuaron. La [encuesta de tendencia de negocios en la industria manufacturera](https://www.indec.gob.ar/uploads/informesdeprensa/etn_industria_manufacturera_11_2637A2322143.pdf), difundida por el INDEC el 19 de noviembre, registró un indicador de confianza empresarial de -20 puntos en octubre.
 
 Las expectativas de producción para el período noviembre de 2026-enero de 2027 también reflejaron pesimismo: el balance de respuestas se ubicó en -11,3%. A su vez, casi la mitad de las empresas consultadas —49,9%— consideró que su cartera de pedidos se encontraba por debajo de lo normal. Apenas el 4,2% respondió que estaba por encima de los niveles habituales.
 
@@ -33,7 +33,7 @@ No se trata de una proyección infalible sobre lo que ocurrirá en los próximos
 
 ## La radiografía de septiembre: diez sectores en retroceso
 
-El informe del EMAE mostró que diez de los sectores relevados registraron caídas interanuales y cinco presentaron subas. Entre las bajas de mayor incidencia se ubicaron la pesca, con un retroceso del 48,6%; la intermediación financiera, con una caída del 11,5%; y la industria manufacturera, que descendió 1,8%.
+El informe del [EMAE del INDEC](https://www.indec.gob.ar/uploads/informesdeprensa/emae_11_26C3D902DB86.pdf) mostró que diez de los sectores relevados registraron caídas interanuales y cinco presentaron subas. Entre las bajas de mayor incidencia se ubicaron la pesca, con un retroceso del 48,6%; la intermediación financiera, con una caída del 11,5%; y la industria manufacturera, que descendió 1,8%.
 
 En el otro extremo, la explotación de minas y canteras creció 11,1%, electricidad, gas y agua avanzó 4% y la construcción aumentó 3,5%. La coexistencia de sectores expansivos y contractivos vuelve a mostrar una economía heterogénea, en la que los resultados positivos de algunas actividades no alcanzan necesariamente para compensar las dificultades de otras.
 
