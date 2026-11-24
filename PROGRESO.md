@@ -196,3 +196,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-24
 - Laboratorio de datos, RIGI: corregida la unidad del gráfico "Cuándo llegaría la plata" (decía millones; los valores son miles de millones). Agregados dos gráficos con los datos de `rigi.json`: inversión por provincia y los 10 proyectos más grandes (color según situación antes del RIGI).
 - Pendiente: el RIGI sigue cargándose a mano (no hay fuente oficial con datos descargables); evaluar un robot que avise cuando sale una aprobación nueva en el Boletín Oficial.
+
+## 2026-11-24 · Nota: dólar arriba de $1.600, deuda cara y retroceso industrial
+- Publicada la nota de análisis económico-político firmada por Ramiro De la Puente (737 palabras, dentro del límite de 1.200).
+- Datos verificados y enlazados a sus fuentes; se corrigieron cifras del borrador que no tenían respaldo (TIR mediana del IAMC, bono de Brasil al 6,4%, revisión de la paritaria en enero).
+- Imagen de tapa: gráfico propio del riesgo país junio-noviembre (`public/uploads/2026-11-24-riesgo-pais-junio-noviembre.png`).
+- Pendiente: actualizar con el resultado del EMAE de septiembre (INDEC, 16 h).
