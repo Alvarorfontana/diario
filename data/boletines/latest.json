@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-24",
   "dateLabel": "24/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-24-e9fa9f01dd6a.mp3",
-  "video": "/boletines/boletin-principal-2026-11-24-e9fa9f01dd6a.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-24-e9fa9f01dd6a.png",
-  "duracion": 94,
+  "archivo": "/boletines/boletin-principal-2026-11-24-df89314339b0.mp3",
+  "video": "/boletines/boletin-principal-2026-11-24-df89314339b0.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-24-df89314339b0.png",
+  "duracion": 93,
   "voz": "es-AR-TomasNeural",
-  "hash": "e9fa9f01dd6a",
+  "hash": "df89314339b0",
   "items": [
+    {
+      "slug": "2026-11-24-pami-ajuste-sobre-los-cuerpos",
+      "title": "El ajuste sobre los cuerpos: cómo se vació el PAMI",
+      "section": "argentina",
+      "url": "/articulo/2026-11-24-pami-ajuste-sobre-los-cuerpos/"
+    },
     {
       "slug": "2026-11-24-dolar-1600-deuda-cara-retroceso-industrial",
       "title": "Dólar arriba de $1.600, deuda cara y una industria que no frena su caída",
@@ -38,12 +44,6 @@
       "title": "El Paraná en evacuación, El Niño firme y la metalurgia al 40 por ciento",
       "section": "argentina",
       "url": "/articulo/2026-11-22-laboratorio-de-datos-tres-senales/"
-    },
-    {
-      "slug": "2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas",
-      "title": "Seis de cada diez máquinas paradas: la metalurgia llegó al límite",
-      "section": "economia",
-      "url": "/articulo/2026-11-21-metalurgia-seis-de-cada-diez-maquinas-paradas/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
