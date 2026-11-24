@@ -1,0 +1,567 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LabAreas from '../../components/LabAreas.astro';
+import { SITE_TITLE } from '../../consts';
+
+// Monitor del Congreso (Laboratorio de datos). Se arma en cada visita, como /datos: los datos se leen de
+// data/laboratorio/congreso.json en GitHub, así una actualización de datos no necesita deploy.
+export const prerender = false;
+const incluido = import.meta.glob('../../../data/laboratorio/congreso.json', { eager: true, import: 'default' }) as Record<string, any>;
+const RAW = 'https://raw.githubusercontent.com/Alvarorfontana/diario/main/data/laboratorio/congreso.json';
+let datos: any = null;
+try {
+  const r = await fetch(RAW, { signal: AbortSignal.timeout(4000) });
+  if (r.ok) datos = await r.json();
+} catch {}
+if (!datos) datos = Object.values(incluido)[0] ?? null;
+Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
+---
+
+<BaseLayout
+  title={`Monitor del Congreso | Laboratorio de datos | ${SITE_TITLE}`}
+  description="Qué hacen los diputados y senadores, con datos: leyes por año desde 1983, el recinto banca por banca, asistencia y la ficha de cada legislador."
+  section="Datos"
+>
+  <div class="mx-auto max-w-6xl">
+    <header class="border-b border-neutral-200 pb-5">
+      <p class="text-xs font-extrabold tracking-[0.16em] text-brand uppercase"><a href="/datos/" class="hover:underline">Laboratorio de datos</a> · Congreso</p>
+      <p class="mt-1 font-sans text-xs text-neutral-500" id="fecha"></p>
+      <LabAreas activa="congreso" />
+    </header>
+    <div class="mc" id="congreso">
+
+
+<nav class="tabs" aria-label="Secciones del Monitor del Congreso" id="tabs"></nav>
+
+<!-- RESUMEN -->
+<section class="tab" data-tab="resumen">
+  <div class="kick">Monitor del Congreso</div>
+  <h1>Qué hacen los diputados y senadores, con datos</h1>
+  <p class="lead">Proyectos que presentan, leyes que se aprueban, asistencia a las votaciones y recursos de cada despacho. Los mismos datos y las mismas reglas para todos los bloques.</p>
+  <div class="keys" id="claves"></div>
+  <div class="note">
+    <h2>Contar no es evaluar</h2>
+    <ul>
+      <li>Un número alto no es un buen legislador ni uno bajo es uno malo. Una declaración de beneplácito y una reforma del Código Penal cuentan como un proyecto cada una.</li>
+      <li>Quien acompaña con su voto los proyectos de su bloque o del Gobierno trabaja aunque no figure como autor.</li>
+      <li>Hay trabajo que no se ve en estos datos: comisiones, negociaciones, atención a su provincia, control al Ejecutivo.</li>
+      <li>No hay puntaje final ni lista de mejores y peores.</li>
+    </ul>
+  </div>
+  <div class="band"><h2>Qué vas a encontrar</h2><div class="cards" id="tarjetas"></div></div>
+</section>
+
+<!-- HISTORIA -->
+<section class="tab" data-tab="historia" hidden>
+  <figure class="cf">
+    <div class="kick">Historia</div>
+    <h2>Cuántas leyes sancionó el Congreso cada año desde 1983</h2>
+    <p class="bj" id="hbaj"></p>
+    <div class="aviso" id="hctx"></div>
+    <div class="controls"><div class="seg" role="group" aria-label="Ver por"><button type="button" data-hv="anio" aria-pressed="true">Por año</button><button type="button" data-hv="gob" aria-pressed="false">Por gobierno</button></div></div>
+    <p class="kick hint" id="hhint" hidden>Deslizá el gráfico para ver toda la serie.</p><div class="fig hs" id="hfig"></div>
+    <div class="det" id="hdet" role="status"></div>
+    <p class="src" id="hsrc"></p>
+  </figure>
+</section>
+
+<!-- DIPUTADOS -->
+<section class="tab" data-tab="diputados" hidden>
+  <figure class="cf">
+    <div class="kick">Cámara de Diputados · 257 bancas</div>
+    <h2>La Cámara, banca por banca</h2>
+    <p class="bj" id="dbaj"></p>
+    <div class="controls"><span class="ctl">Pintar las bancas según<div class="seg" role="group" id="dmodo"><button type="button" data-m="bloque" aria-pressed="true">Bloque</button><button type="button" data-m="ley" aria-pressed="false">Proyectos de ley</button></div></span></div>
+    <div class="legend" id="dley"></div>
+    <div class="fig" id="dhemi"></div>
+    <div class="det" id="ddet" role="status">Tocá una banca para ver quién la ocupa.</div>
+    <p class="src" id="dsrc1"></p>
+  </figure>
+
+  <figure class="cf band">
+    <h2>¿Cuántos proyectos de ley presentó cada diputado?</h2>
+    <p class="bj">Diputados agrupados según la cantidad de proyectos de ley que firmaron como autores principales. Tocá una columna para ver los nombres.</p>
+    <div class="controls"><label class="ctl">Diputados<select id="dcoh"><option value="">Todos (257)</option><option value="2023-2027">Desde diciembre de 2023</option><option value="2025-2029">Desde diciembre de 2025</option></select></label></div>
+    <div class="fig" id="dcol"></div>
+    <div class="det" id="dcdet" role="status">Tocá una columna.</div>
+    <p class="src" id="dsrc2"></p>
+  </figure>
+
+  <figure class="cf band">
+    <h2>Qué tipo de proyectos presenta cada bloque</h2>
+    <p class="bj">De cada 100 proyectos que firman como autores principales, cuántos son de ley, de resolución (pedidos de informes, pronunciamientos) o de declaración (beneplácitos, homenajes, repudios). Bloques con 3 diputados o más.</p>
+    <div class="legend"><span><i class="sq" style="background:var(--ley)"></i>Ley</span><span><i class="sq" style="background:var(--res)"></i>Resolución</span><span><i class="sq" style="background:var(--dec)"></i>Declaración</span></div>
+    <div class="rows" id="dblo"></div>
+    <div class="det" id="dbdet" role="status">Tocá un bloque para ver los números.</div>
+  </figure>
+</section>
+
+<!-- SENADO -->
+<section class="tab" data-tab="senado" hidden>
+  <figure class="cf">
+    <div class="kick">Senado de la Nación · 72 bancas</div>
+    <h2>El Senado, banca por banca</h2>
+    <p class="bj" id="sbaj"></p>
+    <div class="controls"><span class="ctl">Pintar las bancas según<div class="seg" role="group" id="smodo"><button type="button" data-m="bloque" aria-pressed="true">Bloque</button><button type="button" data-m="asis" aria-pressed="false">Asistencia</button></div></span></div>
+    <div class="legend" id="sley"></div>
+    <div class="fig" id="shemi"></div>
+    <div class="det" id="sdet" role="status">Tocá una banca para ver quién la ocupa.</div>
+  </figure>
+  <figure class="cf band">
+    <h2>Asistencia a las votaciones, senador por senador</h2>
+    <p class="bj" id="sabaj"></p>
+    <div class="fig" id="sdot"></div>
+    <div class="det" id="sadet" role="status">Tocá un punto.</div>
+    <p class="src" id="ssrc"></p>
+  </figure>
+</section>
+
+<!-- EXPLORADOR -->
+<section class="tab" data-tab="explorar" hidden>
+  <div class="kick">Explorador</div>
+  <h2>Armá tu propio gráfico</h2>
+  <p>Elegí una variable y cómo verla. Tocá un legislador para abrir su ficha completa o un bloque para ver a sus integrantes.</p>
+  <div class="controls">
+    <label class="ctl">Variable<select id="xv"></select></label>
+    <label class="ctl">Ver por<select id="xg"><option value="leg">Legislador</option><option value="b">Bloque</option><option value="p">Provincia</option><option value="c">Cámara</option></select></label>
+    <label class="ctl">Tipo de gráfico<select id="xt"><option value="rank">Ranking</option><option value="dist">Distribución</option><option value="cruce">Cruzar dos variables</option></select></label>
+    <label class="ctl" id="xv2w" hidden>Cruzar con<select id="xv2"></select></label>
+  </div>
+  <div class="controls">
+    <select id="fc" aria-label="Cámara"><option value="">Las dos cámaras</option><option value="D">Diputados</option><option value="S">Senado</option></select>
+    <select id="fb" aria-label="Bloque"><option value="">Todos los bloques</option></select>
+    <select id="fp" aria-label="Provincia"><option value="">Todas las provincias</option></select>
+    <input id="q" type="search" placeholder="Buscar por nombre" aria-label="Buscar por nombre">
+  </div>
+  <figure class="cf" style="border-top:2px solid var(--ink);padding-top:14px">
+    <h3 id="xtit"></h3>
+    <p class="bj" id="xsub" style="font-size:15px"></p>
+    <div id="xout"></div>
+    <div class="det" id="xdet" role="status" hidden></div>
+    <div class="controls"><button class="btn" id="xmas" type="button" hidden>Ver todos</button><button class="btn" id="xcsv" type="button">Copiar datos (CSV)</button><span class="kick" id="xmsg" role="status"></span></div>
+  </figure>
+
+  <div class="band" id="ficha" hidden>
+    <div class="fhead"><div><div class="kick" id="fsub"></div><h2 id="fnom"></h2><p class="kick" id="fmeta"></p></div><button class="btn" id="fcer" type="button">Cerrar ficha</button></div>
+    <div id="fvars" class="fgrid"></div>
+    <div class="fcols"><div><h4>Últimos proyectos como autor principal</h4><ul id="frec" class="plain"></ul></div><div><h4>Comisiones</h4><ul id="fcom" class="plain"></ul></div></div>
+  </div>
+</section>
+
+<!-- VARIABLES -->
+<section class="tab" data-tab="variables" hidden>
+  <div class="kick">Qué medimos</div>
+  <h2>Las variables del monitor</h2>
+  <p id="vlead"></p>
+  <div class="vars" id="vars"></div>
+</section>
+
+
+
+    </div>
+    <p class="mt-6 border-t border-neutral-200 pt-4 font-sans text-xs text-neutral-500" id="pie"></p>
+  </div>
+  <script type="application/json" id="mc-datos" set:html={JSON.stringify(datos)}></script>
+  <style is:global>
+.mc .note ul,.mc .vars ul{list-style:disc}
+.mc{color-scheme:light;
+--bg:light-dark(#ffffff,#141414);--soft:light-dark(#f4f4f2,#1f1f1e);--ink:light-dark(#111111,#f0efec);
+--ink2:light-dark(#52514e,#c3c2b7);--mute:light-dark(#77766f,#9a998f);--rule:light-dark(#dddcd7,#383835);
+--ley:light-dark(#2a78d6,#3987e5);--res:light-dark(#eb6834,#d95926);--dec:light-dark(#1baf7a,#199e70);
+--q1:light-dark(#86b6ef,#184f95);--q2:light-dark(#3987e5,#256abf);--q3:light-dark(#256abf,#3987e5);
+--q4:light-dark(#184f95,#6da7ec);--q5:light-dark(#0d366b,#b7d3f6);
+--c1:light-dark(#eb6834,#d95926);--c2:light-dark(#a3a29b,#8a8980);--c3:light-dark(#2a78d6,#3987e5);
+--c4:light-dark(#1baf7a,#199e70);--c5:light-dark(#eda100,#c98500);--c6:light-dark(#e87ba4,#d55181)}
+.mc *{box-sizing:border-box;min-width:0}
+.mc{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 Newsreader,Georgia,serif;overflow-x:clip}
+.mc button,.mc select,.mc input,.mc label,.mc th,.mc .ui{font-family:Inter,system-ui,sans-serif}
+.mc .wrap{max-width:1180px;margin:0 auto;padding:0 max(4vw,16px)}
+.mc header.top{border-bottom:2px solid var(--ink);padding:14px 0 10px}
+.mc .brand{font:600 22px/1 Newsreader,serif;letter-spacing:.02em}
+.mc .kick{font:13px/1.45 Inter,sans-serif;color:var(--ink2)}
+.mc .toprow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.mc nav.areas,.mc nav.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.mc nav.areas{margin-top:12px}
+.mc nav button{flex:none;min-height:44px;padding:0 14px;border:0;background:none;color:var(--ink2);font:500 15px Inter,sans-serif;cursor:pointer;border-bottom:3px solid transparent}
+.mc nav button[aria-selected=true]{color:var(--ink);border-bottom-color:var(--ink)}
+.mc nav button:focus-visible{outline:2px solid var(--ley);outline-offset:-2px}
+.mc nav.tabs{border-bottom:1px solid var(--rule);background:var(--bg)}
+.mc nav.tabs button{font-size:14px}
+.mc h1{font:600 clamp(30px,4.4vw,46px)/1.06 Newsreader,serif;margin:.25em 0 .3em;text-wrap:balance;max-width:24ch}
+.mc h2{font:600 clamp(24px,3vw,32px)/1.1 Newsreader,serif;margin:0 0 .3em;text-wrap:balance}
+.mc h3{font:600 20px/1.2 Newsreader,serif;margin:0 0 4px;text-wrap:balance}
+.mc p{margin:0 0 .8em;max-width:68ch}
+.mc .lead{font-size:19px;color:var(--ink2)}
+.mc section.tab{padding:clamp(22px,3vw,40px) 0 40px}
+.mc .band{padding-top:clamp(26px,3.5vw,44px);margin-top:clamp(26px,3.5vw,44px);border-top:1px solid var(--rule)}
+.mc .keys{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0 24px;margin-top:10px}
+.mc .key{border-top:2px solid var(--ink);padding:12px 0 16px}
+.mc .key b{display:block;font:600 clamp(32px,4vw,44px)/1 Newsreader,serif;white-space:nowrap}
+.mc .key span{display:block;font:14px/1.45 Inter,sans-serif;color:var(--ink2);margin-top:6px}
+.mc .key button{margin-top:8px}
+.mc .note{background:var(--soft);padding:clamp(18px,3vw,28px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:20px;margin-top:28px}
+.mc .note h2{margin:0}
+.mc .note ul{margin:0;padding-left:1.1em}
+.mc .note li{margin:.25em 0}
+.mc figure.cf{margin:0}
+.mc figure.cf .bj{font-size:17px;color:var(--ink2);margin-bottom:10px}
+.mc .fig{position:relative}
+.mc .fig svg{display:block;overflow:visible}
+.mc .hs{overflow-x:auto}
+.mc .det{margin-top:10px;padding:12px 14px;border-left:3px solid var(--ink);background:var(--soft);font:14px/1.5 Inter,sans-serif;min-height:48px}
+.mc .det b{font-weight:600}
+.mc .det .lst{columns:2 220px;margin-top:6px;color:var(--ink2)}
+.mc .aviso{border:1px solid var(--ink);border-left:6px solid var(--ink);padding:12px 16px;margin:4px 0 14px;font:15px/1.5 Inter,sans-serif;max-width:860px}
+.mc .aviso b{display:block;font:600 17px Newsreader,serif;margin-bottom:4px}
+.mc .src{font:12px/1.45 Inter,sans-serif;color:var(--mute);margin-top:8px;max-width:none}
+.mc .legend{display:flex;gap:6px 16px;flex-wrap:wrap;font:13px Inter,sans-serif;color:var(--ink2);margin:8px 0}
+.mc .legend i{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.mc .legend i.sq{border-radius:2px}
+.mc .controls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0;align-items:end}
+.mc .ctl{display:flex;flex-direction:column;gap:4px;font:13px Inter,sans-serif;color:var(--ink2)}
+.mc select,.mc input[type=search]{font-size:16px;min-height:44px;padding:8px 10px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);color:var(--ink)}
+.mc input[type=search]{flex:1 1 220px}
+.mc .seg{display:inline-flex;border:1px solid var(--ink);border-radius:6px;overflow:hidden}
+.mc .seg button{min-height:40px;padding:0 14px;border:0;background:none;color:var(--ink);font:14px Inter,sans-serif;cursor:pointer}
+.mc .seg button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.mc .btn{min-height:44px;padding:0 16px;border:1px solid var(--ink);background:none;color:var(--ink);border-radius:6px;font:14px Inter,sans-serif;cursor:pointer}
+.mc .link{border:0;background:none;padding:0;color:var(--ley);font:500 14px Inter,sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.mc .rows{display:grid;gap:4px;margin-top:8px}
+.mc .row{display:grid;grid-template-columns:minmax(0,13em) minmax(0,1fr) 4.5em;gap:12px;align-items:center;font:14px Inter,sans-serif;padding:6px 0;border:0;border-bottom:1px solid var(--rule);background:none;color:var(--ink);text-align:left;width:100%;cursor:pointer}
+.mc .row:hover,.mc .row:focus-visible,.mc .row.sel{background:var(--soft);outline:none}
+.mc .row small{display:block;color:var(--mute);font-size:12px}
+.mc .row .n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mc .bar{display:flex;gap:2px;height:20px}
+.mc .bar i{display:block;height:100%;border-radius:2px;color:#fff;font:600 11px/20px Inter,sans-serif;font-style:normal;text-align:center;overflow:hidden;white-space:nowrap}
+.mc .tr{height:14px;background:var(--soft);border-radius:2px}
+.mc .tr i{display:block;height:100%;background:var(--ley);border-radius:2px}
+.mc .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:14px}
+.mc .card{border:1px solid var(--rule);border-radius:8px;padding:16px;background:none;text-align:left;color:var(--ink);cursor:pointer}
+.mc .card:hover,.mc .card:focus-visible{border-color:var(--ink);outline:none}
+.mc .card b{display:block;font:600 18px Newsreader,serif;margin-bottom:4px}
+.mc .card span{font:14px/1.45 Inter,sans-serif;color:var(--ink2)}
+.mc .fhead{display:flex;justify-content:space-between;gap:16px;align-items:start;flex-wrap:wrap}
+.mc .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px 28px;margin-top:16px}
+.mc .fgrid h4,.mc .fcols h4{font:600 14px Inter,sans-serif;margin:0 0 6px}
+.mc .fv{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;font:14px Inter,sans-serif;padding:6px 0;border-bottom:1px solid var(--rule)}
+.mc .fv b{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.mc .fv small{grid-column:1/-1;color:var(--mute);font-size:12px}
+.mc .fv.na b{font-weight:400;color:var(--mute)}
+.mc .fcols{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:28px;margin-top:24px}
+.mc .plain{list-style:none;margin:0;padding:0;font-size:15px}
+.mc .plain li{padding:7px 0;border-bottom:1px solid var(--rule)}
+.mc .plain small{display:block;color:var(--mute);font:12px Inter,sans-serif}
+.mc .vars{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 28px;margin-top:14px}
+.mc .vars h4{font:600 14px Inter,sans-serif;margin:0 0 6px}
+.mc .vars ul{margin:0;padding-left:1.1em;font-size:16px}
+.mc .vars li{margin:.2em 0}
+.mc .chip{display:inline-block;font:11px Inter,sans-serif;padding:1px 6px;border-radius:9px;margin-left:6px;vertical-align:1px;border:1px solid var(--rule);color:var(--mute)}
+.mc .chip.ok{border-color:var(--ley);color:var(--ley)}
+.mc .area{padding:40px 0}
+.mc .area ul{font-size:17px}
+.mc footer{font:12px/1.5 Inter,sans-serif;color:var(--mute);padding:20px 0 40px;border-top:1px solid var(--rule)}
+.mc [hidden]{display:none!important}
+@media(max-width:700px){.mc .note,.mc .fcols{grid-template-columns:minmax(0,1fr)}
+.mc .row{grid-template-columns:minmax(0,1fr) 4.5em}
+.mc .row .bar,.mc .row .tr{grid-column:1/-1;order:3}}
+@media(prefers-reduced-motion:no-preference){.mc svg .seat{transition:fill .25s}}
+  </style>
+  <script is:inline>
+{
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>n==null?'—':Number(n).toLocaleString('es-AR');
+const dec=n=>n==null?'—':Number(n).toLocaleString('es-AR',{maximumFractionDigits:1});
+const pct=x=>x==null?'—':Math.round(x*100)+'%';
+const SIG=new Set(['UCR','PRO','PTS','PJ','FIT','CC','ARI']);
+const tc=s=>String(s||'').toLowerCase().split(' ').map((w,i)=>SIG.has(w.toUpperCase())?w.toUpperCase():(i&&['de','del','la','las','los','por','y','e','a','en','el'].includes(w))?w:w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+const fecha=iso=>{if(!iso)return '';const [y,m,d]=iso.split('-');return `${+d}/${+m}/${y}`};
+const W_=el=>el.clientWidth;
+const draws=new Map;const onSize=(el,fn)=>{draws.set(el,fn);const ro=new ResizeObserver(()=>{if(W_(el)>0)fn()});ro.observe(el)};
+
+const TABS=[['resumen','Resumen'],['historia','Historia'],['diputados','Diputados'],['senado','Senado'],['explorar','Explorador'],['variables','Qué medimos']];
+$('#tabs').innerHTML=TABS.map(([k,t])=>`<button type="button" data-t="${k}" aria-selected="${k==='resumen'}">${t}</button>`).join('');
+
+(async()=>{
+let D;try{D=JSON.parse(document.getElementById('mc-datos').textContent)}catch(e){return}
+$('#fecha').textContent='Datos al '+fecha(D.fecha);
+const dip=D.filas.filter(f=>f.c==='D'),sen=D.filas.filter(f=>f.c==='S');
+const P=`del ${fecha(D.periodo.desde)} al ${fecha(D.periodo.hasta)}`;
+const FUENTE='Fuente: Monitor del Congreso · Diario Federal. Elaborado con datos oficiales de la Cámara de Diputados y del Senado de la Nación.';
+
+/* Navegación */
+function area(){}
+function tab(k,keep){$$('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===k));
+ $$('section.tab').forEach(s=>s.hidden=s.dataset.tab!==k);area('congreso');
+ if(!keep)try{history.replaceState(null,'','#'+k)}catch(e){}
+ requestAnimationFrame(()=>draws.forEach((fn,el)=>{if(W_(el)>0)fn()}))}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('button');if(b){tab(b.dataset.t);$('#tabs').scrollIntoView({block:'start'})}});
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){tab(g.dataset.go);scrollTo({top:0})}});
+
+/* Resumen */
+const tot=dip.reduce((a,f)=>(a.t+=f.t,a.l+=f.l,a),{t:0,l:0});
+const sinLey=dip.filter(f=>f.l===0).length;
+const H=D.historia,ult=H.anios[H.anios.length-1];
+const asis=sen.filter(f=>f.as!=null).map(f=>f.as).sort((a,b)=>a-b),medS=asis[asis.length>>1];
+$('#claves').innerHTML=[
+ [fmt(ult.leyes),`leyes sancionó el Congreso en ${ult.anio}. En 2014 fueron 191, el máximo desde 1983.`,'historia','Ver la serie'],
+ [Math.round((tot.t-tot.l)/tot.t*100)+'%',`de los ${fmt(tot.t)} proyectos que presentaron los diputados actuales no son de ley: son resoluciones o declaraciones.`,'diputados','Ver Diputados'],
+ [fmt(sinLey),`diputados no presentaron ningún proyecto de ley como autores principales (${P}).`,'diputados','Ver quiénes'],
+ [pct(medS),`es la asistencia mediana de los senadores a las votaciones nominales.`,'senado','Ver el Senado']
+].map(([b,s,g,l])=>`<div class="key"><b>${esc(b)}</b><span>${esc(s)}</span><button type="button" class="link" data-go="${g}">${l} →</button></div>`).join('');
+$('#tarjetas').innerHTML=[['historia','Historia','Leyes sancionadas por año y promedio por gobierno desde 1983.'],['diputados','Diputados','El hemiciclo banca por banca, proyectos de ley y qué presenta cada bloque.'],['senado','Senado','El hemiciclo del Senado y la asistencia a las votaciones.'],['explorar','Explorador','Elegí cualquier variable y armá tu gráfico. Ficha completa de cada legislador.'],['variables','Qué medimos','Todas las variables, las disponibles y las que vienen.']].map(([k,t,s])=>`<button type="button" class="card" data-go="${k}"><b>${t}</b><span>${s}</span></button>`).join('');
+
+/* ---------- Historia ---------- */
+const gobDe=y=>H.gobiernos.find(g=>g.anios.includes(y));
+const ordG=[...H.gobiernos].sort((a,b)=>b.promedio-a.promedio);
+$('#hbaj').textContent=`Cada barra es un año. El promedio anual más alto fue con ${ordG[0].gobierno} (${dec(ordG[0].promedio)}, un solo año) y ${ordG[1].gobierno} (${dec(ordG[1].promedio)}); en los diez años completos de Menem fueron ${dec(H.gobiernos.find(g=>g.gobierno==='Menem').promedio)} por año. Con Alberto Fernández bajó a ${dec(H.gobiernos.find(g=>g.gobierno==='A. Fernández').promedio)} y en los dos primeros años de Milei, a ${dec(H.gobiernos.find(g=>g.gobierno==='Milei').promedio)}. Influye mucho cuántos bloques hay y si el oficialismo tiene mayoría propia. La franja rayada marca los años de la pandemia de COVID-19.`;
+const CTX=H.contextos||[];
+$('#hctx').innerHTML=CTX.map(c=>`<b>${esc(c.titulo)}</b>${esc(c.texto)}`).join('');$('#hctx').hidden=!CTX.length;
+const ctxDe=y=>CTX.find(c=>y>=c.desde&&y<=c.hasta);
+$('#hsrc').textContent='Fuente: Monitor del Congreso · Diario Federal. Elaborado con la numeración oficial de leyes del Congreso de la Nación. '+H.avisos.join(' ');
+let hv='anio',hsel=null;
+const hdet=html=>$('#hdet').innerHTML=html;
+function detAnio(a){const g=gobDe(a.anio);hdet(`<b>${a.anio}: ${fmt(a.leyes)} leyes sancionadas</b><br>${a.traspaso?esc(a.traspaso)+'. Año de traspaso: no entra en ningún promedio.':'Gobierno de '+esc(g.gobierno)+`: promedio de ${dec(g.promedio)} leyes por año.`}${a.nota?'<br>'+esc(a.nota):''}${a.verificado?'<br>Verificado con la numeración oficial de leyes.':''}${ctxDe(a.anio)?'<br><b>'+esc(ctxDe(a.anio).corto)+'.</b>':''}`)}
+function historia(){
+ const el=$('#hfig');
+ if(hv==='gob'){
+  const mx=ordG[0].promedio;
+  el.innerHTML=`<p class="kick" style="margin:4px 0">Promedio de leyes sancionadas por año, solo años completos de cada gobierno</p><div class="rows">${ordG.map(g=>`<button type="button" class="row" data-g="${esc(g.gobierno)}"><span>${esc(g.gobierno)}<small>${esc(g.periodo)} · ${g.anios.length} ${g.anios.length>1?'años completos':'año completo'}${g.anios.some(y=>ctxDe(y))?' · gobierno atravesado por la pandemia de COVID-19':''}</small></span><span class="tr"><i style="width:${(g.promedio/mx*100).toFixed(1)}%"></i></span><span class="n">${dec(g.promedio)}</span></button>`).join('')}</div>`;
+  el.querySelectorAll('.row').forEach(r=>r.addEventListener('click',()=>{el.querySelectorAll('.row').forEach(x=>x.classList.toggle('sel',x===r));const g=H.gobiernos.find(x=>x.gobierno===r.dataset.g);
+   hdet(`<b>${esc(g.gobierno)} (${esc(g.periodo)})</b><br>${fmt(g.total)} leyes en ${g.anios.length} años completos (${g.anios[0]}–${g.anios[g.anios.length-1]}): ${dec(g.promedio)} por año.<br>Por año: ${g.anios.map(y=>`${y}: ${fmt(H.anios.find(a=>a.anio===y).leyes)}`).join(' · ')}${g.oficial?'<br>'+esc(g.oficial):''}${g.anios.some(y=>ctxDe(y))?'<br><br>'+esc(ctxDe(g.anios.find(y=>ctxDe(y))).texto):''}`)}));
+  $('#hhint').hidden=true;if(!$('#hdet').textContent)hdet('Tocá un gobierno para ver el detalle año por año.');return}
+ const A=H.anios,n=A.length,W=Math.max(760,W_(el)),Hh=436,top=50,bot=112,left=52,right=8,mx=200;
+ const bw=(W-left-right)/n,X=i=>left+i*bw,Y=v=>top+(Hh-top-bot)*(1-v/mx);
+ let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" font-family="Inter,sans-serif" role="img" aria-label="Leyes sancionadas por año, 1983 a ${ult.anio}">`;
+ s+=`<text x="${left}" y="14" font-size="12" fill="var(--ink2)">Leyes sancionadas en el año</text>`;
+ s+=`<defs><pattern id="rayas" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--soft)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--rule)" stroke-width="3"/></pattern></defs>`;
+ CTX.forEach(c=>{const i0=A.findIndex(a=>a.anio===c.desde),i1=A.findIndex(a=>a.anio===c.hasta);if(i0<0||i1<0)return;const x=X(i0),w=(i1-i0+1)*bw;
+  s+=`<rect class="hc" x="${x}" y="${top-22}" width="${w}" height="${Y(0)-top+22}" fill="url(#rayas)"/><text x="${x+w/2}" y="${top-28}" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">Pandemia de COVID-19</text>`});
+ [0,50,100,150,200].forEach(t=>{s+=`<line x1="${left}" x2="${W-right}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${left-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="var(--mute)">${t}</text>`});
+ A.forEach((a,i)=>{const sel=hsel===a.anio;s+=`<rect class="hb" data-i="${i}" x="${(X(i)+1.5).toFixed(1)}" y="${Y(a.leyes).toFixed(1)}" width="${Math.max(2,bw-3).toFixed(1)}" height="${(Y(0)-Y(a.leyes)).toFixed(1)}" rx="2" fill="${a.traspaso?'var(--q1)':sel?'var(--q5)':'var(--ley)'}"/>`;
+  if(a.anio%5===0||i===0)s+=`<text x="${X(i)+bw/2}" y="${Y(0)+16}" text-anchor="middle" font-size="12" fill="var(--mute)">${a.anio}</text>`;
+  if(a.leyes===191||i===n-1||sel)s+=`<text x="${X(i)+bw/2}" y="${Y(a.leyes)-6}" text-anchor="middle" font-size="12" font-weight="600" fill="var(--ink)">${a.leyes}</text>`});
+ s+=`<text x="${W-right}" y="${Y(0)+32}" text-anchor="end" font-size="12" fill="var(--ink2)">Año</text>`;
+ const yS=Y(0)+42;
+ H.gobiernos.forEach((g,k)=>{const i0=A.findIndex(a=>a.anio===g.anios[0]),i1=A.findIndex(a=>a.anio===g.anios[g.anios.length-1]),x=X(i0),w=(i1-i0+1)*bw;
+  s+=`<rect class="hg" data-g="${k}" x="${x+1}" y="${yS}" width="${w-2}" height="50" rx="3" fill="${k%2?'var(--soft)':'var(--rule)'}"/>`;
+  const cx=x+w/2,fits=t=>w-6>t.length*6.4,pal=g.gobierno.split(' ');
+  if(fits(g.gobierno))s+=`<text x="${cx}" y="${yS+30}" text-anchor="middle" font-size="11.5" fill="var(--ink)" pointer-events="none">${esc(g.gobierno)}</text>`;
+  else if(pal.length>1&&fits(pal.slice(0,-1).join(' '))&&fits(pal[pal.length-1]))s+=`<text x="${cx}" y="${yS+22}" text-anchor="middle" font-size="11.5" fill="var(--ink)" pointer-events="none"><tspan x="${cx}">${esc(pal.slice(0,-1).join(' '))}</tspan><tspan x="${cx}" dy="14">${esc(pal[pal.length-1])}</tspan></text>`;
+  else s+=`<text transform="translate(${cx+4},${yS+46}) rotate(-90)" font-size="11" fill="var(--ink)" pointer-events="none">${esc(pal[pal.length-1])}</text>`;
+ });
+ s+=`<text x="${left}" y="${yS+68}" font-size="11.5" fill="var(--mute)">Gobierno. Las barras claras son años de traspaso (1983, 1989 y 2003). Tocá una barra o un gobierno.</text>`;
+ $('#hhint').hidden=W_(el)>=760;el.innerHTML=s+'</svg>';
+ el.querySelectorAll('.hb').forEach(r=>r.addEventListener('click',()=>{hsel=A[+r.dataset.i].anio;detAnio(A[+r.dataset.i]);historia()}));
+ el.querySelectorAll('.hc').forEach(r=>r.addEventListener('click',()=>{const c=CTX[0];hdet(`<b>${esc(c.corto)}</b><br>${esc(c.texto)}`)}));
+ el.querySelectorAll('.hg').forEach(r=>r.addEventListener('click',()=>{const g=H.gobiernos[+r.dataset.g];hdet(`<b>${esc(g.gobierno)} (${esc(g.periodo)})</b><br>${dec(g.promedio)} leyes por año en promedio (${fmt(g.total)} en ${g.anios.length} años completos).`)}));
+ if(!$('#hdet').textContent)detAnio(ult);
+}
+onSize($('#hfig'),historia);
+$$('[data-hv]').forEach(b=>b.addEventListener('click',()=>{hv=b.dataset.hv;$$('[data-hv]').forEach(x=>x.setAttribute('aria-pressed',x===b));hdet('');historia()}));
+
+/* ---------- Hemiciclos ---------- */
+function hemiPts(N,W,rows){const R=Math.min(W/2-4,330),r0=R*0.38,H=R+8;const radii=[...Array(rows)].map((_,i)=>r0+(R-r0)*i/(rows-1));const sum=radii.reduce((a,b)=>a+b,0);
+ let cnt=radii.map(r=>Math.max(2,Math.round(N*r/sum)));cnt[rows-1]+=N-cnt.reduce((a,b)=>a+b,0);
+ const pts=[];radii.forEach((r,i)=>{for(let k=0;k<cnt[i];k++){const a=Math.PI*(1-k/(cnt[i]-1));pts.push({a,x:W/2+r*Math.cos(a),y:R+4-r*Math.sin(a)})}});
+ pts.sort((p,q)=>q.a-p.a||Math.hypot(p.x-W/2,p.y-R)-Math.hypot(q.x-W/2,q.y-R));return {pts,R,r0,H,rad:Math.max(3,Math.min(9,(R-r0)/rows*0.4))}}
+function grupoBloques(lista,cfg){/* cfg: [[bloque, color]...] en orden izquierda a derecha; el resto va a "Otros" en la posición indicada */
+ const out=[];cfg.forEach(([b,col])=>{const m=b==='*'?lista.filter(f=>!cfg.some(([x])=>x===f.b)):lista.filter(f=>f.b===b);out.push({b:b==='*'?'Otros bloques':tc(b),col,m})});return out}
+const QL=[['Ninguno',0],['1 a 2',1],['3 a 5',2],['6 a 10',3],['11 a 20',4],['Más de 20',5]];
+const qi=n=>n===0?0:n<=2?1:n<=5?2:n<=10?3:n<=20?4:5;
+const AS=[['Menos de 85%','var(--q1)'],['85% a 90%','var(--q2)'],['90% a 95%','var(--q3)'],['95% a 98%','var(--q4)'],['Más de 98%','var(--q5)']];
+const ai=x=>x<.85?0:x<.9?1:x<.95?2:x<.98?3:4;
+function hemiciclo(cfg){
+ const {el,det,ley,lista,grupos,modo,rows,fill,leyenda,detalle,total}=cfg;
+ const W=W_(el);if(!W)return;
+ const G=grupos(),orden=G.flatMap(g=>[...g.m].sort((a,b)=>cfg.sortKey(a)-cfg.sortKey(b)).map(f=>({f,g})));
+ const {pts,R,r0,H,rad}=hemiPts(orden.length,W,rows);
+ let s=`<svg viewBox="0 0 ${W} ${H+24}" width="${W}" height="${H+24}" font-family="Inter,sans-serif" role="img" aria-label="${esc(cfg.aria)}">`;
+ pts.forEach((p,i)=>{const {f,g}=orden[i];const c=fill(f,g,modo());s+=`<circle class="seat" data-i="${i}" cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${rad.toFixed(1)}" fill="${c.f}" stroke="${c.s||'var(--bg)'}" stroke-width="${c.s?1.3:1}"/>`});
+ s+=`<text x="${W/2}" y="${R-10}" text-anchor="middle" font-family="Newsreader,serif" font-size="${Math.max(22,r0*0.38).toFixed(0)}" font-weight="600" fill="var(--ink)">${total}</text><text x="${W/2}" y="${R+10}" text-anchor="middle" font-size="12" fill="var(--ink2)">bancas</text>`;
+ s+=`<text x="6" y="${H+18}" font-size="11.5" fill="var(--mute)">← izquierda del recinto</text><text x="${W-6}" y="${H+18}" text-anchor="end" font-size="11.5" fill="var(--mute)">derecha del recinto →</text></svg>`;
+ el.innerHTML=s;ley.innerHTML=leyenda(G,modo());
+ el.querySelectorAll('.seat').forEach(c=>c.addEventListener('click',()=>{el.querySelectorAll('.seat').forEach(x=>x.setAttribute('stroke-width',x===c?3:1));c.setAttribute('stroke','var(--ink)');det.innerHTML=detalle(orden[+c.dataset.i].f)}));
+}
+const fichaLink=f=>`<br><button type="button" class="link" data-ficha="${esc(f.id)}">Ver ficha completa →</button>`;
+document.addEventListener('click',e=>{const b=e.target.closest('[data-ficha]');if(b){tab('explorar',1);abrir(b.dataset.ficha)}});
+
+/* Diputados */
+let dm='bloque';
+const DCFG=[['UNIÓN POR LA PATRIA','var(--c1)'],['*','var(--c2)'],['PROVINCIAS UNIDAS','var(--c3)'],['ARGENTINA FEDERAL','var(--c4)'],['PRO','var(--c5)'],['LA LIBERTAD AVANZA','var(--c6)']];
+const dG=()=>grupoBloques(dip,DCFG);
+$('#dbaj').textContent=`Cada punto es una banca. Con "Bloque", el color muestra a qué bloque pertenece cada diputado. Con "Proyectos de ley", el color muestra cuántos proyectos de ley presentó como autor principal (${P}): cuanto más oscuro, más proyectos; los puntos vacíos son quienes no presentaron ninguno. Tocá una banca para ver quién es.`;
+$('#dsrc1').textContent=FUENTE+' Ubicación de los bloques aproximada.';
+const hemiD=()=>hemiciclo({el:$('#dhemi'),det:$('#ddet'),ley:$('#dley'),lista:dip,grupos:dG,modo:()=>dm,rows:9,total:dip.length,aria:'Hemiciclo de la Cámara de Diputados',
+ sortKey:f=>dm==='ley'?f.l:0,
+ fill:(f,g,m)=>m==='bloque'?{f:g.col}:qi(f.l)===0?{f:'var(--bg)',s:'var(--mute)'}:{f:`var(--q${qi(f.l)})`},
+ leyenda:(G,m)=>m==='bloque'?G.map(g=>`<span><i style="background:${g.col}"></i>${esc(g.b)} (${g.m.length})</span>`).join(''):'<span>Proyectos de ley presentados:</span>'+QL.map(([t,i])=>`<span><i style="${i?'background:var(--q'+i+')':'border:1.5px solid var(--mute)'}"></i>${t}</span>`).join(''),
+ detalle:f=>`<b>${esc(f.n)}</b> · ${esc(tc(f.b))} · ${esc(f.p)}<br>Mandato ${esc(f.m)}. Proyectos como autor principal: ${fmt(f.t)} (de ley ${fmt(f.l)}, de resolución ${fmt(f.r)}, de declaración ${fmt(f.d)}).`+fichaLink(f)});
+onSize($('#dhemi'),hemiD);
+$('#dmodo').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;dm=b.dataset.m;$$('#dmodo button').forEach(x=>x.setAttribute('aria-pressed',x===b));hemiD()});
+
+/* Columnas: proyectos de ley por diputado */
+function columnas(){
+ const el=$('#dcol'),W=W_(el);if(!W)return;const coh=$('#dcoh').value,L=dip.filter(f=>!coh||f.m===coh);
+ const B=QL.map(([t,i])=>({t,i,m:L.filter(f=>qi(f.l)===i)})),mx=Math.max(...B.map(b=>b.m.length));
+ const Hh=320,top=36,bot=58,left=48,cw=(W-left-10)/B.length,Y=v=>top+(Hh-top-bot)*(1-v/mx);
+ let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" font-family="Inter,sans-serif" role="img" aria-label="Diputados según cantidad de proyectos de ley">`;
+ s+=`<text x="${left}" y="14" font-size="12" fill="var(--ink2)">Cantidad de diputados</text>`;
+ const step=mx>80?25:mx>40?10:5;for(let t=0;t<=mx;t+=step)s+=`<line x1="${left}" x2="${W-10}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${left-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="var(--mute)">${t}</text>`;
+ B.forEach((b,k)=>{const x=left+k*cw+cw*0.15,w=cw*0.7;s+=`<rect class="cb" data-k="${k}" x="${x}" y="${Y(b.m.length)}" width="${w}" height="${Y(0)-Y(b.m.length)}" rx="3" fill="${b.i?'var(--q'+b.i+')':'var(--mute)'}"/><text x="${x+w/2}" y="${Y(b.m.length)-6}" text-anchor="middle" font-size="13" font-weight="600" fill="var(--ink)">${b.m.length}</text><text x="${x+w/2}" y="${Y(0)+17}" text-anchor="middle" font-size="12" fill="var(--ink2)">${b.t}</text>`});
+ s+=`<text x="${W-10}" y="${Hh-8}" text-anchor="end" font-size="12" fill="var(--ink2)">Proyectos de ley presentados como autor principal →</text></svg>`;
+ el.innerHTML=s;
+ el.querySelectorAll('.cb').forEach(r=>r.addEventListener('click',()=>{const b=B[+r.dataset.k];const pb={};b.m.forEach(f=>{(pb[tc(f.b)]=pb[tc(f.b)]||[]).push(f)});
+  $('#dcdet').innerHTML=`<b>${b.m.length} diputados · ${b.t==='Ninguno'?'ningún proyecto de ley':b.t+' proyectos de ley'}</b><br>${Object.entries(pb).sort((a,c)=>c[1].length-a[1].length).map(([k,v])=>`${esc(k)}: ${v.length}`).join(' · ')}<div class="lst">${b.m.sort((a,c)=>a.n.localeCompare(c.n,'es')).map(f=>`<div><button type="button" class="link" data-ficha="${esc(f.id)}" style="font-weight:400">${esc(f.n)}</button> <span style="color:var(--mute)">· ${esc(tc(f.b))}</span></div>`).join('')}</div>`}));
+}
+$('#dsrc2').textContent=FUENTE+` Período ${P}. Quien asumió en diciembre de 2025 tuvo menos meses: usá el filtro para comparar diputados del mismo mandato.`;
+onSize($('#dcol'),columnas);$('#dcoh').addEventListener('input',()=>{$('#dcdet').textContent='Tocá una columna.';columnas()});
+
+/* Bloques */
+const porBloque=g=>{const m=new Map;g.forEach(f=>{if(!m.has(f.b))m.set(f.b,[]);m.get(f.b).push(f)});return [...m.entries()].sort((a,b)=>b[1].length-a[1].length)};
+const bl=porBloque(dip).filter(([,v])=>v.length>=3).map(([b,v])=>{const t=v.reduce((a,f)=>(a.l+=f.l,a.r+=f.r,a.d+=f.d,a),{l:0,r:0,d:0});t.n=v.length;t.b=b;t.tot=t.l+t.r+t.d;return t}).sort((a,b)=>b.l/b.tot-a.l/a.tot);
+$('#dblo').innerHTML=bl.map((t,k)=>{const w=x=>t[x]/t.tot*100,seg=(x,c)=>`<i style="width:${w(x).toFixed(1)}%;background:var(--${c})">${w(x)>=9?Math.round(w(x))+'%':''}</i>`;
+ return `<button type="button" class="row" data-k="${k}"><span>${esc(tc(t.b))}<small>${t.n} diputados</small></span><span class="bar">${seg('l','ley')}${seg('r','res')}${seg('d','dec')}</span><span class="n">${Math.round(w('l'))}% ley</span></button>`}).join('');
+$$('#dblo .row').forEach(r=>r.addEventListener('click',()=>{$$('#dblo .row').forEach(x=>x.classList.toggle('sel',x===r));const t=bl[+r.dataset.k];
+ $('#dbdet').innerHTML=`<b>${esc(tc(t.b))}</b> · ${t.n} diputados · ${fmt(t.tot)} proyectos como autores principales<br>De ley: ${fmt(t.l)} (${Math.round(t.l/t.tot*100)}%) · De resolución: ${fmt(t.r)} (${Math.round(t.r/t.tot*100)}%) · De declaración: ${fmt(t.d)} (${Math.round(t.d/t.tot*100)}%)`}));
+
+/* Senado */
+let sm='bloque';
+const SCFG=[['JUSTICIALISTA','var(--c1)'],['*','var(--c2)'],['UCR - UNIÓN CÍVICA RADICAL','var(--c3)'],['LA LIBERTAD AVANZA','var(--c6)']];
+const sG=()=>grupoBloques(sen,SCFG);
+const PS=`${fmt(D.periodoSen.actas)} votaciones nominales del ${fecha(D.periodoSen.desde)} al ${fecha(D.periodoSen.hasta)}`;
+$('#sbaj').textContent=`Cada punto es una banca. Con "Bloque", el color muestra el bloque de cada senador. Con "Asistencia", muestra en qué proporción de las votaciones estuvo presente (${PS}; para quien asumió después, las de su mandato). Tocá una banca para ver quién es.`;
+const hemiS=()=>hemiciclo({el:$('#shemi'),det:$('#sdet'),ley:$('#sley'),lista:sen,grupos:sG,modo:()=>sm,rows:5,total:sen.length,aria:'Hemiciclo del Senado',
+ sortKey:f=>sm==='asis'?(f.as??0):0,
+ fill:(f,g,m)=>m==='bloque'?{f:g.col}:f.as==null?{f:'var(--bg)',s:'var(--mute)'}:{f:AS[ai(f.as)][1]},
+ leyenda:(G,m)=>m==='bloque'?G.map(g=>`<span><i style="background:${g.col}"></i>${esc(g.b)} (${g.m.length})</span>`).join(''):'<span>Asistencia a votaciones:</span>'+AS.map(([t,c])=>`<span><i style="background:${c}"></i>${t}</span>`).join(''),
+ detalle:f=>`<b>${esc(f.n)}</b> · ${esc(tc(f.b))} · ${esc(f.p)}<br>Asistencia a votaciones: ${pct(f.as)} (faltó a ${fmt(f.au)} de ${fmt(f.ac)}). Votó igual que su bloque en el ${pct(f.le)} de las votaciones.`+fichaLink(f)});
+onSize($('#shemi'),hemiS);
+$('#smodo').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;sm=b.dataset.m;$$('#smodo button').forEach(x=>x.setAttribute('aria-pressed',x===b));hemiS()});
+
+const sv=sen.filter(f=>f.as!=null);
+$('#sabaj').textContent=`Cada punto es un senador, agrupados por bloque. Más a la derecha, más asistencia. La línea punteada marca la mediana de la cámara: ${pct(medS)}. Base: ${PS}.`;
+$('#ssrc').textContent=FUENTE;
+function puntos(){
+ const el=$('#sdot'),W=W_(el);if(!W)return;
+ const sb=porBloque(sv),big=sb.filter(([,v])=>v.length>=3),otros=sb.filter(([,v])=>v.length<3).flatMap(([,v])=>v),R=[...big.map(([b,v])=>[tc(b),v]),['Otros bloques',otros]];
+ const narrow=W<560,lw=narrow?0:170,rh=narrow?56:44,Hh=R.length*rh+56,x0=lw+12,x1=W-14,lo=.7,X=v=>x0+(Math.max(v,lo)-lo)/(1-lo)*(x1-x0);
+ let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" font-family="Inter,sans-serif" role="img" aria-label="Asistencia de cada senador">`;
+ [.7,.8,.9,1].forEach(t=>s+=`<line x1="${X(t)}" x2="${X(t)}" y1="4" y2="${Hh-44}" stroke="var(--rule)"/><text x="${X(t)}" y="${Hh-28}" text-anchor="middle" font-size="12" fill="var(--mute)">${t*100}%</text>`);
+ s+=`<line x1="${X(medS)}" x2="${X(medS)}" y1="4" y2="${Hh-44}" stroke="var(--ink)" stroke-dasharray="4 3"/><text x="${x1}" y="${Hh-8}" text-anchor="end" font-size="12" fill="var(--ink2)">Asistencia a las votaciones nominales →</text>`;
+ R.forEach(([b,v],i)=>{const y=i*rh+rh/2+(narrow?10:0);
+  s+=narrow?`<text x="0" y="${y-15}" font-size="12" fill="var(--ink2)">${esc(b)} (${v.length})</text>`:`<text x="${lw}" y="${y+4}" text-anchor="end" font-size="13" fill="var(--ink2)">${esc(b)} (${v.length})</text>`;
+  v.forEach((f,k)=>{const cx=X(f.as).toFixed(1),cy=(y+((k%3)-1)*5).toFixed(1);s+=`<circle cx="${cx}" cy="${cy}" r="5.5" fill="var(--ley)" fill-opacity=".8" stroke="var(--bg)" stroke-width="1.5" pointer-events="none"/><circle class="hit" data-k="${sv.indexOf(f)}" cx="${cx}" cy="${cy}" r="11" fill="transparent"/>`})});
+ el.innerHTML=s+'</svg>';
+ el.querySelectorAll('.hit').forEach(c=>c.addEventListener('click',()=>{const f=sv[+c.dataset.k];$('#sadet').innerHTML=`<b>${esc(f.n)}</b> · ${esc(tc(f.b))} · ${esc(f.p)}<br>Asistencia ${pct(f.as)}: faltó a ${fmt(f.au)} de ${fmt(f.ac)} votaciones. Votó igual que su bloque en el ${pct(f.le)}.`+fichaLink(f)}));
+}
+onSize($('#sdot'),puntos);
+
+/* ---------- Explorador ---------- */
+const VARS=D.variables,TASA=new Set(['pct_ley','tasa_exito','asistencia_votaciones','lealtad_bloque','votos_afirmativos']),DEC=new Set(['viajes']);
+const vById=id=>VARS.find(v=>v.id===id),val=(f,id)=>f[vById(id).campo];
+const fv=(id,x,prom)=>x==null?'—':TASA.has(id)?pct(x):(DEC.has(id)||prom)?dec(x):fmt(x);
+const grupos=[...new Set(VARS.map(v=>v.grupo))].filter(g=>g!=='Historia');
+const opcV=()=>grupos.map(g=>`<optgroup label="${esc(g)}">${VARS.filter(v=>v.grupo===g&&v.id!=='datos_base'&&v.id!=='dieta').map(v=>`<option value="${v.id}" ${v.campo?'':'disabled'}>${esc(v.nombre)}${v.campo?'':' (próximamente)'}</option>`).join('')}</optgroup>`).join('');
+$('#xv').innerHTML=opcV();$('#xv2').innerHTML=opcV();$('#xv').value='proy_ley';$('#xv2').value='comisiones';
+const optsF=(sel,vals)=>sel.insertAdjacentHTML('beforeend',vals.map(v=>`<option value="${esc(v)}">${esc(tc(v))}</option>`).join(''));
+optsF($('#fb'),[...new Set(D.filas.map(f=>f.b))].sort());optsF($('#fp'),[...new Set(D.filas.map(f=>f.p))].sort());
+const norm=s=>String(s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const camaraDe=id=>{const cs=new Set(D.filas.filter(f=>val(f,id)!=null).map(f=>f.c));return cs.size===2?'':cs.has('D')?'Por ahora, solo Diputados.':'Por ahora, solo Senado.'};
+const median=a=>{if(!a.length)return null;const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
+const GN={leg:'legislador',b:'bloque',p:'provincia',c:'cámara'};
+let lim=25,vista=[];
+const xdet=h=>{const d=$('#xdet');d.hidden=!h;d.innerHTML=h||''};
+function filtradas(){const q=norm($('#q').value),c=$('#fc').value,b=$('#fb').value,p=$('#fp').value;return D.filas.filter(f=>(!q||norm(f.n).includes(q))&&(!c||f.c===c)&&(!b||f.b===b)&&(!p||f.p===p))}
+function explorar(){
+ const id=$('#xv').value,g=$('#xg').value,t=$('#xt').value,v=vById(id),out=$('#xout');
+ $('#xv2w').hidden=t!=='cruce';$('#xg').disabled=t!=='rank';xdet('');$('#xmas').hidden=true;
+ const rows=filtradas().filter(f=>val(f,id)!=null);
+ $('#xtit').textContent=t==='cruce'?`${v.nombre} frente a ${vById($('#xv2').value).nombre.toLowerCase()}`:t==='dist'?`${v.nombre}: cómo se reparte entre los legisladores`:`${v.nombre}, por ${GN[g]}`;
+ $('#xsub').textContent=`${v.mide}. ${camaraDe(id)} ${fmt(rows.length)} legisladores con dato.`+(t==='rank'&&g!=='leg'?(TASA.has(id)||DEC.has(id)?' Valor: promedio de sus integrantes.':' Valor: promedio por legislador. Tocá para ver el total.'):'');
+ if(!rows.length){out.innerHTML='<p>No hay datos con esos filtros.</p>';vista=[];return}
+ if(t==='rank'){
+  let items;
+  if(g==='leg')items=rows.map(f=>({k:f.id,lab:f.n,sub:`${f.c==='D'?'Diputados':'Senado'} · ${tc(f.b)} · ${f.p}`,v:val(f,id),f}));
+  else{const m=new Map;rows.forEach(f=>{const k=g==='c'?(f.c==='D'?'Diputados':'Senado'):f[g];if(!m.has(k))m.set(k,[]);m.get(k).push(val(f,id))});
+   items=[...m.entries()].map(([k,a])=>{const tot=a.reduce((x,y)=>x+y,0);return {k,lab:g==='p'?k:tc(k),sub:`${a.length} legisladores`,v:tot/a.length,tot,n:a.length}})}
+  items.sort((a,b)=>b.v-a.v||a.lab.localeCompare(b.lab,'es'));vista=items;
+  const mx=Math.max(...items.map(i=>i.v),1e-9),show=g==='leg'?items.slice(0,lim):items;
+  out.innerHTML=`<div class="rows">${show.map((i,n)=>`<button type="button" class="row" data-n="${n}"><span>${esc(i.lab)}<small>${esc(i.sub)}</small></span><span class="tr"><i style="width:${(i.v/mx*100).toFixed(1)}%"></i></span><span class="n">${esc(fv(id,i.v,g!=='leg'))}</span></button>`).join('')}</div>`;
+  if(g==='leg'&&items.length>lim){$('#xmas').hidden=false;$('#xmas').textContent=`Ver todos (${items.length})`}
+  out.querySelectorAll('.row').forEach(b=>b.addEventListener('click',()=>{const i=show[+b.dataset.n];if(g==='leg')return abrir(i.f.id);
+   if(g==='b')$('#fb').value=i.k;else if(g==='p')$('#fp').value=i.k;else $('#fc').value=i.k==='Diputados'?'D':'S';
+   $('#xg').value='leg';lim=25;explorar();xdet(`<b>${esc(i.lab)}</b>: promedio ${esc(fv(id,i.v,1))}${TASA.has(id)||DEC.has(id)?'':', total '+esc(fv(id,i.tot,1))} entre ${i.n} legisladores. Abajo, sus integrantes.`)}));
+  return}
+ const W=Math.max(300,W_(out));
+ if(t==='dist'){
+  const a=rows.map(f=>val(f,id)),mn=Math.min(...a),mxv=Math.max(...a),nb=Math.min(20,Math.max(5,Math.ceil(Math.sqrt(a.length)))),w=(mxv-mn)/nb||1;
+  const bins=[...Array(nb)].map((_,k)=>({lo:mn+k*w,hi:mn+(k+1)*w,f:[]}));rows.forEach(f=>bins[Math.min(nb-1,Math.floor((val(f,id)-mn)/w))].f.push(f));
+  vista=rows.map(f=>({lab:f.n,sub:tc(f.b),v:val(f,id)}));
+  const Hh=300,bt=56,l=48,my=Math.max(...bins.map(b=>b.f.length)),X=x=>l+(x-mn)/(mxv-mn||1)*(W-l-12),Y=c=>28+(Hh-bt-28)*(1-c/my),md=median(a);
+  let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" font-family="Inter,sans-serif"><text x="${l}" y="14" font-size="12" fill="var(--ink2)">Cantidad de legisladores</text>`;
+  [0,Math.round(my/2),my].forEach(t=>s+=`<line x1="${l}" x2="${W-12}" y1="${Y(t)}" y2="${Y(t)}" stroke="var(--rule)"/><text x="${l-8}" y="${Y(t)+4}" text-anchor="end" font-size="12" fill="var(--mute)">${t}</text>`);
+  bins.forEach((b,k)=>s+=`<rect class="db" data-k="${k}" x="${(X(b.lo)+1).toFixed(1)}" y="${Y(b.f.length).toFixed(1)}" width="${Math.max(2,X(b.hi)-X(b.lo)-2).toFixed(1)}" height="${(Y(0)-Y(b.f.length)).toFixed(1)}" rx="2" fill="var(--ley)"/>`);
+  s+=`<line x1="${X(md)}" x2="${X(md)}" y1="24" y2="${Hh-bt}" stroke="var(--ink)" stroke-dasharray="4 3"/><text x="${Math.min(X(md)+5,W-90)}" y="34" font-size="12" fill="var(--ink)">Mediana: ${esc(fv(id,md,1))}</text>`;
+  [mn,(mn+mxv)/2,mxv].forEach(x=>s+=`<text x="${X(x)}" y="${Hh-bt+18}" text-anchor="middle" font-size="12" fill="var(--mute)">${esc(fv(id,x,1))}</text>`);
+  s+=`<text x="${W-12}" y="${Hh-8}" text-anchor="end" font-size="12" fill="var(--ink2)">${esc(v.nombre)} →</text></svg>`;
+  out.innerHTML=`<div class="fig">${s}</div>`;xdet('Tocá una barra para ver quiénes están en ese tramo.');
+  out.querySelectorAll('.db').forEach(r=>r.addEventListener('click',()=>{const b=bins[+r.dataset.k];xdet(`<b>${b.f.length} legisladores entre ${esc(fv(id,b.lo,1))} y ${esc(fv(id,b.hi,1))}</b><div class="lst">${b.f.map(f=>`<div><button type="button" class="link" data-ficha="${esc(f.id)}" style="font-weight:400">${esc(f.n)}</button> <span style="color:var(--mute)">· ${esc(tc(f.b))}</span></div>`).join('')}</div>`)}));
+  return}
+ const id2=$('#xv2').value,v2=vById(id2),pts=rows.filter(f=>val(f,id2)!=null);vista=pts.map(f=>({lab:f.n,sub:tc(f.b),v:val(f,id),v2:val(f,id2)}));
+ if(!pts.length){out.innerHTML='<p>Estas dos variables todavía no se miden en la misma cámara. Probá con otra combinación.</p>';return}
+ const Hh=Math.min(440,Math.max(300,W*0.62)),l=56,bt=56,xs=pts.map(f=>val(f,id)),ys=pts.map(f=>val(f,id2));
+ const x0=Math.min(0,...xs),x1=Math.max(...xs)||1,y0=Math.min(0,...ys),y1=Math.max(...ys)||1,X=x=>l+(x-x0)/(x1-x0||1)*(W-l-14),Y=y=>28+(Hh-bt-28)*(1-(y-y0)/(y1-y0||1));
+ let s=`<svg viewBox="0 0 ${W} ${Hh}" width="${W}" height="${Hh}" font-family="Inter,sans-serif"><text x="${l}" y="14" font-size="12" fill="var(--ink2)">↑ ${esc(v2.nombre)}</text>`;
+ [0,.5,1].forEach(t=>{const xv=x0+t*(x1-x0),yv=y0+t*(y1-y0);s+=`<line x1="${l}" x2="${W-14}" y1="${Y(yv)}" y2="${Y(yv)}" stroke="var(--rule)"/><text x="${l-8}" y="${Y(yv)+4}" text-anchor="end" font-size="12" fill="var(--mute)">${esc(fv(id2,yv,1))}</text><line x1="${X(xv)}" x2="${X(xv)}" y1="28" y2="${Hh-bt}" stroke="var(--rule)"/><text x="${X(xv)}" y="${Hh-bt+18}" text-anchor="middle" font-size="12" fill="var(--mute)">${esc(fv(id,xv,1))}</text>`});
+ s+=`<text x="${W-14}" y="${Hh-8}" text-anchor="end" font-size="12" fill="var(--ink2)">${esc(v.nombre)} →</text>`;
+ pts.forEach((f,k)=>{const cx=X(val(f,id)).toFixed(1),cy=Y(val(f,id2)).toFixed(1);s+=`<circle cx="${cx}" cy="${cy}" r="5.5" fill="var(--ley)" fill-opacity=".55" stroke="var(--bg)" stroke-width="1.5" pointer-events="none"/><circle class="hit" data-k="${k}" cx="${cx}" cy="${cy}" r="11" fill="transparent"/>`});
+ out.innerHTML=`<div class="fig">${s}</svg></div>`;xdet('Cada punto es un legislador. Tocá un punto para ver quién es.');
+ out.querySelectorAll('.hit').forEach(c=>c.addEventListener('click',()=>{const f=pts[+c.dataset.k];xdet(`<b>${esc(f.n)}</b> · ${esc(tc(f.b))} · ${esc(f.p)}<br>${esc(v.nombre)}: ${esc(fv(id,val(f,id)))} · ${esc(v2.nombre)}: ${esc(fv(id2,val(f,id2)))}`+fichaLink(f))}));
+}
+['xv','xg','xt','xv2','fc','fb','fp','q'].forEach(i=>$('#'+i).addEventListener('input',()=>{lim=25;explorar()}));
+$('#xmas').addEventListener('click',()=>{lim=1e9;explorar()});
+onSize($('#xout'),()=>{if($('#xt').value!=='rank')explorar()});
+$('#xcsv').addEventListener('click',async()=>{const id=$('#xv').value,t=$('#xt').value,q=s=>`"${String(s??'').replace(/"/g,'""')}"`;
+ const cab=t==='cruce'?['Nombre','Bloque',vById(id).nombre,vById($('#xv2').value).nombre]:['Nombre','Detalle',vById(id).nombre];
+ const txt=[cab.map(q).join(','),...vista.map(i=>(t==='cruce'?[i.lab,i.sub,i.v,i.v2]:[i.lab,i.sub,i.v]).map(q).join(','))].join('\n');
+ try{await navigator.clipboard.writeText(txt);$('#xmsg').textContent=`Copiadas ${vista.length} filas. Pegalas en una planilla.`}catch(e){$('#xmsg').textContent='Tu navegador no dejó copiar.'}});
+explorar();
+
+/* Ficha */
+const NOAP=new Set(['datos_base','presupuesto_camara','gasto_personal','costo_por_ley','dnu_vetos','proyectos_pen','sesiones_mes']);
+function abrir(idL){const f=D.filas.find(x=>x.id===idL);if(!f)return;
+ $('#ficha').hidden=false;$('#fsub').textContent=f.c==='D'?'Cámara de Diputados de la Nación':'Senado de la Nación';$('#fnom').textContent=f.n;
+ $('#fmeta').textContent=`${tc(f.b)} · ${f.p} · Mandato ${f.m}${f.j?' · Juró el '+f.j:''}`;
+ const par=D.filas.filter(x=>x.c===f.c),blo=par.filter(x=>x.b===f.b);
+ $('#fvars').innerHTML=grupos.filter(g=>!['Presupuesto','Ejecutivo'].includes(g)).map(g=>`<div><h4>${esc(g)}</h4>${VARS.filter(v=>v.grupo===g&&!NOAP.has(v.id)).map(v=>{
+  if(v.id==='dieta')return `<div class="fv"><span>${esc(v.nombre)}</span><b>${f.c==='D'?'$'+fmt(Math.round(D.dieta.bruto)):'Próximamente'}</b>${f.c==='D'?`<small>Bruta mensual, igual para todos los diputados ($${fmt(Math.round(D.dieta.neto))} neta)</small>`:''}</div>`;
+  const x=v.campo?val(f,v.id):null;
+  if(x==null){const otra=v.campo&&D.filas.some(o=>o.c!==f.c&&val(o,v.id)!=null);return `<div class="fv na"><span>${esc(v.nombre)}</span><b>${otra?'Próximamente en '+(f.c==='D'?'Diputados':'el Senado'):'Próximamente'}</b></div>`}
+  let extra=`Mediana de su cámara: ${fv(v.id,median(par.map(o=>val(o,v.id)).filter(z=>z!=null)),1)} · de su bloque: ${fv(v.id,median(blo.map(o=>val(o,v.id)).filter(z=>z!=null)),1)}`;
+  if(v.id==='viajes'&&f.vr)extra+=` · destino más frecuente: ${tc(f.vr)}`;
+  if(v.id==='misiones'&&f.ml.length)extra+=` · ${f.ml.slice(0,4).map(tc).join('; ')}`;
+  if(v.id==='votos_afirmativos')extra=`Afirmativos ${fmt(f.af)}, negativos ${fmt(f.ne)}, abstenciones ${fmt(f.ab)}. `+extra;
+  return `<div class="fv"><span>${esc(v.nombre)}</span><b>${esc(fv(v.id,x))}</b><small>${esc(extra)}</small></div>`}).join('')}</div>`).join('');
+ $('#frec').innerHTML=f.rec.length?f.rec.map(r=>`<li>${esc(r.t)}<small>${esc(r.tp)} · Expediente ${esc(r.x)} · ${esc(fecha(r.f))}</small></li>`).join(''):`<li>${f.c==='S'?'Próximamente para el Senado.':'Sin proyectos como autor principal en el período.'}</li>`;
+ $('#fcom').innerHTML=f.cl.length?f.cl.map(c=>`<li>${esc(c.comision)}<small>${esc(c.cargo==='integrante'?'Integrante':tc(c.cargo))}</small></li>`).join(''):`<li>${f.c==='S'?'Próximamente para el Senado.':'Sin comisiones registradas.'}</li>`;
+ try{history.replaceState(null,'','#'+f.id)}catch(e){}
+ $('#ficha').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+}
+$('#fcer').addEventListener('click',()=>{$('#ficha').hidden=true;try{history.replaceState(null,'','#explorar')}catch(e){}});
+
+/* Qué medimos */
+const disp=v=>v.campo||v.id==='dieta'||v.id==='datos_base';
+$('#vlead').textContent=`El monitor sigue ${VARS.length} variables. ${VARS.filter(disp).length} ya se pueden consultar; el resto se suma a medida que estén los datos. Se actualizan dos veces por semana.`;
+$('#vars').innerHTML=[...new Set(VARS.map(v=>v.grupo))].map(g=>`<div><h4>${esc(g)}</h4><ul>${VARS.filter(v=>v.grupo===g).map(v=>`<li>${esc(v.nombre)}<span class="chip ${disp(v)?'ok':''}">${disp(v)?'Disponible':'Próximamente'}</span></li>`).join('')}</ul></div>`).join('');
+
+$('#pie').textContent=`Monitor del Congreso · Laboratorio de datos de Diario Federal. Datos al ${fecha(D.fecha)}. Proyectos: se cuenta al autor principal (primer firmante), ${P}. Asistencia y voto con el bloque: por ahora, solo Senado.`;
+
+/* Ruta inicial */
+const h=location.hash.slice(1);
+if(D.filas.some(f=>f.id===h)){tab('explorar',1);abrir(h)}else tab(TABS.some(t=>t[0]===h)?h:'resumen',1);
+})();
+}
+
+  </script>
+</BaseLayout>

@@ -1,0 +1,23 @@
+---
+// Barra de áreas del Laboratorio de datos: divide el laboratorio por temas para que no quede todo junto.
+// Las áreas de /datos son anclas a bloques que ya existen; Congreso tiene página propia.
+interface Props { activa?: string }
+const { activa = '' } = Astro.props;
+const areas = [
+  { id: 'economia', nombre: 'Economía', href: '/datos/#arg-datos' },
+  { id: 'industria', nombre: 'Industria', href: '/datos/#industria' },
+  { id: 'clima', nombre: 'Campo y clima', href: '/datos/#clima' },
+  { id: 'congreso', nombre: 'Congreso', href: '/datos/congreso/' },
+  { id: 'rigi', nombre: 'Inversiones (RIGI)', href: '/datos/#rigi' },
+  { id: 'internacional', nombre: 'Internacional', href: '/datos/#internacional' },
+];
+---
+<nav aria-label="Áreas del Laboratorio de datos" class="lab-areas mt-5 -mx-1 flex gap-2 overflow-x-auto pb-1">
+  {areas.map((a) => (
+    <a
+      href={a.href}
+      aria-current={a.id === activa ? 'page' : undefined}
+      class={`shrink-0 rounded-full border px-4 py-2 font-sans text-sm font-semibold transition ${a.id === activa ? 'border-ink bg-ink text-white' : 'border-neutral-300 text-neutral-700 hover:border-ink hover:text-ink'}`}
+    >{a.nombre}</a>
+  ))}
+</nav>

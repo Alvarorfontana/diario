@@ -207,3 +207,10 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nota de análisis "El ajuste sobre los cuerpos: cómo se vació el PAMI" (Argentina, Redacción) · 1.166 palabras · dentro del límite de 1.200. Marcada como tapa.
 - Datos enlazados a sus fuentes (CEPA, OPC, Decreto 1412/2026, prestadores). Tres gráficos propios en el cuerpo y foto de sede del PAMI (archivo) con epígrafe.
 - Pendiente: buscar crédito real de la foto o reemplazarla por una propia; actualizar con los pagos a prestadores de diciembre.
+
+## 2026-11-24 · Laboratorio de datos dividido por áreas y Monitor del Congreso
+- /datos: nueva barra de áreas (Economía, Industria, Campo y clima, Congreso, Inversiones (RIGI), Internacional) que lleva a cada bloque; se agregaron anclas `#industria`, `#clima` e `#internacional` y una tarjeta que presenta el Monitor del Congreso. No se sacó nada.
+- Nueva página /datos/congreso/ (Monitor del Congreso) con solapas: Resumen, Historia (leyes por año desde 1983 y promedio por gobierno, con la pandemia de COVID-19 marcada en 2020-2023), Diputados (hemiciclo por bloque o por proyectos de ley, columnas y tipo de proyecto por bloque), Senado (hemiciclo y asistencia), Explorador (ranking, distribución y cruce de variables, ficha de cada legislador) y Qué medimos (51 variables).
+- Datos en `data/laboratorio/congreso.json`, leídos en cada visita desde GitHub: actualizarlos no requiere deploy (commits con [sin-deploy]).
+- Fuente en los gráficos: "Monitor del Congreso · Diario Federal", con el origen oficial en letra chica.
+- Pendiente: robot que actualice congreso.json dos veces por semana desde datos.hcdn.gob.ar y el Senado; verificar la serie de leyes 1983-2023 con la numeración oficial; sumar producción del Senado y asistencia de Diputados.
