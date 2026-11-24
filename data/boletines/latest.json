@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-24",
   "dateLabel": "24/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-24-df89314339b0.mp3",
-  "video": "/boletines/boletin-principal-2026-11-24-df89314339b0.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-24-df89314339b0.png",
-  "duracion": 93,
+  "archivo": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.mp3",
+  "video": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.png",
+  "duracion": 97,
   "voz": "es-AR-TomasNeural",
-  "hash": "df89314339b0",
+  "hash": "7df9b9010b96",
   "items": [
+    {
+      "slug": "2026-11-24-economia-espejo-retrovisor-actividad-septiembre-2026",
+      "title": "La economía en el espejo retrovisor: la Argentina conoce hoy los números de hace dos meses, mientras el deterioro continúa",
+      "section": "economia",
+      "url": "/articulo/2026-11-24-economia-espejo-retrovisor-actividad-septiembre-2026/"
+    },
     {
       "slug": "2026-11-24-pami-ajuste-sobre-los-cuerpos",
       "title": "El ajuste sobre los cuerpos: cómo se vació el PAMI",
@@ -38,12 +44,6 @@
       "title": "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha",
       "section": "economia",
       "url": "/articulo/2026-11-22-rigi-mucho-anuncio-poca-plata/"
-    },
-    {
-      "slug": "2026-11-22-laboratorio-de-datos-tres-senales",
-      "title": "El Paraná en evacuación, El Niño firme y la metalurgia al 40 por ciento",
-      "section": "argentina",
-      "url": "/articulo/2026-11-22-laboratorio-de-datos-tres-senales/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
