@@ -1,0 +1,50 @@
+name: Monitor del Congreso (actualización)
+
+# Lunes y jueves baja los datos abiertos de la Cámara de Diputados y actualiza
+# data/laboratorio/congreso.json. La página /datos/congreso/ lee ese archivo en cada
+# visita, así que el commit lleva [sin-deploy] y no gasta despliegues de Vercel.
+# También se puede correr a mano desde la pestaña Actions.
+on:
+  schedule:
+    - cron: '41 10 * * 1,4'   # lunes y jueves 7:41 hora argentina
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: congreso-datos
+  cancel-in-progress: false
+
+jobs:
+  datos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Bajar y calcular
+        run: node scripts/datos/actualizar-congreso.mjs
+
+      - name: Guardar en el repositorio
+        run: |
+          # Firmado como el dueño del repo, igual que el resto de los robots
+          git config user.name "Alvarorfontana"
+          git config user.email "alvarorfontana@gmail.com"
+          git add data/laboratorio/congreso.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en los datos."
+            exit 0
+          fi
+          git commit -m "[sin-deploy] Monitor del Congreso: datos actualizados"
+          for i in 1 2 3; do
+            git pull --rebase origin main && git push && exit 0
+            sleep 5
+          done
+          exit 1

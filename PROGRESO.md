@@ -214,3 +214,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Datos en `data/laboratorio/congreso.json`, leídos en cada visita desde GitHub: actualizarlos no requiere deploy (commits con [sin-deploy]).
 - Fuente en los gráficos: "Monitor del Congreso · Diario Federal", con el origen oficial en letra chica.
 - Pendiente: robot que actualice congreso.json dos veces por semana desde datos.hcdn.gob.ar y el Senado; verificar la serie de leyes 1983-2023 con la numeración oficial; sumar producción del Senado y asistencia de Diputados.
+
+## 2026-11-24 · Robot del Monitor del Congreso
+- Nuevo robot `.github/workflows/congreso-datos.yml` (lunes y jueves, o a mano desde Actions) que corre `scripts/datos/actualizar-congreso.mjs`: baja de datos.hcdn.gob.ar la composición, los proyectos, sus movimientos y las comisiones, y recalcula la parte de Diputados de `data/laboratorio/congreso.json`. Commits con [sin-deploy].
+- Si los datos llegan incompletos (menos de 250 diputados o pocos proyectos emparejados) no escribe nada y deja el archivo anterior.
+- Pendiente: Senado (votaciones, proyectos y personal) y serie histórica de leyes desde el conjunto "Leyes Sancionadas".
