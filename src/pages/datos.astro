@@ -31,6 +31,13 @@ const rigiPrevios = rigiGrupos.filter((g: any) => g.id === 'funcionaba' || g.id 
 const rigiPreviosMillones = rigiPrevios.reduce((s: number, g: any) => s + g.millones, 0);
 const rigiPreviosCantidad = rigiPrevios.reduce((s: number, g: any) => s + g.cantidad, 0);
 const rigiMaxCrono = rigi ? Math.max(...rigi.cronograma.map((c: any) => c.millones)) : 1;
+// Agregado: inversión comprometida por provincia y los proyectos más grandes (mismos datos de rigi.json)
+const rigiProvincias = rigi ? Object.entries(rigi.proyectos.reduce((acc: Record<string, { millones: number; cantidad: number }>, p: any) => {
+  const k = p.provincia; acc[k] = acc[k] || { millones: 0, cantidad: 0 }; acc[k].millones += p.millones; acc[k].cantidad += 1; return acc;
+}, {})).map(([provincia, v]: any) => ({ provincia, ...v })).sort((a: any, b: any) => b.millones - a.millones) : [];
+const rigiMaxProv = rigiProvincias.length ? rigiProvincias[0].millones : 1;
+const rigiTop = rigi ? rigi.proyectos.slice().sort((a: any, b: any) => b.millones - a.millones).slice(0, 10) : [];
+const rigiColor = (id: string) => rigi?.grupos.find((g: any) => g.id === id)?.color ?? '#c0392b';
 Astro.response.headers.set('Cache-Control', 'public, max-age=0, s-maxage=3600, stale-while-revalidate=86400');
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
@@ -427,7 +434,7 @@ const datosGraficos = {
               <div><div class="flex justify-between"><span>Ingresó neto</span><strong>US$ {n(rigi.ingresado.neto)} M</strong></div><div class="mt-1 h-4 rounded bg-[#7a1f1f]" style={`width:${Math.max(1.5, rigi.ingresado.neto / rigi.ingresado.aprobadoEseMomento * 100)}%`}></div></div>
             </div>
             <h3 class="mt-5 font-display text-lg font-bold text-ink">Cuándo llegaría la plata</h3>
-            <p class="text-xs text-neutral-500">Inversión prevista por año, millones de dólares</p>
+            <p class="text-xs text-neutral-500">Inversión prevista por año, en miles de millones de dólares</p>
             <div class="mt-3 flex h-36 items-end gap-1.5">
               {rigi.cronograma.map((c: any) => (
                 <div class="flex flex-1 flex-col items-center justify-end" title={`${c.anio}: US$ ${n(c.millones)} M`}>
@@ -451,6 +458,28 @@ const datosGraficos = {
                 <li class="flex items-center justify-between gap-3"><span class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style={`background:${g.color}`}></span>{g.nombre}</span><span class="shrink-0 text-xs text-neutral-600"><strong class="text-ink">{g.cantidad}</strong> · US$ {n(g.millones)} M · {n(g.pct, 1)} %</span></li>
               ))}
             </ul>
+          </article>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 gap-5 lg:grid-cols-2">
+          <article class="min-w-0">
+            <h3 class="font-display text-lg font-bold text-ink">¿Dónde va la inversión?</h3>
+            <p class="text-xs text-neutral-500">Comprometido por provincia, millones de dólares</p>
+            <div class="mt-3 space-y-2 text-sm">
+              {rigiProvincias.map((p: any) => (
+                <div title={`${p.provincia}: ${p.cantidad} proyecto(s)`}><div class="flex justify-between gap-3"><span class="min-w-0">{p.provincia} <span class="text-xs text-neutral-400">· {p.cantidad}</span></span><strong class="shrink-0">US$ {n(p.millones)} M</strong></div><div class="mt-1 h-3 rounded bg-[#c0392b]" style={`width:${Math.max(1.5, p.millones / rigiMaxProv * 100)}%`}></div></div>
+              ))}
+            </div>
+            <p class="mt-1 text-[11px] text-neutral-400">Los proyectos que abarcan varias provincias se muestran juntos, como figuran en la resolución.</p>
+          </article>
+          <article class="min-w-0">
+            <h3 class="font-display text-lg font-bold text-ink">Los 10 proyectos más grandes</h3>
+            <p class="text-xs text-neutral-500">Millones de dólares · el color indica su situación antes del RIGI</p>
+            <div class="mt-3 space-y-2 text-sm">
+              {rigiTop.map((p: any) => (
+                <div title={p.dato}><div class="flex justify-between gap-3"><span class="min-w-0 truncate">{p.nombre} <span class="text-xs text-neutral-400">· {p.provincia}</span></span><strong class="shrink-0">US$ {n(p.millones)} M</strong></div><div class="mt-1 h-3 rounded" style={`width:${Math.max(1.5, p.millones / rigiTop[0].millones * 100)}%;background:${rigiColor(p.grupo)}`}></div></div>
+              ))}
+            </div>
           </article>
         </div>
 

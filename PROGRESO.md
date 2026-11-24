@@ -192,3 +192,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nota: "Santucho, la UBA y el silencio de Grabois" (Opinión, Claudio Vila) · 3.297 palabras · opinión, sin límite. Con fuentes al pie.
 - Portada de la nota: fotograma de archivo (`public/uploads/santucho-archivo-difilm.jpg`) con epígrafe y fuente Archivo DiFilm.
 - Pendiente: actualizar si Grabois habla o si el Consejo Superior de la UBA se pronuncia (miércoles 25).
+
+## 2026-11-24
+- Laboratorio de datos, RIGI: corregida la unidad del gráfico "Cuándo llegaría la plata" (decía millones; los valores son miles de millones). Agregados dos gráficos con los datos de `rigi.json`: inversión por provincia y los 10 proyectos más grandes (color según situación antes del RIGI).
+- Pendiente: el RIGI sigue cargándose a mano (no hay fuente oficial con datos descargables); evaluar un robot que avise cuando sale una aprobación nueva en el Boletín Oficial.
