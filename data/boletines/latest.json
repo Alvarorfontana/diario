@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-24",
-  "dateLabel": "24/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.mp3",
-  "video": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.png",
-  "duracion": 101,
+  "date": "2026-11-25",
+  "dateLabel": "25/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.mp3",
+  "video": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.png",
+  "duracion": 103,
   "voz": "es-AR-TomasNeural",
-  "hash": "ea3d19cf135f",
+  "hash": "be748ef37c2c",
   "items": [
+    {
+      "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
+      "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
+      "section": "argentina",
+      "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
+    },
     {
       "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
       "title": "Auditoría a la UOM: publicamos completas las pruebas de Biglieri a la Justicia",
@@ -38,12 +44,6 @@
       "title": "Santucho, la UBA y el silencio de Grabois",
       "section": "opinion",
       "url": "/articulo/2026-11-23-santucho-la-uba-y-el-silencio-de-grabois/"
-    },
-    {
-      "slug": "2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense",
-      "title": "Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense",
-      "section": "argentina",
-      "url": "/articulo/2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
