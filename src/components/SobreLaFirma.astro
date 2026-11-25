@@ -19,7 +19,7 @@ const enlace = `/autor/${slugify(nombre)}/`;
 	</h2>
 	<div class="mt-5 flex items-start gap-4">
 		<a href={enlace} class="shrink-0">
-			<img src={foto} alt={`Foto de ${nombre}`} width="80" height="80" class="h-20 w-20 rounded-full bg-neutral-200 object-cover grayscale" loading="lazy" />
+			<img src={foto} alt={`Foto de ${nombre}`} width="80" height="80" class={`h-20 w-20 object-cover ${foto.includes("/autores/redaccion") ? "rounded-md" : "rounded-full bg-neutral-200 grayscale"}`} loading="lazy" />
 		</a>
 		<div class="min-w-0 flex-1">
 			<a href={enlace} class="font-display text-[22px] leading-tight font-bold text-ink hover:text-brand">{nombre}</a>

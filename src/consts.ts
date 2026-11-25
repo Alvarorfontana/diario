@@ -99,16 +99,16 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	},
 	'Mesa Internacional': {
 		bio: 'Equipo de Diario Federal que sigue la política internacional, el Mercosur y la economía global.',
-		foto: '/autores/redaccion.svg',
+		foto: '/autores/redaccion.jpg',
 	},
 	'Redacción Federal': {
 		bio: 'Equipo de Diario Federal que sigue la actualidad de las provincias y la política nacional.',
-		foto: '/autores/redaccion.svg',
+		foto: '/autores/redaccion.jpg',
 	},
 	// Firmas de la redacción: llevan el isotipo del diario en lugar de la foto provisoria
-	'Redacción': { foto: '/autores/redaccion.svg' },
-	'Redacción Diario Federal': { foto: '/autores/redaccion.svg' },
-	'Diario Federal': { foto: '/autores/redaccion.svg' },
+	'Redacción': { foto: '/autores/redaccion.jpg' },
+	'Redacción Diario Federal': { foto: '/autores/redaccion.jpg' },
+	'Diario Federal': { foto: '/autores/redaccion.jpg' },
 };
 
 export function fotoAutor(nombre: string): string | undefined {
