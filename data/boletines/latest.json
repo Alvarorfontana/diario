@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-25",
   "dateLabel": "25/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-25-a73c938e5411.mp3",
-  "video": "/boletines/boletin-principal-2026-11-25-a73c938e5411.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-25-a73c938e5411.png",
-  "duracion": 103,
+  "archivo": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.mp3",
+  "video": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.png",
+  "duracion": 100,
   "voz": "es-AR-TomasNeural",
-  "hash": "a73c938e5411",
+  "hash": "c52c9b9e64ff",
   "items": [
     {
       "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
@@ -17,7 +17,7 @@
     },
     {
       "slug": "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid",
-      "title": "Facultad de Ciencias Sociales suspende homenaje a Mario Santucho tras voto disidente",
+      "title": "Santucho: Sociales da marcha atrás y el peronismo paga la cuenta",
       "section": "argentina",
       "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
     },
