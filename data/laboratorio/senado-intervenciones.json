@@ -1,0 +1,986 @@
+{
+ "fecha": "2026-11-25",
+ "periodo": {
+  "desde": "2023-12-10",
+  "hasta": "2026-11-19"
+ },
+ "sesiones_leidas": 47,
+ "fuente": "Versiones taquigráficas del Senado de la Nación",
+ "aviso": "Cuenta las intervenciones identificadas por apellido. No incluye a la Presidencia de la sesión. Hablar mucho no es lo mismo que trabajar mucho.",
+ "sin_identificar": {
+  "Romero": 186,
+  "Tagliaferri": 184,
+  "Lousteau": 152,
+  "Pagotto": 144,
+  "Parrilli": 140,
+  "Blanco": 93,
+  "De Angeli": 88,
+  "Prosecretaria": 64,
+  "Jefe de Gabinete de Ministros": 56,
+  "Duré": 53,
+  "Leavy": 51,
+  "García Larraburu": 46,
+  "Silva": 38,
+  "Sapag": 34,
+  "Zimmermann": 33,
+  "Doñate": 31,
+  "Giménez": 27,
+  "Crexell": 20,
+  "Rodas": 18,
+  "Kueider": 17,
+  "Cora": 12,
+  "Pilatti Vergara": 8,
+  "Montenegro": 4,
+  "Olalla": 2,
+  "Escribano General de Gobierno de la Nación": 1,
+  "Vicepresidente de la Nación electa": 1,
+  "Izzo": 1,
+  "Giustinian": 1,
+  "Clark": 1,
+  "Martínez": 1,
+  "Chavarría": 1,
+  "Di Tulio": 1,
+  "Senadora electa Cora": 1,
+  "Di Tullo": 1,
+  "Nora Giménez": 1,
+  "Viramonte Olmos": 1,
+  "Ledesma": 1,
+  "Fitzgerald": 1,
+  "Piazza": 1,
+  "Fernández": 1
+ },
+ "sesiones": [
+  {
+   "fecha": "2023-12-10",
+   "tipo": "Asamblea",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/10-12-2023/00/downloadTac",
+   "intervenciones": 20
+  },
+  {
+   "fecha": "2023-12-13",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/13-12-2023/08/downloadTac",
+   "intervenciones": 258
+  },
+  {
+   "fecha": "2024-02-23",
+   "tipo": "Preparatoria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/23-02-2024/01/downloadTac",
+   "intervenciones": 136
+  },
+  {
+   "fecha": "2024-03-01",
+   "tipo": "Asamblea",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/01-03-2024/00/downloadTac",
+   "intervenciones": 14
+  },
+  {
+   "fecha": "2024-03-14",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/14-03-2024/02/downloadTac",
+   "intervenciones": 520
+  },
+  {
+   "fecha": "2024-04-18",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/18-04-2024/03/downloadTac",
+   "intervenciones": 83
+  },
+  {
+   "fecha": "2024-05-15",
+   "tipo": "Informativa Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/15-05-2024/04/downloadTac",
+   "intervenciones": 254
+  },
+  {
+   "fecha": "2024-06-12",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/12-06-2024/05/downloadTac",
+   "intervenciones": 1432
+  },
+  {
+   "fecha": "2024-07-04",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/04-07-2024/06/downloadTac",
+   "intervenciones": 568
+  },
+  {
+   "fecha": "2024-08-22",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/22-08-2024/08/downloadTac",
+   "intervenciones": 38
+  },
+  {
+   "fecha": "2024-08-22",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/22-08-2024/07/downloadTac",
+   "intervenciones": 289
+  },
+  {
+   "fecha": "2024-09-12",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/12-09-2024/09/downloadTac",
+   "intervenciones": 507
+  },
+  {
+   "fecha": "2024-09-26",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/26-09-2024/10/downloadTac",
+   "intervenciones": 337
+  },
+  {
+   "fecha": "2024-11-27",
+   "tipo": "Informativa Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/27-11-2024/11/downloadTac",
+   "intervenciones": 185
+  },
+  {
+   "fecha": "2024-12-12",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/12-12-2024/12/downloadTac",
+   "intervenciones": 244
+  },
+  {
+   "fecha": "2025-02-20",
+   "tipo": "Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/20-02-2025/13/downloadTac",
+   "intervenciones": 670
+  },
+  {
+   "fecha": "2025-02-24",
+   "tipo": "En Minoría",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/24-02-2025/01/downloadTac",
+   "intervenciones": 4
+  },
+  {
+   "fecha": "2025-03-01",
+   "tipo": "Asamblea",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/01-03-2025/00/downloadTac",
+   "intervenciones": 25
+  },
+  {
+   "fecha": "2025-04-03",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/03-04-2025/02/downloadTac",
+   "intervenciones": 270
+  },
+  {
+   "fecha": "2025-04-24",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/24-04-2025/03/downloadTac",
+   "intervenciones": 79
+  },
+  {
+   "fecha": "2025-05-07",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/07-05-2025/04/downloadTac",
+   "intervenciones": 460
+  },
+  {
+   "fecha": "2025-06-26",
+   "tipo": "Informativa Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/26-06-2025/05/downloadTac",
+   "intervenciones": 75
+  },
+  {
+   "fecha": "2025-07-10",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/10-07-2025/06/downloadTac",
+   "intervenciones": 1007
+  },
+  {
+   "fecha": "2025-08-21",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/21-08-2025/07/downloadTac",
+   "intervenciones": 586
+  },
+  {
+   "fecha": "2025-09-04",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/04-09-2025/08/downloadTac",
+   "intervenciones": 320
+  },
+  {
+   "fecha": "2025-09-18",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/18-09-2025/09/downloadTac",
+   "intervenciones": 457
+  },
+  {
+   "fecha": "2025-10-02",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/02-10-2025/10/downloadTac",
+   "intervenciones": 288
+  },
+  {
+   "fecha": "2025-11-28",
+   "tipo": "Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/28-11-2025/11/downloadTac",
+   "intervenciones": 121
+  },
+  {
+   "fecha": "2025-12-26",
+   "tipo": "Especial Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/26-12-2025/12/downloadTac",
+   "intervenciones": 393
+  },
+  {
+   "fecha": "2026-02-11",
+   "tipo": "Especial Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/11-02-2026/13/downloadTac",
+   "intervenciones": 493
+  },
+  {
+   "fecha": "2026-02-24",
+   "tipo": "Especial Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/24-02-2026/14/downloadTac",
+   "intervenciones": 33
+  },
+  {
+   "fecha": "2026-02-24",
+   "tipo": "Preparatoria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/24-02-2026/01/downloadTac",
+   "intervenciones": 67
+  },
+  {
+   "fecha": "2026-02-26",
+   "tipo": "Especial Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/26-02-2026/15/downloadTac",
+   "intervenciones": 309
+  },
+  {
+   "fecha": "2026-02-27",
+   "tipo": "Especial Extraordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/27-02-2026/16/downloadTac",
+   "intervenciones": 328
+  },
+  {
+   "fecha": "2026-03-01",
+   "tipo": "Asamblea",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/01-03-2026/00/downloadTac",
+   "intervenciones": 14
+  },
+  {
+   "fecha": "2026-03-18",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/18-03-2026/02/downloadTac",
+   "intervenciones": 325
+  },
+  {
+   "fecha": "2026-04-09",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/09-04-2026/03/downloadTac",
+   "intervenciones": 105
+  },
+  {
+   "fecha": "2026-05-14",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/14-05-2026/04/downloadTac",
+   "intervenciones": 346
+  },
+  {
+   "fecha": "2026-06-04",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/04-06-2026/05/downloadTac",
+   "intervenciones": 381
+  },
+  {
+   "fecha": "2026-06-25",
+   "tipo": "Falta De Quorum",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/25-06-2026/06/downloadTac",
+   "intervenciones": 3
+  },
+  {
+   "fecha": "2026-07-16",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/16-07-2026/07/downloadTac",
+   "intervenciones": 136
+  },
+  {
+   "fecha": "2026-08-06",
+   "tipo": "Ordinaria Continuación",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/06-08-2026/08/downloadTac",
+   "intervenciones": 397
+  },
+  {
+   "fecha": "2026-08-27",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/27-08-2026/09/downloadTac",
+   "intervenciones": 208
+  },
+  {
+   "fecha": "2026-09-17",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/17-09-2026/10/downloadTac",
+   "intervenciones": 483
+  },
+  {
+   "fecha": "2026-09-24",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/24-09-2026/11/downloadTac",
+   "intervenciones": 358
+  },
+  {
+   "fecha": "2026-10-29",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/29-10-2026/12/downloadTac",
+   "intervenciones": 461
+  },
+  {
+   "fecha": "2026-11-19",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/19-11-2026/13/downloadTac",
+   "intervenciones": 657
+  }
+ ],
+ "filas": [
+  {
+   "id": "sen-294",
+   "n": "Mayans, José Miguel Ángel",
+   "b": "JUSTICIALISTA",
+   "p": "Formosa",
+   "intervenciones": 906,
+   "palabras": 178532,
+   "sesiones_con_intervencion": 39
+  },
+  {
+   "id": "sen-285",
+   "n": "Capitanich, Jorge Milton",
+   "b": "JUSTICIALISTA",
+   "p": "Chaco",
+   "intervenciones": 163,
+   "palabras": 87176,
+   "sesiones_con_intervencion": 17
+  },
+  {
+   "id": "sen-566",
+   "n": "Salino, Fernando Aldo",
+   "b": "JUSTICIA SOCIAL FEDERAL",
+   "p": "San Luis",
+   "intervenciones": 120,
+   "palabras": 62632,
+   "sesiones_con_intervencion": 30
+  },
+  {
+   "id": "sen-468",
+   "n": "Fernández Sagasti, Anabel",
+   "b": "JUSTICIALISTA",
+   "p": "Mendoza",
+   "intervenciones": 415,
+   "palabras": 61115,
+   "sesiones_con_intervencion": 26
+  },
+  {
+   "id": "sen-580",
+   "n": "Bullrich, Patricia",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Ciudad Autónoma De Buenos Aires",
+   "intervenciones": 262,
+   "palabras": 60891,
+   "sesiones_con_intervencion": 18
+  },
+  {
+   "id": "sen-517",
+   "n": "Di Tullio, Juliana",
+   "b": "JUSTICIALISTA",
+   "p": "Buenos Aires",
+   "intervenciones": 530,
+   "palabras": 53765,
+   "sesiones_con_intervencion": 33
+  },
+  {
+   "id": "sen-552",
+   "n": "Atauche, Ezequiel",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Jujuy",
+   "intervenciones": 333,
+   "palabras": 51823,
+   "sesiones_con_intervencion": 31
+  },
+  {
+   "id": "sen-524",
+   "n": "Vischi, Eduardo Alejandro",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Corrientes",
+   "intervenciones": 177,
+   "palabras": 50539,
+   "sesiones_con_intervencion": 34
+  },
+  {
+   "id": "sen-532",
+   "n": "Bensusán, Daniel Pablo",
+   "b": "JUSTICIALISTA",
+   "p": "La Pampa",
+   "intervenciones": 79,
+   "palabras": 49853,
+   "sesiones_con_intervencion": 28
+  },
+  {
+   "id": "sen-588",
+   "n": "Soria, Martin Ignacio",
+   "b": "JUSTICIALISTA",
+   "p": "Río Negro",
+   "intervenciones": 81,
+   "palabras": 46195,
+   "sesiones_con_intervencion": 16
+  },
+  {
+   "id": "sen-523",
+   "n": "Vigo, Alejandra María",
+   "b": "PROVINCIAS UNIDAS",
+   "p": "Córdoba",
+   "intervenciones": 99,
+   "palabras": 39331,
+   "sesiones_con_intervencion": 25
+  },
+  {
+   "id": "sen-554",
+   "n": "Moises, María Carolina",
+   "b": "CONVICCIÓN FEDERAL",
+   "p": "Jujuy",
+   "intervenciones": 54,
+   "palabras": 38463,
+   "sesiones_con_intervencion": 21
+  },
+  {
+   "id": "sen-528",
+   "n": "Terenzi, Edith Elizabeth",
+   "b": "DESPIERTA CHUBUT",
+   "p": "Chubut",
+   "intervenciones": 63,
+   "palabras": 34629,
+   "sesiones_con_intervencion": 21
+  },
+  {
+   "id": "sen-538",
+   "n": "Lewandowski, Marcelo Néstor",
+   "b": "JUSTICIALISTA",
+   "p": "Santa Fe",
+   "intervenciones": 69,
+   "palabras": 32025,
+   "sesiones_con_intervencion": 27
+  },
+  {
+   "id": "sen-498",
+   "n": "Recalde, Mariano",
+   "b": "JUSTICIALISTA",
+   "p": "Ciudad Autónoma De Buenos Aires",
+   "intervenciones": 71,
+   "palabras": 30370,
+   "sesiones_con_intervencion": 17
+  },
+  {
+   "id": "sen-398",
+   "n": "Corpacci, Lucía Benigna",
+   "b": "JUSTICIALISTA",
+   "p": "Catamarca",
+   "intervenciones": 49,
+   "palabras": 28296,
+   "sesiones_con_intervencion": 21
+  },
+  {
+   "id": "sen-520",
+   "n": "Fama, Flavio Sergio",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Catamarca",
+   "intervenciones": 52,
+   "palabras": 28071,
+   "sesiones_con_intervencion": 25
+  },
+  {
+   "id": "sen-400",
+   "n": "Juez, Luis Alfredo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Córdoba",
+   "intervenciones": 63,
+   "palabras": 27964,
+   "sesiones_con_intervencion": 23
+  },
+  {
+   "id": "sen-546",
+   "n": "Abad, Maximiliano",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Buenos Aires",
+   "intervenciones": 59,
+   "palabras": 27571,
+   "sesiones_con_intervencion": 28
+  },
+  {
+   "id": "sen-545",
+   "n": "De Pedro, Eduardo Enrique",
+   "b": "JUSTICIALISTA",
+   "p": "Buenos Aires",
+   "intervenciones": 89,
+   "palabras": 24524,
+   "sesiones_con_intervencion": 20
+  },
+  {
+   "id": "sen-551",
+   "n": "Paoltroni, Francisco Manuel",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Formosa",
+   "intervenciones": 124,
+   "palabras": 24065,
+   "sesiones_con_intervencion": 25
+  },
+  {
+   "id": "sen-366",
+   "n": "Kirchner, Alicia Margarita Antonia",
+   "b": "JUSTICIALISTA",
+   "p": "Santa Cruz",
+   "intervenciones": 47,
+   "palabras": 23885,
+   "sesiones_con_intervencion": 26
+  },
+  {
+   "id": "sen-541",
+   "n": "Avila, Beatriz Luisa",
+   "b": "INDEPENDENCIA",
+   "p": "Tucumán",
+   "intervenciones": 42,
+   "palabras": 22539,
+   "sesiones_con_intervencion": 23
+  },
+  {
+   "id": "sen-519",
+   "n": "Andrada, Guillermo Eduardo",
+   "b": "CONVICCIÓN FEDERAL",
+   "p": "Catamarca",
+   "intervenciones": 51,
+   "palabras": 22316,
+   "sesiones_con_intervencion": 24
+  },
+  {
+   "id": "sen-536",
+   "n": "Losada, Carolina",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Santa Fe",
+   "intervenciones": 123,
+   "palabras": 21819,
+   "sesiones_con_intervencion": 26
+  },
+  {
+   "id": "sen-450",
+   "n": "Zamora, Gerardo",
+   "b": "FRENTE CÍVICO POR SANTIAGO",
+   "p": "Santiago Del Estero",
+   "intervenciones": 16,
+   "palabras": 20939,
+   "sesiones_con_intervencion": 11
+  },
+  {
+   "id": "sen-522",
+   "n": "Alvarez Rivero, Carmen",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Córdoba",
+   "intervenciones": 105,
+   "palabras": 20914,
+   "sesiones_con_intervencion": 31
+  },
+  {
+   "id": "sen-593",
+   "n": "Royon, Flavia Gabriela",
+   "b": "PRIMERO LOS SALTEÑOS",
+   "p": "Salta",
+   "intervenciones": 32,
+   "palabras": 20200,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-529",
+   "n": "Linares, Carlos Alberto",
+   "b": "JUSTICIALISTA",
+   "p": "Chubut",
+   "intervenciones": 50,
+   "palabras": 18065,
+   "sesiones_con_intervencion": 25
+  },
+  {
+   "id": "sen-556",
+   "n": "Rejal, Jesús Fernando",
+   "b": "JUSTICIALISTA",
+   "p": "La Rioja",
+   "intervenciones": 36,
+   "palabras": 14523,
+   "sesiones_con_intervencion": 16
+  },
+  {
+   "id": "sen-564",
+   "n": "Abdala, Bartolomé Esteban",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "San Luis",
+   "intervenciones": 74,
+   "palabras": 14451,
+   "sesiones_con_intervencion": 18
+  },
+  {
+   "id": "sen-584",
+   "n": "Bahl, Adán Humberto",
+   "b": "JUSTICIALISTA",
+   "p": "Entre Ríos",
+   "intervenciones": 39,
+   "palabras": 14395,
+   "sesiones_con_intervencion": 11
+  },
+  {
+   "id": "sen-589",
+   "n": "Marks, Ana Inés",
+   "b": "JUSTICIALISTA",
+   "p": "Río Negro",
+   "intervenciones": 13,
+   "palabras": 13146,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-585",
+   "n": "Márquez, Nadia Judith",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Neuquén",
+   "intervenciones": 34,
+   "palabras": 13009,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-560",
+   "n": "Goerling Lara, Enrique Martín",
+   "b": "FRENTE PRO",
+   "p": "Misiones",
+   "intervenciones": 24,
+   "palabras": 12337,
+   "sesiones_con_intervencion": 17
+  },
+  {
+   "id": "sen-477",
+   "n": "González, María Teresa Margarita",
+   "b": "JUSTICIALISTA",
+   "p": "Formosa",
+   "intervenciones": 30,
+   "palabras": 11891,
+   "sesiones_con_intervencion": 14
+  },
+  {
+   "id": "sen-595",
+   "n": "Coto, Agustín Pedro",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Tierra Del Fuego, Antártida E Islas Del Atlántico Sur",
+   "intervenciones": 58,
+   "palabras": 11678,
+   "sesiones_con_intervencion": 8
+  },
+  {
+   "id": "sen-563",
+   "n": "Olivera Lucero, Bruno Antonio",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "San Juan",
+   "intervenciones": 19,
+   "palabras": 11336,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-581",
+   "n": "Monteverde, Agustín Aníbal",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Ciudad Autónoma De Buenos Aires",
+   "intervenciones": 40,
+   "palabras": 9872,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-579",
+   "n": "Schneider, Silvana Lorena",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Chaco",
+   "intervenciones": 13,
+   "palabras": 8847,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-587",
+   "n": "Corroza, Julieta",
+   "b": "LA NEUQUINIDAD",
+   "p": "Neuquén",
+   "intervenciones": 22,
+   "palabras": 8190,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-567",
+   "n": "Carambia, José María",
+   "b": "MOVERE SANTA CRUZ",
+   "p": "Santa Cruz",
+   "intervenciones": 33,
+   "palabras": 8178,
+   "sesiones_con_intervencion": 18
+  },
+  {
+   "id": "sen-592",
+   "n": "Guzmán Coraita, Gonzalo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Salta",
+   "intervenciones": 17,
+   "palabras": 8124,
+   "sesiones_con_intervencion": 7
+  },
+  {
+   "id": "sen-570",
+   "n": "Cristina, Andrea Marcela",
+   "b": "FRENTE PRO",
+   "p": "Chubut",
+   "intervenciones": 26,
+   "palabras": 7898,
+   "sesiones_con_intervencion": 12
+  },
+  {
+   "id": "sen-510",
+   "n": "Neder, José Emilio",
+   "b": "JUSTICIALISTA",
+   "p": "Santiago Del Estero",
+   "intervenciones": 20,
+   "palabras": 7865,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-582",
+   "n": "Benegas Lynch, Joaquín Alberto",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Entre Ríos",
+   "intervenciones": 28,
+   "palabras": 7523,
+   "sesiones_con_intervencion": 8
+  },
+  {
+   "id": "sen-596",
+   "n": "Monte De Oca, María Belén",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Tierra Del Fuego, Antártida E Islas Del Atlántico Sur",
+   "intervenciones": 7,
+   "palabras": 7360,
+   "sesiones_con_intervencion": 6
+  },
+  {
+   "id": "sen-559",
+   "n": "Rojas Decut, Sonia Elizabeth",
+   "b": "MOVIMIENTO POR MISIONES",
+   "p": "Misiones",
+   "intervenciones": 9,
+   "palabras": 6463,
+   "sesiones_con_intervencion": 5
+  },
+  {
+   "id": "sen-534",
+   "n": "Juri, Mariana",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Mendoza",
+   "intervenciones": 22,
+   "palabras": 6277,
+   "sesiones_con_intervencion": 12
+  },
+  {
+   "id": "sen-561",
+   "n": "Uñac, Sergio Mauricio",
+   "b": "JUSTICIALISTA",
+   "p": "San Juan",
+   "intervenciones": 9,
+   "palabras": 6105,
+   "sesiones_con_intervencion": 5
+  },
+  {
+   "id": "sen-562",
+   "n": "Giménez Navarro, María Celeste",
+   "b": "JUSTICIALISTA",
+   "p": "San Juan",
+   "intervenciones": 12,
+   "palabras": 5680,
+   "sesiones_con_intervencion": 8
+  },
+  {
+   "id": "sen-558",
+   "n": "Arce, Carlos Omar",
+   "b": "MOVIMIENTO POR MISIONES",
+   "p": "Misiones",
+   "intervenciones": 13,
+   "palabras": 5635,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-525",
+   "n": "Valenzuela, Mercedes Gabriela",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Corrientes",
+   "intervenciones": 13,
+   "palabras": 4854,
+   "sesiones_con_intervencion": 10
+  },
+  {
+   "id": "sen-578",
+   "n": "Godoy, Juan Cruz",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Chaco",
+   "intervenciones": 13,
+   "palabras": 4708,
+   "sesiones_con_intervencion": 6
+  },
+  {
+   "id": "sen-565",
+   "n": "Arrascaeta, Ivanna Marcela",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "San Luis",
+   "intervenciones": 9,
+   "palabras": 4455,
+   "sesiones_con_intervencion": 5
+  },
+  {
+   "id": "sen-461",
+   "n": "Espínola, Carlos Mauricio",
+   "b": "PROVINCIAS UNIDAS",
+   "p": "Corrientes",
+   "intervenciones": 45,
+   "palabras": 3973,
+   "sesiones_con_intervencion": 19
+  },
+  {
+   "id": "sen-553",
+   "n": "Bedia, Vilma Facunda",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Jujuy",
+   "intervenciones": 15,
+   "palabras": 3939,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-530",
+   "n": "Kroneberger, Daniel Ricardo",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "La Pampa",
+   "intervenciones": 13,
+   "palabras": 3588,
+   "sesiones_con_intervencion": 7
+  },
+  {
+   "id": "sen-591",
+   "n": "Orozco, María Emilia",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Salta",
+   "intervenciones": 9,
+   "palabras": 3528,
+   "sesiones_con_intervencion": 4
+  },
+  {
+   "id": "sen-531",
+   "n": "Huala, María Victoria",
+   "b": "FRENTE PRO",
+   "p": "La Pampa",
+   "intervenciones": 22,
+   "palabras": 3505,
+   "sesiones_con_intervencion": 11
+  },
+  {
+   "id": "sen-576",
+   "n": "Manzur, Juan Luis",
+   "b": "JUSTICIALISTA",
+   "p": "Tucumán",
+   "intervenciones": 8,
+   "palabras": 3391,
+   "sesiones_con_intervencion": 4
+  },
+  {
+   "id": "sen-540",
+   "n": "Mendoza, Sandra Mariela",
+   "b": "CONVICCIÓN FEDERAL",
+   "p": "Tucumán",
+   "intervenciones": 13,
+   "palabras": 3256,
+   "sesiones_con_intervencion": 8
+  },
+  {
+   "id": "sen-586",
+   "n": "Cervi, Mario Pablo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Neuquén",
+   "intervenciones": 15,
+   "palabras": 1838,
+   "sesiones_con_intervencion": 4
+  },
+  {
+   "id": "sen-568",
+   "n": "Gadano, Natalia Elena",
+   "b": "MOVERE SANTA CRUZ",
+   "p": "Santa Cruz",
+   "intervenciones": 17,
+   "palabras": 1720,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-573",
+   "n": "Galaretto, Eduardo Horacio",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Santa Fe",
+   "intervenciones": 7,
+   "palabras": 1483,
+   "sesiones_con_intervencion": 3
+  },
+  {
+   "id": "sen-571",
+   "n": "Suárez, Rodolfo Alejandro",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Mendoza",
+   "intervenciones": 5,
+   "palabras": 1303,
+   "sesiones_con_intervencion": 3
+  },
+  {
+   "id": "sen-594",
+   "n": "Moreno, Elia Esther Del Carmen",
+   "b": "FRENTE CÍVICO POR SANTIAGO",
+   "p": "Santiago Del Estero",
+   "intervenciones": 2,
+   "palabras": 976,
+   "sesiones_con_intervencion": 2
+  },
+  {
+   "id": "sen-590",
+   "n": "Fullone, Enzo Paolo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Río Negro",
+   "intervenciones": 2,
+   "palabras": 725,
+   "sesiones_con_intervencion": 2
+  },
+  {
+   "id": "sen-583",
+   "n": "Almeida, Romina María",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Entre Ríos",
+   "intervenciones": 2,
+   "palabras": 324,
+   "sesiones_con_intervencion": 2
+  },
+  {
+   "id": "sen-574",
+   "n": "López, Cándida Cristina",
+   "b": "JUSTICIALISTA",
+   "p": "Tierra Del Fuego, Antártida E Islas Del Atlántico Sur",
+   "intervenciones": 0,
+   "palabras": 0,
+   "sesiones_con_intervencion": 0
+  },
+  {
+   "id": "sen-597",
+   "n": "López, Claudia Cecilia",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "La Rioja",
+   "intervenciones": 0,
+   "palabras": 0,
+   "sesiones_con_intervencion": 0
+  },
+  {
+   "id": "sen-555",
+   "n": "López, María Florencia",
+   "b": "JUSTICIALISTA",
+   "p": "La Rioja",
+   "intervenciones": 0,
+   "palabras": 0,
+   "sesiones_con_intervencion": 0
+  }
+ ]
+}
