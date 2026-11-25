@@ -17,6 +17,8 @@ puntosClave:
 resumenCompartir: "Exclusivo: la auditoría de BDO sobre la UOM. El esquema con USEM y el fideicomiso costaba $408 millones por mes."
 ---
 
+<div style="margin:0 0 1.75rem;padding:14px 18px;border-left:4px solid #b91c1c;background:#fef2f2"><div style="font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#b91c1c">Informe completo</div><div style="margin-top:4px;font-size:.95rem;color:#171717">Diario Federal publica el informe confidencial de BDO sobre la UOM tal como fue entregado: 25 páginas, firmado el 12 de noviembre de 2026.</div><div style="margin-top:8px;font-size:.9rem;font-weight:600"><a href="#informe-completo">Leer las 25 páginas ↓</a> &nbsp;·&nbsp; <a href="/uploads/2026-11-24-informe-bdo-uom.pdf" target="_blank" rel="noopener">Descargar el PDF</a></div></div>
+
 <p>En forma exclusiva, Diario Federal accedió al informe confidencial de la auditora BDO sobre la administración de los fondos de la Unión Obrera Metalúrgica (UOMRA) y de su obra social (OSUOMRA). El trabajo fue encargado por la intervención judicial del gremio y lleva la firma digital de Becher y Asociados S.R.L., representante de BDO en Argentina, con fecha 12 de noviembre de 2026.</p>
 
 <figure style="margin:2rem 0"><img src="/uploads/2026-11-24-julian-ercolini-juez-federal.jpg" alt="El juez federal Julián Ercolini" loading="lazy" style="width:100%;height:auto" /><figcaption class="epigrafe">El juez federal Julián Ercolini, a cargo de la causa por los contratos con USEM. Foto: revista Quorum.</figcaption></figure>
@@ -31,7 +33,7 @@ resumenCompartir: "Exclusivo: la auditoría de BDO sobre la UOM. El esquema con 
 
 
 
-<h2>El informe completo</h2>
+<h2 id="informe-completo">El informe completo</h2>
 
 <p>A continuación se publica el informe tal como fue entregado, sin modificaciones. <a href="/uploads/2026-11-24-informe-bdo-uom.pdf" target="_blank" rel="noopener">Descargar el informe en PDF</a>.</p>
 
