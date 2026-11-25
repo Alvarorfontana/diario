@@ -20,6 +20,9 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Registro
 
+### 2026-11-25
+- Monitor del Congreso: la fecha de inicio pasa del 1/1/2024 al 10/12/2023, para cubrir todo el gobierno de Milei (incluye las sesiones extraordinarias de diciembre de 2023). Pendiente: el Senado todavía no se recalcula solo (sus actas arrancan el 23/2/2024).
+
 ### 2026-11-22
 - Cabecera: se esconde al bajar leyendo y vuelve apenas se sube (como Infobae y El País en el celular). En las notas, al bajar queda solo la barra fina con sección, título y línea de progreso. No se sacó nada.
 

@@ -8,7 +8,8 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 const ARCHIVO = 'data/laboratorio/congreso.json';
 const API = 'https://datos.hcdn.gob.ar/api/3/action/package_show?id=';
-const DESDE = '2024-01-01';
+// Desde que asumió Javier Milei (10/12/2023): el período del monitor es su gobierno completo.
+const DESDE = '2023-12-10';
 
 const norm = (s) => String(s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
 const slug = (s) => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
