@@ -188,8 +188,33 @@ def correr():
         raise SystemExit("Se leyeron muy pocas sesiones; no se guarda nada.")
     with open(SALIDA, "w", encoding="utf-8") as f:
         json.dump(salida, f, ensure_ascii=False, indent=1)
+    sumar_al_monitor(salida)
     print(f"Listo: {len(leidas)} sesiones, {sum(x['intervenciones'] for x in filas)} intervenciones identificadas, "
           f"{len(sin_match)} nombres sin identificar.")
+
+
+def sumar_al_monitor(salida, archivo="data/laboratorio/congreso.json"):
+    """Pasa intervenciones (iv) y palabras (pw) a las filas del Senado en congreso.json, para que la página las muestre."""
+    with open(archivo, encoding="utf-8") as f:
+        cong = json.load(f)
+    por_id = {x["id"]: x for x in salida["filas"]}
+    for fila in cong["filas"]:
+        if fila["c"] == "S" and fila["id"] in por_id:
+            fila["iv"] = por_id[fila["id"]]["intervenciones"]
+            fila["pw"] = por_id[fila["id"]]["palabras"]
+    per = f"{salida['periodo']['desde']} a {salida['periodo']['hasta']}"
+    for v in cong["variables"]:
+        if v["id"] == "intervenciones":
+            v.update({"campo": "iv", "estado": "piloto", "fuente": "Versiones taquigráficas del Senado", "frecuencia": "Semanal",
+                      "mide": f"Veces que hizo uso de la palabra en el recinto (Senado, {per})"})
+    if not any(v["id"] == "palabras_recinto" for v in cong["variables"]):
+        i = next((k for k, v in enumerate(cong["variables"]) if v["id"] == "intervenciones"), len(cong["variables"]) - 1)
+        cong["variables"].insert(i + 1, {"grupo": "Presencia", "id": "palabras_recinto", "nombre": "Palabras en el recinto",
+                                          "mide": f"Cuánto habló en las sesiones (Senado, {per})", "fuente": "Versiones taquigráficas del Senado",
+                                          "frecuencia": "Semanal", "modelo": "TheyWorkForYou", "estado": "piloto", "campo": "pw"})
+    cong["periodoIntervenciones"] = salida["periodo"] | {"sesiones": salida["sesiones_leidas"]}
+    with open(archivo, "w", encoding="utf-8") as f:
+        json.dump(cong, f, ensure_ascii=False, separators=(",", ":"))
 
 
 if __name__ == "__main__":
