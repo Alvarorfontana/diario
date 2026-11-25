@@ -3,6 +3,8 @@
 Libreta del proyecto: qué hay, qué se hizo y qué falta. Se actualiza después de cada cambio, con la fecha.
 Las reglas de trabajo están en `CLAUDE.md`.
 
+## 2026-11-24 — Nota exclusiva: informe de BDO sobre la UOM (portada, 2 fotos, 26 páginas del documento y PDF)
+
 ## Qué hay hoy
 
 - Sitio diariofederal.com.ar (Astro, Vercel `diario-5z4k`), panel propio en `/admin`.
