@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-25",
   "dateLabel": "25/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.mp3",
-  "video": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-25-be748ef37c2c.png",
+  "archivo": "/boletines/boletin-principal-2026-11-25-a73c938e5411.mp3",
+  "video": "/boletines/boletin-principal-2026-11-25-a73c938e5411.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-25-a73c938e5411.png",
   "duracion": 103,
   "voz": "es-AR-TomasNeural",
-  "hash": "be748ef37c2c",
+  "hash": "a73c938e5411",
   "items": [
     {
       "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
       "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
       "section": "argentina",
       "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
+    },
+    {
+      "slug": "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid",
+      "title": "Facultad de Ciencias Sociales suspende homenaje a Mario Santucho tras voto disidente",
+      "section": "argentina",
+      "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
     },
     {
       "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
@@ -38,12 +44,6 @@
       "title": "Dólar arriba de $1.600, deuda cara y una industria que no frena su caída",
       "section": "economia",
       "url": "/articulo/2026-11-24-dolar-1600-deuda-cara-retroceso-industrial/"
-    },
-    {
-      "slug": "2026-11-23-santucho-la-uba-y-el-silencio-de-grabois",
-      "title": "Santucho, la UBA y el silencio de Grabois",
-      "section": "opinion",
-      "url": "/articulo/2026-11-23-santucho-la-uba-y-el-silencio-de-grabois/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
