@@ -226,3 +226,6 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nuevo robot `.github/workflows/congreso-datos.yml` (lunes y jueves, o a mano desde Actions) que corre `scripts/datos/actualizar-congreso.mjs`: baja de datos.hcdn.gob.ar la composición, los proyectos, sus movimientos y las comisiones, y recalcula la parte de Diputados de `data/laboratorio/congreso.json`. Commits con [sin-deploy].
 - Si los datos llegan incompletos (menos de 250 diputados o pocos proyectos emparejados) no escribe nada y deja el archivo anterior.
 - Pendiente: Senado (votaciones, proyectos y personal) y serie histórica de leyes desde el conjunto "Leyes Sancionadas".
+
+## 2026-11-25
+- Nota de Santucho en Sociales (Emilio Lahitte) reescrita como Análisis con datos verificados (15 a 1, voto de La Mella, libro de Hagman y Bosia), enlaces a fuentes y foto de archivo DiFilm. El audio se regenera solo.
