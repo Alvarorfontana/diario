@@ -2,16 +2,16 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-24",
   "dateLabel": "24/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.mp3",
-  "video": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.png",
-  "duracion": 102,
+  "archivo": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.mp3",
+  "video": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-24-ea3d19cf135f.png",
+  "duracion": 101,
   "voz": "es-AR-TomasNeural",
-  "hash": "ac5c5fddb96e",
+  "hash": "ea3d19cf135f",
   "items": [
     {
       "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
-      "title": "La auditoría de BDO sobre la UOM: un esquema que costaba $408 millones por mes",
+      "title": "Auditoría a la UOM: publicamos completas las pruebas de Biglieri a la Justicia",
       "section": "argentina",
       "url": "/articulo/2026-11-24-auditoria-bdo-uom-usem-408-millones/"
     },
