@@ -12,7 +12,6 @@ tags:
   - Monitor del Congreso
 ---
 
-<p>Por Emilio Lahitte</p>
 <p>En los casi tres años de gobierno de Javier Milei, los diputados nacionales presentaron 8.835 proyectos como autores principales, contados entre el 3 de enero de 2024 y el 6 de octubre de 2026. Solo el 33,4 % fueron proyectos de ley; el resto fueron resoluciones (46,5 %) y declaraciones (20,1 %), muchas de ellas beneplácitos por aniversarios de ciudades o efemérides, según el monitor del Congreso del Laboratorio de datos de Diario Federal, elaborado con los datos abiertos de la Cámara de Diputados.</p>
 <p>De todo lo presentado, apenas el 7 % terminó sancionado: 619 proyectos, en su mayoría resoluciones y declaraciones. Solo 15 quedaron con media sanción. Además, 134 de los 257 diputados no tienen ningún proyecto propio aprobado.</p>
 <p>La producción está muy concentrada. El 10 % de los diputados más activos firma la mitad de los proyectos, mientras que la mitad menos activa suma el 6,3 %. Hay 28 diputados que no presentaron ningún proyecto como autor principal, y 26 de ellos son de La Libertad Avanza.</p>
@@ -36,7 +35,7 @@ tags:
 <p>En el otro extremo, cuatro diputados de La Libertad Avanza que asumieron en diciembre de 2023 no presentaron ningún proyecto como autores principales en casi tres años: Pablo Ansaloni y Bertie Benegas Lynch (Buenos Aires), José Peluc (San Juan) y Carlos García (Chaco). Martín Menem, presidente de la Cámara, firmó uno, como es costumbre en ese cargo. Entre quienes asumieron en diciembre de 2025, 24 todavía no presentaron proyectos: 22 son de La Libertad Avanza, además de Martín Lousteau (Provincias Unidas) y Abelardo Ferrán (Unión por la Patria).</p>
 <p>No presentar proyectos no equivale a no trabajar: Ansaloni y Peluc, por ejemplo, tienen dos cargos de conducción en comisiones (presidencia o vicepresidencia) cada uno.</p>
 <h3>Cada vez menos leyes</h3>
-<p>El Congreso sancionó 44 leyes en 2024 y 17 en 2025, según la numeración oficial. [COMPLETAR: comparación con gobiernos anteriores una vez verificada la serie 1983‑2023]</p>
+<p>El Congreso sancionó 44 leyes en 2024 y 17 en 2025, según la numeración oficial.</p>
 <h3>Lo que cuesta</h3>
 <p>En los tres años del gobierno de Milei, el Poder Legislativo gastó unos 1,94 billones de pesos: 540.700 millones en 2024, 667.700 millones en 2025 y 730.097 millones en 2026 hasta el 20 de noviembre, en pesos de cada año, según los datos de ejecución del Ministerio de Economía. La cifra incluye a las dos cámaras y a los organismos que dependen del Congreso, como la Auditoría General de la Nación y las defensorías. Más del 80 % se va en sueldos.</p>
 <p>Si lo gastado en 2024 y 2025 se divide por las 61 leyes sancionadas en esos dos años, cada ley costó en promedio unos 19.800 millones de pesos. Es una cuenta gruesa: el Congreso también controla, investiga y representa. Pero muestra la distancia entre lo que se gasta y lo que se produce.</p>
