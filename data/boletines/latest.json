@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-24",
   "dateLabel": "24/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.mp3",
-  "video": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-24-7df9b9010b96.png",
-  "duracion": 97,
+  "archivo": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.mp3",
+  "video": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-24-ac5c5fddb96e.png",
+  "duracion": 102,
   "voz": "es-AR-TomasNeural",
-  "hash": "7df9b9010b96",
+  "hash": "ac5c5fddb96e",
   "items": [
+    {
+      "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
+      "title": "La auditoría de BDO sobre la UOM: un esquema que costaba $408 millones por mes",
+      "section": "argentina",
+      "url": "/articulo/2026-11-24-auditoria-bdo-uom-usem-408-millones/"
+    },
     {
       "slug": "2026-11-24-economia-espejo-retrovisor-actividad-septiembre-2026",
       "title": "La economía en el espejo retrovisor: la Argentina conoce hoy los números de hace dos meses, mientras el deterioro continúa",
@@ -38,12 +44,6 @@
       "title": "Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense",
       "section": "argentina",
       "url": "/articulo/2026-11-22-kicillof-teje-adentro-massa-arma-afuera-pj-bonaerense/"
-    },
-    {
-      "slug": "2026-11-22-rigi-mucho-anuncio-poca-plata",
-      "title": "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha",
-      "section": "economia",
-      "url": "/articulo/2026-11-22-rigi-mucho-anuncio-poca-plata/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
