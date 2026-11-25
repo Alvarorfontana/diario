@@ -74,30 +74,21 @@ def descubrir():
 
 
 def sesiones():
-    """Lista de sesiones con su enlace a la versión taquigráfica, período por período."""
+    """Lista de sesiones con su enlace a la versión taquigráfica (la página de búsqueda trae todas)."""
+    h = pedir(BUSQUEDA)
     vistos, out = set(), []
-    for anio in range(DESDE.year, date.today().year + 1):
-        pagina = 1
-        while True:
-            url = f"{BUSQUEDA}?periodo={anio}&page={pagina}" if pagina > 1 else f"{BUSQUEDA}?periodo={anio}"
-            h = pedir(url)
-            nuevas = 0
-            for fila in re.findall(r"<tr[\s\S]*?</tr>", h, re.I):
-                m = re.search(r"(\d{2})-(\d{2})-(\d{4})", fila)
-                enl = [x for x in re.findall(r'href="([^"]+)"', fila) if re.search(r"tac|version|pdf|download", x, re.I)]
-                if not m or not enl:
-                    continue
-                f = date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
-                u = urllib.parse.urljoin(BASE, html.unescape(enl[0]))
-                if f < DESDE or u in vistos:
-                    continue
-                vistos.add(u)
-                tipo = re.search(r"(ORDINARIA|ESPECIAL|ESPECIAL|ASAMBLEA|EXTRAORDINARIA|PREPARATORIA|INFORMATIVA)", fila, re.I)
-                out.append({"fecha": f.isoformat(), "tipo": tipo.group(1).title() if tipo else "", "url": u})
-                nuevas += 1
-            if nuevas == 0 or f'page={pagina + 1}' not in h:
-                break
-            pagina += 1
+    for fila in re.findall(r"<tr[\s\S]*?</tr>", h, re.I):
+        m = re.search(r"(\d{2})-(\d{2})-(\d{4})", fila)
+        enl = [x for x in re.findall(r'href="([^"]+)"', fila) if "downloadTac" in x]
+        if not m or not enl:
+            continue
+        f = date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
+        u = urllib.parse.urljoin(BASE, html.unescape(enl[0]))
+        if f < DESDE or u in vistos:
+            continue
+        vistos.add(u)
+        celdas = [re.sub(r"<[^>]+>|\s+", " ", c).strip() for c in re.findall(r"<td[^>]*>([\s\S]*?)</td>", fila, re.I)]
+        out.append({"fecha": f.isoformat(), "tipo": (celdas[1] if len(celdas) > 1 else "").title(), "url": u})
     out.sort(key=lambda s: s["fecha"])
     return out
 
