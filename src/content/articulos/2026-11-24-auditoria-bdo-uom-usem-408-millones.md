@@ -1,5 +1,5 @@
 ---
-title: "La auditoría de BDO sobre la UOM: un esquema que costaba $408 millones por mes"
+title: "Auditoría a la UOM: publicamos completas las pruebas de Biglieri a la Justicia"
 volanta: "EXCLUSIVO"
 description: "Diario Federal accedió en exclusiva al informe confidencial de la auditora BDO sobre la administración de fondos de la UOM y su obra social, encargado por la intervención judicial. Revisa el esquema de fideicomiso con el Banco Nación y la contratación de USEM S.A., que en agosto de 2026 costaba $408.627.517,27 por mes."
 section: argentina
