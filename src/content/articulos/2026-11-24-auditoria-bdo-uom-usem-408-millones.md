@@ -19,6 +19,8 @@ resumenCompartir: "Exclusivo: la auditoría de BDO sobre la UOM. El esquema con 
 
 <p>En forma exclusiva, Diario Federal accedió al informe confidencial de la auditora BDO sobre la administración de los fondos de la Unión Obrera Metalúrgica (UOMRA) y de su obra social (OSUOMRA). El trabajo fue encargado por la intervención judicial del gremio y lleva la firma digital de Becher y Asociados S.R.L., representante de BDO en Argentina, con fecha 12 de noviembre de 2026.</p>
 
+<figure style="margin:2rem 0"><img src="/uploads/2026-11-24-julian-ercolini-juez-federal.jpg" alt="El juez federal Julián Ercolini" loading="lazy" style="width:100%;height:auto" /><figcaption class="epigrafe">El juez federal Julián Ercolini, a cargo de la causa por los contratos con USEM. Foto: revista Quorum.</figcaption></figure>
+
 <p>El informe revisa cómo se armó, entre octubre de 2022 y febrero de 2023, un esquema que combinaba un fideicomiso con el Banco de la Nación Argentina y un administrador externo, USEM S.A. Según BDO, en agosto de 2026 ese esquema le costó a la UOM y a su obra social $408.627.517,27 entre honorarios de USEM, honorarios fiduciarios e impuesto al cheque.</p>
 
 <p>La auditoría señala que en las resoluciones analizadas no se encontraron evaluaciones de riesgos, costos o alternativas, ni información que permita reconstruir qué empresas fueron consultadas y por qué se eligió a USEM. También compara el honorario variable de USEM, el 0,5% de la recaudación, con el monto fijo que cobraba la administradora anterior, Donington S.A.: tomando como testigo septiembre y octubre de 2022, el esquema de USEM habría sido un 184,6% más caro.</p>
@@ -27,7 +29,7 @@ resumenCompartir: "Exclusivo: la auditoría de BDO sobre la UOM. El esquema con 
 
 <p>Los contratos con USEM son el eje de la causa que lleva el juez federal Julián Ercolini, a pedido del fiscal Eduardo Taiano. En noviembre, <a href="https://www.letrap.com.ar/citaron-indagatoria-abel-furlan-y-soledad-calle-los-contratos-la-uom-n5428068" target="_blank" rel="noopener">el juez citó a indagatoria a Abel Furlán y a Soledad Calle</a>. Diario Federal ya había contado <a href="/articulo/2026-11-20-la-campora-propone-furlanismo-sin-furlan/">la estrategia de defensa de Furlán en Comodoro Py</a>.</p>
 
-<figure style="margin:2rem 0"><img src="/uploads/2026-11-24-julian-ercolini-juez-federal.jpg" alt="El juez federal Julián Ercolini" loading="lazy" style="width:100%;height:auto" /><figcaption class="epigrafe">El juez federal Julián Ercolini, a cargo de la causa por los contratos con USEM. Foto: revista Quorum.</figcaption></figure>
+
 
 <h2>El informe completo</h2>
 
