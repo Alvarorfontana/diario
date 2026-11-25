@@ -1,0 +1,46 @@
+name: Monitor del Congreso (intervenciones del Senado)
+
+# Lee las versiones taquigráficas del Senado y cuenta quién habla y cuánto en el recinto.
+# Guarda data/laboratorio/senado-intervenciones.json. El commit lleva [sin-deploy]: no gasta despliegues.
+# Corre los viernes y también a mano desde Actions (modo "descubrir" para revisar el sitio sin guardar nada).
+on:
+  schedule:
+    - cron: '23 11 * * 5'   # viernes 8:23 hora argentina
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'correr o descubrir'
+        required: false
+        default: 'correr'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: senado-intervenciones
+  cancel-in-progress: false
+
+jobs:
+  datos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Instalar lector de PDF
+        run: sudo apt-get install -y -qq poppler-utils >/dev/null
+      - name: Leer versiones taquigráficas
+        env:
+          PYTHONUNBUFFERED: '1'
+        run: python scripts/datos/senado_intervenciones.py "${{ github.event.inputs.modo || 'correr' }}"
+      - name: Guardar en el repositorio
+        if: ${{ (github.event.inputs.modo || 'correr') == 'correr' }}
+        run: |
+          git config user.name "Alvarorfontana"
+          git config user.email "${{ github.repository_owner }}@users.noreply.github.com"
+          git add data/laboratorio/senado-intervenciones.json
+          if git diff --cached --quiet; then echo "Sin cambios."; exit 0; fi
+          git commit -m "[sin-deploy] Monitor del Congreso: intervenciones del Senado"
+          for i in 1 2 3; do git pull --rebase origin main && git push && exit 0; sleep 5; done
+          exit 1
