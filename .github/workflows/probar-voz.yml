@@ -1,0 +1,51 @@
+# Prueba corta de la voz clonada de Álvaro: genera un MP3 de ~20 segundos y lo deja para bajar
+# en la página de la corrida (sección "Artifacts"). No publica nada en el sitio.
+name: Probar voz clonada
+
+on:
+  workflow_dispatch:
+    inputs:
+      texto:
+        description: 'Texto de prueba'
+        default: 'Esto es Diario Federal. El Senado debate hoy la reforma electoral que suspende las primarias de 2027. En las provincias, la industria sigue sin repuntar y el empleo cae por tercer mes consecutivo.'
+
+permissions:
+  contents: read
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar herramientas
+        run: |
+          which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
+          pip install --index-url https://download.pytorch.org/whl/cpu torch torchaudio
+          pip install chatterbox-tts
+
+      - name: Generar la prueba
+        env:
+          PYTHONUNBUFFERED: '1'
+          VOZ_CLAVE: ${{ secrets.VOZ_CLAVE }}
+          TEXTO: ${{ inputs.texto }}
+        run: |
+          mkdir -p salida tmp
+          python - <<'PY'
+          import os, subprocess, sys
+          sys.path.insert(0, "scripts")
+          import voz_clonada
+          voz_clonada.generar(os.environ["TEXTO"], "salida/prueba.wav", "tmp")
+          subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", "salida/prueba.wav", "-b:a", "64k", "salida/prueba-voz-clonada.mp3"], check=True)
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: prueba-voz-clonada
+          path: salida/prueba-voz-clonada.mp3
+          retention-days: 7
