@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-26",
   "dateLabel": "26/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-26-2281a61f56e5.mp3",
-  "video": "/boletines/boletin-principal-2026-11-26-2281a61f56e5.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-26-2281a61f56e5.png",
-  "duracion": 94,
+  "archivo": "/boletines/boletin-principal-2026-11-26-60e622c6b57d.mp3",
+  "video": "/boletines/boletin-principal-2026-11-26-60e622c6b57d.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-26-60e622c6b57d.png",
+  "duracion": 93,
   "voz": "es-AR-TomasNeural",
-  "hash": "2281a61f56e5",
+  "hash": "60e622c6b57d",
   "items": [
+    {
+      "slug": "2026-11-26-oro-banco-central-londres-auditoria-agn",
+      "title": "El oro argentino, custodiado en Londres por el país que ocupa Malvinas",
+      "section": "economia",
+      "url": "/articulo/2026-11-26-oro-banco-central-londres-auditoria-agn/"
+    },
     {
       "slug": "2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan",
       "title": "Pichetto pidió interpelar a Quirno por la crisis con Brasil",
@@ -38,12 +44,6 @@
       "title": "Santucho: Sociales da marcha atrás y el peronismo paga la cuenta",
       "section": "argentina",
       "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
-    },
-    {
-      "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
-      "title": "Auditoría a la UOM: publicamos completas las pruebas de Biglieri a la Justicia",
-      "section": "argentina",
-      "url": "/articulo/2026-11-24-auditoria-bdo-uom-usem-408-millones/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
