@@ -4,7 +4,7 @@ export const prerender = false;
 
 import { isAdmin } from '../../lib/auth';
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
-import { resumenVisitas, visitasActivas } from '../../lib/visitas';
+import { resumenVisitas, visitasActivas, detalleVisitas } from '../../lib/visitas';
 import { getArticulos } from '../../lib/articles';
 
 const env = getRuntimeEnv(Astro.locals);
@@ -18,6 +18,52 @@ const titulos = new Map<string, string>();
 if (resumen) {
 	for (const a of await getArticulos()) titulos.set(a.slug, a.title);
 }
+
+// Detalle por variable (desde el 26/11/2026). Período elegible: hoy, 7 o 30 días.
+const periodo = [1, 7, 30].includes(Number(Astro.url.searchParams.get('dias'))) ? Number(Astro.url.searchParams.get('dias')) : 7;
+const detalle = isAuthenticated && activo ? await detalleVisitas(periodo, Astro.locals) : null;
+const orden = (variable: string, porNombre = false) => {
+	const o = Object.entries(detalle?.[variable] ?? {});
+	return porNombre ? o.sort((a, b) => a[0].localeCompare(b[0], 'es', { numeric: true })) : o.sort((a, b) => b[1] - a[1]);
+};
+const totalDe = (variable: string) => Object.values(detalle?.[variable] ?? {}).reduce((t, n) => t + n, 0);
+const tituloRuta = (ruta: string) => {
+	const m = ruta.match(/^\/articulo\/([^/]+)/);
+	if (m && titulos.get(m[1])) return titulos.get(m[1])!;
+	return ruta === '/' ? 'Portada' : ruta;
+};
+const paginas = orden('pagina').slice(0, 40).map(([ruta, vistas]) => {
+	const salidas = detalle?.salidas?.[ruta] ?? 0;
+	const seg = detalle?.tiempo?.[ruta] ?? 0;
+	return {
+		ruta, vistas,
+		promedio: salidas ? Math.round(seg / salidas) : null,
+		mitad: salidas ? Math.round(((detalle?.mitad?.[ruta] ?? 0) / salidas) * 100) : null,
+		completa: salidas ? Math.round(((detalle?.completa?.[ruta] ?? 0) / salidas) * 100) : null,
+	};
+});
+const minSeg = (s: number | null) => (s === null ? '—' : s < 60 ? `${s} s` : `${Math.floor(s / 60)} min ${String(s % 60).padStart(2, '0')} s`);
+const bloques: { variable: string; titulo: string; ayuda?: string; porNombre?: boolean; tope?: number }[] = [
+	{ variable: 'origen', titulo: 'De dónde llegan', ayuda: 'WhatsApp casi nunca avisa el origen: la mayoría de esas visitas cae en “Sin origen”.' },
+	{ variable: 'tema', titulo: 'Temas / secciones de las notas' },
+	{ variable: 'seccion', titulo: 'Partes del sitio' },
+	{ variable: 'provincia', titulo: 'Provincia', ayuda: 'Aproximada, según la conexión de internet del lector.' },
+	{ variable: 'ciudad', titulo: 'Ciudad', ayuda: 'Aproximada; a veces marca la ciudad de la empresa de internet.', tope: 30 },
+	{ variable: 'pais', titulo: 'País' },
+	{ variable: 'dispositivo', titulo: 'Dispositivo' },
+	{ variable: 'sistema', titulo: 'Sistema' },
+	{ variable: 'navegador', titulo: 'Navegador' },
+	{ variable: 'lector', titulo: 'Lectores nuevos y que vuelven', ayuda: '“Vuelve” = ya había entrado antes desde ese mismo celular o compu.' },
+	{ variable: 'permanencia', titulo: 'Cuánto se quedan en cada página', porNombre: true },
+	{ variable: 'diasemana', titulo: 'Día de la semana', porNombre: true },
+	{ variable: 'idioma', titulo: 'Idioma del navegador' },
+];
+const etiqueta = (v: string) => v.replace(/^\d · /, '');
+const horas = Array.from({ length: 24 }, (_, h) => {
+	const k = String(h).padStart(2, '0') + ' h';
+	return { k, n: detalle?.hora?.[k] ?? 0 };
+});
+const maxHora = Math.max(1, ...horas.map((h) => h.n));
 
 const fmt = (n: number) => n.toLocaleString('es-AR');
 const suma = (desde: number, hasta: number, campo: 'paginas' | 'personas' | 'notas') =>
@@ -52,6 +98,13 @@ const fechaCorta = (f: string) => {
 		.barra { height: 8px; background: #e93323; border-radius: 4px; min-width: 2px; }
 		.nota { color: #6b7280; font-size: 13px; }
 		a.titulo { color: #1f2937; }
+		.periodo { display: inline-block; margin: 0 4px; padding: 4px 10px; border-radius: 4px; background: #f3f4f6; color: #1f2937; text-decoration: none; }
+		.periodo.activo { background: #1f2937; color: white; }
+		.grilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 18px; }
+		.horas { display: flex; align-items: flex-end; gap: 3px; height: 140px; }
+		.hora { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; text-align: center; }
+		.hora .col { background: #e93323; border-radius: 3px 3px 0 0; min-height: 2px; }
+		.hora span { font-size: 10px; color: #6b7280; margin-top: 3px; }
 	</style>
 </head>
 <body>
@@ -122,6 +175,77 @@ const fechaCorta = (f: string) => {
 					</table>
 				)}
 			</div>
+
+			<div class="card">
+				<h2 style="margin-top:0">🔎 Detalle de las visitas</h2>
+				<p class="nota">Período: {[1, 7, 30].map((d) => (
+					<a href={`?dias=${d}`} class={d === periodo ? 'periodo activo' : 'periodo'}>{d === 1 ? 'Hoy' : `${d} días`}</a>
+				))}</p>
+				<p class="nota">Se cuenta desde el 26/11/2026. No se guarda la IP ni nada que identifique a nadie: solo totales.</p>
+			</div>
+
+			{!detalle || totalDe('pagina') === 0 ? (
+				<div class="card"><p class="nota">Todavía no hay visitas con detalle en este período. Aparecen a medida que entra gente.</p></div>
+			) : (
+				<div>
+					<div class="card">
+						<h3 style="margin-top:0">Páginas más vistas</h3>
+						<p class="nota">Tiempo promedio con la página a la vista, y qué parte de los lectores llegó a la mitad y al final.</p>
+						<div style="overflow-x:auto">
+						<table>
+							<thead><tr><th>Página</th><th class="n">Vistas</th><th class="n">Tiempo prom.</th><th class="n">Llegó a la mitad</th><th class="n">Leyó hasta el final</th></tr></thead>
+							<tbody>
+								{paginas.map((p) => (
+									<tr>
+										<td><a class="titulo" href={p.ruta} target="_blank">{tituloRuta(p.ruta)}</a></td>
+										<td class="n">{fmt(p.vistas)}</td>
+										<td class="n">{minSeg(p.promedio)}</td>
+										<td class="n">{p.mitad === null ? '—' : `${p.mitad}%`}</td>
+										<td class="n">{p.completa === null ? '—' : `${p.completa}%`}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+						</div>
+					</div>
+
+					<div class="card">
+						<h3 style="margin-top:0">Hora del día (Argentina)</h3>
+						<div class="horas">
+							{horas.map((h) => (
+								<div class="hora" title={`${h.k}: ${fmt(h.n)}`}>
+									<div class="col" style={`height:${Math.round((h.n / maxHora) * 100)}%`}></div>
+									<span>{h.k.slice(0, 2)}</span>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<div class="grilla">
+						{bloques.map((b) => {
+							const filas = orden(b.variable, b.porNombre).slice(0, b.tope ?? 15);
+							const total = totalDe(b.variable);
+							return filas.length === 0 ? null : (
+								<div class="card">
+									<h3 style="margin-top:0">{b.titulo}</h3>
+									{b.ayuda && <p class="nota">{b.ayuda}</p>}
+									<table>
+										<tbody>
+											{filas.map(([valor, n]) => (
+												<tr>
+													<td>{etiqueta(valor)}</td>
+													<td class="n">{fmt(n)}</td>
+													<td class="n nota">{total ? Math.round((n / total) * 100) : 0}%</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							);
+						})}
+					</div>
+				</div>
+			)}
 		</div>
 	)}
 </body>

@@ -128,3 +128,83 @@ export async function masLeidas(cantidad = 5, locals?: unknown): Promise<string[
 		.slice(0, cantidad)
 		.map(([slug]) => slug);
 }
+
+// ---- Detalle de cada visita (26/11/2026) ----
+// Un solo hash por día ("detalle:AAAA-MM-DD") con campos "variable|valor" → cantidad.
+// Cada página vista hace UNA llamada (un script) a Redis, para no gastar la cuota gratuita.
+// No se guarda la IP ni nada que identifique a una persona: solo totales.
+
+const SCRIPT_PAGINA = `
+local ttl = tonumber(ARGV[1])
+redis.call('INCR', KEYS[1]); redis.call('EXPIRE', KEYS[1], ttl)
+redis.call('PFADD', KEYS[2], ARGV[2]); redis.call('EXPIRE', KEYS[2], ttl)
+for i = 3, #ARGV do redis.call('HINCRBY', KEYS[3], ARGV[i], 1) end
+redis.call('EXPIRE', KEYS[3], ttl)
+return 1`;
+
+const SCRIPT_SUMAS = `
+local ttl = tonumber(ARGV[1])
+for i = 2, #ARGV, 2 do redis.call('HINCRBY', KEYS[1], ARGV[i], tonumber(ARGV[i + 1])) end
+redis.call('EXPIRE', KEYS[1], ttl)
+return 1`;
+
+function limpio(v: string, max = 120): string {
+	return String(v ?? '').replace(/[|\r\n\t]/g, ' ').trim().slice(0, max) || 'Sin dato';
+}
+
+/** Suma una página vista con todas sus variables. `campos` = { variable: valor }. */
+export async function sumarPaginaDetalle(visitante: string, campos: Record<string, string>, locals?: unknown): Promise<boolean> {
+	const cfg = config(locals);
+	if (!cfg) return false;
+	const d = dia(new Date());
+	const ttl = GUARDAR_DIAS * 24 * 60 * 60;
+	const pares = Object.entries(campos).map(([k, v]) => `${k}|${limpio(v)}`);
+	const r = await pipeline(cfg, [['EVAL', SCRIPT_PAGINA, 3, 'paginas:' + d, 'personas:' + d, 'detalle:' + d, ttl, visitante, ...pares]]);
+	return r !== null;
+}
+
+/** Suma tiempo de lectura y hasta dónde se leyó una página. */
+export async function sumarLectura(ruta: string, segundos: number, scroll: number, locals?: unknown): Promise<boolean> {
+	const cfg = config(locals);
+	if (!cfg) return false;
+	const d = dia(new Date());
+	const ttl = GUARDAR_DIAS * 24 * 60 * 60;
+	const r0 = limpio(ruta, 160);
+	const tramo =
+		segundos < 10 ? '1 · menos de 10 s' :
+		segundos < 30 ? '2 · 10 a 30 s' :
+		segundos < 60 ? '3 · 30 s a 1 min' :
+		segundos < 180 ? '4 · 1 a 3 min' :
+		segundos < 300 ? '5 · 3 a 5 min' : '6 · más de 5 min';
+	const sumas: (string | number)[] = [
+		`tiempo|${r0}`, Math.round(segundos),
+		`salidas|${r0}`, 1,
+		`mitad|${r0}`, scroll >= 50 ? 1 : 0,
+		`completa|${r0}`, scroll >= 90 ? 1 : 0,
+		`permanencia|${tramo}`, 1,
+	];
+	const r = await pipeline(cfg, [['EVAL', SCRIPT_SUMAS, 1, 'detalle:' + d, ttl, ...sumas]]);
+	return r !== null;
+}
+
+/** Junta los detalles de los últimos `cantidadDias` días: { variable: { valor: cantidad } }. */
+export async function detalleVisitas(cantidadDias = 7, locals?: unknown): Promise<Record<string, Record<string, number>> | null> {
+	const cfg = config(locals);
+	if (!cfg) return null;
+	const ahora = Date.now();
+	const fechas = Array.from({ length: cantidadDias }, (_, i) => dia(new Date(ahora - i * 24 * 60 * 60 * 1000)));
+	const r = await pipeline(cfg, fechas.map((f) => ['HGETALL', 'detalle:' + f]));
+	if (!r) return null;
+	const out: Record<string, Record<string, number>> = {};
+	for (const item of r) {
+		const lista: string[] = Array.isArray(item?.result) ? item.result : [];
+		for (let i = 0; i + 1 < lista.length; i += 2) {
+			const corte = lista[i].indexOf('|');
+			if (corte < 0) continue;
+			const variable = lista[i].slice(0, corte);
+			const valor = lista[i].slice(corte + 1);
+			(out[variable] ??= {})[valor] = (out[variable][valor] ?? 0) + Number(lista[i + 1] || 0);
+		}
+	}
+	return out;
+}

@@ -252,3 +252,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 26/11/2026: nota "Pichetto pidió interpelar a Quirno por la crisis con Brasil" (Emilio Lahitte), con video de Diputados TV con zócalo propio (sin marca de Letra P) y foto de captura.
 
 - 26/11/2026: nota "El oro argentino, custodiado en Londres por el país que ocupa Malvinas" (Economía, informe, firma Ramiro De la Puente) sobre el informe de la AGN del traslado de 1.000 barras de oro a Londres. 1.840 palabras: pasa el límite de 1.200, publicada completa con aprobación de Álvaro. Foto del Banco de Inglaterra con crédito MEMO en /uploads/2026-11-26-banco-de-inglaterra-londres.jpg. Pendiente: chequear los datos contra el PDF de la AGN cuando se publique y evaluar reemplazar la foto por una con licencia libre.
+
+## 2026-11-26 · Contador privado con detalle
+- /admin/visitas suma un bloque "Detalle de las visitas" (hoy, 7 o 30 días), sin sacar nada de lo anterior: páginas más vistas con tiempo promedio y qué parte llegó a la mitad y al final; de dónde llegan (Google, WhatsApp, Facebook, boletín, otros sitios…); temas de las notas; partes del sitio; provincia, ciudad y país (aproximados); dispositivo, sistema y navegador; lectores nuevos y que vuelven; permanencia; hora del día; día de la semana; idioma.
+- Un hash por día en Upstash (`detalle:AAAA-MM-DD`), una sola llamada (script) por página vista y otra al salir, para cuidar la cuota gratuita. No se guarda la IP. Robots afuera.
+- Pendiente: ver en unos días si la cuota de Upstash alcanza con el tráfico real.

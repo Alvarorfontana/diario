@@ -51,11 +51,39 @@ const { title, description, image, ogImage, publishedTime, author, section } = A
 		<script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
 		<script is:inline defer src="/_vercel/insights/script.js"></script>
 		<!-- Contador privado de visitas (se ve solo en /admin/visitas). No cuenta el panel ni robots sin JavaScript. -->
-		<script is:inline>
+		<script is:inline define:vars={{ temaVisita: section ?? '' }}>
 			try {
 				if (location.pathname.indexOf('/admin') !== 0 && !sessionStorage.getItem('pv:' + location.pathname)) {
 					sessionStorage.setItem('pv:' + location.pathname, '1');
-					fetch('/api/visita', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pagina: true }), keepalive: true }).catch(function () {});
+					var nuevo = !localStorage.getItem('df-lector');
+					try { localStorage.setItem('df-lector', '1'); } catch (e) {}
+					var utm = (new URLSearchParams(location.search).get('utm_source') || '').slice(0, 40);
+					fetch('/api/visita', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pagina: true, ruta: location.pathname, ref: document.referrer, utm: utm, nuevo: nuevo, tema: temaVisita }), keepalive: true }).catch(function () {});
+				}
+			} catch (e) {}
+			// Tiempo de lectura (solo con la pestaña a la vista) y hasta dónde bajó el lector.
+			try {
+				if (location.pathname.indexOf('/admin') !== 0) {
+					var visible = 0, desde = document.visibilityState === 'visible' ? Date.now() : 0, maxScroll = 0, enviado = false;
+					var medir = function () {
+						var alto = document.documentElement.scrollHeight - window.innerHeight;
+						var pct = alto > 0 ? Math.round((window.scrollY / alto) * 100) : 100;
+						if (pct > maxScroll) maxScroll = Math.min(100, pct);
+					};
+					window.addEventListener('scroll', medir, { passive: true });
+					var enviar = function () {
+						if (desde) { visible += Date.now() - desde; desde = 0; }
+						if (enviado || visible < 1000) return;
+						enviado = true;
+						var datos = JSON.stringify({ lectura: true, ruta: location.pathname, segundos: Math.round(visible / 1000), scroll: maxScroll });
+						if (navigator.sendBeacon) navigator.sendBeacon('/api/visita', new Blob([datos], { type: 'application/json' }));
+						else fetch('/api/visita', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: datos, keepalive: true }).catch(function () {});
+					};
+					document.addEventListener('visibilitychange', function () {
+						if (document.visibilityState === 'hidden') enviar();
+						else if (!enviado && !desde) desde = Date.now();
+					});
+					window.addEventListener('pagehide', enviar);
 				}
 			} catch (e) {}
 		</script>
