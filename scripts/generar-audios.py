@@ -131,7 +131,14 @@ def texto_para_leer(datos, cuerpo: str) -> str:
 
     inicio = [con_punto(datos.get("title")), con_punto(datos.get("description"))]
     cierre = ["Escuchaste una nota de Diario Federal."]
-    return normalizar("\n\n".join([x for x in inicio if x] + parrafos + cierre))
+    texto = normalizar("\n\n".join([x for x in inicio if x] + parrafos + cierre))
+    # nombres, siglas y lugares como se dicen (misma lista que el flash)
+    try:
+        import pronunciacion
+        texto = pronunciacion.aplicar(texto)
+    except Exception as e:
+        print(f"  Sin lista de pronunciación ({e})")
+    return texto
 
 
 def normalizar(t: str) -> str:

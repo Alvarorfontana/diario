@@ -3,6 +3,7 @@ export const prerender = false;
 
 import { isAdmin } from '../../lib/auth';
 import { getRuntimeEnv } from '../../lib/runtimeEnv';
+import pronBase from '../../../data/flash/pronunciacion-base.json';
 const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals));
 ---
 
@@ -202,6 +203,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 					<p id="msg"></p>
 					<div id="resultado" class="hidden">
 						<video class="final" id="video-final" controls playsinline preload="metadata"></video>
+						<div id="control-voz" style="margin-top:10px"></div>
 						<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
 							<button type="button" class="btn btn-primary" id="btn-publicar">✅ Publicar en el diario</button>
 							<a class="btn btn-ghost" id="btn-descargar" download>⬇ Descargar video</a>
@@ -221,6 +223,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 		</div>
 	)}
 
+	<script type="application/json" id="pron-base" set:html={JSON.stringify(pronBase)}></script>
 	<script is:inline>
 		(function () {
 			if (!document.getElementById('editor')) return;
@@ -278,7 +281,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				try {
 					var r = await api(API + '?action=config', { cache: 'no-store' });
 					estado.calib = r.calibracion || {};
-					pintarPron(r.pronunciacion || {});
+					estado.pronPropia = r.pronunciacion || {}; pintarPron(r.pronunciacion || {});
 					pintarMusica(r.musicaPropia || []);
 				} catch (e) { pintarPron({}); pintarMusica([]); }
 			}
@@ -626,8 +629,32 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 					if (b.media && !String(b.epigrafe || '').trim()) av.push('la foto o el video no tiene epígrafe');
 					Object.keys(CAMPOS).forEach(function (k) { av = av.concat(revisarCampo(b[k], CAMPOS[k][0], CAMPOS[k][1], k !== 'texto' && k !== 'dato' && k !== 'fuente')); });
 					av.forEach(function (a) { lista.push('Noticia ' + (i + 1) + ': ' + a); });
+					dudosas(b.texto).forEach(function (w) { lista.push('Noticia ' + (i + 1) + ': ¿cómo dice la voz «' + w + '»? No está en la lista de pronunciación: agregalo abajo con cómo se dice.'); });
 				});
+				estado.dudosas = [];
+				f.bloques.forEach(function (b) { dudosas(b.texto).forEach(function (w) { if (estado.dudosas.indexOf(w) < 0) estado.dudosas.push(w); }); });
 				return lista;
+			}
+			// Palabras que la voz probablemente lee mal: siglas, apellidos y lugares con letras o grupos que no son del castellano
+			var PRON_BASE = {}; try { PRON_BASE = JSON.parse(document.getElementById('pron-base').textContent || '{}'); } catch (e) {}
+			function enLista(w) {
+				var todas = Object.assign({}, PRON_BASE, estado.pronPropia || {});
+				if (todas[w]) return true;
+				var lw = w.toLowerCase();
+				return Object.keys(todas).some(function (k) { var lk = k.toLowerCase(); return lk === lw || (lk.indexOf(' ') > 0 && lk.split(' ').indexOf(lw) >= 0); });
+			}
+			var RARO = /[kwçčćšžøåäëïöłß]|sh|tz|sch|ck|th|ph|ff|ss|tt|pp|gg|dd|bb|zz|ee|oo|aa|ll(?=[^aeiouáéíóú]|$)|[^aeiouáéíóúsnrldzyj]$|ei$|ey$|ay$|oy$|ou|eau|ui$/i;
+			function dudosas(texto) {
+				var out = [], t = String(texto || '');
+				var re = /[\p{L}][\p{L}'.]*[\p{L}]|[\p{Lu}]{2,}/gu, m;
+				while ((m = re.exec(t))) {
+					var w = m[0].replace(/\.$/, ''), inicio = m.index === 0 || /[.!?¿¡:]\s*$/.test(t.slice(0, m.index));
+					if (w.length < 2 || enLista(w) || out.indexOf(w) >= 0) continue;
+					var sigla = /^[\p{Lu}.]{2,7}$/u.test(w) && /\p{Lu}{2}/u.test(w);
+					var nombre = /^\p{Lu}\p{Ll}/u.test(w) && !inicio && RARO.test(w);
+					if (sigla || nombre) out.push(w);
+				}
+				return out;
 			}
 			function pintarRevision() {
 				var box = $('revision'); if (!box || !estado.flash) return;
@@ -635,6 +662,14 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				box.className = 'revision ' + (l.length ? 'avisos' : 'limpia');
 				box.innerHTML = l.length ? '<b>Revisión: ' + l.length + (l.length === 1 ? ' cosa para mirar' : ' cosas para mirar') + '</b><ul>' + l.slice(0, 25).map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>'
 					: '✓ Revisión: no encontré errores de tipeo comunes.';
+				if (estado.dudosas && estado.dudosas.length) {
+					box.insertAdjacentHTML('beforeend', '<p style="margin:8px 0 0"><button type="button" class="mini" id="btn-dudosas">+ Pasar ' + estado.dudosas.length + (estado.dudosas.length === 1 ? ' palabra dudosa' : ' palabras dudosas') + ' a Pronunciación</button></p>');
+					$('btn-dudosas').addEventListener('click', function () {
+						estado.dudosas.forEach(function (w) { $('pron').insertAdjacentHTML('beforeend', filaPron([w, ''])); });
+						var ult = $('pron').querySelectorAll('.p-v'); if (ult.length) { ult[ult.length - estado.dudosas.length].focus(); ult[ult.length - estado.dudosas.length].scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+						$('pron-msg').textContent = 'Escribí al lado cómo se dice cada una y tocá «Guardar pronunciación».';
+					});
+				}
 			}
 
 			// ── Medidor de duración ───────────────────────────
@@ -743,6 +778,20 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 					} catch (e) { /* reintenta en el próximo ciclo */ }
 				}, 20000);
 			}
+			// ── Control de la voz: palabras que la voz pudo haber dicho mal (lo marca la tarea de GitHub) ──
+			function pintarControlVoz(f) {
+				var box = $('control-voz'); if (!box) return;
+				if (!Array.isArray(f.revisarVoz)) { box.innerHTML = ''; return; }
+				if (!f.revisarVoz.length) { box.innerHTML = '<p class="revision limpia" style="margin:0">✓ Control de la voz: los nombres y siglas se escucharon bien.</p>'; return; }
+				box.innerHTML = '<div class="revision avisos"><b>Control de la voz: ' + f.revisarVoz.length + (f.revisarVoz.length === 1 ? ' palabra para escuchar' : ' palabras para escuchar') + ' antes de publicar</b><ul>' +
+					f.revisarVoz.map(function (r, i) {
+						var parte = /^b(\d+)$/.test(r.parte) ? 'Noticia ' + (Number(r.parte.slice(1)) + 1) : (r.parte === 'intro' ? 'Apertura' : 'Cierre');
+						return '<li>' + esc(parte) + ': «' + esc(r.palabra) + '»' + (r.oido ? ' — se entendió «' + esc(r.oido) + '»' : '') + ' <button type="button" class="mini" data-oir-t="' + Number(r.t || 0) + '">▶ ' + mmss(Number(r.t || 0)) + '</button></li>';
+					}).join('') + '</ul><p class="ayuda" style="margin:4px 0 0">Si suena mal, agregala en Pronunciación (abajo), guardá y volvé a generar. Si suena bien, ignorá el aviso: a veces el control se confunde con nombres raros.</p></div>';
+				box.querySelectorAll('[data-oir-t]').forEach(function (b) {
+					b.addEventListener('click', function () { var v = $('video-final'); v.currentTime = Math.max(0, Number(b.getAttribute('data-oir-t')) - 1.5); v.play(); });
+				});
+			}
 			function mostrarResultado() {
 				var f = estado.flash;
 				if (!f.video || f.estado === 'generar') { $('resultado').classList.add('hidden'); return; }
@@ -752,6 +801,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				v.onerror = function () { if (intentos++ < 12) setTimeout(function () { v.src = src + '&r=' + intentos; }, 20000); };
 				v.src = src;
 				$('btn-descargar').href = f.video;
+				pintarControlVoz(f);
 				$('btn-publicar').textContent = f.publicado ? '↩ Despublicar' : '✅ Publicar en el diario';
 			}
 			$('btn-publicar').addEventListener('click', async function () {

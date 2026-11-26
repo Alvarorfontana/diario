@@ -773,10 +773,9 @@ def cargar_json(ruta, defecto):
 
 
 def pronunciar(texto, dicc):
-    for escrito, dicho in sorted(dicc.items(), key=lambda kv: -len(kv[0])):
-        if escrito.strip() and dicho.strip():
-            texto = re.sub(r"(?<!\w)" + re.escape(escrito.strip()) + r"(?!\w)", dicho.strip(), texto)
-    return texto
+    # lista base + la de /admin/flash (scripts/pronunciacion.py)
+    import pronunciacion
+    return pronunciacion.aplicar(texto, dicc)
 
 
 async def _edge(texto, voz, vel, destino):
@@ -848,7 +847,9 @@ def rotulo_de(flash):
 
 
 def generar(flash):
-    dicc = cargar_json(PRONUNCIACION, {})
+    sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+    import pronunciacion
+    dicc = pronunciacion.cargar()
     voz = flash.get("voz") or "es-AR-TomasNeural"
     vel = float(flash.get("velocidad", 8) or 0)
     flash["rotulo"] = rotulo_de(flash)
@@ -896,6 +897,13 @@ def generar(flash):
         with wave.open(str(voz_wav), "wb") as w:
             w.setnchannels(1); w.setsampwidth(2); w.setframerate(sr)
             w.writeframes((np.clip(pista[:int(total * sr)], -1, 1) * 32767).astype(np.int16).tobytes())
+
+        try:
+            rv = revisar_voz(segs, voces, linea, dicc)
+            if rv is not None:
+                flash["revisarVoz"] = rv
+        except Exception as e:
+            print(f"  Control de voz: no se pudo ({e})", flush=True)
 
         nuevo = flash.get("estilo", "noticiero") != "clasico"
         editorial = flash.get("estilo") == "editorial"
@@ -1026,6 +1034,72 @@ def generar(flash):
         flash["generado"] = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
         return caracteres, segundos, voz, vel
 
+
+
+# ── Control de la voz: escucha lo que dijo y lo compara con el texto ─────────
+def _norm(w):
+    import unicodedata
+    w = unicodedata.normalize("NFD", str(w).lower())
+    return "".join(c for c in w if c.isalnum() and unicodedata.category(c) != "Mn")
+
+
+def _candidatas(texto):
+    """Nombres propios (con mayúscula, no al empezar la oración) y siglas: lo que la voz suele leer mal."""
+    out = []
+    for m in re.finditer(r"[^\W\d_][\w'.]*[^\W\d_]|[A-ZÁÉÍÓÚÑ]{2,}", texto):
+        w = m.group(0).rstrip(".")
+        antes = texto[:m.start()].rstrip()
+        inicio = not antes or antes[-1] in ".!?¿¡:"
+        sigla = re.fullmatch(r"[A-ZÁÉÍÓÚÑ.]{2,7}", w) and re.search(r"[A-ZÁÉÍÓÚÑ]{2}", w)
+        nombre = w[:1].isupper() and not w.isupper() and not inicio
+        if (sigla or nombre) and w not in out:
+            out.append(w)
+    return out
+
+
+def revisar_voz(segs, voces, linea, dicc):
+    """Pasa cada pedazo de voz por Whisper (faster-whisper, MIT, gratis) y marca los nombres y siglas
+    que no se parecen a lo que se escuchó. Devuelve [{parte, palabra, oido, t}] con t en segundos del video."""
+    try:
+        from faster_whisper import WhisperModel
+    except ImportError:
+        print("  Control de voz: faster-whisper no está instalado; se saltea.", flush=True)
+        return None
+    from difflib import SequenceMatcher
+    modelo = WhisperModel("small", device="cpu", compute_type="int8")
+    inicio = {k: vs for k, st, dur, vs in linea}
+    marcas = []
+    for k, txt in segs:
+        # frases de la lista (p. ej. "Comodoro Py") se controlan enteras, no palabra por palabra
+        frases = [f for f in dicc if " " in f and f in txt]
+        sueltas = {x for f in frases for x in f.split()}
+        cands = frases + [w for w in _candidatas(txt) if w not in sueltas]
+        if not cands:
+            continue
+        # sin "pista" de nombres: interesa lo que se escucha, no lo que debería decir
+        partes, _ = modelo.transcribe(voces[k], language="es", word_timestamps=True, beam_size=1)
+        oidas = [(w.word.strip(), w.start) for p in partes for w in (p.words or []) if w.word.strip()]
+        # ventanas de 1 a 3 palabras seguidas (para siglas dichas letra por letra: "ce ge te")
+        vent = []
+        for i in range(len(oidas)):
+            for n in (1, 2, 3, 4):
+                if i + n <= len(oidas):
+                    txt_o = " ".join(o[0] for o in oidas[i:i + n])
+                    vent.append((_norm(txt_o), oidas[i][1], txt_o))
+        for w in cands:
+            variantes = {_norm(w), _norm(dicc.get(w, ""))} - {""}
+            mejor, r = None, 0.0
+            for nv in variantes:
+                for v in vent:
+                    rr = SequenceMatcher(None, nv, v[0]).ratio()
+                    if rr > r:
+                        mejor, r = v, rr
+            if r < 0.8:
+                t = inicio.get(k, 0) + (mejor[1] if mejor else 0)
+                marcas.append({"parte": k, "palabra": w, "oido": (mejor[2] if mejor else "").strip(" .,;:")[:40],
+                               "t": round(max(0.0, t), 1)})
+    print(f"  Control de voz: {len(marcas)} palabra(s) para revisar.", flush=True)
+    return marcas
 
 def main():
     ids = sys.argv[1:]

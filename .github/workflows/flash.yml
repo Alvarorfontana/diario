@@ -38,7 +38,7 @@ jobs:
 
       - name: Instalar herramientas
         run: |
-          pip install edge-tts pillow numpy yt-dlp
+          pip install edge-tts pillow numpy yt-dlp faster-whisper
           which ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q ffmpeg)
 
       # Voz clonada de Álvaro (Chatterbox, MIT): sólo se instala si algún flash pendiente la pide
