@@ -41,3 +41,24 @@ VideoAgent es un proyecto Python con dependencias multimodales extensas, modelos
 - El único archivo preexistente del proyecto que se toca en esta rama es `src/pages/admin/index.astro`, con una única inserción de enlace al nuevo módulo.
 - No se modifica `/admin/flash`, CMS, portada, esquema de datos, publicación, configuración Vercel ni dominios.
 - No fusionar ni desplegar sin autorización expresa del propietario.
+
+
+## Verificación técnica de VideoAgent (26-11-2026)
+
+La lectura del README y del manifiesto upstream agrega una condición importante para no diseñar una integración engañosa:
+
+- El arranque documentado es interactivo por consola con `python main.py`; no se encontró en la documentación consultada un contrato REST estable que permita tratarlo como una API lista para consumir.
+- La configuración upstream separa proveedores por función: Claude para el router del grafo de agentes; GPT para edición, overview, resumen, QA y commentary; Gemini para captioning y comprensión visual fina. Por lo tanto, **GEMINI_API_KEY por sí sola no habilita todo VideoAgent**.
+- El README publica 8 GB de VRAM como referencia de entorno, y enumera descargas independientes para CosyVoice, Fish Speech, Seed-VC, DiffSinger, Whisper e ImageBind. No es razonable asumir que todos esos modelos deban instalarse para el primer caso de uso.
+- El manifiesto de dependencias incluye PyTorch/torchaudio, ONNX Runtime GPU, Whisper, Diffusers, Gradio, FastAPI y numerosas bibliotecas de audio/video. Debe tratarse como un entorno pesado y aislado, no como dependencia del sitio Astro ni de Vercel Functions.
+
+### Alcance recomendado para Diario Federal
+
+1. No instalar VideoAgent dentro del repositorio principal ni dentro del runtime de Diario Federal.
+2. Antes de aprovisionar una máquina o GPU, validar primero el flujo de menor costo: Gemini prepara el guion; Google Flow produce los clips manualmente; FFmpeg realiza ensamblado/compresión en un worker separado. Esto cubre la producción diaria de uno o dos videos sin exigir VideoAgent.
+3. Mantener VideoAgent como etapa opcional de análisis/edición avanzada, solo si una prueba real demuestra una ventaja editorial suficiente y se aprueba el costo de cómputo y de proveedores.
+4. Si se habilita más adelante, construir un adaptador HTTP propio delante del proceso upstream, con cola de trabajos, autenticación, límites de tamaño/duración, almacenamiento temporal y borrado automático. No exponer el proceso interactivo directamente a Internet.
+
+Fuentes upstream consultadas:
+- https://github.com/HKUDS/VideoAgent/blob/main/readme.md (secciones Quick Start, Model Download, LLM Configuration y Usage).
+- https://github.com/HKUDS/VideoAgent/blob/main/pyproject.toml (dependencias y versiones).
