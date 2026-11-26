@@ -242,7 +242,13 @@
   "2026-11-26-blindaje-pobreza-dw-comedor": {
     "archivo": "/audio/2026-11-26-blindaje-pobreza-dw-comedor.mp3",
     "duracion": 366,
-    "hash": "73c9adaf5005c0bb",
+    "hash": "eff3a19e2f53ffac",
+    "voz": "es-AR-TomasNeural"
+  },
+  "2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar": {
+    "archivo": "/audio/2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar.mp3",
+    "duracion": 368,
+    "hash": "2ff877e5adb744d2",
     "voz": "es-AR-TomasNeural"
   },
   "abascal-evita-recibir-a-milei-madrid-campana-29n": {
@@ -254,43 +260,43 @@
   "bariloche-alianza-lla-pro-tercera-convencionales-2026": {
     "archivo": "/audio/bariloche-alianza-lla-pro-tercera-convencionales-2026.mp3",
     "duracion": 169,
-    "hash": "4bce6877cee88cea",
+    "hash": "19bb80266ceca9ad",
     "voz": "es-AR-TomasNeural"
   },
   "brasil-devalua-argentina-mira-para-otro-lado": {
     "archivo": "/audio/brasil-devalua-argentina-mira-para-otro-lado.mp3",
     "duracion": 608,
-    "hash": "7bf7964f030fc8af",
+    "hash": "99e6314ee54a0bb9",
     "voz": "es-AR-TomasNeural"
   },
   "canje-mep-ccl-precio-de-irse-desconfianza": {
     "archivo": "/audio/canje-mep-ccl-precio-de-irse-desconfianza.mp3",
-    "duracion": 486,
-    "hash": "d97f99934ce4a0f3",
+    "duracion": 490,
+    "hash": "81e38e2d3d4a7d5a",
     "voz": "es-AR-TomasNeural"
   },
   "carolina-moises-peronismos-interior-jaldo-teresa-garcia": {
     "archivo": "/audio/carolina-moises-peronismos-interior-jaldo-teresa-garcia.mp3",
     "duracion": 398,
-    "hash": "d932330af260bd2b",
+    "hash": "674618228b40b063",
     "voz": "es-AR-TomasNeural"
   },
   "cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida": {
     "archivo": "/audio/cerro-una-fabrica-de-fertilizantes-de-bunge-en-campana-y-alertan-por-la-perdida.mp3",
-    "duracion": 210,
-    "hash": "ea3ec9467aaa250e",
+    "duracion": 208,
+    "hash": "caca6568916545cf",
     "voz": "es-AR-TomasNeural"
   },
   "cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil": {
     "archivo": "/audio/cierra-la-campagnola-en-mar-del-plata-se-apaga-una-fabrica-de-93-anos-y-80-famil.mp3",
     "duracion": 316,
-    "hash": "2f6cde9773e977df",
+    "hash": "0b7d57e4ddd0732e",
     "voz": "es-AR-TomasNeural"
   },
   "consejo-magistratura-abogados-lla-sin-consejeros": {
     "archivo": "/audio/consejo-magistratura-abogados-lla-sin-consejeros.mp3",
-    "duracion": 268,
-    "hash": "0c19fe77041208d3",
+    "duracion": 267,
+    "hash": "921efd5b765998e1",
     "voz": "es-AR-TomasNeural"
   },
   "corrientes-alerta-parana-crecida-lluvias-dots-18-octubre-2026": {
@@ -302,151 +308,151 @@
   "cumbre-peronismo-paso-presupuesto-2027": {
     "archivo": "/audio/cumbre-peronismo-paso-presupuesto-2027.mp3",
     "duracion": 269,
-    "hash": "d25648a1bec870bb",
+    "hash": "9136da7e2c31a141",
     "voz": "es-AR-TomasNeural"
   },
   "diego-molinas-la-tierra-prometida-es-la-justicia-social": {
     "archivo": "/audio/diego-molinas-la-tierra-prometida-es-la-justicia-social.mp3",
     "duracion": 615,
-    "hash": "5d9ae4b7e6bf8427",
+    "hash": "41fc4d7f2af6bb11",
     "voz": "es-AR-TomasNeural"
   },
   "el-anticomunismo-termina-donde-empiezan-los-negocios-milei-china": {
     "archivo": "/audio/el-anticomunismo-termina-donde-empiezan-los-negocios-milei-china.mp3",
     "duracion": 639,
-    "hash": "25912a390733b018",
+    "hash": "a6370ede07e90f03",
     "voz": "es-AR-TomasNeural"
   },
   "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en": {
     "archivo": "/audio/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en.mp3",
-    "duracion": 581,
-    "hash": "a009922ba11907f2",
+    "duracion": 582,
+    "hash": "2c9aa1fb083e125f",
     "voz": "es-AR-TomasNeural"
   },
   "el-pacifico-mas-caliente-que-nunca-super-nino-2026": {
     "archivo": "/audio/el-pacifico-mas-caliente-que-nunca-super-nino-2026.mp3",
     "duracion": 492,
-    "hash": "30c7aa73dcf393ef",
+    "hash": "85e5c1cf82d063e6",
     "voz": "es-AR-TomasNeural"
   },
   "emae-agosto-economia-estancada-recesion": {
     "archivo": "/audio/emae-agosto-economia-estancada-recesion.mp3",
-    "duracion": 259,
-    "hash": "8cc633adf57c5f17",
+    "duracion": 258,
+    "hash": "a2b70fb26ddfa0b5",
     "voz": "es-AR-TomasNeural"
   },
   "entrevista-gilda-kriskovich-discapacidad-prestaciones-congreso": {
     "archivo": "/audio/entrevista-gilda-kriskovich-discapacidad-prestaciones-congreso.mp3",
     "duracion": 825,
-    "hash": "6d85249490379410",
+    "hash": "8c790512de8c5dcd",
     "voz": "es-AR-TomasNeural"
   },
   "europa-tractores-tanques-ajuste-rearme-crisis-octubre-2026": {
     "archivo": "/audio/europa-tractores-tanques-ajuste-rearme-crisis-octubre-2026.mp3",
-    "duracion": 601,
-    "hash": "3ec1c6331530792e",
+    "duracion": 602,
+    "hash": "a38c1f5069734302",
     "voz": "es-AR-TomasNeural"
   },
   "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid": {
     "archivo": "/audio/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid.mp3",
-    "duracion": 189,
-    "hash": "9a680da6465e2a4e",
+    "duracion": 190,
+    "hash": "ab381c15cc5c6d8c",
     "voz": "es-AR-TomasNeural"
   },
   "francia-estudiantes-sindicatos-universidad-combustibles-crisis-social": {
     "archivo": "/audio/francia-estudiantes-sindicatos-universidad-combustibles-crisis-social.mp3",
     "duracion": 398,
-    "hash": "b9ad38780e036f3a",
+    "hash": "4593833eff3b4dd3",
     "voz": "es-AR-TomasNeural"
   },
   "inflacion-mayorista-3-2-septiembre-2026-alerta-cadena-de-costos": {
     "archivo": "/audio/inflacion-mayorista-3-2-septiembre-2026-alerta-cadena-de-costos.mp3",
     "duracion": 337,
-    "hash": "f0f84d9bcc623570",
+    "hash": "dd54af08d80bf7d1",
     "voz": "es-AR-TomasNeural"
   },
   "israel-netanyahu-gana-pero-no-le-alcanza-para-gobernar": {
     "archivo": "/audio/israel-netanyahu-gana-pero-no-le-alcanza-para-gobernar.mp3",
-    "duracion": 298,
-    "hash": "d4e80369d0a73431",
+    "duracion": 299,
+    "hash": "23d7b5bfada8870b",
     "voz": "es-AR-TomasNeural"
   },
   "la-insoportable-levedad-del-ser-en-la-veteria-de-guerra": {
     "archivo": "/audio/la-insoportable-levedad-del-ser-en-la-veteria-de-guerra.mp3",
     "duracion": 592,
-    "hash": "8749989328e5290e",
+    "hash": "748d9dee972ef057",
     "voz": "es-AR-TomasNeural"
   },
   "la-noche-en-que-el-atlantico-sur-redefinio-su-destino-cronica-datos-y-el-nuevo-m": {
     "archivo": "/audio/la-noche-en-que-el-atlantico-sur-redefinio-su-destino-cronica-datos-y-el-nuevo-m.mp3",
     "duracion": 242,
-    "hash": "cf795ffbc22cf7a7",
+    "hash": "117eee5deb4698b6",
     "voz": "es-AR-TomasNeural"
   },
   "la-noche-en-que-flavio-bolsonaro-intento-perderse": {
     "archivo": "/audio/la-noche-en-que-flavio-bolsonaro-intento-perderse.mp3",
     "duracion": 550,
-    "hash": "f13e3fe8e24e1c54",
+    "hash": "a34fea7ed9e50cc4",
     "voz": "es-AR-TomasNeural"
   },
   "la-oposicion-alcanza-los-70-escanos-y-arrincona-al-bloque-de-netanyahu": {
     "archivo": "/audio/la-oposicion-alcanza-los-70-escanos-y-arrincona-al-bloque-de-netanyahu.mp3",
     "duracion": 270,
-    "hash": "08a7d32b7e0f2af3",
+    "hash": "4174d2067dddd787",
     "voz": "es-AR-TomasNeural"
   },
   "la-trama-secreta-del-fraude-a-la-intervencion-judicial-de-la-uom": {
     "archivo": "/audio/la-trama-secreta-del-fraude-a-la-intervencion-judicial-de-la-uom.mp3",
-    "duracion": 428,
-    "hash": "4f8609005f9b477e",
+    "duracion": 427,
+    "hash": "3ffdb6a78fb499a3",
     "voz": "es-AR-TomasNeural"
   },
   "llaryora-abstenciones-milei-endeudamiento-familiar": {
     "archivo": "/audio/llaryora-abstenciones-milei-endeudamiento-familiar.mp3",
     "duracion": 715,
-    "hash": "33d66ff8aa2c4c7d",
+    "hash": "7be86d2f6ad6ec73",
     "voz": "es-AR-TomasNeural"
   },
   "lula-debate-flavio-bolsonaro-octubre-2026": {
     "archivo": "/audio/lula-debate-flavio-bolsonaro-octubre-2026.mp3",
     "duracion": 239,
-    "hash": "adfc4d4b946a8130",
+    "hash": "9a24acb98931051a",
     "voz": "es-AR-TomasNeural"
   },
   "lula-victoria-politica-balotaje-brasil-aprueba-cinco-dias-descansar-dos": {
     "archivo": "/audio/lula-victoria-politica-balotaje-brasil-aprueba-cinco-dias-descansar-dos.mp3",
     "duracion": 424,
-    "hash": "8dacd51d25ea4656",
+    "hash": "c076e35e64aa5b0d",
     "voz": "es-AR-TomasNeural"
   },
   "mariano-martin-periodismo-sin-codigo-de-etica-profesional": {
     "archivo": "/audio/mariano-martin-periodismo-sin-codigo-de-etica-profesional.mp3",
-    "duracion": 496,
-    "hash": "ee5176be33fed198",
+    "duracion": 495,
+    "hash": "f8a48c7c8c0a69ac",
     "voz": "es-AR-TomasNeural"
   },
   "milei-abstencion-onu-colonialismo-contradiccion-malvinas": {
     "archivo": "/audio/milei-abstencion-onu-colonialismo-contradiccion-malvinas.mp3",
     "duracion": 312,
-    "hash": "dd40487767aa32f7",
+    "hash": "a8cfd80e3dfa07ef",
     "voz": "es-AR-TomasNeural"
   },
   "milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano": {
     "archivo": "/audio/milei-explica-por-que-la-inflacion-argentina-se-freno-este-ano.mp3",
-    "duracion": 250,
-    "hash": "adbb5f5ec8ab893b",
+    "duracion": 249,
+    "hash": "958762522f5cabda",
     "voz": "es-AR-TomasNeural"
   },
   "oro-banco-central-deutsche-bank-caputo-bausili": {
     "archivo": "/audio/oro-banco-central-deutsche-bank-caputo-bausili.mp3",
-    "duracion": 610,
-    "hash": "801cbe4ade7d85bb",
+    "duracion": 608,
+    "hash": "2c1410b37e70ac5c",
     "voz": "es-AR-TomasNeural"
   },
   "riesgo-pais-700-puntos-deuda-2027": {
     "archivo": "/audio/riesgo-pais-700-puntos-deuda-2027.mp3",
     "duracion": 398,
-    "hash": "e728dba9e8eb1666",
+    "hash": "fb41a7ec705c1d92",
     "voz": "es-AR-TomasNeural"
   },
   "san-martin-pobreza-informalidad-endeudamiento-2026": {
