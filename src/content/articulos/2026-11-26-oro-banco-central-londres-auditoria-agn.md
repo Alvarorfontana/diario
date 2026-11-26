@@ -1,11 +1,12 @@
 ---
 title: "El oro argentino, custodiado en Londres por el país que ocupa Malvinas"
 volanta: "INFORME | BANCO CENTRAL"
-description: "La AGN aprobó el informe sobre las 1.000 barras que el BCRA sacó del país en 2024: el oro está en el Banco de Inglaterra y la operación tuvo fallas de control."
+description: "El mismo día en que la AGN confirmó que el oro que el BCRA sacó en 2024 está en el Banco de Inglaterra, Diputados convirtió en ley la reforma que permite usar ese oro como garantía."
 section: economia
 author: "Ramiro De la Puente"
 region: nacional
 pubDate: 2026-11-26T18:30:00-03:00
+updatedDate: 2026-11-26T18:45:00-03:00
 heroImage: /uploads/2026-11-26-banco-de-inglaterra-londres.jpg
 imageCaption: "Sede del Banco de Inglaterra, en Threadneedle Street, Londres. En sus bóvedas guarda oro de bancos centrales de todo el mundo. Foto: MEMO (Middle East Monitor)."
 tags:
@@ -17,13 +18,20 @@ tags:
   - Banco de Inglaterra
   - Malvinas
 puntosClave:
+  - "Diputados convirtió hoy en ley la reforma de la Carta Orgánica: el Banco Central podrá usar el oro y el resto de sus reservas como garantía."
   - "La AGN aprobó el informe sobre las 1.000 barras de oro que el Banco Central trasladó a Londres entre junio y agosto de 2024."
   - "El oro está bajo custodia del Banco de Inglaterra y pasó a ser una cuenta de oro no asignado, sin lingotes identificados."
   - "No se pudo verificar la póliza del seguro y la operación se hizo sin manual de procedimiento ni evaluación de riesgos."
-resumenCompartir: "La AGN confirmó que el oro que el Banco Central sacó en 2024 está en el Banco de Inglaterra, y marcó fallas de control en toda la operación."
+resumenCompartir: "La AGN ubicó en Londres el oro que el Banco Central sacó en 2024, el mismo día en que Diputados aprobó la ley que permite usarlo como garantía."
 ---
 
 La Auditoría General de la Nación aprobó este jueves 26 de noviembre el informe sobre las 1.000 barras de oro que el Banco Central sacó del país entre junio y agosto de 2024. El documento ubica el oro en Londres, bajo custodia del Banco de Inglaterra, y marca fallas de control, documentación y transparencia en toda la operación.
+
+Ese mismo jueves, la Cámara de Diputados convirtió en ley la reforma de la Carta Orgánica del Banco Central, con 141 votos a favor, ninguno en contra y 99 abstenciones, según [Infobae](https://www.infobae.com/politica/2026/11/26/diputados-convirtio-en-ley-la-reforma-de-la-carta-organica-del-banco-central/). La nueva ley habilita a la entidad a usar sus activos externos, oro incluido, como garantía en operaciones propias de banca central, y declara inembargables las reservas, como detalló el mismo [medio](https://www.infobae.com/economia/2026/11/26/seis-claves-para-entender-la-nueva-ley-que-reforma-la-carta-organica-del-banco-central/). El Congreso dejó por escrito ese uso del oro dos años después de que las barras salieran del país. El presidente Javier Milei [celebró la sanción](https://www.baenegocios.com/politica/diputados-aprobo-la-reforma-de-la-carta-organica-del-bcra-y-milei-celebro-la-sancion/).
+
+Se abstuvieron Unión por la Patria, el Frente de Izquierda, Elijo Catamarca, Encuentro Federal y parte de Provincias Unidas. La Cámara solo podía aceptar los cambios del Senado o insistir con el texto original, y la oposición eligió la abstención para impedir que el oficialismo recuperara la primera versión, según [Diario Tag](https://www.diariotag.com/200745-el-congreso-sanciono-la-reforma-de-la-carta-organica-del-banco-central). En el debate, el diputado Nicolás del Caño cuestionó que la reforma permita comprometer activos internacionales, según [ADNSUR](https://www.adnsur.com.ar/politica/diputados-convirtieron-en-ley-la-reforma-de-la-carta-organica-del-banco-central_a6b086fe31af8333314a5c780).
+
+Para el Gobierno la ley pesa por dos motivos. El primero es la prohibición de que el Banco Central financie al Tesoro: tras la votación, Milei sostuvo que se terminaron "más de 90 años de estafa vía emisión de dinero para financiar déficit fiscal", según [Eduardo German](https://eduardogerman.com/2026/11/26/diputados-convirtio-en-ley-la-reforma-de-la-carta-organica-del-bcra-con-141-votos-a-favor-y-99-abstenciones/). El segundo toca directamente al oro. La nueva Carta Orgánica permite usar activos del Banco Central como garantía para conseguir financiamiento, un esquema que [Perfil](https://perfil.com/noticias/columnistas/el-banco-central-podria-usar-los-dolares-de-ahorristas-como-garantia-para-tomar-deuda-por-carlos-burgueno.phtml) vincula con los vencimientos de deuda de 2027. Es decir, las reservas, y entre ellas las barras que están en Londres, pueden quedar en prenda para tomar préstamos.
 
 El informe se titula "Operaciones de traslado y depósito de barras de oro en el exterior" y salió por mayoría, después de más de un año de pedidos de información que el Banco Central demoró o negó. Votaron en contra los auditores Mariano Piazza, Mónica Almada y Luis Naidenoff, que defendieron la posición de la entidad que preside Santiago Bausili, según reconstruyeron [Ámbito](https://www.ambito.com/politica/explosiva-auditoria-la-agn-el-oro-argentino-esta-inglaterra-y-no-se-constato-que-su-envio-este-asegurado-n6349729), que accedió a los hallazgos, y [Economis](https://economis.com.ar/auditoria-de-la-agn-el-oro-argentino-esta-inglaterra-y-no-se-constato-que-su-envio-este-asegurado/). Al cierre de esta nota el texto completo todavía no estaba publicado en el sitio del organismo.
 

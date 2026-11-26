@@ -257,3 +257,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - /admin/visitas suma un bloque "Detalle de las visitas" (hoy, 7 o 30 días), sin sacar nada de lo anterior: páginas más vistas con tiempo promedio y qué parte llegó a la mitad y al final; de dónde llegan (Google, WhatsApp, Facebook, boletín, otros sitios…); temas de las notas; partes del sitio; provincia, ciudad y país (aproximados); dispositivo, sistema y navegador; lectores nuevos y que vuelven; permanencia; hora del día; día de la semana; idioma.
 - Un hash por día en Upstash (`detalle:AAAA-MM-DD`), una sola llamada (script) por página vista y otra al salir, para cuidar la cuota gratuita. No se guarda la IP. Robots afuera.
 - Pendiente: ver en unos días si la cuota de Upstash alcanza con el tráfico real.
+
+- 26/11/2026: nota del oro en Londres actualizada: bajada y tres párrafos arriba con la sanción de la reforma de la Carta Orgánica en Diputados (141-0-99), las abstenciones y por qué le importa al Gobierno (emisión cero y reservas como garantía). Queda en ~2.100 palabras, sobre el límite ya aprobado. Pendiente: confirmar en el Boletín Oficial el texto final sobre reservas en el exterior.
