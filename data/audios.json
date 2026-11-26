@@ -26,7 +26,7 @@
   "2026-11-03-mas-sorpresas-en-la-uom-lobato-caballos": {
     "archivo": "/audio/2026-11-03-mas-sorpresas-en-la-uom-lobato-caballos.mp3",
     "duracion": 636,
-    "hash": "e70a8b58ae2162fb",
+    "hash": "254d81ca4cbb1f37",
     "voz": "es-AR-TomasNeural"
   },
   "2026-11-04-pauny-fantasma-de-zanello": {
@@ -164,7 +164,7 @@
   "2026-11-20-la-campora-propone-furlanismo-sin-furlan": {
     "archivo": "/audio/2026-11-20-la-campora-propone-furlanismo-sin-furlan.mp3",
     "duracion": 544,
-    "hash": "65b7edc60921d8e1",
+    "hash": "635f0deff69f05d8",
     "voz": "es-AR-TomasNeural"
   },
   "2026-11-20-nino-fuerte-parana-evacuacion-entre-rios-dots": {
@@ -217,8 +217,8 @@
   },
   "2026-11-24-auditoria-bdo-uom-usem-408-millones": {
     "archivo": "/audio/2026-11-24-auditoria-bdo-uom-usem-408-millones.mp3",
-    "duracion": 178,
-    "hash": "e37c2569e0225fc3",
+    "duracion": 182,
+    "hash": "bc759018f23cb082",
     "voz": "es-AR-TomasNeural"
   },
   "2026-11-24-dolar-1600-deuda-cara-retroceso-industrial": {
@@ -249,6 +249,12 @@
     "archivo": "/audio/2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar.mp3",
     "duracion": 368,
     "hash": "2ff877e5adb744d2",
+    "voz": "es-AR-TomasNeural"
+  },
+  "2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan": {
+    "archivo": "/audio/2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan.mp3",
+    "duracion": 291,
+    "hash": "117bac2130ae51b2",
     "voz": "es-AR-TomasNeural"
   },
   "abascal-evita-recibir-a-milei-madrid-campana-29n": {
@@ -404,7 +410,7 @@
   "la-trama-secreta-del-fraude-a-la-intervencion-judicial-de-la-uom": {
     "archivo": "/audio/la-trama-secreta-del-fraude-a-la-intervencion-judicial-de-la-uom.mp3",
     "duracion": 427,
-    "hash": "3ffdb6a78fb499a3",
+    "hash": "1cd7bcc616cf2daa",
     "voz": "es-AR-TomasNeural"
   },
   "llaryora-abstenciones-milei-endeudamiento-familiar": {
@@ -457,26 +463,26 @@
   },
   "san-martin-pobreza-informalidad-endeudamiento-2026": {
     "archivo": "/audio/san-martin-pobreza-informalidad-endeudamiento-2026.mp3",
-    "duracion": 830,
-    "hash": "65e9ecc124412856",
+    "duracion": 829,
+    "hash": "066634e028de2607",
     "voz": "es-AR-TomasNeural"
   },
   "trump-itaipu-energia-paraguay-centros-de-datos-ia": {
     "archivo": "/audio/trump-itaipu-energia-paraguay-centros-de-datos-ia.mp3",
-    "duracion": 792,
-    "hash": "fad78f31762e5db0",
+    "duracion": 793,
+    "hash": "74c61546960b4e0e",
     "voz": "es-AR-TomasNeural"
   },
   "ucrania-derriba-puente-de-crimea-con-drones-y-misiles": {
     "archivo": "/audio/ucrania-derriba-puente-de-crimea-con-drones-y-misiles.mp3",
     "duracion": 233,
-    "hash": "7e69e218bce574f3",
+    "hash": "938565723abbe994",
     "voz": "es-AR-TomasNeural"
   },
   "xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre": {
     "archivo": "/audio/xi-jinping-donald-trump-y-vladimir-putin-participaran-en-una-cumbre.mp3",
     "duracion": 1055,
-    "hash": "03bc398a603c183d",
+    "hash": "6cb0935ddca0106e",
     "voz": "es-AR-TomasNeural"
   }
 }
