@@ -3,7 +3,7 @@ title: "El oro argentino, custodiado en Londres por el país que ocupa Malvinas"
 volanta: "INFORME | BANCO CENTRAL"
 description: "La AGN aprobó el informe sobre las 1.000 barras que el BCRA sacó del país en 2024: el oro está en el Banco de Inglaterra y la operación tuvo fallas de control."
 section: economia
-author: "Emilio Lahitte"
+author: "Ramiro De la Puente"
 region: nacional
 pubDate: 2026-11-26T18:30:00-03:00
 heroImage: /uploads/2026-11-26-banco-de-inglaterra-londres.jpg
