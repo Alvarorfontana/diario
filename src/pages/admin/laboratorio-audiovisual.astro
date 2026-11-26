@@ -1,0 +1,67 @@
+---
+export const prerender = false;
+import { isAdmin } from '../../lib/auth';
+import { getRuntimeEnv } from '../../lib/runtimeEnv';
+const env = getRuntimeEnv(Astro.locals);
+const isAuthenticated = await isAdmin(Astro.request, env);
+---
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Laboratorio Audiovisual DF</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f6f8;color:#202833;font-family:Arial,sans-serif}.wrap{max-width:1000px;margin:28px auto;padding:0 16px}.card{background:#fff;border:1px solid #e1e6eb;border-radius:12px;padding:22px;margin-bottom:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}h1{font-size:25px;margin:0 0 8px}h2{font-size:18px;margin:0 0 12px}.muted{color:#667085;font-size:14px;line-height:1.5}.back,.btn{display:inline-block;padding:10px 14px;border-radius:7px;text-decoration:none;border:0;font-weight:700;cursor:pointer}.back{background:#667085;color:#fff}.btn{background:#155eef;color:#fff}.btn:disabled{opacity:.5;cursor:wait}label{display:block;font-size:14px;font-weight:700;margin:14px 0 6px}input,textarea,select{width:100%;padding:11px;border:1px solid #cbd2da;border-radius:7px;font:inherit}textarea{min-height:170px;resize:vertical}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.status{border:1px solid #e1e6eb;border-radius:9px;padding:14px}.status b{display:block;margin-bottom:5px}.pill{font-size:12px;color:#8a4b08;background:#fff3d6;padding:4px 8px;border-radius:20px;display:inline-block}.result{white-space:pre-wrap;background:#f8fafc;border:1px solid #e1e6eb;padding:14px;border-radius:8px;min-height:80px;line-height:1.55}.note{font-size:13px;color:#667085}.error{color:#b42318}.success{color:#067647}@media(max-width:700px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+{!isAuthenticated ? <section class="card"><h1>Acceso restringido</h1><p>Ingresá primero a la administración de Diario Federal.</p><a class="back" href="/admin/">Ir al panel</a></section> : <>
+<section class="card">
+<div class="top"><div><h1>🎬 Laboratorio Audiovisual DF</h1><p class="muted">Espacio independiente para preparar producciones audiovisuales. No publica ni modifica noticias.</p></div><a class="back" href="/admin/">← Volver a la Mesa de Noticias</a></div>
+</section>
+<section class="card">
+<h2>Conexiones</h2>
+<div class="grid">
+<div class="status"><b>Gemini</b><span class="pill">Conexión por API</span><p class="note">La clave se configura como secreto GEMINI_API_KEY en el entorno del servicio.</p></div>
+<div class="status"><b>Google Flow</b><span class="pill">Pendiente de vincular</span><p class="note">Se conectará mediante un puente independiente autorizado con tu cuenta Google. No se usa la clave Gemini para iniciar sesión en Flow.</p></div>
+<div class="status"><b>VideoAgent</b><span class="pill">Pendiente de instalar</span><p class="note">Procesamiento en un servicio separado; no se ejecuta dentro de las funciones de Vercel.</p></div>
+</div>
+</section>
+<section class="card">
+<h2>Preparar guion con Gemini</h2>
+<p class="muted">Pegá una noticia o un resumen. Gemini devolverá una propuesta de guion y escenas para que la revises. Esto no genera ni publica un video.</p>
+<label for="titulo">Título de la noticia</label><input id="titulo" maxlength="180" placeholder="Título de la noticia" />
+<label for="texto">Texto o información de base</label><textarea id="texto" maxlength="12000" placeholder="Pegá aquí el texto de la noticia, sus datos y fuentes..."></textarea>
+<label for="formato">Formato previsto</label><select id="formato"><option value="clip breve de 8 segundos">Clip breve de 8 segundos</option><option value="video informativo de 30 a 60 segundos">Video informativo de 30 a 60 segundos</option><option value="informe audiovisual de 2 a 3 minutos">Informe audiovisual de 2 a 3 minutos</option></select>
+<p><button class="btn" id="generar" type="button">Preparar guion con Gemini</button></p>
+<div id="estado" class="note" aria-live="polite"></div>
+<h2 style="margin-top:20px">Guion propuesto</h2><div id="resultado" class="result">Todavía no hay un guion generado.</div>
+<p class="note">La propuesta queda en esta pantalla. No se guarda en el CMS, no modifica archivos editoriales y no activa publicaciones.</p>
+</section>
+<section class="card"><h2>Próximas conexiones</h2><p class="muted">Google Flow y VideoAgent se habilitarán cuando estén disponibles sus servicios independientes y se haya probado la autenticación y el procesamiento. No se simulan conexiones ni se consumen créditos automáticamente.</p></section>
+</>}
+</div>
+{isAuthenticated && <script>
+const button=document.getElementById('generar');
+button?.addEventListener('click',async()=>{
+ const titulo=(document.getElementById('titulo') as HTMLInputElement).value.trim();
+ const texto=(document.getElementById('texto') as HTMLTextAreaElement).value.trim();
+ const formato=(document.getElementById('formato') as HTMLSelectElement).value;
+ const estado=document.getElementById('estado')!;
+ const resultado=document.getElementById('resultado')!;
+ if(!titulo||!texto){estado.textContent='Completá el título y el texto de base.';estado.className='note error';return;}
+ button.disabled=true;estado.textContent='Preparando el guion…';estado.className='note';
+ try{
+  const response=await fetch('/api/admin/laboratorio-audiovisual',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({titulo,texto,formato})});
+  const data=await response.json();
+  if(!response.ok||!data.ok)throw new Error(data.error||'No se pudo generar el guion.');
+  resultado.textContent=data.guion;estado.textContent='Guion generado. Revisalo antes de utilizarlo.';estado.className='note success';
+ }catch(error){estado.textContent=error instanceof Error?error.message:'Error de conexión.';estado.className='note error';}
+ finally{button.disabled=false;}
+});
+</script>}
+</body>
+</html>
