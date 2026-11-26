@@ -96,7 +96,7 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "automatico": true,
   "rotulo": "SEMANA DEL 22 DE NOVIEMBRE DE 2026",
@@ -107,25 +107,25 @@
       "titulo": "La Cámpora propone"
     },
     {
-      "t": 25.9,
+      "t": 20.1,
       "titulo": "Saúl Ubaldini, a 20 años"
     },
     {
-      "t": 57.2,
+      "t": 51.5,
       "titulo": "¿Yalta 2.0 en Shenzhen? Trump, Putin y Xi Jinping ante…"
     },
     {
-      "t": 67.7,
+      "t": 62.0,
       "titulo": "León XIV y la identidad teológica latinoamericana"
     },
     {
-      "t": 91.3,
+      "t": 85.5,
       "titulo": "Lanús: la explosión que pone bajo la lupa a MetroGAS y…"
     }
   ],
-  "duracion": 126.2,
+  "duracion": 120.4,
   "duraciones": [
-    19.0,
+    13.2,
     30.1,
     9.3,
     22.4,
@@ -133,6 +133,6 @@
   ],
   "video": "/flash/2026-11-22-semanal-auto.mp4",
   "miniatura": "/flash/2026-11-22-semanal-auto.jpg",
-  "version": "20261126051213",
-  "generado": "2026-11-26T05:12:13+00:00"
+  "version": "20261126054009",
+  "generado": "2026-11-26T05:40:09+00:00"
 }
