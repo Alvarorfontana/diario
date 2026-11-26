@@ -45,7 +45,7 @@ const isAuthenticated = await isAdmin(Astro.request, env);
 </>}
 </div>
 {isAuthenticated && <script>
-const button=document.getElementById('generar');
+const button=document.getElementById('generar') as HTMLButtonElement | null;
 button?.addEventListener('click',async()=>{
  const titulo=(document.getElementById('titulo') as HTMLInputElement).value.trim();
  const texto=(document.getElementById('texto') as HTMLTextAreaElement).value.trim();
