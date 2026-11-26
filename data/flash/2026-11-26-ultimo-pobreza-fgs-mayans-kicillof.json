@@ -1,7 +1,7 @@
 {
   "id": "2026-11-26-ultimo-pobreza-fgs-mayans-kicillof",
   "tipo": "ultimo",
-  "titulo": "Pobreza según la DW, la plata de los jubilados, Mayans contra Santilli y Kicillof en Santa Fe",
+  "titulo": "Exclusivo: la auditoría de la UOM. Además, pobreza según la DW, la plata de los jubilados, Mayans y Kicillof",
   "fecha": "2026-11-26",
   "voz": "es-AR-TomasNeural",
   "velocidad": 15,
@@ -12,9 +12,26 @@
   "intro": "Diario Federal. Las noticias de este jueves.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "26 DE NOVIEMBRE DE 2026",
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "bloques": [
+    {
+      "kicker": "Exclusivo",
+      "titulo": "La auditoría de la UOM, completa",
+      "dato": "$408 millones por mes",
+      "bajada": "Lo que costó en agosto de 2026 el esquema del fideicomiso con el Banco Nación y USEM, según BDO.",
+      "texto": "Exclusivo de Diario Federal. Accedimos al informe confidencial de la auditora BDO sobre la UOM y su obra social, encargado por la intervención judicial. El esquema del fideicomiso con el Banco Nación y la empresa USEM costó cuatrocientos ocho millones de pesos solo en agosto. BDO no encontró evaluaciones de riesgos, costos ni alternativas que justifiquen esa contratación. Y la comisión de USEM habría salido un ciento ochenta y cuatro por ciento más cara que la de la firma anterior. El informe está completo en diariofederal punto com punto ar.",
+      "epigrafe": "Alberto Biglieri, interventor judicial de la Unión Obrera Metalúrgica",
+      "fuente": "Foto: Mundo Gremial",
+      "media": {
+        "tipo": "foto",
+        "archivo": "/uploads/2026-11-24-alberto-biglieri-interventor-uom.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
     {
       "kicker": "Pobreza",
       "titulo": "La pobreza que mostró la Deutsche Welle",
