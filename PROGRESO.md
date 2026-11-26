@@ -208,7 +208,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Publicada la nota de análisis económico-político firmada por Ramiro De la Puente (737 palabras, dentro del límite de 1.200).
 - Datos verificados y enlazados a sus fuentes; se corrigieron cifras del borrador que no tenían respaldo (TIR mediana del IAMC, bono de Brasil al 6,4%, revisión de la paritaria en enero).
 - Imagen de tapa: gráfico propio del riesgo país junio-noviembre (`public/uploads/2026-11-24-riesgo-pais-junio-noviembre.png`).
-- Pendiente: actualizar con el resultado del EMAE de septiembre (INDEC, 16 h).
+- Actualizado el 26/11 con el EMAE de septiembre (-1,2% interanual, +1,1% mensual, recesión técnica).
 
 ## 2026-11-24 · Nota: el ajuste sobre los cuerpos (PAMI)
 - Nota de análisis "El ajuste sobre los cuerpos: cómo se vació el PAMI" (Argentina, Redacción) · 1.166 palabras · dentro del límite de 1.200. Marcada como tapa.
@@ -230,3 +230,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 ## 2026-11-25
 - Nota de Santucho en Sociales (Emilio Lahitte) reescrita como Análisis con datos verificados (15 a 1, voto de La Mella, libro de Hagman y Bosia), enlaces a fuentes y foto de archivo DiFilm. El audio se regenera solo.
 - 2026-11-26: Conectada la base Upstash for Redis (upstash-kv-fulvous-ferry, plan Free) en Vercel para el contador de /admin/visitas y "Lo más leído".
+- 2026-11-26: Revisado Santucho: sin novedades del Consejo Superior ni de Grabois. Senado PASO: sesión hoy 26, actualizar la nota del PJ bonaerense con el resultado.

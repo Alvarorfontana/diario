@@ -1,7 +1,7 @@
 ---
 title: "Dólar arriba de $1.600, deuda cara y una industria que no frena su caída"
 volanta: "ANÁLISIS | ECONOMÍA Y POLÍTICA"
-description: "El riesgo país tocó 1.108 puntos y el dólar oficial pasó los $1.600. La metalurgia, las pymes y el consumo siguen en baja mientras el INDEC define si hay recesión."
+description: "El riesgo país tocó 1.108 puntos y el dólar oficial pasó los $1.600. La metalurgia, las pymes y el consumo siguen en baja, y el INDEC confirmó dos trimestres seguidos de caída."
 section: economia
 author: "Ramiro De la Puente"
 region: nacional
@@ -56,7 +56,9 @@ Del otro lado, los salarios corren desde atrás. Empleados de Comercio, el gremi
 
 ## El dato de las 16
 
-El INDEC [publica hoy a las 16 el EMAE de septiembre](https://www.infobae.com/economia/2026/11/24/hoy-se-conoce-un-dato-clave-sobre-el-rumbo-de-la-economia-la-actividad-entro-en-recesion-tecnica/), el indicador que cierra el tercer trimestre. El PBI [ya había caído 0,6% en el segundo](https://www.perfil.com/noticias/economia/la-actividad-crecio-menos-de-lo-esperado-en-agosto-y-crecen-las-preocupaciones-sobre-una-profunda-recesion-en-los-proximos-meses-a40.phtml). Las consultoras privadas [estiman otra baja trimestral de entre 1,2% y 2,6%](https://prensalibreonline.com.ar/economia/el-indec-publica-el-emae-de-septiembre-argentina-entra-en-recesion-tecnica), aunque con una mejora mensual en septiembre. [Equilibra calcula la caída más fuerte](https://eleconomista.com.ar/economia/semaforo-actividad-septiembre-muestra-rebote-mensual-pero-trimestre-sigue-complicado-n99372/amp). Dos trimestres seguidos en baja son lo que se llama recesión técnica.
+El dato llegó esa misma tarde y confirmó el pronóstico. [La actividad cayó 1,2% interanual en septiembre](https://x.com/INDECArgentina/status/2125303423910211839), aunque subió 1,1% contra agosto en la medición desestacionalizada, según el INDEC. Fue la tercera baja interanual seguida, después de las de julio (-1,5%) y agosto (-1,6%), y en los primeros nueve meses del año la economía acumula apenas 1% de crecimiento. [Solo cinco de las quince ramas crecieron](https://www.infobae.com/economia/2026/11/24/recesion-tecnica-que-dijo-el-gobierno-tras-el-dato-que-dejo-a-la-economia-con-dos-trimestres-consecutivos-de-caida/); la industria y el comercio volvieron a retroceder.
+
+El tercer trimestre cerró en baja y, con el PBI que [ya había caído 0,6% en el segundo](https://www.perfil.com/noticias/economia/la-actividad-crecio-menos-de-lo-esperado-en-agosto-y-crecen-las-preocupaciones-sobre-una-profunda-recesion-en-los-proximos-meses-a40.phtml), suma dos trimestres seguidos de caída: lo que se llama recesión técnica. [Equilibra calcula que la economía cayó 1,8% en el trimestre](https://cronista.com/economia-politica/la-economia-entro-en-recesion-ahora-el-mercado-busca-el-motor-de-la-recuperacion). El INDEC aclaró que no le corresponde declarar una recesión, porque eso exige mirar más de un indicador. La confirmación llegará con el dato del PBI del tercer trimestre.
 
 ## La conducción política
 
