@@ -229,3 +229,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## 2026-11-25
 - Nota de Santucho en Sociales (Emilio Lahitte) reescrita como Análisis con datos verificados (15 a 1, voto de La Mella, libro de Hagman y Bosia), enlaces a fuentes y foto de archivo DiFilm. El audio se regenera solo.
+- 2026-11-26: Conectada la base Upstash for Redis (upstash-kv-fulvous-ferry, plan Free) en Vercel para el contador de /admin/visitas y "Lo más leído".
