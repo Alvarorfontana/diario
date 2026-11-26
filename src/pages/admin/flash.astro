@@ -775,7 +775,9 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 				var d; try { d = JSON.parse(decodeURIComponent(m[1])); } catch (e) { return; }
 				nuevo();
 				var f = estado.flash;
-				f.estilo = 'openfilm'; f.subtitulos = true;
+				f.estilo = ['openfilm', 'noticiero', 'clasico', 'editorial'].indexOf(d.estilo) >= 0 ? d.estilo : 'openfilm'; f.subtitulos = true;
+				if (['es-AR-TomasNeural', 'es-AR-ElenaNeural', 'clonada'].indexOf(d.voz) >= 0) f.voz = d.voz;
+				if (/^\/flash\/musica\/[\w.-]+\.mp3$/.test(d.musica || '')) f.musica = d.musica;
 				if (d.tipo === 'ultimo') f.tipo = 'ultimo';
 				f.titulo = cortarLimpio(d.titulo || '', 140);
 				f.bloques = (Array.isArray(d.bloques) ? d.bloques : []).slice(0, 8).map(function (x) {

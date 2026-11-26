@@ -231,3 +231,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Nota de Santucho en Sociales (Emilio Lahitte) reescrita como Análisis con datos verificados (15 a 1, voto de La Mella, libro de Hagman y Bosia), enlaces a fuentes y foto de archivo DiFilm. El audio se regenera solo.
 - 2026-11-26: Conectada la base Upstash for Redis (upstash-kv-fulvous-ferry, plan Free) en Vercel para el contador de /admin/visitas y "Lo más leído".
 - 2026-11-26: Revisado Santucho: sin novedades del Consejo Superior ni de Grabois. Senado PASO: sesión hoy 26, actualizar la nota del PJ bonaerense con el resultado.
+- 2026-11-26: Flash desde la Mesa: el panel respeta el diseño, la voz y la música elegidos en la Mesa de Redacción del Centro (#mesa=). La Mesa muestra el estado de los últimos 5 flashes (lee data/flash desde GitHub). Prueba real de OpenFilm con el borrador del 22/11 (sin publicar).
