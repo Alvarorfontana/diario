@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-26",
   "dateLabel": "26/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-26-f964c376a386.mp3",
-  "video": "/boletines/boletin-principal-2026-11-26-f964c376a386.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-26-f964c376a386.png",
-  "duracion": 101,
+  "archivo": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.mp3",
+  "video": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.png",
+  "duracion": 99,
   "voz": "es-AR-TomasNeural",
-  "hash": "f964c376a386",
+  "hash": "6cecf0a634b1",
   "items": [
+    {
+      "slug": "2026-11-26-blindaje-pobreza-dw-comedor",
+      "title": "El blindaje que ya no alcanza: la pobreza que se ve desde Alemania",
+      "section": "argentina",
+      "url": "/articulo/2026-11-26-blindaje-pobreza-dw-comedor/"
+    },
     {
       "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
       "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
@@ -38,12 +44,6 @@
       "title": "El ajuste sobre los cuerpos: cómo se vació el PAMI",
       "section": "argentina",
       "url": "/articulo/2026-11-24-pami-ajuste-sobre-los-cuerpos/"
-    },
-    {
-      "slug": "2026-11-24-dolar-1600-deuda-cara-retroceso-industrial",
-      "title": "Dólar arriba de $1.600, deuda cara y una industria que no frena su caída",
-      "section": "economia",
-      "url": "/articulo/2026-11-24-dolar-1600-deuda-cara-retroceso-industrial/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
