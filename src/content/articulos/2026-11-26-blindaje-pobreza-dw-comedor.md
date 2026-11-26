@@ -28,8 +28,6 @@ resumenCompartir: "La DW mostró la fila del comedor que acá casi no se ve. El 
 <figcaption class="epigrafe" style="margin-top:.6rem;text-align:center">Informe de la Deutsche Welle sobre la pobreza en la Argentina (2:16). Video: DW Noticias, informe de Alexa Meyer.</figcaption>
 </figure>
 
-*Período analizado: pobreza, primer semestre de 2026 (INDEC).*
-
 Un martes cualquiera, en un comedor popular de Buenos Aires, se reparten más de 300 raciones. Así arranca el informe que la Deutsche Welle, la televisión pública alemana, difundió esta semana sobre la Argentina. No hay música dramática ni grandes cifras al principio. Hay una fila.
 
 En esa fila están los de siempre y los nuevos. Jubilados y jubiladas que apenas pueden pagarse una pensión y vienen por un plato caliente o ropa donada. Repartidores de aplicaciones que pasan con la mochila y se acercan a comer. Y lo que más impresiona a la referente que habla ante la cámara: "gente laburante que se baja del tren, que se baja del colectivo, y que viene y se pone a hacer una fila para pedir un plato de comida".
@@ -71,3 +69,5 @@ Por eso pesa tanto el informe alemán. No descubre nada, lo cuenta sin filtro. P
 La buena noticia, si cabe la palabra, es que el blindaje ya no alcanza. La realidad desborda por los costados. Se nota en el almacén que fía, en el quiosco que cierra, en el vecino que antes ayudaba en el comedor y ahora hace la fila. Es palpable en cualquier sector, y no hay relato que lo tape.
 
 El próximo dato oficial, el del segundo semestre, se conocerá en marzo. Mientras tanto, el martes que viene la fila va a volver a estar ahí.
+
+*Período analizado: pobreza, primer semestre de 2026 (INDEC).*
