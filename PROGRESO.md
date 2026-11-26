@@ -3,6 +3,8 @@
 Libreta del proyecto: qué hay, qué se hizo y qué falta. Se actualiza después de cada cambio, con la fecha.
 Las reglas de trabajo están en `CLAUDE.md`.
 
+## 2026-11-26 — Prueba tipográfica: la cinta "Último momento" de la portada pasa a Roboto Condensed 700 (estilo Politico). El resto del sitio sigue en Newsreader e Inter. Para volver atrás: borrar el bloque final de `global.css` y la familia en `BaseLayout.astro`.
+
 ## 2026-11-24 — Portada: se saca el banner de Elecciones EE. UU. (a destiempo). La cobertura sigue en /elecciones-eeuu/, en el menú y en Datos.
 
 ## 2026-11-24 — Nota exclusiva: informe de BDO sobre la UOM (portada, 2 fotos, 26 páginas del documento y PDF)

@@ -301,3 +301,11 @@ html.modo-noche img, html.modo-noche video, html.modo-noche iframe, html.modo-no
 html.modo-noche #foto-grande { filter: invert(1) hue-rotate(180deg); }
 html.modo-noche #foto-grande img { filter: none; }
 @media print { html.modo-noche { filter: none; } }
+
+/* Prueba 26/11/2026: letra estilo Politico (Roboto Condensed) solo en la cinta "Último momento" de la portada. Excepción a la regla de tipografía. Para volver atrás, borrar este bloque y la familia en BaseLayout. */
+.ultimo-momento,
+.ultimo-momento a {
+	font-family: 'Roboto Condensed', 'Inter', sans-serif;
+	font-weight: 700;
+}
+.ultimo-momento a { font-size: 15px; letter-spacing: 0.005em; }
