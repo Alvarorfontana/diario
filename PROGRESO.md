@@ -239,3 +239,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 - 26/11/2026: nota "El blindaje que ya no alcanza: la pobreza que se ve desde Alemania" (análisis, 946 palabras, firma Mariano Miranda) con el video del informe de la DW arriba (/uploads/2026-11-26-dw-pobreza-comedor.mp4) y foto de portada tomada del video.
 - 26/11/2026: en la nota del blindaje se pasó la línea de período al final para que la letra capital caiga en el primer párrafo.
+
+- 2026-11-26: Nota "La plata de los jubilados, en la mira por operaciones con bonos" (Economía, firma Claudio Vila, 913 palabras) con placa propia del FGS en /images/2026-11-fgs-bonos-jubilados.png. Pendiente: verificar disponibilidades del FGS de agosto en el informe oficial.
