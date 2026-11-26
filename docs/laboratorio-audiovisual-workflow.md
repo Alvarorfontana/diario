@@ -62,3 +62,23 @@ La lectura del README y del manifiesto upstream agrega una condición importante
 Fuentes upstream consultadas:
 - https://github.com/HKUDS/VideoAgent/blob/main/readme.md (secciones Quick Start, Model Download, LLM Configuration y Usage).
 - https://github.com/HKUDS/VideoAgent/blob/main/pyproject.toml (dependencias y versiones).
+
+
+## Prueba de concepto aislada en Kaggle (26-11-2026)
+
+Se agregó `notebooks/videoagent-df-kaggle-poc.ipynb` para probar un componente real de VideoAgent sin instalar el framework completo ni desplegar un servidor.
+
+### Alcance de la primera prueba
+- Ejecuta el agente upstream `VideoContentQA`: Whisper large-v3-turbo transcribe un clip y el agente responde preguntas sobre esa transcripción.
+- Se enruta la función `gpt()` a la API compatible con OpenAI de Gemini, usando el mismo secreto de Gemini para el cliente. Esto evita exigir una clave GPT para esta prueba puntual; no equivale a haber adaptado todo el framework.
+- Se omite el coordinador multiagente y la función News completa. El notebook no genera un MP4 final ni publica contenido.
+- Se instalan dependencias mínimas, no `requirements.txt` completo. La descarga de Whisper requiere varios GB libres.
+
+### Ejecución en nube
+Kaggle documenta GPU P100 gratuita sujeta a disponibilidad/cola, sesiones de hasta 12 horas y 20 GB en `/kaggle/working`. Es apto para pruebas por sesión, no para alojar un servicio permanente. La clave debe guardarse en Kaggle Secrets como `GEMINI_API_KEY`; nunca en el notebook ni en Git. Usar solo un clip breve y un dataset privado.
+
+### Licencias: condición para uso editorial/comercial
+El repositorio principal incluye licencia MIT, pero el conjunto de modelos no hereda automáticamente esa licencia. El Model Card de ImageBind declara CC BY-NC-SA 4.0 y uso solo de investigación/no comercial. El README de VideoAgent indica que el flujo `News` requiere CosyVoice, Whisper e ImageBind. Por tanto, no se debe usar esa ruta integrada para producción comercial de Diario Federal mientras ImageBind siga formando parte del flujo. La primera prueba evita ImageBind y se limita a Video QA/transcripción y resumen sobre texto. Revisar también las licencias individuales de los modelos y pesos que se incorporen.
+
+### Resultado esperado y decisión
+La prueba se considera satisfactoria si la transcripción española es utilizable, Gemini responde sin inventar y el tiempo/espacio consumidos son razonables. Solo entonces se evalúa un segundo módulo. No se ha ejecutado todavía el notebook ni se ha descargado ningún modelo en una cuenta externa.
