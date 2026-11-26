@@ -13,7 +13,7 @@
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "26 DE NOVIEMBRE DE 2026",
   "estado": "listo",
-  "publicado": false,
+  "publicado": true,
   "bloques": [
     {
       "kicker": "Exclusivo",
@@ -164,5 +164,6 @@
   "video": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.mp4",
   "miniatura": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.jpg",
   "version": "20261126155324",
-  "generado": "2026-11-26T15:53:24+00:00"
+  "generado": "2026-11-26T15:53:24+00:00",
+  "publicadoEl": "2026-11-26T15:54:09.790861Z"
 }
