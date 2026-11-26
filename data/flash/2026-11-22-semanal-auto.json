@@ -15,7 +15,7 @@
       "titulo": "La Cámpora propone",
       "dato": "",
       "bajada": "La crisis de representación que afecta a la Unión Obrera Metalúrgica (UOM) llegó a los tribunales de Comodoro…",
-      "texto": "La crisis de representación que afecta a la Unión Obrera Metalúrgica (UOM) llegó a los tribunales de Comodoro Py. La crisis de representación que afecta a la Unión Obrera Metalúrgica (UOM) llegó a los tribunales de Comodoro Py. El fiscal Eduardo Taiano y el juez federal Julián Ercolini investigan las irregularidades en la administración de los fondos sindicales durante la gestión de Abel Furlán.",
+      "texto": "La crisis de representación que afecta a la Unión Obrera Metalúrgica (UOM) llegó a los tribunales de Comodoro Py. El fiscal Eduardo Taiano y el juez federal Julián Ercolini investigan las irregularidades en la administración de los fondos sindicales durante la gestión de Abel Furlán.",
       "epigrafe": "Abel Furlán, ex secretario general de la Unión Obrera",
       "fuente": "Foto: archivo",
       "media": {
@@ -96,7 +96,7 @@
       }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "automatico": true,
   "rotulo": "SEMANA DEL 22 DE NOVIEMBRE DE 2026",

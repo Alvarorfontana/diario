@@ -114,7 +114,9 @@ def main():
         tema = str(tags[0]) if tags else ""
         kicker = " · ".join(x for x in (seccion, tema) if x)
         bajada = fm.get("description") or fm.get("volanta") or ""
-        voz = cortar(f"{limpio(bajada)} {primer_parrafo(cuerpo)}", 560)
+        b, pp = limpio(bajada), primer_parrafo(cuerpo)
+        # si el primer párrafo ya arranca como la bajada, no se lee dos veces
+        voz = cortar(pp if b and b[:40].lower() in pp.lower() else f"{b} {pp}", 560)
         bloques.append({
             "kicker": cortar(kicker, 30).rstrip("…"),
             "titulo": titulo_corto(fm.get("title")),
