@@ -113,7 +113,7 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "rotulo": "SEMANA DEL 26 DE NOVIEMBRE DE 2026",
   "subtitulosVtt": "/flash/2026-11-26-semanal.vtt",
@@ -127,7 +127,7 @@
       "titulo": "Ford paraliza producción de Ranger en Tigre"
     },
     {
-      "t": 60.2,
+      "t": 60.1,
       "titulo": "Bullrich critica ajustes y pide cambios"
     },
     {
@@ -135,33 +135,26 @@
       "titulo": "La Facultad de Ciencias Sociales de la UBA"
     },
     {
-      "t": 111.4,
+      "t": 111.7,
       "titulo": "Ravier negó versiones sobre una supuesta"
     },
     {
-      "t": 135.0,
+      "t": 135.3,
       "titulo": "El Gobierno culpó al shock externo"
     }
   ],
-  "duracion": 173.7,
+  "duracion": 173.9,
   "duraciones": [
     34.3,
     17.6,
     30.8,
-    18.0,
+    18.3,
     22.4,
     28.9
   ],
   "video": "/flash/2026-11-26-semanal.mp4",
   "miniatura": "/flash/2026-11-26-semanal.jpg",
-  "version": "20261126062354",
-  "generado": "2026-11-26T06:23:54+00:00",
-  "revisarVoz": [
-    {
-      "parte": "b3",
-      "palabra": "ERP",
-      "oido": "de l 'Airp",
-      "t": 109.3
-    }
-  ]
+  "version": "20261126064228",
+  "generado": "2026-11-26T06:42:28+00:00",
+  "revisarVoz": []
 }
