@@ -4,7 +4,7 @@
   "titulo": "La Cámpora propone; Saúl Ubaldini, a 20 años; ¿Yalta 2.0 en Shenzhen? Trump, Putin y Xi Jinping ante…; León XIV y la identidad teológica lat",
   "fecha": "2026-11-22",
   "voz": "es-AR-TomasNeural",
-  "velocidad": 8,
+  "velocidad": 15,
   "musica": "/flash/musica/paulyudin.mp3",
   "volumenMusica": -17,
   "estilo": "openfilm",
@@ -96,7 +96,7 @@
       }
     }
   ],
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "automatico": true,
   "rotulo": "SEMANA DEL 22 DE NOVIEMBRE DE 2026",

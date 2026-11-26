@@ -356,7 +356,7 @@ const isAuthenticated = await isAdmin(Astro.request, getRuntimeEnv(Astro.locals)
 			// ── Editor ────────────────────────────────────────
 			function bloqueVacio() { return { kicker: '', titulo: '', dato: '', bajada: '', texto: '', epigrafe: '', fuente: '', videoEnlace: '' }; }
 			function nuevo() {
-				estado.flash = { id: '', tipo: 'semanal', titulo: '', fecha: hoy(), voz: 'es-AR-TomasNeural', velocidad: 8, musica: MUSICA_BASE[0].ruta, volumenMusica: -17, bloques: [bloqueVacio(), bloqueVacio(), bloqueVacio(), bloqueVacio()] };
+				estado.flash = { id: '', tipo: 'semanal', titulo: '', fecha: hoy(), voz: 'es-AR-TomasNeural', velocidad: 15, musica: MUSICA_BASE[0].ruta, volumenMusica: -17, bloques: [bloqueVacio(), bloqueVacio(), bloqueVacio(), bloqueVacio()] };
 				estado.sha = null; estado.nuevo = true;
 				pintar(); $('ed-titulo').textContent = 'Nuevo flash';
 			}

@@ -234,3 +234,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-26: Conectada la base Upstash for Redis (upstash-kv-fulvous-ferry, plan Free) en Vercel para el contador de /admin/visitas y "Lo más leído".
 - 2026-11-26: Revisado Santucho: sin novedades del Consejo Superior ni de Grabois. Senado PASO: sesión hoy 26, actualizar la nota del PJ bonaerense con el resultado.
 - 2026-11-26: Flash desde la Mesa: el panel respeta el diseño, la voz y la música elegidos en la Mesa de Redacción del Centro (#mesa=). La Mesa muestra el estado de los últimos 5 flashes (lee data/flash desde GitHub). Prueba real de OpenFilm con el borrador del 22/11 (sin publicar).
+- 2026-11-26: Flash: la UOM se lee "Uóm" y Comodoro Py "Comodoro Pi"; velocidad por defecto de la voz de 8 a 15 (panel y borrador automático). Se regenera la prueba del 22/11.

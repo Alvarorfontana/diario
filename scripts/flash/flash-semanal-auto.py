@@ -128,7 +128,7 @@ def main():
 
     flash = {
         "id": destino.stem, "tipo": "semanal", "titulo": "; ".join(b["titulo"] for b in bloques)[:140],
-        "fecha": hoy.isoformat(), "voz": "es-AR-TomasNeural", "velocidad": 8, "musica": "/flash/musica/paulyudin.mp3",
+        "fecha": hoy.isoformat(), "voz": "es-AR-TomasNeural", "velocidad": 15, "musica": "/flash/musica/paulyudin.mp3",
         "volumenMusica": -17, "estilo": "openfilm", "subtitulos": True, "bloques": bloques,
         "estado": "borrador", "publicado": False, "automatico": True,
     }
