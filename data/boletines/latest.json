@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-26",
   "dateLabel": "26/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.mp3",
-  "video": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-26-6cecf0a634b1.png",
+  "archivo": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.mp3",
+  "video": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.png",
   "duracion": 99,
   "voz": "es-AR-TomasNeural",
-  "hash": "6cecf0a634b1",
+  "hash": "bc9ade087fb0",
   "items": [
     {
       "slug": "2026-11-26-blindaje-pobreza-dw-comedor",
@@ -16,16 +16,16 @@
       "url": "/articulo/2026-11-26-blindaje-pobreza-dw-comedor/"
     },
     {
-      "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
-      "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
-      "section": "argentina",
-      "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
-    },
-    {
       "slug": "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid",
       "title": "Santucho: Sociales da marcha atrás y el peronismo paga la cuenta",
       "section": "argentina",
       "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
+    },
+    {
+      "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
+      "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
+      "section": "argentina",
+      "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
     },
     {
       "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
