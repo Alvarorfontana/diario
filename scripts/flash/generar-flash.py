@@ -1077,7 +1077,11 @@ def revisar_voz(segs, voces, linea, dicc):
         if not cands:
             continue
         # sin "pista" de nombres: interesa lo que se escucha, no lo que debería decir
-        partes, _ = modelo.transcribe(voces[k], language="es", word_timestamps=True, beam_size=1)
+        # se le pasa el audio ya decodificado (16 kHz) para no depender de la versión de PyAV
+        crudo = subprocess.run(["ffmpeg", "-v", "error", "-i", voces[k], "-f", "f32le", "-ac", "1", "-ar", "16000", "-"],
+                               check=True, capture_output=True).stdout
+        audio = np.frombuffer(crudo, dtype=np.float32)
+        partes, _ = modelo.transcribe(audio, language="es", word_timestamps=True, beam_size=1)
         oidas = [(w.word.strip(), w.start) for p in partes for w in (p.words or []) if w.word.strip()]
         # ventanas de 1 a 3 palabras seguidas (para siglas dichas letra por letra: "ce ge te")
         vent = []
