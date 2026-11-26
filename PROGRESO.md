@@ -69,7 +69,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 
 ## Pendiente
 
-- [x] Voz clonada: grabación de Álvaro (26/11) cifrada en `data/voz/referencia.enc`. Falta que Álvaro cargue el secreto `VOZ_CLAVE` en GitHub.
+- [x] Voz clonada: probada el 26/11 (workflow probar-voz). A Álvaro no le convenció: se mantiene la voz de siempre (Tomás) en notas y flashes.
       Después, primera prueba: medir cuánto tarda en GitHub y cómo suena la tonada.
 - [ ] Audio de las notas como lista de reproducción y podcast (Spotify y otras).
 - [ ] Bot de Telegram para subir notas (ficha + texto).
