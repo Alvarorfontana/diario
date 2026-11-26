@@ -12,15 +12,15 @@
   "intro": "Diario Federal. Las noticias de este jueves.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "26 DE NOVIEMBRE DE 2026",
-  "estado": "listo",
+  "estado": "generar",
   "publicado": true,
   "bloques": [
     {
       "kicker": "Exclusivo",
-      "titulo": "La auditoría de la UOM, completa",
+      "titulo": "Auditoría a la UOM: el informe completo",
       "dato": "$408 millones por mes",
-      "bajada": "Lo que costó en agosto de 2026 el esquema del fideicomiso con el Banco Nación y USEM, según BDO.",
-      "texto": "Exclusivo de Diario Federal. Accedimos al informe confidencial de la auditora BDO sobre la UOM y su obra social, encargado por la intervención judicial. El esquema del fideicomiso con el Banco Nación y la empresa USEM costó cuatrocientos ocho millones de pesos solo en agosto. BDO no encontró evaluaciones de riesgos, costos ni alternativas que justifiquen esa contratación. Y la comisión de USEM habría salido un ciento ochenta y cuatro por ciento más cara que la de la firma anterior. El informe está completo en diariofederal punto com punto ar.",
+      "bajada": "Lo que costó en agosto de 2026 el esquema con el Banco Nación y USEM, según la auditora BDO.",
+      "texto": "Exclusivo de Diario Federal. Publicamos completa la auditoría a la UOM y a su obra social. La hizo la auditora BDO, por encargo de la intervención judicial de Alberto Biglieri. El esquema que se armó entre 2022 y 2023, con un fideicomiso en el Banco Nación y la empresa USEM, costó cuatrocientos ocho millones de pesos solo en agosto. BDO no encontró evaluaciones de riesgos, costos ni alternativas para elegir a USEM. Y su comisión habría salido un ciento ochenta y cuatro por ciento más cara que la de la firma anterior. Esos contratos son el eje de la causa del juez Ercolini, que citó a indagatoria a Abel Furlán.",
       "epigrafe": "Alberto Biglieri, interventor judicial de la Unión Obrera Metalúrgica",
       "fuente": "Foto: Mundo Gremial",
       "media": {

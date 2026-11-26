@@ -246,3 +246,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - `data/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.json`: pobreza según la DW (video de DW), FGS (gráfico propio), Mayans contra Santilli y la gira de Kicillof por Santa Fe del 2/12 (datos de Letra P). Voz Tomás, diseño OpenFilm. Se manda a generar; queda sin publicar hasta que Álvaro lo revise en /admin/flash.
 - Pronunciación: FGS, AL30 y UTN agregadas a `data/flash/pronunciacion.json`.
 - Se suma al flash del 26/11, como primer bloque, la auditoría exclusiva de BDO sobre la UOM ($408 millones por mes, sin evaluaciones de riesgo, comisión de USEM 184,6% más cara). Pronunciación: BDO y USEM. Se regenera y se publica.
+- Corrección del bloque UOM: auditoría a la UOM hecha por BDO por encargo de la intervención de Biglieri; suma la causa de Ercolini. BDO se pronuncia letra por letra.
