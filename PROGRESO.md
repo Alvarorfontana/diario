@@ -250,3 +250,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Bloque UOM con el texto definitivo de Álvaro (Primicia).
 
 - 26/11/2026: nota "Pichetto pidió interpelar a Quirno por la crisis con Brasil" (Emilio Lahitte), con video de Diputados TV con zócalo propio (sin marca de Letra P) y foto de captura.
+
+- 26/11/2026: nota "El oro argentino, custodiado en Londres por el país que ocupa Malvinas" (Economía, informe, firma Emilio Lahitte) sobre el informe de la AGN del traslado de 1.000 barras de oro a Londres. 1.840 palabras: pasa el límite de 1.200, publicada completa con aprobación de Álvaro. Foto del Banco de Inglaterra con crédito MEMO en /uploads/2026-11-26-banco-de-inglaterra-londres.jpg. Pendiente: chequear los datos contra el PDF de la AGN cuando se publique y evaluar reemplazar la foto por una con licencia libre.
