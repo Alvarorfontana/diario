@@ -113,7 +113,7 @@
       }
     }
   ],
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "rotulo": "SEMANA DEL 26 DE NOVIEMBRE DE 2026",
   "subtitulosVtt": "/flash/2026-11-26-semanal.vtt",
@@ -123,37 +123,37 @@
       "titulo": "Santilli presenta informe ante Senado, refuta"
     },
     {
-      "t": 41.2,
+      "t": 41.3,
       "titulo": "Ford paraliza producción de Ranger en Tigre"
     },
     {
-      "t": 60.0,
+      "t": 60.1,
       "titulo": "Bullrich critica ajustes y pide cambios"
     },
     {
-      "t": 91.9,
+      "t": 92.2,
       "titulo": "La Facultad de Ciencias Sociales de la UBA"
     },
     {
-      "t": 111.2,
+      "t": 111.4,
       "titulo": "Ravier negó versiones sobre una supuesta"
     },
     {
-      "t": 134.8,
+      "t": 135.0,
       "titulo": "El Gobierno culpó al shock externo"
     }
   ],
-  "duracion": 173.5,
+  "duracion": 173.7,
   "duraciones": [
-    34.2,
+    34.3,
     17.6,
-    30.7,
+    30.8,
     18.0,
     22.4,
-    29.0
+    28.9
   ],
   "video": "/flash/2026-11-26-semanal.mp4",
   "miniatura": "/flash/2026-11-26-semanal.jpg",
-  "version": "20261126052724",
-  "generado": "2026-11-26T05:27:24+00:00"
+  "version": "20261126055523",
+  "generado": "2026-11-26T05:55:23+00:00"
 }
