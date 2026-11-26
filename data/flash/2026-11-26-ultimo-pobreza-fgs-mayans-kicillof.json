@@ -12,7 +12,7 @@
   "intro": "Diario Federal. Las noticias de este jueves.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "26 DE NOVIEMBRE DE 2026",
-  "estado": "generar",
+  "estado": "listo",
   "publicado": true,
   "bloques": [
     {
@@ -103,25 +103,19 @@
       "parte": "b1",
       "palabra": "Deutsche",
       "oido": "doiche",
-      "t": 42.8
-    },
-    {
-      "parte": "b1",
-      "palabra": "Welle",
-      "oido": "bella",
-      "t": 43.0
+      "t": 48.3
     },
     {
       "parte": "b2",
       "palabra": "ANSES",
       "oido": "Lancess",
-      "t": 68.2
+      "t": 73.7
     },
     {
       "parte": "b2",
       "palabra": "AL",
       "oido": "AL30",
-      "t": 74.2
+      "t": 79.7
     }
   ],
   "subtitulosVtt": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.vtt",
@@ -131,25 +125,25 @@
       "titulo": "Auditoría a la UOM: el informe completo"
     },
     {
-      "t": 42.0,
+      "t": 47.5,
       "titulo": "La pobreza que mostró la Deutsche Welle"
     },
     {
-      "t": 63.2,
+      "t": 68.7,
       "titulo": "La plata de los jubilados, en la mira"
     },
     {
-      "t": 84.6,
+      "t": 90.1,
       "titulo": "Mayans a Santilli: «Vino a versearnos»"
     },
     {
-      "t": 109.9,
+      "t": 115.4,
       "titulo": "Kicillof sigue su armado en Santa Fe"
     }
   ],
-  "duracion": 142.7,
+  "duracion": 148.2,
   "duraciones": [
-    34.8,
+    40.3,
     19.9,
     20.3,
     24.1,
@@ -157,7 +151,7 @@
   ],
   "video": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.mp4",
   "miniatura": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.jpg",
-  "version": "20261126161514",
-  "generado": "2026-11-26T16:15:14+00:00",
+  "version": "20261126163422",
+  "generado": "2026-11-26T16:34:22+00:00",
   "publicadoEl": "2026-11-26T15:54:09.790861Z"
 }
