@@ -1,13 +1,13 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-25",
-  "dateLabel": "25/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.mp3",
-  "video": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-25-c52c9b9e64ff.png",
-  "duracion": 100,
+  "date": "2026-11-26",
+  "dateLabel": "26/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-26-f964c376a386.mp3",
+  "video": "/boletines/boletin-principal-2026-11-26-f964c376a386.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-26-f964c376a386.png",
+  "duracion": 101,
   "voz": "es-AR-TomasNeural",
-  "hash": "c52c9b9e64ff",
+  "hash": "f964c376a386",
   "items": [
     {
       "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
