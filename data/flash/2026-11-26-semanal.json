@@ -1,0 +1,118 @@
+{
+  "id": "2026-11-26-semanal",
+  "tipo": "semanal",
+  "titulo": "Santilli presenta informe ante Senado, refuta crisis anticipada; Ford paraliza producción de Ranger en Tigre por ocho semanas; Bullrich crit",
+  "fecha": "2026-11-26",
+  "voz": "es-AR-ElenaNeural",
+  "velocidad": 15,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -17,
+  "estilo": "openfilm",
+  "subtitulos": true,
+  "bloques": [
+    {
+      "kicker": "Gestión de Milei",
+      "titulo": "Santilli presenta informe ante Senado, refuta",
+      "dato": "",
+      "bajada": "El informe consta de 2.202 páginas y 1.287 respuestas a 1.659 preguntas de 12 bloques…",
+      "texto": "El informe consta de 2.202 páginas y 1.287 respuestas a 1.659 preguntas de 12 bloques legislativos El jefe de Gabinete, Diego Santilli, presentó su primer informe de gestión ante el Senado el miércoles 26 de noviembre a las 15:20, cumpliendo el artículo 101 de la Constitución Nacional. En su exposición defendió la dirección del presidente Javier Milei y afirmó que el Gobierno no sufrió el estallido que la oposición había anticipado.Santilli indicó que Milei asumió el cargo con una inflación anual superior al 211 %, una pobreza del 57 % y un déficit fiscal del 15 % del PBI.",
+      "epigrafe": "",
+      "fuente": "Foto: El Litoral (Corrientes)",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://pxcdn.ellitoral.com.ar/litoral/112026/1795636144657.jpg?&cw=1200&ch=630",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Ford Argentina",
+      "titulo": "Ford paraliza producción de Ranger en Tigre",
+      "dato": "",
+      "bajada": "La medida, que comienza a principios de diciembre y se extiende hasta febrero de 2027,…",
+      "texto": "La medida, que comienza a principios de diciembre y se extiende hasta febrero de 2027, responde a la caída de la demanda regional y al ajuste del receso de verano para disminuir el stock acumulado. Ford anunció que paralizará la producción de las camionetas Ranger en su planta de General Pacheco, partido de Tigre, durante ocho semanas.",
+      "epigrafe": "",
+      "fuente": "Foto: Zona Norte Diario",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.zonanortediario.com.ar/wp-content/uploads/2026/11/image-167.png",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Tensiones en el Gobierno",
+      "titulo": "Bullrich critica ajustes y pide cambios",
+      "dato": "",
+      "bajada": "En una entrevista a una agencia internacional, Bullrich solicitó cambios quirúrgicos para…",
+      "texto": "En una entrevista a una agencia internacional, Bullrich solicitó cambios quirúrgicos para ampliar la actividad económica y reducir las tasas de interés, argumentando que así se favorecería la reelección del mandatario. El miércoles 25 de noviembre la senadora Patricia Bullrich y el ministro de Economía Luis Caputo protagonizaron un nuevo cruce de declaraciones que evidenció divergencias internas sobre el rumbo económico del Gobierno, según informó el diario Río Negro.Las discrepancias se inscriben en el contexto de la política económica impulsada por el presidente Javier Milei, cuyo programa busca mantener la…",
+      "epigrafe": "",
+      "fuente": "Foto: Río Negro",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.rionegro.com.ar/wp-content/uploads/2026/11/11569192_1-1.jpg?w=1200&h=630&crop=1&resize=1200,630",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Controversia en la UBA",
+      "titulo": "La Facultad de Ciencias Sociales de la UBA",
+      "dato": "",
+      "bajada": "El acto, previsto para el 10 de diciembre en el patio interno “Indio Solari”, fue anulado…",
+      "texto": "El acto, previsto para el 10 de diciembre en el patio interno “Indio Solari”, fue anulado tras la presión de otras facultades y la revisión de una resolución adoptada el 27 de octubre. El martes 24 de noviembre la Facultad de Ciencias Sociales de la Universidad de Buenos Aires decidió suspender el homenaje previsto para el exlíder del ERP Mario Santucho.",
+      "epigrafe": "",
+      "fuente": "Foto: Uno Entre Ríos",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://media.lacapital.com.ar/p/976c9576c9b8078bc4bdc76c7f98e41d/adjuntos/205/imagenes/103/551/0103551639/mario-santucho-polemica-uba-2.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Argentina",
+      "titulo": "Ravier negó versiones sobre una supuesta",
+      "dato": "",
+      "bajada": "El vocero presidencial, Adrián Ravier, negó las versiones sobre la posible salida del…",
+      "texto": "El vocero presidencial, Adrián Ravier, negó las versiones sobre la posible salida del ministro de Economía, Luis Caputo, durante una conferencia de prensa en la Casa Rosada el 24 de noviembre. Ravier calificó la noticia como “especulación mediática” y afirmó que Caputo es uno de los ministros más importantes del Gobierno. El anuncio llegó en un momento en que la economía argentina enfrenta un escenario incierto.",
+      "epigrafe": "",
+      "fuente": "Foto: La Nación",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://www.lanacion.com.ar/resizer/v2/vocero-presidencial-adrian-DTMOUJYJGFA25B37XASX4KKZGY.JPG?auth=40dd83f249d0463feeb2005c9a32d002fb853850f4189f6122e219191f4d551c&width=1200&height=800&quality=70&smart=true",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Economía",
+      "titulo": "El Gobierno culpó al shock externo",
+      "dato": "",
+      "bajada": "El vocero presidencial Adrián Ravier, en una conferencia de prensa en Casa Rosada el 24…",
+      "texto": "El vocero presidencial Adrián Ravier, en una conferencia de prensa en Casa Rosada el 24 de noviembre, sostuvo que la reciente subida del riesgo país se debe a un \"shock externo\" provocado por la guerra en Medio Oriente, y ratificó el rumbo económico del Gobierno sin prever cambios sustanciales en el programa oficial. El riesgo soberano argentino se aproximó a los mil cien puntos básicos, según el índice elaborado por JP Morgan, que aumentó un 6,86 % respecto al cierre previo y alcanzó su nivel más alto desde septiembre de 2025.",
+      "epigrafe": "",
+      "fuente": "Foto: Noticias Argentinas",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://alpha-app.tadevel-cdn.com/hostname/noticiasargentinas.com/api/v1/image/article/6b05df42f5d9d625077b3804/facebook?v=ab3dade52ea40534db9107111d5c0fb0&s=93a25ac1c85fffb6bba3afd1eac2b95e",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    }
+  ],
+  "estado": "generar",
+  "publicado": false
+}
