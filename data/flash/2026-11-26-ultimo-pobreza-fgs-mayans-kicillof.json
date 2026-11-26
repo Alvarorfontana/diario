@@ -12,7 +12,7 @@
   "intro": "Diario Federal. Las noticias de este jueves.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "26 DE NOVIEMBRE DE 2026",
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "bloques": [
     {
@@ -80,5 +80,55 @@
         ]
       }
     }
-  ]
+  ],
+  "revisarVoz": [
+    {
+      "parte": "b0",
+      "palabra": "Deutsche",
+      "oido": "doiche",
+      "t": 6.7
+    },
+    {
+      "parte": "b1",
+      "palabra": "ANSES",
+      "oido": "Lancess",
+      "t": 32.2
+    },
+    {
+      "parte": "b1",
+      "palabra": "AL",
+      "oido": "AL30",
+      "t": 38.1
+    }
+  ],
+  "subtitulosVtt": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.vtt",
+  "capitulos": [
+    {
+      "t": 6.0,
+      "titulo": "La pobreza que mostró la Deutsche Welle"
+    },
+    {
+      "t": 27.1,
+      "titulo": "La plata de los jubilados, en la mira"
+    },
+    {
+      "t": 48.6,
+      "titulo": "Mayans a Santilli: «Vino a versearnos»"
+    },
+    {
+      "t": 73.9,
+      "titulo": "Kicillof sigue su armado en Santa Fe"
+    }
+  ],
+  "duracion": 106.6,
+  "duraciones": [
+    19.9,
+    20.3,
+    24.1,
+    24.1
+  ],
+  "video": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.mp4",
+  "miniatura": "/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.jpg",
+  "version": "20261126153347",
+  "generado": "2026-11-26T15:33:47+00:00"
 }
