@@ -1,13 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE_TITLE } from '../consts';
-import { VIDEOS, CLIPS, VIVO_ID, SENALES, listaUltimos } from '../lib/canal';
+import { VIDEOS, CLIPS, VIVO_ID, SENALES, REGIONES, listaUltimos } from '../lib/canal';
 
 const principalId = VIVO_ID || VIDEOS[0]?.id || '';
 const principal = VIVO_ID ? { id: VIVO_ID, titulo: 'Transmisión en vivo', volanta: 'En vivo' } : VIDEOS[0];
 const siguientes = VIVO_ID ? VIDEOS.slice(0, 6) : VIDEOS.slice(1, 7);
 const hayVideos = Boolean(principalId);
 const muestra = [1, 2, 3];
+const regiones = REGIONES.filter((r) => SENALES.some((s) => s.region === r));
+const primera = SENALES[0];
+const regionInicial = primera?.region;
 ---
 
 <BaseLayout title={`Canal | ${SITE_TITLE}`} description="Videos, análisis y clips de EL DIARIO.">
@@ -90,42 +93,72 @@ const muestra = [1, 2, 3];
 			<section class={hayVideos || CLIPS.length > 0 ? 'mt-12' : 'mt-5'} aria-labelledby="senales-titulo">
 				<div class="flex flex-wrap items-end justify-between gap-3 border-b-2 border-white pb-2">
 					<h2 id="senales-titulo" class="text-xs font-extrabold tracking-[0.14em] text-white uppercase">Señales de noticias</h2>
-					<p class="text-xs text-[#b8b8b4]">Elegí el canal</p>
+					<p class="text-xs text-[#b8b8b4]">{SENALES.length} canales · elegí la región y la señal</p>
 				</div>
-				<div class="no-scrollbar mt-4 flex gap-2 overflow-x-auto" role="tablist" aria-label="Canales de noticias">
+
+				<div class="no-scrollbar mt-3 flex gap-5 overflow-x-auto border-b border-[#333333]" role="tablist" aria-label="Regiones">
+					{regiones.map((r) => (
+						<button
+							type="button"
+							role="tab"
+							class="region-tab -mb-px min-h-11 shrink-0 border-b-2 border-transparent text-[12px] font-bold tracking-[0.08em] whitespace-nowrap text-[#b8b8b4] uppercase transition-colors hover:text-white aria-selected:border-[#e0243a] aria-selected:text-white"
+							aria-selected={r === regionInicial ? 'true' : 'false'}
+							data-region={r}
+						>{r}</button>
+					))}
+				</div>
+
+				<div class="no-scrollbar mt-4 flex gap-2 overflow-x-auto pb-1" role="tablist" aria-label="Canales de noticias">
 					{SENALES.map((s, i) => (
 						<button
 							type="button"
 							role="tab"
-							class="senal-tab min-h-11 shrink-0 rounded-[2px] border border-[#6a6a66] px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors aria-selected:border-white aria-selected:bg-white aria-selected:text-[#111111]"
+							class:list={['senal-tab min-h-11 shrink-0 items-center gap-2 rounded-[2px] border border-[#6a6a66] px-4 text-sm font-semibold whitespace-nowrap text-white transition-colors hover:border-white aria-selected:border-white aria-selected:bg-white aria-selected:text-[#111111]', s.region === regionInicial ? 'inline-flex' : 'hidden']}
 							aria-selected={i === 0 ? 'true' : 'false'}
-							data-lista={listaUltimos(s.canal)}
+							data-region={s.region}
+							data-canal={s.canal ?? ''}
 							data-nombre={s.nombre}
 							data-desc={s.descripcion}
+							data-origen={s.origen}
 							data-usuario={s.usuario}
-						>{s.nombre}</button>
+						>
+							<span class="punto-vivo hidden h-2 w-2 rounded-full bg-[#e0243a]" aria-hidden="true"></span>
+							{s.nombre}
+							<span class="sr-only estado-sr"></span>
+						</button>
 					))}
 				</div>
+
 				<div class="mt-4 grid gap-6 lg:grid-cols-3">
 					<div class="relative aspect-video w-full overflow-hidden bg-[#2a2a2a] lg:col-span-2">
 						<iframe
 							id="senal-player"
-							src={`https://www.youtube-nocookie.com/embed/videoseries?list=${listaUltimos(SENALES[0].canal)}`}
-							title={SENALES[0].nombre}
+							src={primera.canal ? `https://www.youtube-nocookie.com/embed/videoseries?list=${listaUltimos(primera.canal)}` : 'about:blank'}
+							title={primera.nombre}
 							class="absolute inset-0 h-full w-full border-0"
 							loading="lazy"
-							allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 							allowfullscreen
 						></iframe>
+						<div id="senal-cargando" class="absolute inset-0 hidden items-center justify-center bg-[#1a1a1a] text-sm text-[#b8b8b4]">
+							<span class="titila mr-2 inline-block h-2 w-2 rounded-full bg-[#b8b8b4]" aria-hidden="true"></span>Buscando la señal…
+						</div>
+						<div id="senal-afuera" class="absolute inset-0 hidden flex-col items-center justify-center gap-4 bg-[#1a1a1a] px-6 text-center">
+							<p class="font-display text-xl font-bold text-white">Esta señal se ve en YouTube</p>
+							<p class="max-w-sm text-sm text-[#b8b8b4]">El canal no deja ver su transmisión desde otras páginas en este momento.</p>
+							<a id="senal-afuera-link" href="#" target="_blank" rel="noopener" class="inline-flex min-h-11 items-center gap-2 rounded-[2px] bg-white px-4 text-sm font-semibold text-[#111111] hover:bg-[#e6e6e2]">Abrir en YouTube</a>
+						</div>
 					</div>
 					<div class="min-w-0">
 						<p class="text-[11px] font-bold tracking-[0.1em] text-[#b8b8b4] uppercase">Ahora en pantalla</p>
-						<p id="senal-nombre" class="mt-1 font-display text-2xl font-bold text-white">{SENALES[0].nombre}</p>
-						<p id="senal-desc" class="mt-1 text-sm text-[#b8b8b4]">{SENALES[0].descripcion}</p>
-						<a id="senal-vivo" href={`https://www.youtube.com/@${SENALES[0].usuario}/live`} target="_blank" rel="noopener" class="mt-4 inline-flex min-h-11 items-center gap-2 rounded-[2px] bg-white px-4 text-sm font-semibold text-[#111111] hover:bg-[#e6e6e2]">
+						<p id="senal-nombre" class="mt-1 font-display text-2xl font-bold text-white">{primera.nombre}</p>
+						<p id="senal-origen" class="mt-2 inline-block rounded-[2px] border border-[#4a4a47] px-2 py-0.5 text-[11px] font-semibold tracking-[0.06em] text-[#d6d6d2] uppercase">{primera.origen}</p>
+						<p id="senal-desc" class="mt-2 text-sm text-[#b8b8b4]">{primera.descripcion}</p>
+						<p id="senal-estado" class="mt-3 flex items-center gap-2 text-xs font-bold tracking-[0.08em] text-[#b8b8b4] uppercase">Últimos videos del canal</p>
+						<a id="senal-vivo" href={`https://www.youtube.com/@${primera.usuario}/live`} target="_blank" rel="noopener" class="mt-4 inline-flex min-h-11 items-center gap-2 rounded-[2px] bg-white px-4 text-sm font-semibold text-[#111111] hover:bg-[#e6e6e2]">
 							<span class="inline-block h-2 w-2 rounded-full bg-[#e0243a]" aria-hidden="true"></span>Ver en vivo en YouTube
 						</a>
-						<p class="mt-4 text-xs leading-relaxed text-[#8f8f8b]">Contenido de cada medio, con su reproductor oficial. {SITE_TITLE} no produce estos videos.</p>
+						<p class="mt-4 text-xs leading-relaxed text-[#8f8f8b]">Contenido de cada medio, con su reproductor oficial. {SITE_TITLE} no produce estos videos. El punto rojo indica que el canal está transmitiendo en vivo; si no, se ven sus últimos videos.</p>
 					</div>
 				</div>
 			</section>
@@ -134,20 +167,116 @@ const muestra = [1, 2, 3];
 </BaseLayout>
 
 <script>
-	const tabs = document.querySelectorAll<HTMLButtonElement>('.senal-tab');
+	type Estado = { vivo: string | null; canal: string | null };
+	const NOCOOKIE = 'https://www.youtube-nocookie.com/embed/';
+	const regionTabs = document.querySelectorAll<HTMLButtonElement>('.region-tab');
+	const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.senal-tab'));
 	const player = document.getElementById('senal-player') as HTMLIFrameElement | null;
 	const nombre = document.getElementById('senal-nombre');
+	const origen = document.getElementById('senal-origen');
 	const desc = document.getElementById('senal-desc');
+	const estadoTxt = document.getElementById('senal-estado');
 	const vivo = document.getElementById('senal-vivo') as HTMLAnchorElement | null;
-	tabs.forEach((tab) => {
-		tab.addEventListener('click', () => {
-			tabs.forEach((t) => t.setAttribute('aria-selected', 'false'));
-			tab.setAttribute('aria-selected', 'true');
-			const { lista, nombre: n, desc: d, usuario } = tab.dataset;
-			if (player && lista) { player.src = `https://www.youtube-nocookie.com/embed/videoseries?list=${lista}`; player.title = n ?? ''; }
-			if (nombre) nombre.textContent = n ?? '';
-			if (desc) desc.textContent = d ?? '';
-			if (vivo && usuario) vivo.href = `https://www.youtube.com/@${usuario}/live`;
+	const cargando = document.getElementById('senal-cargando');
+	const afuera = document.getElementById('senal-afuera');
+	const afueraLink = document.getElementById('senal-afuera-link') as HTMLAnchorElement | null;
+
+	const cache = new Map<string, Promise<Estado>>();
+	function estado(usuario: string): Promise<Estado> {
+		let p = cache.get(usuario);
+		if (!p) {
+			p = fetch(`/api/senal-vivo?u=${encodeURIComponent(usuario)}`)
+				.then((r) => (r.ok ? r.json() : { vivo: null, canal: null }))
+				.catch(() => ({ vivo: null, canal: null }));
+			cache.set(usuario, p);
+		}
+		return p;
+	}
+
+	function marcarPunto(tab: HTMLButtonElement, e: Estado) {
+		tab.querySelector('.punto-vivo')?.classList.toggle('hidden', !e.vivo);
+		tab.querySelector('.punto-vivo')?.classList.toggle('inline-block', Boolean(e.vivo));
+		const sr = tab.querySelector('.estado-sr');
+		if (sr) sr.textContent = e.vivo ? ' (en vivo)' : '';
+	}
+
+	function capa(cual: 'cargando' | 'afuera' | null) {
+		cargando?.classList.toggle('hidden', cual !== 'cargando');
+		cargando?.classList.toggle('flex', cual === 'cargando');
+		afuera?.classList.toggle('hidden', cual !== 'afuera');
+		afuera?.classList.toggle('flex', cual === 'afuera');
+	}
+
+	function ponerEstado(enVivo: boolean) {
+		if (!estadoTxt) return;
+		estadoTxt.innerHTML = enVivo
+			? '<span class="titila inline-block h-2 w-2 rounded-full bg-[#ff5a6e]" aria-hidden="true"></span><span class="text-[#ff5a6e]">En vivo ahora</span>'
+			: 'Últimos videos del canal';
+	}
+
+	let turno = 0;
+	async function seleccionar(tab: HTMLButtonElement, reproducir: boolean) {
+		const mio = ++turno;
+		tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+		const { nombre: n = '', desc: d = '', origen: o = '', usuario = '', canal = '' } = tab.dataset;
+		if (nombre) nombre.textContent = n;
+		if (desc) desc.textContent = d;
+		if (origen) origen.textContent = o;
+		const enYoutube = `https://www.youtube.com/@${usuario}/live`;
+		if (vivo) vivo.href = enYoutube;
+		if (afueraLink) afueraLink.href = enYoutube;
+		if (player) player.title = n;
+		ponerEstado(false);
+		if (player && canal) { player.src = `${NOCOOKIE}videoseries?list=UU${canal.slice(2)}`; capa(null); }
+		else capa('cargando');
+
+		const e = await estado(usuario);
+		if (mio !== turno || !player) return;
+		marcarPunto(tab, e);
+		if (e.vivo) {
+			player.src = `${NOCOOKIE}${e.vivo}${reproducir ? '?autoplay=1' : ''}`;
+			ponerEstado(true);
+			capa(null);
+		} else if (!canal && e.canal) {
+			tab.dataset.canal = e.canal;
+			player.src = `${NOCOOKIE}videoseries?list=UU${e.canal.slice(2)}`;
+			capa(null);
+		} else if (!canal) {
+			player.src = 'about:blank';
+			capa('afuera');
+		}
+	}
+
+	// Corre la fila para que se vea la solapa elegida (en el celular no entran todas), sin mover la página.
+	function centrar(el: HTMLElement | undefined) {
+		const fila = el?.parentElement;
+		if (!el || !fila) return;
+		fila.scrollLeft = Math.max(0, el.offsetLeft - fila.offsetLeft - 16);
+	}
+
+	function mostrarRegion(region: string) {
+		regionTabs.forEach((r) => r.setAttribute('aria-selected', String(r.dataset.region === region)));
+		centrar(Array.from(regionTabs).find((r) => r.dataset.region === region));
+		tabs.forEach((t) => {
+			const ver = t.dataset.region === region;
+			t.classList.toggle('hidden', !ver);
+			t.classList.toggle('inline-flex', ver);
+			// Averigua quién está en vivo en esta región para prender los puntos rojos.
+			if (ver && t.dataset.usuario) estado(t.dataset.usuario).then((e) => marcarPunto(t, e));
 		});
-	});
+	}
+
+	regionTabs.forEach((r) => r.addEventListener('click', () => {
+		const region = r.dataset.region ?? '';
+		mostrarRegion(region);
+		const primera = tabs.find((t) => t.dataset.region === region);
+		if (primera) seleccionar(primera, true);
+	}));
+	tabs.forEach((tab) => tab.addEventListener('click', () => seleccionar(tab, true)));
+
+	const inicial = tabs[0];
+	if (inicial) {
+		mostrarRegion(inicial.dataset.region ?? '');
+		seleccionar(inicial, false);
+	}
 </script>

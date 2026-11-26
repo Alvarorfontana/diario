@@ -3,6 +3,8 @@
 Libreta del proyecto: qué hay, qué se hizo y qué falta. Se actualiza después de cada cambio, con la fecha.
 Las reglas de trabajo están en `CLAUDE.md`.
 
+## 2026-11-26 — Canal: de 5 a 24 señales, ordenadas por región (Argentina, Uruguay y Paraguay, América Latina, Estados Unidos, España y Europa, Brasil en portugués, Medio Oriente y Asia). Cada señal muestra de qué país es. Punto rojo cuando el canal está en vivo: lo averigua `/api/senal-vivo` mirando la página pública /live de YouTube, sin clave ni cuota, guardado 10 minutos en Vercel (no dispara despliegues). Si no hay vivo, se ven los últimos videos; si el canal no deja verse afuera, botón "Abrir en YouTube". HispanTV queda afuera a pedido de Álvaro. Pendiente: sumar Senado TV, Diputados TV, Telemundo (Uruguay), TV Ciudad, Unicanal, T13/24 Horas, ADN 40, Noticias Telemundo, BandNews y TeleSUR cuando se confirme su @ de YouTube.
+
 ## 2026-11-26 — Prueba tipográfica: la cinta "Último momento" de la portada pasa a Roboto Condensed 700 (estilo Politico), con letra más grande (19 px, 17 en celular) y franja más alta para que se note. El resto del sitio sigue en Newsreader e Inter. Para volver atrás: borrar el bloque final de `global.css` y la familia en `BaseLayout.astro`.
 
 ## 2026-11-24 — Portada: se saca el banner de Elecciones EE. UU. (a destiempo). La cobertura sigue en /elecciones-eeuu/, en el menú y en Datos.
@@ -14,7 +16,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Sitio diariofederal.com.ar (Astro, Vercel `diario-5z4k`), panel propio en `/admin`.
 - Portada estilo Astromag: último momento, franja de mercados, "Lo que tenés que saber", En vivo, Opinión con caras,
   Lo más leído (Vercel Analytics), boletines temáticos, portada "Tu región", "Temas del día".
-- Solapa "Canal" con señales de YouTube (DW Español primero, C5N, Página/12, France 24, Euronews).
+- Solapa "Canal" con 24 señales de YouTube por región (DW Español primero), con aviso de "en vivo".
 - "Escuchá esta nota": audio automático por nota (`scripts/generar-audios.py`, tarea "Audio de las notas").
 - Botón imprimir o bajar PDF por nota.
 - Video flash (`/admin/flash` → tarea "Video flash", `scripts/flash/generar-flash.py`). Diseños: Noticiero, Clásico y Editorial.
