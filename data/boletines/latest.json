@@ -2,12 +2,12 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-26",
   "dateLabel": "26/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.mp3",
-  "video": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-26-bc9ade087fb0.png",
+  "archivo": "/boletines/boletin-principal-2026-11-26-767d85f2003d.mp3",
+  "video": "/boletines/boletin-principal-2026-11-26-767d85f2003d.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-26-767d85f2003d.png",
   "duracion": 99,
   "voz": "es-AR-TomasNeural",
-  "hash": "bc9ade087fb0",
+  "hash": "767d85f2003d",
   "items": [
     {
       "slug": "2026-11-26-blindaje-pobreza-dw-comedor",
@@ -16,16 +16,22 @@
       "url": "/articulo/2026-11-26-blindaje-pobreza-dw-comedor/"
     },
     {
-      "slug": "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid",
-      "title": "Santucho: Sociales da marcha atrás y el peronismo paga la cuenta",
-      "section": "argentina",
-      "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
+      "slug": "2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar",
+      "title": "La plata de los jubilados, en la mira por operaciones con bonos",
+      "section": "economia",
+      "url": "/articulo/2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar/"
     },
     {
       "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
       "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
       "section": "argentina",
       "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
+    },
+    {
+      "slug": "facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid",
+      "title": "Santucho: Sociales da marcha atrás y el peronismo paga la cuenta",
+      "section": "argentina",
+      "url": "/articulo/facultad-de-ciencias-sociales-suspende-homenaje-a-mario-santucho-tras-voto-disid/"
     },
     {
       "slug": "2026-11-24-auditoria-bdo-uom-usem-408-millones",
@@ -38,12 +44,6 @@
       "title": "La economía en el espejo retrovisor: la Argentina conoce hoy los números de hace dos meses, mientras el deterioro continúa",
       "section": "economia",
       "url": "/articulo/2026-11-24-economia-espejo-retrovisor-actividad-septiembre-2026/"
-    },
-    {
-      "slug": "2026-11-24-pami-ajuste-sobre-los-cuerpos",
-      "title": "El ajuste sobre los cuerpos: cómo se vació el PAMI",
-      "section": "argentina",
-      "url": "/articulo/2026-11-24-pami-ajuste-sobre-los-cuerpos/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
