@@ -308,4 +308,9 @@ html.modo-noche #foto-grande img { filter: none; }
 	font-family: 'Roboto Condensed', 'Inter', sans-serif;
 	font-weight: 700;
 }
-.ultimo-momento a { font-size: 15px; letter-spacing: 0.005em; }
+.ultimo-momento a { font-size: 19px; letter-spacing: 0.005em; }
+.ultimo-momento > span { font-size: 13px; letter-spacing: 0.06em; }
+@media (max-width: 640px) {
+	.ultimo-momento a { font-size: 17px; }
+	.ultimo-momento > span { font-size: 12px; }
+}
