@@ -241,3 +241,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 26/11/2026: en la nota del blindaje se pasó la línea de período al final para que la letra capital caiga en el primer párrafo.
 
 - 2026-11-26: Nota "La plata de los jubilados, en la mira por operaciones con bonos" (Economía, firma Claudio Vila, 913 palabras) con placa propia del FGS en /images/2026-11-fgs-bonos-jubilados.png. Pendiente: verificar disponibilidades del FGS de agosto en el informe oficial.
+
+## 2026-11-26 — Flash de último momento con notas del día
+- `data/flash/2026-11-26-ultimo-pobreza-fgs-mayans-kicillof.json`: pobreza según la DW (video de DW), FGS (gráfico propio), Mayans contra Santilli y la gira de Kicillof por Santa Fe del 2/12 (datos de Letra P). Voz Tomás, diseño OpenFilm. Se manda a generar; queda sin publicar hasta que Álvaro lo revise en /admin/flash.
+- Pronunciación: FGS, AL30 y UTN agregadas a `data/flash/pronunciacion.json`.

@@ -1,0 +1,84 @@
+{
+  "id": "2026-11-26-ultimo-pobreza-fgs-mayans-kicillof",
+  "tipo": "ultimo",
+  "titulo": "Pobreza según la DW, la plata de los jubilados, Mayans contra Santilli y Kicillof en Santa Fe",
+  "fecha": "2026-11-26",
+  "voz": "es-AR-TomasNeural",
+  "velocidad": 15,
+  "musica": "/flash/musica/paulyudin.mp3",
+  "volumenMusica": -17,
+  "estilo": "openfilm",
+  "subtitulos": true,
+  "intro": "Diario Federal. Las noticias de este jueves.",
+  "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
+  "rotulo": "26 DE NOVIEMBRE DE 2026",
+  "estado": "generar",
+  "publicado": false,
+  "bloques": [
+    {
+      "kicker": "Pobreza",
+      "titulo": "La pobreza que mostró la Deutsche Welle",
+      "dato": "32,3% de pobreza",
+      "bajada": "Primer semestre de 2026, según el INDEC. Entre los chicos, 44,5%.",
+      "texto": "La Deutsche Welle puso la lupa sobre la Argentina. Mostró la fila de un comedor porteño: jubilados, repartidores y trabajadores que bajan del tren para conseguir un plato de comida. Según el INDEC, la pobreza llegó al treinta y dos coma tres por ciento en el primer semestre. Entre los chicos, cuarenta y cuatro y medio. Y la economía volvió a caer entre julio y septiembre.",
+      "epigrafe": "Fila para conseguir un plato de comida en un comedor popular de Buenos Aires",
+      "fuente": "Video: DW Noticias, informe de Alexa Meyer",
+      "media": {
+        "tipo": "video",
+        "archivo": "/uploads/2026-11-26-dw-pobreza-comedor.mp4",
+        "inicio": 0
+      }
+    },
+    {
+      "kicker": "Jubilados",
+      "titulo": "La plata de los jubilados, en la mira",
+      "dato": "77,7% en bonos del Estado",
+      "bajada": "Cartera del Fondo de Garantía de Sustentabilidad a junio de 2026, según ANSES.",
+      "texto": "La plata de los jubilados, en la mira. El Fondo de Garantía de Sustentabilidad de la ANSES tiene el setenta y siete coma siete por ciento de su cartera en bonos del propio Estado. Este miércoles, el bono AL30 operó un récord de cuatrocientos treinta y seis millones de dólares, y en el mercado hablaron de intervención oficial para frenar el dólar. La ley dice que esa plata es solo del sistema previsional.",
+      "epigrafe": "Composición de la cartera del Fondo de Garantía de Sustentabilidad a junio de 2026",
+      "fuente": "Gráfico: Diario Federal, con datos de ANSES",
+      "media": {
+        "tipo": "foto",
+        "archivo": "/images/2026-11-fgs-bonos-jubilados.png",
+        "foco": [
+          0.5,
+          0.5
+        ]
+      }
+    },
+    {
+      "kicker": "Senado",
+      "titulo": "Mayans a Santilli: «Vino a versearnos»",
+      "dato": "−10.000 millones de dólares",
+      "bajada": "La cuenta de Mayans sobre las reservas del Banco Central.",
+      "texto": "«Vino a versearnos». Así le contestó José Mayans, jefe del bloque peronista en el Senado, al jefe de Gabinete, Diego Santilli. Santilli habló de cincuenta mil millones de dólares en reservas. Mayans lo desarmó: diecinueve mil seiscientos millones son del swap chino, quince mil del FMI, y otra parte son encajes, la plata de la gente en los bancos. Su cuenta: reservas negativas por diez mil millones de dólares.",
+      "epigrafe": "José Mayans en el Senado, durante el informe de gestión de Diego Santilli",
+      "fuente": "Foto: NA, vía Perfil",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://media.perfil.com/prod/images/hero/86565d776148-captura-de-pantalla-2026-11-25-a-las-224531.webp",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    },
+    {
+      "kicker": "Santa Fe",
+      "titulo": "Kicillof sigue su armado en Santa Fe",
+      "dato": "Miércoles 2 de diciembre",
+      "bajada": "Reconquista, la Casa Gris con Pullaro, industriales, la CGT y cierre en la UTN.",
+      "texto": "Axel Kicillof va a seguir armando fuera de la provincia. El miércoles dos de diciembre recorre Santa Fe. Arranca en Reconquista, con el intendente Enrique Vallejos. En la capital lo recibe el gobernador Maximiliano Pullaro en la Casa Gris. Después se reúne con industriales y con la CGT, y cierra con un acto en la UTN. Lleva el documento Hay otro camino, del Movimiento Derecho al Futuro, con la mira en 2027.",
+      "epigrafe": "Axel Kicillof y Maximiliano Pullaro",
+      "fuente": "Foto: Letra P",
+      "media": {
+        "tipo": "foto",
+        "archivo": "https://media.letrap.com.ar/p/a98e005a226a51aed3acee48f2660773/adjuntos/349/imagenes/100/129/0100129358/1200x630/smart/maximiliano-pullaro-axel-kicillofjpg.jpg",
+        "foco": [
+          0.5,
+          0.4
+        ]
+      }
+    }
+  ]
+}
