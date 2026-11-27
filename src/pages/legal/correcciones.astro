@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Política de correcciones | ${SITE_TITLE}`} description="Cómo corrige Diario Federal sus errores y cómo pedir una corrección.">
+	<article class="prose-articulo mx-auto max-w-2xl">
+		<h1 class="font-serif text-4xl font-bold">Política de correcciones</h1>
+		<p>
+			Nos equivocamos como cualquier redacción. Lo que importa es corregir rápido y a la vista.
+		</p>
+		<h2>Cómo corregimos</h2>
+		<p>
+			Si una nota tiene un dato equivocado, lo cambiamos en el texto y dejamos al pie una fe de
+			erratas con la fecha y qué se corrigió. No borramos notas para tapar un error.
+		</p>
+		<p>
+			Los cambios menores, como una falta de ortografía o un enlace roto, se arreglan sin aviso
+			porque no cambian lo que la nota dice.
+		</p>
+		<h2>Derecho a réplica</h2>
+		<p>
+			Si una persona o una institución mencionada en una nota quiere dar su versión, la sumamos a
+			la nota o publicamos su respuesta.
+		</p>
+		<h2>Cómo pedir una corrección</h2>
+		<p>
+			Escribinos a <a href="mailto:contacto@diariofederal.com.ar">contacto@diariofederal.com.ar</a>
+			con el enlace de la nota y qué dato está mal. Si podés, mandanos la fuente. Respondemos todos
+			los pedidos.
+		</p>
+		<h2>Opinión</h2>
+		<p>
+			Las columnas de opinión expresan la mirada de su autor. Corregimos en ellas los datos, no las
+			opiniones.
+		</p>
+	</article>
+</BaseLayout>

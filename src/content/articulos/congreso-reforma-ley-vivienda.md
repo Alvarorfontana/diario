@@ -2,6 +2,7 @@
 title: 'El Congreso aprueba la reforma de la ley de alquileres tras meses de negociación'
 description: 'La norma, que actualiza los esquemas de ajuste anual e incentiva la oferta en las grandes ciudades, salió adelante con un ajustado margen de siete votos.'
 section: argentina
+draft: true
 pubDate: 2026-08-21T07:45:00
 heroImage: '../../assets/blog-placeholder-2.jpg'
 imageCaption: 'Vista del hemiciclo de la Cámara de Diputados durante la sesión definitiva de la reforma. Imagen de archivo.'

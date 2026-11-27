@@ -2,6 +2,7 @@
 title: 'El festival de cine de otoño anuncia su edición más internacional'
 description: 'La muestra incluirá 120 películas de 45 países y rendirá homenaje al cine europeo de autor con una retrospectiva dedicada a los grandes directores del momento.'
 section: cultura
+draft: true
 pubDate: 2026-08-20T18:00:00
 heroImage: '../../assets/blog-placeholder-5.jpg'
 imageCaption: 'Sala proyectando una de las películas fuera de concurso en la última edición. Imagen de archivo.'

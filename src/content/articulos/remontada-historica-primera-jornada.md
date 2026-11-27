@@ -2,6 +2,7 @@
 title: 'Remontada histórica en la primera jornada de liga'
 description: 'El equipo local firmó una remontada épica con tres goles en los últimos veinte minutos ante un rival que dominó el marcador durante casi todo el encuentro.'
 section: deportes
+draft: true
 pubDate: 2026-08-20T22:15:00
 tags: ['Fútbol', 'Liga']
 heroImage: '../../assets/blog-placeholder-4.jpg'

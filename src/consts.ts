@@ -90,7 +90,7 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 		foto: '/columnistas/carlos-mendes.jpg',
 	},
 	'Alberto González': {
-		bio: 'Autor de ejemplo · Información internacional y política estadounidense.',
+		bio: 'Información internacional y política estadounidense.',
 		foto: 'https://i.pravatar.cc/160?img=12',
 	},
 	'Prof. Dr. Miguel Ángel Barrios': {

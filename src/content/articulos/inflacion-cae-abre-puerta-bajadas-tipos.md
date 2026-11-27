@@ -2,6 +2,7 @@
 title: 'La inflación cae al 2,1% y abre la puerta a nuevas bajadas de tipos'
 description: 'Los precios moderan su subida por tercer mes consecutivo, el mejor dato desde 2024. Los analistas apuntan a una rebaja de los tipos en la próxima reunión.'
 section: economia
+draft: true
 pubDate: 2026-08-21T09:10:00
 tags: ['Inflación', 'Economía']
 heroImage: '../../assets/blog-placeholder-3.jpg'

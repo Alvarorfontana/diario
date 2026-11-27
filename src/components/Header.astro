@@ -20,19 +20,35 @@ const barraTemas = [
 ];
 
 // Menú desplegable: buscador, portada, todas las secciones, regiones y los especiales del diario.
-const especiales = [
-	{ href: '/minuto-a-minuto/', nombre: 'Minuto a minuto' },
-	{ href: '/datos/', nombre: 'Laboratorio de datos' },
-	{ href: '/multimedia/', nombre: 'Multimedia y audio' },
-	{ href: '/brasil-2026/', nombre: 'Brasil 2026' },
-	{ href: '/espana-2026/', nombre: 'España 2026' },
-	{ href: '/flash/', nombre: 'Flash' },
-	{ href: '/boletines/', nombre: 'Boletín' },
-	{ href: '/canal/', nombre: 'Canal' },
-	{ href: '/contexto-politico/', nombre: 'Contexto Político' },
-	{ href: '/elecciones-eeuu/', nombre: 'Elecciones en EE. UU.' },
-	{ href: '/escuchar/', nombre: 'Escuchar (podcast)' },
-	{ href: '/fin-de-semana/', nombre: 'Edición de fin de semana' },
+// (27/11/2026) Los especiales se agrupan en tres bloques para que el menú se lea de un vistazo. No se sacó ninguno.
+const gruposEspeciales = [
+	{
+		titulo: 'Coberturas',
+		items: [
+			{ href: '/minuto-a-minuto/', nombre: 'Minuto a minuto' },
+			{ href: '/espana-2026/', nombre: 'España 2026' },
+			{ href: '/brasil-2026/', nombre: 'Brasil 2026' },
+			{ href: '/elecciones-eeuu/', nombre: 'Elecciones en EE. UU.' },
+		],
+	},
+	{
+		titulo: 'Escuchar y ver',
+		items: [
+			{ href: '/multimedia/', nombre: 'Multimedia y audio' },
+			{ href: '/boletines/', nombre: 'Boletín' },
+			{ href: '/escuchar/', nombre: 'Escuchar (podcast)' },
+			{ href: '/flash/', nombre: 'Flash' },
+			{ href: '/canal/', nombre: 'Canal' },
+		],
+	},
+	{
+		titulo: 'Para leer con tiempo',
+		items: [
+			{ href: '/datos/', nombre: 'Laboratorio de datos' },
+			{ href: '/contexto-politico/', nombre: 'Contexto Político' },
+			{ href: '/fin-de-semana/', nombre: 'Edición de fin de semana' },
+		],
+	},
 ];
 ---
 
@@ -65,12 +81,16 @@ const especiales = [
 							<li><a href={`/region/${r.id}/`} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec]" aria-current={pathname.startsWith(`/region/${r.id}`) ? 'page' : undefined}>{r.nombre} <span class="text-xs font-normal text-neutral-500">· {r.descripcion}</span></a></li>
 						))}
 					</ul>
-					<p class="mt-1 border-t border-[#eeeeea] px-3 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">Especiales</p>
-					<ul class="text-sm text-neutral-600">
-						{especiales.map((e) => (
-							<li><a href={e.href} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec] hover:text-ink" aria-current={pathname.startsWith(e.href) ? 'page' : undefined}>{e.nombre}</a></li>
-						))}
-					</ul>
+					{gruposEspeciales.map((g) => (
+						<>
+							<p class="mt-1 border-t border-[#eeeeea] px-3 pb-1 pt-3 text-[11px] font-bold uppercase tracking-wider text-neutral-500">{g.titulo}</p>
+							<ul class="text-sm text-neutral-600">
+								{g.items.map((e) => (
+									<li><a href={e.href} class="block rounded-lg px-3 py-2 hover:bg-[#f0f0ec] hover:text-ink" aria-current={pathname.startsWith(e.href) ? 'page' : undefined}>{e.nombre}</a></li>
+								))}
+							</ul>
+						</>
+					))}
 				</nav>
 			</details>
 		</div>

@@ -9,6 +9,8 @@
 	--color-paper: #f5f5f4;
 	--color-beige: #f5f5f4;
 	--color-ink: #121212;
+	/* (27/11/2026) Gris de textos chicos un poco más oscuro para que se lea bien sobre el fondo (contraste accesible). */
+	--color-neutral-500: #6b6b6b;
 }
 
 /* Estilo portal (Astromag): fondo gris muy claro, tarjetas blancas redondeadas, rojo sólo para acentos */
