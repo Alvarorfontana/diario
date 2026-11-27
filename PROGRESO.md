@@ -273,3 +273,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - España 2026 sumado al menú de especiales y como tarjeta en /datos, igual que Brasil 2026.
 - Especial España: hemiciclo (Polling Forecast), evolución de encuestas antes y después de Urda (Demócrata), mapa en mosaico clickeable por comunidad (reparto 2023), franja de resumen, mesa de medios, foto del debate en la portada y colores por partido.
 - Banner 'España decide · Seguí los acontecimientos' en la portada (debajo de Último momento) y en Internacional, mismo formato que tuvo EE. UU. Sacar de la portada después de la elección.
+
+## 2026-11-27 · Flash de último momento: las últimas 24 horas
+- Flash "Las últimas 24 horas: el oro en Londres, las PASO, Pichetto y Mayans" (OpenFilm, voz Tomás, música Starostin), publicado. Medios nuevos en /uploads: captura de Bullrich (RPN), clip de Pichetto sin zócalo, clips de Mayans (RPN; el usado es el del swap chino).
+- Pronunciación: "Pichetto" se dice "Pichéto" (data/flash/pronunciacion.json).
+- Pendiente: dura 73 s; si se quiere en 1 minuto, acortar textos.
