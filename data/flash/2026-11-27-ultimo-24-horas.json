@@ -5,14 +5,14 @@
   "fecha": "2026-11-27",
   "voz": "es-AR-TomasNeural",
   "velocidad": 15,
-  "musica": "/flash/musica/paulyudin.mp3",
+  "musica": "/flash/musica/starostin.mp3",
   "volumenMusica": -17,
   "estilo": "openfilm",
   "subtitulos": true,
   "intro": "Diario Federal. Lo más importante de las últimas veinticuatro horas.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "27 DE NOVIEMBRE DE 2026",
-  "estado": "listo",
+  "estado": "generar",
   "publicado": false,
   "bloques": [
     {
@@ -53,8 +53,8 @@
       "kicker": "Diputados",
       "titulo": "Pichetto pidió interpelar a Quirno",
       "dato": "130 votos, faltaban 184",
-      "bajada": "Por la crisis con Brasil. Diputados no habilitó el debate.",
-      "texto": "Pichetto pidió interpelar al canciller Pablo Quirno por la crisis con Brasil. Lo llamó el peor canciller de la Argentina. La moción sacó ciento treinta votos, pero hacían falta ciento ochenta y cuatro.",
+      "bajada": "Lo acusó de romper la relación con Brasil, el principal socio comercial del país.",
+      "texto": "Pichetto pidió interpelar al canciller Pablo Quirno. No es un pedido arbitrario: lo acusó de ser un mal canciller y de estar rompiendo la relación con Brasil, el principal socio comercial de la Argentina. La moción sacó ciento treinta votos, pero hacían falta ciento ochenta y cuatro.",
       "epigrafe": "Miguel Ángel Pichetto en la sesión de Diputados",
       "fuente": "Video: Diputados TV",
       "media": {
@@ -65,16 +65,16 @@
     },
     {
       "kicker": "Senado",
-      "titulo": "Mayans, contra Ficha Limpia",
-      "dato": "«Esa es la justicia que tenemos»",
-      "bajada": "El jefe del bloque peronista cuestionó la reforma en el recinto.",
-      "texto": "Mayans, contra Ficha Limpia. En el debate, el jefe del bloque peronista advirtió que la van a usar contra Kicillof y contra Cristina. Esa es la justicia que estamos teniendo en la Argentina, dijo.",
+      "titulo": "Mayans: «Le van a pedir el rescate a los chinos»",
+      "dato": "Swap chino",
+      "bajada": "El jefe del bloque peronista ironizó sobre la ayuda de China para pagar la deuda.",
+      "texto": "Mayans apuntó contra el equipo económico. Dijo que el Gobierno ahora le va a pedir a China, a través del swap, que lo ayude con los pagos de la deuda del año que viene. Una economía libertaria y anticomunista, rescatada por los chinos comunistas, ironizó.",
       "epigrafe": "José Mayans en el Senado, durante el debate de la reforma electoral",
       "fuente": "Video: RPN",
       "media": {
         "tipo": "video",
-        "archivo": "/uploads/2026-11-27-mayans-ficha-limpia-rpn.mp4",
-        "inicio": 4.0
+        "archivo": "/uploads/2026-11-27-mayans-swap-chino-rpn.mp4",
+        "inicio": 2.0
       }
     }
   ],
