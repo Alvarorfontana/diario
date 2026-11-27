@@ -8,11 +8,23 @@ import type { Articulo } from '../lib/articles';
 
 interface Props {
 	articulos: Articulo[];
+	// Notas que ya salieron más arriba en la portada: acá se usan solo si no hay otras.
+	excluir?: Set<string | undefined>;
 }
-const { articulos } = Astro.props;
+const { articulos, excluir = new Set() } = Astro.props;
+// Solo notas recientes (últimas 3 semanas), así no queda una nota vieja en la portada del día.
+const LIMITE_REGIONAL = Date.now() - 21 * 24 * 60 * 60 * 1000;
 const fotoRegional = (a: (typeof articulos)[number]) => /^https?:\/\//i.test(a.image_url || '') ? imagenNotaPath(a.slug, a.image_url, 480) : a.image_url;
 
-const porRegion = REGIONES.map((r) => ({ ...r, notas: articulos.filter((a) => a.region === r.id).slice(0, 4) })).filter(
+const notasDeRegion = (id: string) => {
+	const todas = articulos.filter((a) => a.region === id);
+	let recientes = todas.filter((a) => a.date.valueOf() >= LIMITE_REGIONAL);
+	// Si la región no tiene nada reciente, la pestaña no desaparece: muestra sus 2 últimas.
+	if (recientes.length === 0) recientes = todas.slice(0, 2);
+	// Primero las que no se vieron arriba; si faltan, se completa con las ya mostradas.
+	return [...recientes.filter((a) => !excluir.has(a.id)), ...recientes.filter((a) => excluir.has(a.id))].slice(0, 4);
+};
+const porRegion = REGIONES.map((r) => ({ ...r, notas: notasDeRegion(r.id) })).filter(
 	(r) => r.notas.length > 0,
 );
 ---

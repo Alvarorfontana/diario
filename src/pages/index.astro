@@ -193,7 +193,7 @@ const ticker = [...new Set([...marcadas, ...articulos])].slice(0, 6);
 	</div>
 
 	<!-- TU REGIÓN (pestañas por región, recuerda la elección del lector) -->
-	<PortadaRegional articulos={articulos} />
+	<PortadaRegional articulos={articulos} excluir={yaMostradas} />
 
 	<!-- MÁS NOTICIAS -->
 	{seccionesPortada.length > 0 && (
