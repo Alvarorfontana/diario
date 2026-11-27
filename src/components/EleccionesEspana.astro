@@ -37,6 +37,86 @@ const territories = [
 
 const RESULTADOS_OFICIALES = "https://29neleccionesgenerales.es";
 const fmt = (n: number) => n.toFixed(1).replace(".", ",");
+
+// ---- Hemiciclo: proyección de Polling Forecast (27/11/2026). "Otros" = 350 - partidos principales.
+const hemiParties = [
+  { short: "FA", name: "Frente Amplio", seats: 8, color: "#7e3a80" },
+  { short: "PSOE", name: "PSOE", seats: 119, color: "#d0021b" },
+  { short: "Otros", name: "Otros y territoriales", seats: 29, color: "#a3a3a3" },
+  { short: "PP", name: "PP", seats: 131, color: "#1f2937" },
+  { short: "VOX", name: "Vox", seats: 63, color: "#4d7c0f" },
+];
+const hemiDots = (() => {
+  const total = 350, rows = 10, r0 = 90, r1 = 250, cx = 270, cy = 270;
+  const radii = Array.from({ length: rows }, (_, i) => r0 + (i * (r1 - r0)) / (rows - 1));
+  const sumR = radii.reduce((a, b) => a + b, 0);
+  let counts = radii.map((r) => Math.round((r / sumR) * total));
+  let diff = total - counts.reduce((a, b) => a + b, 0);
+  counts[rows - 1] += diff;
+  const pts: { x: number; y: number; a: number }[] = [];
+  radii.forEach((r, i) => {
+    const n = counts[i];
+    for (let k = 0; k < n; k++) {
+      const a = Math.PI - (Math.PI * k) / (n - 1);
+      pts.push({ x: cx + r * Math.cos(a), y: cy - r * Math.sin(a), a });
+    }
+  });
+  pts.sort((p, q) => q.a - p.a);
+  const colors: string[] = [];
+  hemiParties.forEach((pt) => { for (let i = 0; i < pt.seats; i++) colors.push(pt.color); });
+  return pts.map((p, i) => ({ x: p.x.toFixed(1), y: p.y.toFixed(1), c: colors[i] }));
+})();
+
+// ---- Evolución del promedio de encuestas de Demócrata (media del último estudio de cada instituto).
+const trendDates = ["21 oct", "27 oct", "2 nov", "7 nov", "10 nov"];
+const trendSeries = [
+  { name: "PP", color: "#1f2937", values: [31.6, 31.0, 30.6, 31.0, 31.5] },
+  { name: "PSOE", color: "#d0021b", values: [26.9, 27.3, 27.3, 26.2, 26.8] },
+  { name: "Vox", color: "#4d7c0f", values: [18.7, 18.9, 19.0, 19.5, 19.1] },
+  { name: "Frente Amplio", color: "#7e3a80", values: [6.3, 6.3, 6.4, 6.6, 6.2] },
+];
+const TW = 640, TH = 300, TL = 44, TR = 110, TT = 20, TB = 40;
+const tx = (i: number) => TL + (i * (TW - TL - TR)) / (trendDates.length - 1);
+const ty = (v: number) => TT + (1 - v / 35) * (TH - TT - TB);
+const urdaX = tx(1) + (tx(2) - tx(1)) * (1 / 6); // 28 de octubre, entre el 27 oct y el 2 nov
+
+// ---- Escaños por comunidad (reparto vigente en las generales de 2023) y posición en el mapa en mosaico.
+const comunidades = [
+  { id: "gal", name: "Galicia", seats: 23, prov: "A Coruña 8, Pontevedra 7, Lugo 4, Ourense 4", c: 0, r: 0 },
+  { id: "ast", name: "Asturias", seats: 7, prov: "Asturias 7", c: 1, r: 0 },
+  { id: "can", name: "Cantabria", seats: 5, prov: "Cantabria 5", c: 2, r: 0 },
+  { id: "pv", name: "País Vasco", seats: 18, prov: "Bizkaia 8, Gipuzkoa 6, Álava 4", c: 3, r: 0 },
+  { id: "nav", name: "Navarra", seats: 5, prov: "Navarra 5", c: 4, r: 0 },
+  { id: "cyl", name: "Castilla y León", seats: 31, prov: "Valladolid 5, Burgos 4, León 4, Salamanca 4, Ávila 3, Palencia 3, Segovia 3, Zamora 3, Soria 2", c: 1, r: 1 },
+  { id: "rio", name: "La Rioja", seats: 4, prov: "La Rioja 4", c: 3, r: 1 },
+  { id: "ara", name: "Aragón", seats: 13, prov: "Zaragoza 7, Huesca 3, Teruel 3", c: 4, r: 1 },
+  { id: "cat", name: "Cataluña", seats: 48, prov: "Barcelona 32, Girona 6, Tarragona 6, Lleida 4", c: 5, r: 1 },
+  { id: "ext", name: "Extremadura", seats: 9, prov: "Badajoz 5, Cáceres 4", c: 0, r: 2 },
+  { id: "mad", name: "Madrid", seats: 37, prov: "Madrid 37", c: 2, r: 2 },
+  { id: "clm", name: "Castilla-La Mancha", seats: 21, prov: "Toledo 6, Ciudad Real 5, Albacete 4, Cuenca 3, Guadalajara 3", c: 3, r: 2 },
+  { id: "val", name: "C. Valenciana", seats: 33, prov: "Valencia 16, Alicante 12, Castellón 5", c: 4, r: 2 },
+  { id: "bal", name: "Baleares", seats: 8, prov: "Illes Balears 8", c: 6, r: 2 },
+  { id: "and", name: "Andalucía", seats: 61, prov: "Sevilla 12, Málaga 11, Cádiz 9, Granada 7, Almería 6, Córdoba 6, Huelva 5, Jaén 5", c: 1, r: 3, w: 2 },
+  { id: "mur", name: "Murcia", seats: 10, prov: "Murcia 10", c: 3, r: 3 },
+  { id: "cnr", name: "Canarias", seats: 15, prov: "Las Palmas 8, Santa Cruz de Tenerife 7", c: 0, r: 4 },
+  { id: "ceu", name: "Ceuta", seats: 1, prov: "Ceuta 1", c: 2, r: 4 },
+  { id: "mel", name: "Melilla", seats: 1, prov: "Melilla 1", c: 3, r: 4 },
+];
+const totalComunidades = comunidades.reduce((a, b) => a + b.seats, 0);
+const tileFill = (n: number) => {
+  const t = Math.min(1, Math.sqrt(n / 61));
+  const mix = (a: number, b: number) => Math.round(a + (b - a) * t);
+  return `rgb(${mix(254, 160)},${mix(226, 0)},${mix(226, 21)})`;
+};
+
+const medios = [
+  { name: "Ministerio del Interior", desc: "Web oficial del 29N: escrutinio provisional, participación y mesas.", url: RESULTADOS_OFICIALES, kicker: "Fuente oficial" },
+  { name: "RTVE", desc: "Radiotelevisión pública española: cobertura de la noche electoral.", url: "https://www.rtve.es/", kicker: "Televisión pública" },
+  { name: "El País", desc: "Diario nacional de Madrid: resultados y análisis.", url: "https://elpais.com/", kicker: "Madrid" },
+  { name: "El Mundo", desc: "Diario nacional de Madrid: seguimiento y encuestas.", url: "https://www.elmundo.es/", kicker: "Madrid" },
+  { name: "La Vanguardia", desc: "Diario de Barcelona: la mirada desde Cataluña.", url: "https://www.lavanguardia.com/", kicker: "Cataluña" },
+  { name: "EFE", desc: "Agencia pública de noticias: cables de la jornada.", url: "https://efe.com/", kicker: "Agencia" },
+];
 ---
 
 <main class="df-espana">
@@ -50,6 +130,11 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
       encuestas, alianzas parlamentarias y el peso político de Cataluña
       y el País Vasco. Seguimiento de la jornada y resultados.
     </p>
+
+    <figure class="hero-foto">
+      <img src="/uploads/2026-11-19-debate-sanchez-feijoo-academia.jpg" alt="Pedro Sánchez y Alberto Núñez Feijóo se dan la mano en el plató del debate" loading="eager" />
+      <figcaption class="epigrafe">Pedro Sánchez y Alberto Núñez Feijóo se saludan antes del debate electoral celebrado en la Academia de la Televisión, en Tres Cantos, Madrid. Foto: AFP / Óscar del Pozo.</figcaption>
+    </figure>
 
     <div class="hero-numbers">
       <div><strong>350</strong><span>Diputados</span></div>
@@ -67,6 +152,24 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     <a href="#territorios">Territorios</a>
     <a href="#resultados">Resultados</a>
   </nav>
+
+  <section class="score-strip" aria-label="Resumen de la elección">
+    <article class="score-card">
+      <span class="score-label">Estado de la cobertura</span>
+      <strong class="live-state"><span class="live-dot"></span>Veda electoral</strong>
+      <small>Votación el domingo 29, de 5 a 16 hora argentina</small>
+    </article>
+    <article class="score-card">
+      <span class="score-label">PP + Vox (proyección)</span>
+      <strong>194</strong>
+      <small>18 por encima de la mayoría absoluta</small>
+    </article>
+    <article class="score-card">
+      <span class="score-label">PSOE + Frente Amplio (proyección)</span>
+      <strong>127</strong>
+      <small>49 por debajo de la mayoría absoluta</small>
+    </article>
+  </section>
 
   <section id="que-se-vota" class="section">
     <div class="kicker">01 · El sistema electoral</div>
@@ -105,7 +208,7 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     </p>
 
     <p class="source">
-      Fuentes:
+      Fuentes:{" "}
       <a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/interior/paginas/guia-dudas-elecciones-generales-29n.aspx" target="_blank" rel="noopener">Ministerio del Interior · guía del 29N</a> ·
       <a href="https://www.ine.es/dyngs/Prensa/es/EG2026.htm" target="_blank" rel="noopener">Instituto Nacional de Estadística · censo electoral</a>.
     </p>
@@ -120,35 +223,35 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     </p>
 
     <div class="party-grid">
-      <article class="party">
+      <article class="party party-psoe">
         <span class="party-tag">Centroizquierda</span>
         <h3>PSOE</h3>
         <p>Pedro Sánchez</p>
         <small>Partido Socialista Obrero Español</small>
       </article>
 
-      <article class="party">
+      <article class="party party-pp">
         <span class="party-tag">Centroderecha</span>
         <h3>Partido Popular</h3>
         <p>Alberto Núñez Feijóo</p>
         <small>Principal fuerza de la oposición</small>
       </article>
 
-      <article class="party">
+      <article class="party party-vox">
         <span class="party-tag">Derecha radical</span>
         <h3>Vox</h3>
         <p>Santiago Abascal</p>
         <small>Fuerza decisiva para una posible mayoría conservadora</small>
       </article>
 
-      <article class="party">
+      <article class="party party-fa">
         <span class="party-tag">Izquierda</span>
         <h3>Frente Amplio</h3>
         <p>Ada Colau</p>
         <small>Coalición de Sumar, IU, Comuns y Más Madrid. En Cataluña se presenta como Comuns-Front Ampli</small>
       </article>
 
-      <article class="party">
+      <article class="party party-pod">
         <span class="party-tag">Izquierda</span>
         <h3>Podemos</h3>
         <p>Irene Montero</p>
@@ -164,7 +267,7 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     </div>
 
     <p class="source">
-      Fuentes:
+      Fuentes:{" "}
       <a href="https://www.articulo14.es/politica/que-partidos-se-presentan-a-las-elecciones-del-29-n-candidaturas-y-coaliciones-20261108.html" target="_blank" rel="noopener">Artículo14 · candidaturas del 29N</a> ·
       <a href="https://www.juntaelectoralcentral.es/" target="_blank" rel="noopener">Junta Electoral Central</a>.
     </p>
@@ -192,6 +295,34 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
       ))}
     </div>
 
+    <h3>Antes y después de Urda</h3>
+    <p>
+      El choque de trenes de Urda, el 28 de octubre, frenó la remontada
+      socialista. En el promedio de Demócrata, el PSOE bajó del 27,3% al
+      26,2% en diez días, mientras Vox llegó a su máximo de la campaña.
+    </p>
+    <figure class="trend">
+      <svg viewBox={`0 0 ${TW} ${TH}`} role="img" aria-label="Evolución del promedio de encuestas entre el 21 de octubre y el 10 de noviembre de 2026">
+        {[0, 10, 20, 30].map((v) => (
+          <g>
+            <line x1={TL} x2={TW - TR} y1={ty(v)} y2={ty(v)} stroke="#e5e5e5" />
+            <text x={TL - 8} y={ty(v) + 4} text-anchor="end" class="axis">{v}%</text>
+          </g>
+        ))}
+        <line x1={urdaX} x2={urdaX} y1={TT} y2={TH - TB} stroke="#737373" stroke-dasharray="4 4" />
+        <text x={urdaX + 6} y={TT + 12} class="axis">Urda · 28 oct</text>
+        {trendDates.map((d, i) => <text x={tx(i)} y={TH - TB + 22} text-anchor="middle" class="axis">{d}</text>)}
+        {trendSeries.map((s) => (
+          <g>
+            <polyline fill="none" stroke={s.color} stroke-width="3" points={s.values.map((v, i) => `${tx(i)},${ty(v)}`).join(" ")} />
+            {s.values.map((v, i) => <circle cx={tx(i)} cy={ty(v)} r="3.5" fill={s.color} />)}
+            <text x={tx(trendDates.length - 1) + 10} y={ty(s.values[s.values.length - 1]) + 4} class="serie" fill={s.color}>{s.name} {fmt(s.values[s.values.length - 1])}</text>
+          </g>
+        ))}
+      </svg>
+      <figcaption>Promedio de encuestas de Demócrata (último estudio de cada instituto), en %. Período: 21 de octubre al 10 de noviembre de 2026. Es otro agregador que el de Polling Forecast, por eso las cifras no coinciden.</figcaption>
+    </figure>
+
     <div class="poll-warning">
       <strong>Importante: veda electoral</strong>
       <p>
@@ -209,7 +340,7 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     </p>
 
     <p class="source">
-      Fuente:
+      Fuente:{" "}
       <a href="https://www.pollingforecast.com/es/news/869/pronostico-final-pp-y-vox-suman-194-escanos-y-el-pp-no-puede-gobernar?lang=es" target="_blank" rel="noopener">Polling Forecast · pronóstico final del 27 de noviembre</a>.
       Las barras están escaladas sobre un máximo de 35%.
     </p>
@@ -232,6 +363,18 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
         <p>Diputados necesarios para la mayoría absoluta.</p>
       </div>
     </div>
+
+    <figure class="hemiciclo">
+      <svg viewBox="0 0 540 290" role="img" aria-label="Hemiciclo con la proyección de escaños: PP 131, PSOE 119, Vox 63, Frente Amplio 8 y otros 29">
+        {hemiDots.map((d) => <circle cx={d.x} cy={d.y} r="5.2" fill={d.c} />)}
+        <text x="270" y="250" text-anchor="middle" class="hemi-num">350</text>
+        <text x="270" y="272" text-anchor="middle" class="axis">diputados · mayoría: 176</text>
+      </svg>
+      <div class="hemi-legend">
+        {hemiParties.map((p) => <span><i style={`background:${p.color}`}></i>{p.name} <b>{p.seats}</b></span>)}
+      </div>
+      <figcaption>Proyección de escaños al 27 de noviembre de 2026. Fuente: Polling Forecast. "Otros" agrupa a las fuerzas territoriales y al resto de las candidaturas. No son resultados.</figcaption>
+    </figure>
 
     <h3>La representación territorial como factor de negociación</h3>
     <p>
@@ -257,8 +400,7 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
 
     <p class="note">
       Referencia histórica: escaños obtenidos por estas siete fuerzas en
-      las elecciones generales del 23 de julio de 2023. La suma de
-      {totalRegional} no es un pronóstico para 2026 ni un bloque político
+      las elecciones generales del 23 de julio de 2023. La suma de {totalRegional} no es un pronóstico para 2026 ni un bloque político
       común. El resultado del 29N actualizará esta tabla.
     </p>
   </section>
@@ -285,7 +427,7 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
       mayoría de las provincias.
     </p>
     <p class="source">
-      Fuente:
+      Fuente:{" "}
       <a href="https://www.articulo14.es/politica/quien-encabeza-frente-amplio-en-el-29n-trayectoria-politica-y-personal-de-ada-colau-20261105.html" target="_blank" rel="noopener">Artículo14 · trayectoria de Ada Colau</a>.
     </p>
   </section>
@@ -298,6 +440,26 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
       elección. Cataluña y el País Vasco tienen fuerzas propias que pueden
       inclinar la formación de mayorías en el Congreso.
     </p>
+
+    <h3>Los 350 escaños, comunidad por comunidad</h3>
+    <p>Tocá una comunidad para ver cuántos diputados elige y cómo se reparten por provincia.</p>
+    <div class="mapa-wrap">
+      <div class="mapa" role="list" aria-label="Mapa en mosaico de España por comunidad autónoma">
+        {comunidades.map((t) => (
+          <button type="button" class="tile" role="listitem" data-name={t.name} data-seats={t.seats} data-prov={t.prov}
+            style={`grid-column:${t.c + 1} / span ${t.w ?? 1};grid-row:${t.r + 1};background:${tileFill(t.seats)};color:${t.seats >= 20 ? "#fff" : "#121212"}`}>
+            <span>{t.name}</span><b>{t.seats}</b>
+          </button>
+        ))}
+      </div>
+      <aside class="mapa-detalle" id="mapa-detalle" aria-live="polite">
+        <span class="score-label">Comunidad</span>
+        <strong id="md-name">Andalucía</strong>
+        <p id="md-seats">61 diputados</p>
+        <p id="md-prov" class="note">Sevilla 12, Málaga 11, Cádiz 9, Granada 7, Almería 6, Córdoba 6, Huelva 5, Jaén 5</p>
+      </aside>
+    </div>
+    <p class="note">Mapa esquemático (no a escala). Reparto de escaños vigente en las generales de 2023: {totalComunidades} diputados. El decreto de convocatoria de 2026 puede mover alguna banca entre provincias según el padrón.</p>
 
     <div class="territory-grid">
       {territories.map((territory) => (
@@ -410,6 +572,21 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
     <p class="note">
       Horarios de referencia de España peninsular. En Canarias, una hora menos.
     </p>
+  </section>
+
+  <section class="section" aria-labelledby="mesa-medios">
+    <div class="kicker">08 · Mesa de medios</div>
+    <h2 id="mesa-medios">Seguí la noche electoral en otros medios</h2>
+    <p>Enlaces directos a la fuente oficial y a medios españoles. Los resultados y proyecciones pertenecen a cada uno.</p>
+    <div class="news-grid">
+      {medios.map((m) => (
+        <a class="news-source" href={m.url} target="_blank" rel="noopener">
+          <span class="score-label">{m.kicker}</span>
+          <strong>{m.name}</strong>
+          <span class="news-desc">{m.desc}</span>
+        </a>
+      ))}
+    </div>
   </section>
 
   <footer class="special-footer">
@@ -532,4 +709,78 @@ const fmt = (n: number) => n.toFixed(1).replace(".", ",");
   .facts { grid-template-columns: repeat(2, 1fr); }
   .regional-row { grid-template-columns: .8fr 1.3fr 28px; font-size: .88rem; }
 }
+
+/* --- Agregados estilo plataforma EE. UU. --- */
+.score-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 22px 0 0; }
+.score-card { border: 1px solid var(--line); border-top: 4px solid var(--ink); padding: 16px 18px; background: #fff; font-family: var(--font-sans); }
+.score-card strong { display: flex; align-items: center; gap: 8px; font-size: 2rem; line-height: 1.1; margin: 6px 0 4px; }
+.score-card small { color: var(--muted); font-size: .85rem; }
+.score-label { display: block; font-family: var(--font-sans); font-size: .7rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); }
+.live-state { font-size: 1.3rem !important; }
+.live-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--acento); animation: df-pulso 1.6s infinite; }
+@keyframes df-pulso { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+.trend, .hemiciclo { margin: 26px 0; max-width: 760px; }
+.trend svg, .hemiciclo svg { width: 100%; height: auto; display: block; }
+.df-espana svg text { font-family: var(--font-sans); }
+.axis { font-size: 12px; fill: #737373; }
+.serie { font-size: 13px; font-weight: 700; }
+.hemi-num { font-size: 34px; font-weight: 800; fill: var(--ink); }
+.hemi-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center; font-family: var(--font-sans); font-size: .9rem; margin-top: 8px; }
+.hemi-legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.df-espana figcaption { font-family: var(--font-sans); font-size: .82rem; color: var(--muted); margin-top: 10px; }
+.mapa-wrap { display: grid; grid-template-columns: 1.6fr 1fr; gap: 18px; align-items: start; margin: 20px 0 8px; }
+.mapa { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); grid-auto-rows: 74px; gap: 5px; }
+.tile { border: 0; padding: 6px; min-width: 0; overflow: hidden; text-align: left; cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; font-family: var(--font-sans); transition: transform .12s, outline-color .12s; outline: 2px solid transparent; }
+.tile span { font-size: .68rem; font-weight: 700; line-height: 1.1; overflow-wrap: anywhere; hyphens: auto; }
+.tile b { font-size: 1.15rem; }
+.tile:hover, .tile.activa { transform: translateY(-2px); outline-color: var(--ink); }
+.mapa-detalle { border: 1px solid var(--line); border-top: 4px solid var(--acento); padding: 18px; font-family: var(--font-sans); position: sticky; top: 90px; }
+.mapa-detalle strong { display: block; font-family: var(--font-serif); font-size: 1.6rem; margin: 6px 0; }
+.news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.df-espana .news-source { display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--line); padding: 18px; color: var(--ink); text-decoration: none; font-family: var(--font-sans); }
+.df-espana .news-source:hover { border-color: var(--acento); text-decoration: none; }
+.news-source strong { font-family: var(--font-serif); font-size: 1.2rem; }
+.news-desc { color: var(--muted); font-size: .88rem; font-weight: 400; }
+@media (max-width: 700px) {
+  .score-strip, .news-grid { grid-template-columns: 1fr; }
+  .mapa-wrap { grid-template-columns: 1fr; }
+  .mapa { grid-auto-rows: 58px; gap: 3px; }
+  .tile span { font-size: .55rem; }
+  .tile b { font-size: .95rem; }
+  .mapa-detalle { position: static; }
+}
+
+/* --- Diseño: foto de portada y colores por partido --- */
+.hero { display: grid; grid-template-columns: 1fr; }
+.hero-foto { margin: 28px 0 0; }
+.hero-foto img { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; object-position: center 30%; display: block; }
+.hero-foto figcaption { font-family: var(--font-serif); font-size: .92rem; color: var(--muted); margin-top: 8px; }
+.hero h1 { border-bottom: 1px solid var(--line); padding-bottom: 10px; }
+.party-pp { border-top-color: #1f2937; }
+.party-psoe { border-top-color: #d0021b; }
+.party-vox { border-top-color: #4d7c0f; }
+.party-fa { border-top-color: #7e3a80; }
+.party-pod { border-top-color: #6d28d9; }
+.party { transition: box-shadow .15s; }
+.party:hover { box-shadow: 0 6px 18px rgba(0,0,0,.07); }
+.section > h2::after { content: ""; display: block; width: 48px; height: 3px; background: var(--acento); margin-top: 12px; }
 </style>
+
+<script>
+  const detalle = document.getElementById("mapa-detalle");
+  if (detalle) {
+    const nameEl = document.getElementById("md-name");
+    const seatsEl = document.getElementById("md-seats");
+    const provEl = document.getElementById("md-prov");
+    document.querySelectorAll<HTMLButtonElement>(".df-espana .tile").forEach((tile) => {
+      tile.addEventListener("click", () => {
+        document.querySelectorAll(".df-espana .tile.activa").forEach((t) => t.classList.remove("activa"));
+        tile.classList.add("activa");
+        const n = Number(tile.dataset.seats);
+        if (nameEl) nameEl.textContent = tile.dataset.name ?? "";
+        if (seatsEl) seatsEl.textContent = `${n} ${n === 1 ? "diputado" : "diputados"}`;
+        if (provEl) provEl.textContent = tile.dataset.prov ?? "";
+      });
+    });
+  }
+</script>
