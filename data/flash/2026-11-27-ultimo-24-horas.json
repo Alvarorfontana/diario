@@ -12,7 +12,7 @@
   "intro": "Diario Federal. Lo más importante de las últimas veinticuatro horas.",
   "cierre": "Esto fue Diario Federal. Más en diariofederal punto com punto ar.",
   "rotulo": "27 DE NOVIEMBRE DE 2026",
-  "estado": "generar",
+  "estado": "listo",
   "publicado": false,
   "bloques": [
     {
@@ -94,19 +94,19 @@
       "titulo": "Pichetto pidió interpelar a Quirno"
     },
     {
-      "t": 46.6,
-      "titulo": "Mayans, contra Ficha Limpia"
+      "t": 50.7,
+      "titulo": "Mayans: «Le van a pedir el rescate a los chinos»"
     }
   ],
-  "duracion": 66.2,
+  "duracion": 72.9,
   "duraciones": [
     12.5,
     13.0,
-    10.5,
-    10.9
+    14.6,
+    13.5
   ],
   "video": "/flash/2026-11-27-ultimo-24-horas.mp4",
   "miniatura": "/flash/2026-11-27-ultimo-24-horas.jpg",
-  "version": "20261127190420",
-  "generado": "2026-11-27T19:04:20+00:00"
+  "version": "20261127191727",
+  "generado": "2026-11-27T19:17:27+00:00"
 }
