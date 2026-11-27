@@ -270,3 +270,4 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Foto de archivo (marcha por la vivienda en Cibeles) porque la imagen del debate no tenía origen verificable. Pendiente: reemplazar por foto oficial del debate si Álvaro la pasa.
 - Foto de la nota reemplazada por la del cara a cara (AFP / Óscar del Pozo), pasada por Álvaro.
 - Especial "España decide" en /espana-2026/ (componente EleccionesEspana.astro), con paleta del diario sin azul, Newsreader/Inter, datos verificados (INE, Polling Forecast, BOE) y Frente Amplio en lugar de Sumar. Pendiente: sumarlo al menú si Álvaro lo pide.
+- España 2026 sumado al menú de especiales y como tarjeta en /datos, igual que Brasil 2026.
