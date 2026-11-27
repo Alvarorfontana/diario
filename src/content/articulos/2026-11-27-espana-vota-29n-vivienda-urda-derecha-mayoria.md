@@ -3,7 +3,7 @@ title: "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría"
 volanta: "ESPAÑA | ELECCIONES DEL 29-N"
 description: "Sánchez adelantó las elecciones sobre la ola de reclamos por la vivienda. El choque de trenes de Urda cambió la campaña y las encuestas dan mayoría a PP y Vox."
 section: internacional
-author: Emilio Lahitte
+author: Mesa Internacional
 pubDate: 2026-11-27T14:30:00-03:00
 heroImage: "/uploads/1791311285217-2026-10-03t143a093a51z-92161824.jpg"
 imageCaption: "Manifestación por el acceso a la vivienda frente al Palacio de Cibeles, en Madrid, en octubre de 2026. El cartel dice «Alojar sin alejar». Foto: archivo Diario Federal."

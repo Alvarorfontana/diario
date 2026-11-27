@@ -87,7 +87,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 2026-11-12: Nota "Perú consigue deuda a 30 años y Argentina mira de afuera" (Economía, firma Ramiro De la Puente). Fotos de Caputo (principal) y Keiko Fujimori (en el cuerpo), crédito Diario Federal.
 - 2026-11-12: Nota "Cerrada, cara y sin inversión: por qué la industria argentina cae más que en casi todo el mundo" (Economía, firma Ramiro De la Puente). Datos del MIDTM (Banco Mundial, FMI, OIT, CEPAL), INDEC, SIPA y SRT. Foto Pauny (Maquinac) y tres gráficos propios en /uploads. Se agregó estilo para tablas dentro de las notas (scroll horizontal en celular).
 - 2026-11-12: Nota de industria: el número de puestos perdidos queda unificado en 90.924 (SIPA) en bajada, epígrafe, puntos clave y cuerpo; la SRT se usa solo para empleadores (4.324).
-- 2026-11-12: Nota "Ni 500 países ni el 30 % del mundo: lo que esconden las cifras de Milei" (Argentina, chequeo, firma Emilio Lahitte). Discurso en la Gala Endeavor: 500 mercados, 30 % del planeta, respuesta al Papa sobre IA y empleo, pobreza y Revolución Industrial, importaciones. Datos del MIDTM. Foto de Ámbito recortada (sin franja con logo) en /uploads.
+- 2026-11-12: Nota "Ni 500 países ni el 30 % del mundo: lo que esconden las cifras de Milei" (Argentina, chequeo, firma Mesa Internacional). Discurso en la Gala Endeavor: 500 mercados, 30 % del planeta, respuesta al Papa sobre IA y empleo, pobreza y Revolución Industrial, importaciones. Datos del MIDTM. Foto de Ámbito recortada (sin franja con logo) en /uploads.
 - 2026-11-13: Firmas: se quitaron los autores inventados (María Fernández, Laura Giménez, Alberto González con foto genérica). Sus notas pasan a "Redacción Federal" y "Mesa Internacional", firmas de mesa con bio en consts.ts. El /admin ahora respeta la firma ("autor") que manda el Centro de Información con cada borrador.
 - 2026-11-13: Se volvieron atrás las firmas: María Fernández, Laura Giménez y Alberto González quedan como estaban, con sus notas y fotos. Las firmas de mesa (Redacción Federal, Mesa Internacional) se usan solo de acá en adelante para los borradores del Centro.
 - 2026-11-14: Seguridad del /admin: después de 5 contraseñas incorrectas desde la misma conexión, el ingreso se bloquea 15 minutos (cada error demora 1 segundo). Vive en la memoria del servidor (src/lib/auth.ts). Pendiente: verificación en dos pasos en GitHub, Vercel y Google; evaluar pasar el repo a privado (Actions usa ~500 min/mes, el plan privado gratis da 2.000).
@@ -120,7 +120,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 18/11/2026 (2): Pedido de Álvaro: una sola letra para leer. Bajadas y epígrafes pasan a Newsreader, igual que titular y texto de la nota; Inter solo en rótulos chicos.
 - 18/11/2026 (3): Botones de redes arriba y abajo de cada nota pasan a ser solo dibujo, sin enlace ni acción. Quedan activos imprimir, mail y copiar enlace.
 
-- 2026-11-19: Análisis «De Yalta a Shenzhen: quién es quién en el nuevo reparto» (Internacional, firma Emilio Lahitte, 1.200 palabras), con tabla comparativa 1945/2026, hipervínculos a las fuentes y enlace a la previa del 17/11. Foto de familia de la APEC en `/uploads/2026-11-19-apec-shenzhen-foto-de-familia.jpg`. Pendiente: confirmar el crédito de la foto (figura «vía The Guardian»).
+- 2026-11-19: Análisis «De Yalta a Shenzhen: quién es quién en el nuevo reparto» (Internacional, firma Mesa Internacional, 1.200 palabras), con tabla comparativa 1945/2026, hipervínculos a las fuentes y enlace a la previa del 17/11. Foto de familia de la APEC en `/uploads/2026-11-19-apec-shenzhen-foto-de-familia.jpg`. Pendiente: confirmar el crédito de la foto (figura «vía The Guardian»).
 
 - 2026-11-19: Corrección de Álvaro: el botón de compartir por WhatsApp de cada nota (arriba en la firma y abajo en «Compartir nota») vuelve a funcionar (abre WhatsApp con título y enlace). X, Facebook, LinkedIn y Telegram siguen solo como dibujo. Regla 12 de CLAUDE.md actualizada.
 
@@ -152,7 +152,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Firmas de la redacción (Redacción, Redacción Diario Federal, Diario Federal, Redacción Federal, Mesa Internacional) llevan el isotipo del diario como foto (/autores/redaccion.svg).
 
 ## 2026-11-22 · Nota: Kicillof teje adentro, Massa arma afuera: el reparto del PJ bonaerense
-- Análisis político, firma Emilio Lahitte (Argentina, región Buenos Aires) · 1.100 palabras aprox. · dentro del límite de 1.200.
+- Análisis político, firma Mesa Internacional (Argentina, región Buenos Aires) · 1.100 palabras aprox. · dentro del límite de 1.200.
 - Foto del Congreso provincial transmitido en pantalla (`public/uploads/2026-11-22-pj-bonaerense-congreso.jpg`), con epígrafe y fuente: prensa Jorge Ferraresi.
 - Enlaza a la nota del 18/11 sobre San Fernando. Incluye recuadro sobre la interna del 15 de marzo.
 - Pendiente: actualizar el "qué sigue" después de la sesión del Senado del jueves 26 sobre las PASO.
@@ -191,7 +191,7 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Fuentes de los observatorios: ahora dicen "DOTS · Observatorio de Diario Federal" u "Observatorio de la Industria Metalúrgica · Diario Federal", con el origen de los datos en letra chica y sin enlaces externos (regla 16 de CLAUDE.md).
 
 ## 2026-11-22 · Nota y seguimiento del RIGI (Laboratorio de datos)
-- Nota: "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha" (economía, firma Emilio Lahitte) · unas 900 palabras · dentro del límite de 1.200. Imagen principal: gráfico propio (`public/uploads/2026-11-22-rigi-anunciado-vs-real.png`) con epígrafe y fuente.
+- Nota: "RIGI: mucho anuncio, poca plata y casi la mitad ya estaba en marcha" (economía, firma Mesa Internacional) · unas 900 palabras · dentro del límite de 1.200. Imagen principal: gráfico propio (`public/uploads/2026-11-22-rigi-anunciado-vs-real.png`) con epígrafe y fuente.
 - Nueva sección "RIGI: lo anunciado, lo que entró y lo que ya estaba" en /datos (ancla `#rigi`), al final de los bloques, sin sacar nada. Lee `data/laboratorio/rigi.json`: comprometido, ingresado según el BCRA, cronograma por año y los 27 proyectos clasificados según su situación en julio de 2024.
 - Pendiente: actualizar cada trimestre el ingreso de dólares (BCRA) y sumar los proyectos aprobados después de los 27 (La Rinconada y los dos de TGS).
 
@@ -265,6 +265,6 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - 26/11/2026: nota del oro en Londres actualizada: bajada y tres párrafos arriba con la sanción de la reforma de la Carta Orgánica en Diputados (141-0-99), las abstenciones y por qué le importa al Gobierno (emisión cero y reservas como garantía). Queda en ~2.100 palabras, sobre el límite ya aprobado. Pendiente: confirmar en el Boletín Oficial el texto final sobre reservas en el exterior.
 
 ## 2026-11-27 · Nota España 29N
-- Se publicó "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría" (internacional, firma Emilio Lahitte, ~1.050 palabras).
+- Se publicó "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría" (internacional, firma Mesa Internacional, ~1.050 palabras).
 - Gráfico propio de intención de voto: `public/images/espana-29n-intencion-voto.svg` (fuente Polling Forecast).
 - Foto de archivo (marcha por la vivienda en Cibeles) porque la imagen del debate no tenía origen verificable. Pendiente: reemplazar por foto oficial del debate si Álvaro la pasa.
