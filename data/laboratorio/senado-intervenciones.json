@@ -1,10 +1,10 @@
 {
- "fecha": "2026-11-25",
+ "fecha": "2026-11-27",
  "periodo": {
   "desde": "2023-12-10",
-  "hasta": "2026-11-19"
+  "hasta": "2026-11-26"
  },
- "sesiones_leidas": 47,
+ "sesiones_leidas": 49,
  "fuente": "Versiones taquigráficas del Senado de la Nación",
  "aviso": "Cuenta las intervenciones identificadas por apellido. No incluye a la Presidencia de la sesión. Hablar mucho no es lo mismo que trabajar mucho.",
  "sin_identificar": {
@@ -14,9 +14,9 @@
   "Pagotto": 144,
   "Parrilli": 140,
   "Blanco": 93,
+  "Jefe de Gabinete de Ministros": 90,
   "De Angeli": 88,
   "Prosecretaria": 64,
-  "Jefe de Gabinete de Ministros": 56,
   "Duré": 53,
   "Leavy": 51,
   "García Larraburu": 46,
@@ -331,6 +331,18 @@
    "tipo": "Ordinaria",
    "url": "https://www.senado.gob.ar/parlamentario/sesiones/19-11-2026/13/downloadTac",
    "intervenciones": 657
+  },
+  {
+   "fecha": "2026-11-25",
+   "tipo": "Informativa Especial",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/25-11-2026/14/downloadTac",
+   "intervenciones": 131
+  },
+  {
+   "fecha": "2026-11-26",
+   "tipo": "Ordinaria",
+   "url": "https://www.senado.gob.ar/parlamentario/sesiones/26-11-2026/15/downloadTac",
+   "intervenciones": 797
   }
  ],
  "filas": [
@@ -339,99 +351,99 @@
    "n": "Mayans, José Miguel Ángel",
    "b": "JUSTICIALISTA",
    "p": "Formosa",
-   "intervenciones": 906,
-   "palabras": 178532,
-   "sesiones_con_intervencion": 39
+   "intervenciones": 943,
+   "palabras": 191789,
+   "sesiones_con_intervencion": 41
   },
   {
    "id": "sen-285",
    "n": "Capitanich, Jorge Milton",
    "b": "JUSTICIALISTA",
    "p": "Chaco",
-   "intervenciones": 163,
-   "palabras": 87176,
-   "sesiones_con_intervencion": 17
-  },
-  {
-   "id": "sen-566",
-   "n": "Salino, Fernando Aldo",
-   "b": "JUSTICIA SOCIAL FEDERAL",
-   "p": "San Luis",
-   "intervenciones": 120,
-   "palabras": 62632,
-   "sesiones_con_intervencion": 30
-  },
-  {
-   "id": "sen-468",
-   "n": "Fernández Sagasti, Anabel",
-   "b": "JUSTICIALISTA",
-   "p": "Mendoza",
-   "intervenciones": 415,
-   "palabras": 61115,
-   "sesiones_con_intervencion": 26
+   "intervenciones": 176,
+   "palabras": 95758,
+   "sesiones_con_intervencion": 19
   },
   {
    "id": "sen-580",
    "n": "Bullrich, Patricia",
    "b": "LA LIBERTAD AVANZA",
    "p": "Ciudad Autónoma De Buenos Aires",
-   "intervenciones": 262,
-   "palabras": 60891,
-   "sesiones_con_intervencion": 18
+   "intervenciones": 288,
+   "palabras": 69294,
+   "sesiones_con_intervencion": 20
   },
   {
-   "id": "sen-517",
-   "n": "Di Tullio, Juliana",
+   "id": "sen-468",
+   "n": "Fernández Sagasti, Anabel",
    "b": "JUSTICIALISTA",
-   "p": "Buenos Aires",
-   "intervenciones": 530,
-   "palabras": 53765,
-   "sesiones_con_intervencion": 33
+   "p": "Mendoza",
+   "intervenciones": 453,
+   "palabras": 68872,
+   "sesiones_con_intervencion": 27
   },
   {
-   "id": "sen-552",
-   "n": "Atauche, Ezequiel",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Jujuy",
-   "intervenciones": 333,
-   "palabras": 51823,
-   "sesiones_con_intervencion": 31
-  },
-  {
-   "id": "sen-524",
-   "n": "Vischi, Eduardo Alejandro",
-   "b": "UCR - UNIÓN CÍVICA RADICAL",
-   "p": "Corrientes",
-   "intervenciones": 177,
-   "palabras": 50539,
-   "sesiones_con_intervencion": 34
+   "id": "sen-566",
+   "n": "Salino, Fernando Aldo",
+   "b": "JUSTICIA SOCIAL FEDERAL",
+   "p": "San Luis",
+   "intervenciones": 129,
+   "palabras": 66174,
+   "sesiones_con_intervencion": 32
   },
   {
    "id": "sen-532",
    "n": "Bensusán, Daniel Pablo",
    "b": "JUSTICIALISTA",
    "p": "La Pampa",
-   "intervenciones": 79,
-   "palabras": 49853,
-   "sesiones_con_intervencion": 28
+   "intervenciones": 92,
+   "palabras": 56660,
+   "sesiones_con_intervencion": 30
+  },
+  {
+   "id": "sen-517",
+   "n": "Di Tullio, Juliana",
+   "b": "JUSTICIALISTA",
+   "p": "Buenos Aires",
+   "intervenciones": 560,
+   "palabras": 54624,
+   "sesiones_con_intervencion": 34
+  },
+  {
+   "id": "sen-524",
+   "n": "Vischi, Eduardo Alejandro",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Corrientes",
+   "intervenciones": 185,
+   "palabras": 54483,
+   "sesiones_con_intervencion": 35
+  },
+  {
+   "id": "sen-552",
+   "n": "Atauche, Ezequiel",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Jujuy",
+   "intervenciones": 342,
+   "palabras": 53357,
+   "sesiones_con_intervencion": 32
   },
   {
    "id": "sen-588",
    "n": "Soria, Martin Ignacio",
    "b": "JUSTICIALISTA",
    "p": "Río Negro",
-   "intervenciones": 81,
-   "palabras": 46195,
-   "sesiones_con_intervencion": 16
+   "intervenciones": 91,
+   "palabras": 50939,
+   "sesiones_con_intervencion": 18
   },
   {
    "id": "sen-523",
    "n": "Vigo, Alejandra María",
    "b": "PROVINCIAS UNIDAS",
    "p": "Córdoba",
-   "intervenciones": 99,
-   "palabras": 39331,
-   "sesiones_con_intervencion": 25
+   "intervenciones": 101,
+   "palabras": 39759,
+   "sesiones_con_intervencion": 26
   },
   {
    "id": "sen-554",
@@ -447,99 +459,108 @@
    "n": "Terenzi, Edith Elizabeth",
    "b": "DESPIERTA CHUBUT",
    "p": "Chubut",
-   "intervenciones": 63,
-   "palabras": 34629,
-   "sesiones_con_intervencion": 21
+   "intervenciones": 74,
+   "palabras": 37011,
+   "sesiones_con_intervencion": 23
   },
   {
    "id": "sen-538",
    "n": "Lewandowski, Marcelo Néstor",
    "b": "JUSTICIALISTA",
    "p": "Santa Fe",
-   "intervenciones": 69,
-   "palabras": 32025,
-   "sesiones_con_intervencion": 27
+   "intervenciones": 70,
+   "palabras": 33743,
+   "sesiones_con_intervencion": 28
   },
   {
    "id": "sen-498",
    "n": "Recalde, Mariano",
    "b": "JUSTICIALISTA",
    "p": "Ciudad Autónoma De Buenos Aires",
-   "intervenciones": 71,
-   "palabras": 30370,
-   "sesiones_con_intervencion": 17
+   "intervenciones": 72,
+   "palabras": 31984,
+   "sesiones_con_intervencion": 18
   },
   {
    "id": "sen-398",
    "n": "Corpacci, Lucía Benigna",
    "b": "JUSTICIALISTA",
    "p": "Catamarca",
-   "intervenciones": 49,
-   "palabras": 28296,
-   "sesiones_con_intervencion": 21
-  },
-  {
-   "id": "sen-520",
-   "n": "Fama, Flavio Sergio",
-   "b": "UCR - UNIÓN CÍVICA RADICAL",
-   "p": "Catamarca",
-   "intervenciones": 52,
-   "palabras": 28071,
-   "sesiones_con_intervencion": 25
+   "intervenciones": 50,
+   "palabras": 31082,
+   "sesiones_con_intervencion": 22
   },
   {
    "id": "sen-400",
    "n": "Juez, Luis Alfredo",
    "b": "LA LIBERTAD AVANZA",
    "p": "Córdoba",
-   "intervenciones": 63,
-   "palabras": 27964,
-   "sesiones_con_intervencion": 23
+   "intervenciones": 67,
+   "palabras": 30360,
+   "sesiones_con_intervencion": 24
+  },
+  {
+   "id": "sen-520",
+   "n": "Fama, Flavio Sergio",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Catamarca",
+   "intervenciones": 53,
+   "palabras": 29120,
+   "sesiones_con_intervencion": 26
   },
   {
    "id": "sen-546",
    "n": "Abad, Maximiliano",
    "b": "UCR - UNIÓN CÍVICA RADICAL",
    "p": "Buenos Aires",
-   "intervenciones": 59,
-   "palabras": 27571,
-   "sesiones_con_intervencion": 28
+   "intervenciones": 61,
+   "palabras": 28183,
+   "sesiones_con_intervencion": 29
   },
   {
    "id": "sen-545",
    "n": "De Pedro, Eduardo Enrique",
    "b": "JUSTICIALISTA",
    "p": "Buenos Aires",
-   "intervenciones": 89,
-   "palabras": 24524,
-   "sesiones_con_intervencion": 20
-  },
-  {
-   "id": "sen-551",
-   "n": "Paoltroni, Francisco Manuel",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Formosa",
-   "intervenciones": 124,
-   "palabras": 24065,
-   "sesiones_con_intervencion": 25
+   "intervenciones": 95,
+   "palabras": 27328,
+   "sesiones_con_intervencion": 22
   },
   {
    "id": "sen-366",
    "n": "Kirchner, Alicia Margarita Antonia",
    "b": "JUSTICIALISTA",
    "p": "Santa Cruz",
-   "intervenciones": 47,
-   "palabras": 23885,
-   "sesiones_con_intervencion": 26
+   "intervenciones": 48,
+   "palabras": 24423,
+   "sesiones_con_intervencion": 27
   },
   {
    "id": "sen-541",
    "n": "Avila, Beatriz Luisa",
    "b": "INDEPENDENCIA",
    "p": "Tucumán",
-   "intervenciones": 42,
-   "palabras": 22539,
-   "sesiones_con_intervencion": 23
+   "intervenciones": 46,
+   "palabras": 24131,
+   "sesiones_con_intervencion": 25
+  },
+  {
+   "id": "sen-551",
+   "n": "Paoltroni, Francisco Manuel",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Formosa",
+   "intervenciones": 126,
+   "palabras": 24124,
+   "sesiones_con_intervencion": 26
+  },
+  {
+   "id": "sen-536",
+   "n": "Losada, Carolina",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "Santa Fe",
+   "intervenciones": 126,
+   "palabras": 22846,
+   "sesiones_con_intervencion": 27
   },
   {
    "id": "sen-519",
@@ -551,13 +572,22 @@
    "sesiones_con_intervencion": 24
   },
   {
-   "id": "sen-536",
-   "n": "Losada, Carolina",
-   "b": "UCR - UNIÓN CÍVICA RADICAL",
-   "p": "Santa Fe",
-   "intervenciones": 123,
-   "palabras": 21819,
-   "sesiones_con_intervencion": 26
+   "id": "sen-593",
+   "n": "Royon, Flavia Gabriela",
+   "b": "PRIMERO LOS SALTEÑOS",
+   "p": "Salta",
+   "intervenciones": 35,
+   "palabras": 22076,
+   "sesiones_con_intervencion": 12
+  },
+  {
+   "id": "sen-522",
+   "n": "Alvarez Rivero, Carmen",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Córdoba",
+   "intervenciones": 107,
+   "palabras": 21547,
+   "sesiones_con_intervencion": 32
   },
   {
    "id": "sen-450",
@@ -569,40 +599,58 @@
    "sesiones_con_intervencion": 11
   },
   {
-   "id": "sen-522",
-   "n": "Alvarez Rivero, Carmen",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Córdoba",
-   "intervenciones": 105,
-   "palabras": 20914,
-   "sesiones_con_intervencion": 31
-  },
-  {
-   "id": "sen-593",
-   "n": "Royon, Flavia Gabriela",
-   "b": "PRIMERO LOS SALTEÑOS",
-   "p": "Salta",
-   "intervenciones": 32,
-   "palabras": 20200,
-   "sesiones_con_intervencion": 10
-  },
-  {
    "id": "sen-529",
    "n": "Linares, Carlos Alberto",
    "b": "JUSTICIALISTA",
    "p": "Chubut",
-   "intervenciones": 50,
-   "palabras": 18065,
-   "sesiones_con_intervencion": 25
+   "intervenciones": 54,
+   "palabras": 19666,
+   "sesiones_con_intervencion": 27
+  },
+  {
+   "id": "sen-595",
+   "n": "Coto, Agustín Pedro",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Tierra Del Fuego, Antártida E Islas Del Atlántico Sur",
+   "intervenciones": 69,
+   "palabras": 17588,
+   "sesiones_con_intervencion": 9
+  },
+  {
+   "id": "sen-585",
+   "n": "Márquez, Nadia Judith",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Neuquén",
+   "intervenciones": 40,
+   "palabras": 15953,
+   "sesiones_con_intervencion": 11
+  },
+  {
+   "id": "sen-584",
+   "n": "Bahl, Adán Humberto",
+   "b": "JUSTICIALISTA",
+   "p": "Entre Ríos",
+   "intervenciones": 54,
+   "palabras": 15414,
+   "sesiones_con_intervencion": 13
   },
   {
    "id": "sen-556",
    "n": "Rejal, Jesús Fernando",
    "b": "JUSTICIALISTA",
    "p": "La Rioja",
-   "intervenciones": 36,
-   "palabras": 14523,
-   "sesiones_con_intervencion": 16
+   "intervenciones": 37,
+   "palabras": 15249,
+   "sesiones_con_intervencion": 17
+  },
+  {
+   "id": "sen-560",
+   "n": "Goerling Lara, Enrique Martín",
+   "b": "FRENTE PRO",
+   "p": "Misiones",
+   "intervenciones": 29,
+   "palabras": 14739,
+   "sesiones_con_intervencion": 19
   },
   {
    "id": "sen-564",
@@ -614,76 +662,49 @@
    "sesiones_con_intervencion": 18
   },
   {
-   "id": "sen-584",
-   "n": "Bahl, Adán Humberto",
-   "b": "JUSTICIALISTA",
-   "p": "Entre Ríos",
-   "intervenciones": 39,
-   "palabras": 14395,
-   "sesiones_con_intervencion": 11
-  },
-  {
    "id": "sen-589",
    "n": "Marks, Ana Inés",
    "b": "JUSTICIALISTA",
    "p": "Río Negro",
-   "intervenciones": 13,
-   "palabras": 13146,
-   "sesiones_con_intervencion": 9
-  },
-  {
-   "id": "sen-585",
-   "n": "Márquez, Nadia Judith",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Neuquén",
-   "intervenciones": 34,
-   "palabras": 13009,
+   "intervenciones": 14,
+   "palabras": 14287,
    "sesiones_con_intervencion": 10
-  },
-  {
-   "id": "sen-560",
-   "n": "Goerling Lara, Enrique Martín",
-   "b": "FRENTE PRO",
-   "p": "Misiones",
-   "intervenciones": 24,
-   "palabras": 12337,
-   "sesiones_con_intervencion": 17
   },
   {
    "id": "sen-477",
    "n": "González, María Teresa Margarita",
    "b": "JUSTICIALISTA",
    "p": "Formosa",
-   "intervenciones": 30,
-   "palabras": 11891,
-   "sesiones_con_intervencion": 14
-  },
-  {
-   "id": "sen-595",
-   "n": "Coto, Agustín Pedro",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Tierra Del Fuego, Antártida E Islas Del Atlántico Sur",
-   "intervenciones": 58,
-   "palabras": 11678,
-   "sesiones_con_intervencion": 8
+   "intervenciones": 31,
+   "palabras": 12784,
+   "sesiones_con_intervencion": 15
   },
   {
    "id": "sen-563",
    "n": "Olivera Lucero, Bruno Antonio",
    "b": "LA LIBERTAD AVANZA",
    "p": "San Juan",
-   "intervenciones": 19,
-   "palabras": 11336,
-   "sesiones_con_intervencion": 10
+   "intervenciones": 20,
+   "palabras": 12744,
+   "sesiones_con_intervencion": 11
+  },
+  {
+   "id": "sen-592",
+   "n": "Guzmán Coraita, Gonzalo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Salta",
+   "intervenciones": 29,
+   "palabras": 10343,
+   "sesiones_con_intervencion": 8
   },
   {
    "id": "sen-581",
    "n": "Monteverde, Agustín Aníbal",
    "b": "LA LIBERTAD AVANZA",
    "p": "Ciudad Autónoma De Buenos Aires",
-   "intervenciones": 40,
-   "palabras": 9872,
-   "sesiones_con_intervencion": 10
+   "intervenciones": 42,
+   "palabras": 9916,
+   "sesiones_con_intervencion": 11
   },
   {
    "id": "sen-579",
@@ -695,6 +716,24 @@
    "sesiones_con_intervencion": 10
   },
   {
+   "id": "sen-567",
+   "n": "Carambia, José María",
+   "b": "MOVERE SANTA CRUZ",
+   "p": "Santa Cruz",
+   "intervenciones": 38,
+   "palabras": 8254,
+   "sesiones_con_intervencion": 19
+  },
+  {
+   "id": "sen-582",
+   "n": "Benegas Lynch, Joaquín Alberto",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Entre Ríos",
+   "intervenciones": 31,
+   "palabras": 8199,
+   "sesiones_con_intervencion": 9
+  },
+  {
    "id": "sen-587",
    "n": "Corroza, Julieta",
    "b": "LA NEUQUINIDAD",
@@ -702,24 +741,6 @@
    "intervenciones": 22,
    "palabras": 8190,
    "sesiones_con_intervencion": 9
-  },
-  {
-   "id": "sen-567",
-   "n": "Carambia, José María",
-   "b": "MOVERE SANTA CRUZ",
-   "p": "Santa Cruz",
-   "intervenciones": 33,
-   "palabras": 8178,
-   "sesiones_con_intervencion": 18
-  },
-  {
-   "id": "sen-592",
-   "n": "Guzmán Coraita, Gonzalo",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Salta",
-   "intervenciones": 17,
-   "palabras": 8124,
-   "sesiones_con_intervencion": 7
   },
   {
    "id": "sen-570",
@@ -740,15 +761,6 @@
    "sesiones_con_intervencion": 10
   },
   {
-   "id": "sen-582",
-   "n": "Benegas Lynch, Joaquín Alberto",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Entre Ríos",
-   "intervenciones": 28,
-   "palabras": 7523,
-   "sesiones_con_intervencion": 8
-  },
-  {
    "id": "sen-596",
    "n": "Monte De Oca, María Belén",
    "b": "LA LIBERTAD AVANZA",
@@ -762,18 +774,27 @@
    "n": "Rojas Decut, Sonia Elizabeth",
    "b": "MOVIMIENTO POR MISIONES",
    "p": "Misiones",
-   "intervenciones": 9,
-   "palabras": 6463,
-   "sesiones_con_intervencion": 5
+   "intervenciones": 16,
+   "palabras": 7327,
+   "sesiones_con_intervencion": 7
+  },
+  {
+   "id": "sen-565",
+   "n": "Arrascaeta, Ivanna Marcela",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "San Luis",
+   "intervenciones": 16,
+   "palabras": 6886,
+   "sesiones_con_intervencion": 6
   },
   {
    "id": "sen-534",
    "n": "Juri, Mariana",
    "b": "UCR - UNIÓN CÍVICA RADICAL",
    "p": "Mendoza",
-   "intervenciones": 22,
-   "palabras": 6277,
-   "sesiones_con_intervencion": 12
+   "intervenciones": 24,
+   "palabras": 6449,
+   "sesiones_con_intervencion": 14
   },
   {
    "id": "sen-561",
@@ -785,6 +806,15 @@
    "sesiones_con_intervencion": 5
   },
   {
+   "id": "sen-558",
+   "n": "Arce, Carlos Omar",
+   "b": "MOVIMIENTO POR MISIONES",
+   "p": "Misiones",
+   "intervenciones": 17,
+   "palabras": 5879,
+   "sesiones_con_intervencion": 11
+  },
+  {
    "id": "sen-562",
    "n": "Giménez Navarro, María Celeste",
    "b": "JUSTICIALISTA",
@@ -794,22 +824,22 @@
    "sesiones_con_intervencion": 8
   },
   {
-   "id": "sen-558",
-   "n": "Arce, Carlos Omar",
-   "b": "MOVIMIENTO POR MISIONES",
-   "p": "Misiones",
-   "intervenciones": 13,
-   "palabras": 5635,
-   "sesiones_con_intervencion": 9
+   "id": "sen-591",
+   "n": "Orozco, María Emilia",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Salta",
+   "intervenciones": 15,
+   "palabras": 5326,
+   "sesiones_con_intervencion": 6
   },
   {
    "id": "sen-525",
    "n": "Valenzuela, Mercedes Gabriela",
    "b": "UCR - UNIÓN CÍVICA RADICAL",
    "p": "Corrientes",
-   "intervenciones": 13,
-   "palabras": 4854,
-   "sesiones_con_intervencion": 10
+   "intervenciones": 14,
+   "palabras": 5028,
+   "sesiones_con_intervencion": 11
   },
   {
    "id": "sen-578",
@@ -821,22 +851,31 @@
    "sesiones_con_intervencion": 6
   },
   {
-   "id": "sen-565",
-   "n": "Arrascaeta, Ivanna Marcela",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "San Luis",
-   "intervenciones": 9,
-   "palabras": 4455,
-   "sesiones_con_intervencion": 5
+   "id": "sen-531",
+   "n": "Huala, María Victoria",
+   "b": "FRENTE PRO",
+   "p": "La Pampa",
+   "intervenciones": 27,
+   "palabras": 4394,
+   "sesiones_con_intervencion": 12
+  },
+  {
+   "id": "sen-530",
+   "n": "Kroneberger, Daniel Ricardo",
+   "b": "UCR - UNIÓN CÍVICA RADICAL",
+   "p": "La Pampa",
+   "intervenciones": 22,
+   "palabras": 4250,
+   "sesiones_con_intervencion": 8
   },
   {
    "id": "sen-461",
    "n": "Espínola, Carlos Mauricio",
    "b": "PROVINCIAS UNIDAS",
    "p": "Corrientes",
-   "intervenciones": 45,
-   "palabras": 3973,
-   "sesiones_con_intervencion": 19
+   "intervenciones": 47,
+   "palabras": 4021,
+   "sesiones_con_intervencion": 20
   },
   {
    "id": "sen-553",
@@ -846,33 +885,6 @@
    "intervenciones": 15,
    "palabras": 3939,
    "sesiones_con_intervencion": 9
-  },
-  {
-   "id": "sen-530",
-   "n": "Kroneberger, Daniel Ricardo",
-   "b": "UCR - UNIÓN CÍVICA RADICAL",
-   "p": "La Pampa",
-   "intervenciones": 13,
-   "palabras": 3588,
-   "sesiones_con_intervencion": 7
-  },
-  {
-   "id": "sen-591",
-   "n": "Orozco, María Emilia",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Salta",
-   "intervenciones": 9,
-   "palabras": 3528,
-   "sesiones_con_intervencion": 4
-  },
-  {
-   "id": "sen-531",
-   "n": "Huala, María Victoria",
-   "b": "FRENTE PRO",
-   "p": "La Pampa",
-   "intervenciones": 22,
-   "palabras": 3505,
-   "sesiones_con_intervencion": 11
   },
   {
    "id": "sen-576",
@@ -893,6 +905,15 @@
    "sesiones_con_intervencion": 8
   },
   {
+   "id": "sen-568",
+   "n": "Gadano, Natalia Elena",
+   "b": "MOVERE SANTA CRUZ",
+   "p": "Santa Cruz",
+   "intervenciones": 18,
+   "palabras": 1894,
+   "sesiones_con_intervencion": 10
+  },
+  {
    "id": "sen-586",
    "n": "Cervi, Mario Pablo",
    "b": "LA LIBERTAD AVANZA",
@@ -902,21 +923,21 @@
    "sesiones_con_intervencion": 4
   },
   {
-   "id": "sen-568",
-   "n": "Gadano, Natalia Elena",
-   "b": "MOVERE SANTA CRUZ",
-   "p": "Santa Cruz",
-   "intervenciones": 17,
-   "palabras": 1720,
-   "sesiones_con_intervencion": 9
-  },
-  {
    "id": "sen-573",
    "n": "Galaretto, Eduardo Horacio",
    "b": "UCR - UNIÓN CÍVICA RADICAL",
    "p": "Santa Fe",
    "intervenciones": 7,
    "palabras": 1483,
+   "sesiones_con_intervencion": 3
+  },
+  {
+   "id": "sen-590",
+   "n": "Fullone, Enzo Paolo",
+   "b": "LA LIBERTAD AVANZA",
+   "p": "Río Negro",
+   "intervenciones": 3,
+   "palabras": 1435,
    "sesiones_con_intervencion": 3
   },
   {
@@ -938,22 +959,13 @@
    "sesiones_con_intervencion": 2
   },
   {
-   "id": "sen-590",
-   "n": "Fullone, Enzo Paolo",
-   "b": "LA LIBERTAD AVANZA",
-   "p": "Río Negro",
-   "intervenciones": 2,
-   "palabras": 725,
-   "sesiones_con_intervencion": 2
-  },
-  {
    "id": "sen-583",
    "n": "Almeida, Romina María",
    "b": "LA LIBERTAD AVANZA",
    "p": "Entre Ríos",
-   "intervenciones": 2,
-   "palabras": 324,
-   "sesiones_con_intervencion": 2
+   "intervenciones": 4,
+   "palabras": 450,
+   "sesiones_con_intervencion": 3
   },
   {
    "id": "sen-574",
