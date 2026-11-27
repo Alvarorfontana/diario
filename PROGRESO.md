@@ -268,3 +268,5 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Se publicó "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría" (internacional, firma Mesa Internacional, ~1.050 palabras).
 - Gráfico propio de intención de voto: `public/images/espana-29n-intencion-voto.svg` (fuente Polling Forecast).
 - Foto de archivo (marcha por la vivienda en Cibeles) porque la imagen del debate no tenía origen verificable. Pendiente: reemplazar por foto oficial del debate si Álvaro la pasa.
+- Foto de la nota reemplazada por la del cara a cara (AFP / Óscar del Pozo), pasada por Álvaro.
+- Especial "España decide" en /espana-2026/ (componente EleccionesEspana.astro), con paleta del diario sin azul, Newsreader/Inter, datos verificados (INE, Polling Forecast, BOE) y Frente Amplio en lugar de Sumar. Pendiente: sumarlo al menú si Álvaro lo pide.

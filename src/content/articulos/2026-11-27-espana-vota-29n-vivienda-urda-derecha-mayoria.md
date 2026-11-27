@@ -5,8 +5,8 @@ description: "Sánchez adelantó las elecciones sobre la ola de reclamos por la 
 section: internacional
 author: Mesa Internacional
 pubDate: 2026-11-27T14:30:00-03:00
-heroImage: "/uploads/1791311285217-2026-10-03t143a093a51z-92161824.jpg"
-imageCaption: "Manifestación por el acceso a la vivienda frente al Palacio de Cibeles, en Madrid, en octubre de 2026. El cartel dice «Alojar sin alejar». Foto: archivo Diario Federal."
+heroImage: "/uploads/2026-11-19-debate-sanchez-feijoo-academia.jpg"
+imageCaption: "Pedro Sánchez y Alberto Núñez Feijóo se saludan antes del debate electoral celebrado en la Academia de la Televisión, en Tres Cantos, Madrid. Foto: AFP / Óscar del Pozo."
 tags: ["España", "Elecciones en España", "Pedro Sánchez", "Alberto Núñez Feijóo", "Vox", "Vivienda"]
 puntosClave:
   - "Sánchez adelantó las elecciones al 29 de noviembre tras perder en el Congreso sus decretos de vivienda."
@@ -73,3 +73,5 @@ Ese promedio se publicó durante la veda: en España no pueden difundirse encues
 Los colegios abren el domingo a las 9 y cierran a las 20, hora peninsular (16 en la Argentina), cuando el Ministerio del Interior empezará a publicar el escrutinio provisional. Si se confirma la ventaja de la derecha, la discusión pasará a la investidura y al precio que Vox ponga a su apoyo. El adelanto que nació de la vivienda se define, al final, en una campaña que Urda cambió.
 
 Para seguir el vínculo entre Vox y la derecha argentina en esta campaña, ver [por qué Abascal evitó recibir a Milei en Madrid](/articulo/abascal-evita-recibir-a-milei-madrid-campana-29n).
+
+Todos los datos de la elección, en el especial [España decide](/espana-2026/).

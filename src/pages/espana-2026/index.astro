@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EleccionesEspana from "../../components/EleccionesEspana.astro";
+import { SITE_TITLE } from "../../consts";
+---
+
+<BaseLayout
+  title={`España decide 2026 | ${SITE_TITLE}`}
+  description="Especial elecciones generales de España del 29 de noviembre de 2026: partidos, encuestas, alianzas, Cataluña, País Vasco y resultados."
+>
+  <EleccionesEspana />
+</BaseLayout>

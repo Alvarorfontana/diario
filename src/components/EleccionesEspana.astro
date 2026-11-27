@@ -1,0 +1,535 @@
+---
+// Especial "España decide" · Elecciones generales del 29 de noviembre de 2026
+// Datos verificados el 27/11/2026: INE (electores), Polling Forecast (encuestas), resultados de 2023 (partidos territoriales).
+const polls = [
+  { name: "Partido Popular", short: "PP", value: 30.9, seats: 131 },
+  { name: "Partido Socialista", short: "PSOE", value: 28.9, seats: 119 },
+  { name: "Vox", short: "VOX", value: 18.1, seats: 63 },
+  { name: "Frente Amplio (Sumar)", short: "FA", value: 6.3, seats: 8 },
+];
+
+const regionalParties = [
+  { name: "Esquerra Republicana", short: "ERC", region: "Cataluña", seats: 7 },
+  { name: "Junts per Catalunya", short: "Junts", region: "Cataluña", seats: 7 },
+  { name: "EH Bildu", short: "EH Bildu", region: "País Vasco y Navarra", seats: 6 },
+  { name: "Partido Nacionalista Vasco", short: "PNV", region: "País Vasco", seats: 5 },
+  { name: "Bloque Nacionalista Galego", short: "BNG", region: "Galicia", seats: 1 },
+  { name: "Coalición Canaria", short: "CC", region: "Canarias", seats: 1 },
+  { name: "Unión del Pueblo Navarro", short: "UPN", region: "Navarra", seats: 1 },
+];
+
+const totalRegional = regionalParties.reduce((sum, p) => sum + p.seats, 0);
+
+const territories = [
+  {
+    name: "Cataluña",
+    seats: 48,
+    provinces: "Barcelona, Girona, Lleida y Tarragona",
+    parties: "PSC, ERC, Junts, Comuns-Front Ampli, PP, Vox y Podemos, entre otras candidaturas.",
+  },
+  {
+    name: "País Vasco",
+    seats: 18,
+    provinces: "Álava, Bizkaia y Gipuzkoa",
+    parties: "PNV, EH Bildu, PSE-EE, PP, Vox y otras candidaturas.",
+  },
+];
+
+const RESULTADOS_OFICIALES = "https://29neleccionesgenerales.es";
+const fmt = (n: number) => n.toFixed(1).replace(".", ",");
+---
+
+<main class="df-espana">
+  <header class="hero">
+    <div class="kicker">Diario Federal · Internacional</div>
+    <div class="hero-label">Especial electoral</div>
+    <h1>España decide</h1>
+    <p class="subtitle">Elecciones generales · 29 de noviembre de 2026</p>
+    <p class="intro bajada">
+      Una guía para entender la elección española: partidos, candidatos,
+      encuestas, alianzas parlamentarias y el peso político de Cataluña
+      y el País Vasco. Seguimiento de la jornada y resultados.
+    </p>
+
+    <div class="hero-numbers">
+      <div><strong>350</strong><span>Diputados</span></div>
+      <div><strong>176</strong><span>Mayoría absoluta</span></div>
+      <div><strong>38,7 M</strong><span>Electores habilitados</span></div>
+    </div>
+  </header>
+
+  <nav class="nav-special">
+    <a href="#que-se-vota">La elección</a>
+    <a href="#partidos">Partidos</a>
+    <a href="#encuestas">Encuestas</a>
+    <a href="#mayorias">Mayorías</a>
+    <a href="#colau">Ada Colau</a>
+    <a href="#territorios">Territorios</a>
+    <a href="#resultados">Resultados</a>
+  </nav>
+
+  <section id="que-se-vota" class="section">
+    <div class="kicker">01 · El sistema electoral</div>
+    <h2>¿Qué se vota en España?</h2>
+    <p>
+      El domingo 29 de noviembre se elige la composición de las Cortes
+      Generales: el Congreso de los Diputados y el Senado. El Congreso
+      tiene 350 bancas y es la cámara que decide la investidura del
+      presidente del Gobierno. Sánchez convocó las elecciones el 5 de
+      octubre, después de que el Congreso rechazara sus decretos de vivienda.
+    </p>
+
+    <div class="facts">
+      <article><strong>350</strong><span>Diputados del Congreso</span></article>
+      <article><strong>176</strong><span>Votos para mayoría absoluta</span></article>
+      <article><strong>52</strong><span>Circunscripciones electorales</span></article>
+      <article><strong>38.728.356</strong><span>Electores habilitados</span></article>
+    </div>
+
+    <h3>Cómo funciona el sistema</h3>
+    <p>
+      La elección del Congreso se hace por representación proporcional
+      en circunscripciones provinciales. Cada una de las 50 provincias
+      es una circunscripción, además de Ceuta y Melilla. La cantidad de
+      diputados de cada territorio depende de su población.
+    </p>
+    <p>
+      El Senado tiene otro sistema. Los ciudadanos eligen directamente
+      a 209 senadores en sus circunscripciones, y los parlamentos
+      autonómicos designan al resto.
+    </p>
+    <p>
+      De los 38.728.356 electores, 35.958.711 viven en España y 2.769.645
+      en el exterior. Los residentes en el extranjero pueden votar sin
+      solicitud previa.
+    </p>
+
+    <p class="source">
+      Fuentes:
+      <a href="https://www.lamoncloa.gob.es/serviciosdeprensa/notasprensa/interior/paginas/guia-dudas-elecciones-generales-29n.aspx" target="_blank" rel="noopener">Ministerio del Interior · guía del 29N</a> ·
+      <a href="https://www.ine.es/dyngs/Prensa/es/EG2026.htm" target="_blank" rel="noopener">Instituto Nacional de Estadística · censo electoral</a>.
+    </p>
+  </section>
+
+  <section id="partidos" class="section">
+    <div class="kicker">02 · Los protagonistas</div>
+    <h2>Partidos y candidatos</h2>
+    <p>
+      El Boletín Oficial del Estado publicó 534 listas al Congreso y 361
+      al Senado. No todas las fuerzas se presentan en todas las provincias.
+    </p>
+
+    <div class="party-grid">
+      <article class="party">
+        <span class="party-tag">Centroizquierda</span>
+        <h3>PSOE</h3>
+        <p>Pedro Sánchez</p>
+        <small>Partido Socialista Obrero Español</small>
+      </article>
+
+      <article class="party">
+        <span class="party-tag">Centroderecha</span>
+        <h3>Partido Popular</h3>
+        <p>Alberto Núñez Feijóo</p>
+        <small>Principal fuerza de la oposición</small>
+      </article>
+
+      <article class="party">
+        <span class="party-tag">Derecha radical</span>
+        <h3>Vox</h3>
+        <p>Santiago Abascal</p>
+        <small>Fuerza decisiva para una posible mayoría conservadora</small>
+      </article>
+
+      <article class="party">
+        <span class="party-tag">Izquierda</span>
+        <h3>Frente Amplio</h3>
+        <p>Ada Colau</p>
+        <small>Coalición de Sumar, IU, Comuns y Más Madrid. En Cataluña se presenta como Comuns-Front Ampli</small>
+      </article>
+
+      <article class="party">
+        <span class="party-tag">Izquierda</span>
+        <h3>Podemos</h3>
+        <p>Irene Montero</p>
+        <small>Va por separado en la mayoría de las provincias; en Canarias y la Comunidad Valenciana, junto al Frente Amplio</small>
+      </article>
+    </div>
+
+    <h3>Las principales fuerzas territoriales</h3>
+    <div class="regional-pills">
+      <span>ERC</span><span>Junts</span><span>PNV</span>
+      <span>EH Bildu</span><span>BNG</span>
+      <span>Coalición Canaria</span><span>UPN</span>
+    </div>
+
+    <p class="source">
+      Fuentes:
+      <a href="https://www.articulo14.es/politica/que-partidos-se-presentan-a-las-elecciones-del-29-n-candidaturas-y-coaliciones-20261108.html" target="_blank" rel="noopener">Artículo14 · candidaturas del 29N</a> ·
+      <a href="https://www.juntaelectoralcentral.es/" target="_blank" rel="noopener">Junta Electoral Central</a>.
+    </p>
+  </section>
+
+  <section id="encuestas" class="section">
+    <div class="kicker">03 · Intención de voto</div>
+    <h2>Qué dicen las encuestas</h2>
+    <p>
+      El promedio final de Polling Forecast, con datos al 27 de noviembre,
+      ubica al PP primero, dos puntos por encima del PSOE. Vox ronda el 18%.
+    </p>
+
+    <div class="poll-chart">
+      {polls.map((poll) => (
+        <div class="poll-item">
+          <div class="poll-heading">
+            <strong>{poll.name}</strong>
+            <strong>{fmt(poll.value)}% · {poll.seats} escaños</strong>
+          </div>
+          <div class="poll-track">
+            <div class={`poll-bar poll-${poll.short.toLowerCase()}`} style={`width:${(poll.value / 35) * 100}%`}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="poll-warning">
+      <strong>Importante: veda electoral</strong>
+      <p>
+        En España no pueden difundirse encuestas entre el 24 y el 28 de
+        noviembre. Este promedio se publicó durante la veda y se difunde
+        desde fuera del país. No son resultados ni datos oficiales.
+      </p>
+    </div>
+
+    <p>
+      El mismo modelo proyecta 131 diputados para el PP, 119 para el PSOE
+      y 63 para Vox. PP y Vox sumarían 194 bancas, por encima de las 176
+      de la mayoría absoluta, en el 96% de sus simulaciones. Es una
+      estimación estadística, no un reparto definitivo.
+    </p>
+
+    <p class="source">
+      Fuente:
+      <a href="https://www.pollingforecast.com/es/news/869/pronostico-final-pp-y-vox-suman-194-escanos-y-el-pp-no-puede-gobernar?lang=es" target="_blank" rel="noopener">Polling Forecast · pronóstico final del 27 de noviembre</a>.
+      Las barras están escaladas sobre un máximo de 35%.
+    </p>
+  </section>
+
+  <section id="mayorias" class="section">
+    <div class="kicker">04 · La gobernabilidad</div>
+    <h2>La aritmética de las alianzas</h2>
+    <p>
+      La elección no termina con el partido más votado. El Congreso debe
+      investir al presidente del Gobierno. En la primera votación se
+      necesitan 176 votos. En la segunda alcanza con más votos a favor
+      que en contra.
+    </p>
+
+    <div class="majority">
+      <div class="majority-number">176</div>
+      <div>
+        <strong>La cifra clave</strong>
+        <p>Diputados necesarios para la mayoría absoluta.</p>
+      </div>
+    </div>
+
+    <h3>La representación territorial como factor de negociación</h3>
+    <p>
+      Los partidos regionales pueden resultar decisivos cuando los grandes
+      bloques no alcanzan solos la mayoría. No votan en bloque: cada
+      fuerza tiene sus propias prioridades y demandas.
+    </p>
+
+    <div class="regional-table">
+      {regionalParties.map((party) => (
+        <div class="regional-row">
+          <strong>{party.short}</strong>
+          <span>{party.region}</span>
+          <b>{party.seats}</b>
+        </div>
+      ))}
+      <div class="regional-row regional-total">
+        <strong>Total</strong>
+        <span>Siete fuerzas territoriales</span>
+        <b>{totalRegional}</b>
+      </div>
+    </div>
+
+    <p class="note">
+      Referencia histórica: escaños obtenidos por estas siete fuerzas en
+      las elecciones generales del 23 de julio de 2023. La suma de
+      {totalRegional} no es un pronóstico para 2026 ni un bloque político
+      común. El resultado del 29N actualizará esta tabla.
+    </p>
+  </section>
+
+  <section id="colau" class="feature">
+    <div class="kicker">05 · El papel de Ada Colau</div>
+    <h2>Ada Colau y la disputa por el espacio progresista</h2>
+    <p>
+      La exalcaldesa de Barcelona es la candidata del Frente Amplio a la
+      presidencia del Gobierno y encabeza la lista por Barcelona, donde la
+      coalición se presenta como Comuns-Front Ampli. Su llegada es uno de
+      los movimientos más visibles en la reorganización de la izquierda.
+    </p>
+    <p>
+      Colau viene de los movimientos por el derecho a la vivienda: fue
+      portavoz de la Plataforma de Afectados por la Hipoteca (PAH). En la
+      campaña puso en primer plano los alquileres, la vivienda pública y
+      los impuestos a los grandes propietarios.
+    </p>
+    <p>
+      Su peso se medirá por los escaños del Frente Amplio y por su
+      capacidad de influir en una eventual negociación de investidura.
+      No reúne a toda la izquierda: Podemos compite por separado en la
+      mayoría de las provincias.
+    </p>
+    <p class="source">
+      Fuente:
+      <a href="https://www.articulo14.es/politica/quien-encabeza-frente-amplio-en-el-29n-trayectoria-politica-y-personal-de-ada-colau-20261105.html" target="_blank" rel="noopener">Artículo14 · trayectoria de Ada Colau</a>.
+    </p>
+  </section>
+
+  <section id="territorios" class="section">
+    <div class="kicker">06 · El mapa territorial</div>
+    <h2>Cataluña y País Vasco: dos escenarios decisivos</h2>
+    <p>
+      La distribución territorial del voto es central para entender la
+      elección. Cataluña y el País Vasco tienen fuerzas propias que pueden
+      inclinar la formación de mayorías en el Congreso.
+    </p>
+
+    <div class="territory-grid">
+      {territories.map((territory) => (
+        <article class="territory-card">
+          <div class="territory-top">
+            <h3>{territory.name}</h3>
+            <strong>{territory.seats}</strong>
+          </div>
+          <p class="territory-subtitle">Diputados en juego</p>
+          <p><b>Provincias:</b> {territory.provinces}</p>
+          <p><b>Fuerzas políticas:</b> {territory.parties}</p>
+          <a href={RESULTADOS_OFICIALES} target="_blank" rel="noopener">
+            Consultar resultados oficiales →
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <h3>Qué mirar en Cataluña</h3>
+    <ul>
+      <li>La competencia entre PSC, ERC y Junts.</li>
+      <li>El resultado de Comuns-Front Ampli con Ada Colau.</li>
+      <li>La evolución del voto del PP y Vox.</li>
+      <li>El reparto de escaños entre Barcelona, Girona, Lleida y Tarragona.</li>
+      <li>La capacidad de las fuerzas catalanas para influir en la investidura.</li>
+    </ul>
+
+    <h3>Qué mirar en el País Vasco</h3>
+    <ul>
+      <li>La disputa entre PNV y EH Bildu.</li>
+      <li>El comportamiento electoral del PSE-EE.</li>
+      <li>La representación de Álava, Bizkaia y Gipuzkoa.</li>
+      <li>La capacidad de negociación de las fuerzas vascas en el Congreso.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="kicker">07 · Claves de la campaña</div>
+    <h2>Los temas que atraviesan la elección</h2>
+
+    <div class="topic-grid">
+      <article>
+        <h3>Vivienda</h3>
+        <p>Alquileres, acceso a la propiedad, construcción y vivienda pública.</p>
+      </article>
+      <article>
+        <h3>Economía</h3>
+        <p>Empleo, salarios, inflación, impuestos y poder adquisitivo.</p>
+      </article>
+      <article>
+        <h3>Inmigración</h3>
+        <p>Fronteras, integración, relación con Marruecos y política europea.</p>
+      </article>
+      <article>
+        <h3>Defensa y OTAN</h3>
+        <p>Gasto militar, relación con Estados Unidos y compromisos europeos.</p>
+      </article>
+      <article>
+        <h3>Servicios públicos</h3>
+        <p>Sanidad, educación, transporte e infraestructura, tras el choque de trenes de Urda.</p>
+      </article>
+      <article>
+        <h3>Organización territorial</h3>
+        <p>Autonomías, independentismo y negociación entre fuerzas regionales.</p>
+      </article>
+    </div>
+
+    <p class="source">
+      Para el contexto completo de la campaña, leé
+      <a href="/articulo/2026-11-27-espana-vota-29n-vivienda-urda-derecha-mayoria">España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría</a>.
+    </p>
+  </section>
+
+  <section id="resultados" class="live">
+    <div class="live-kicker">Domingo 29 de noviembre · Seguimiento electoral</div>
+    <h2>España vota: resultados en directo</h2>
+    <p>
+      Los colegios abren a las 9 y cierran a las 20, hora peninsular
+      (de 5 a 16 en la Argentina). Desde el cierre, el Ministerio del
+      Interior publica el escrutinio provisional de los 350 escaños.
+    </p>
+
+    <div class="live-main">
+      <a href={RESULTADOS_OFICIALES} target="_blank" rel="noopener">
+        <span>Seguimiento oficial</span>
+        Web oficial del Ministerio del Interior →
+      </a>
+    </div>
+
+    <div class="live-secondary">
+      <a href="https://www.ine.es/dyngs/Prensa/es/EG2026.htm" target="_blank" rel="noopener">
+        Datos del censo · INE
+      </a>
+      <a href="https://www.boe.es/" target="_blank" rel="noopener">
+        Publicaciones oficiales · BOE
+      </a>
+    </div>
+
+    <div class="live-checklist">
+      <h3>Qué vamos a seguir en la jornada</h3>
+      <div><span>01</span> Constitución de las mesas electorales.</div>
+      <div><span>02</span> Primer avance de participación.</div>
+      <div><span>03</span> Segundo avance de participación.</div>
+      <div><span>04</span> Cierre de los colegios y comienzo del escrutinio.</div>
+      <div><span>05</span> Reparto de los 350 diputados.</div>
+      <div><span>06</span> Resultados de Cataluña y País Vasco.</div>
+      <div><span>07</span> Posibles mayorías parlamentarias.</div>
+    </div>
+
+    <p class="note">
+      Horarios de referencia de España peninsular. En Canarias, una hora menos.
+    </p>
+  </section>
+
+  <footer class="special-footer">
+    <strong>Diario Federal</strong>
+    <span>Especial Internacional · Elecciones generales de España 2026</span>
+    <span>Información, contexto y seguimiento parlamentario.</span>
+  </footer>
+</main>
+
+<style>
+/* Paleta del diario (sin azul): tinta, grises y rojo de marca. Letras: Newsreader para leer, Inter para rótulos. */
+.df-espana {
+  --acento: var(--color-brand, #d0021b);
+  --acento-dark: var(--color-brand-dark, #a30015);
+  --pale: #f5f5f4;
+  --ink: var(--color-ink, #121212);
+  --muted: #6b6b6b;
+  --line: #e5e5e5;
+  max-width: 1120px;
+  margin: 0 auto;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  line-height: 1.65;
+}
+.df-espana * { box-sizing: border-box; }
+.df-espana h1, .df-espana h2, .df-espana h3 { font-family: var(--font-serif); font-weight: 700; line-height: 1.2; }
+.df-espana h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 8px 0 18px; letter-spacing: -.02em; }
+.df-espana h3 { font-size: 1.2rem; margin: 26px 0 10px; }
+.df-espana p { margin: 0 0 16px; }
+.df-espana a { color: #0284c7; font-weight: 600; }
+.df-espana a:hover { text-decoration: underline; }
+.kicker, .hero-label, .party-tag, .live-kicker, .nav-special a, .facts span, .hero-numbers span,
+.regional-pills span, .poll-heading, .regional-row, .source, .note, .special-footer, .territory-subtitle,
+.live-checklist span, .live-main a span, .live-secondary a, .poll-warning strong {
+  font-family: var(--font-sans);
+}
+.kicker { color: var(--acento); font-size: .74rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+.hero { padding: clamp(28px, 6vw, 68px); background: var(--pale); border-bottom: 5px solid var(--acento); }
+.hero-label { color: var(--acento); font-size: .8rem; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; margin-top: 32px; }
+.hero h1 { font-size: clamp(3rem, 8vw, 5.8rem); letter-spacing: -.04em; margin: 8px 0; }
+.subtitle { font-size: 1.25rem; font-weight: 700; }
+.intro { max-width: 760px; font-size: 1.08rem; color: var(--muted); }
+.hero-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 30px; }
+.hero-numbers div { background: white; padding: 18px; border: 1px solid var(--line); }
+.hero-numbers strong, .facts strong, .majority-number, .territory-top strong { font-family: var(--font-sans); }
+.hero-numbers strong { display: block; font-size: 2rem; color: var(--ink); }
+.hero-numbers span { color: var(--muted); }
+.nav-special { display: flex; flex-wrap: wrap; gap: 12px 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.df-espana .nav-special a { font-size: .92rem; text-decoration: none; color: var(--ink); }
+.df-espana .nav-special a:hover { color: var(--acento); }
+.section { padding: 42px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 26px 0; }
+.facts article { padding: 18px; border: 1px solid var(--line); background: #fff; }
+.facts strong { display: block; font-size: 1.7rem; color: var(--ink); }
+.facts span { color: var(--muted); font-size: .9rem; }
+.party-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 24px 0; }
+.party { border: 1px solid var(--line); border-top: 4px solid var(--ink); padding: 20px; }
+.party h3 { margin: 12px 0 8px; }
+.party p { font-weight: 700; margin-bottom: 5px; }
+.party small { color: var(--muted); }
+.party-tag { font-size: .72rem; color: var(--acento); font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.regional-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.regional-pills span { padding: 7px 12px; background: var(--pale); color: var(--ink); font-weight: 700; font-size: .9rem; }
+.poll-chart { max-width: 760px; margin: 28px 0; }
+.poll-item { margin-bottom: 20px; }
+.poll-heading { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; font-size: .95rem; }
+.poll-track { height: 14px; background: #ececec; }
+.poll-bar { height: 100%; background: var(--ink); }
+.poll-pp { background: #1f2937; }
+.poll-psoe { background: var(--acento); }
+.poll-vox { background: #4d7c0f; }
+.poll-fa { background: #7e3a80; }
+.poll-warning { padding: 18px 20px; background: var(--pale); border-left: 4px solid var(--acento); margin: 24px 0; }
+.poll-warning p { margin: 6px 0 0; }
+.majority { display: flex; align-items: center; gap: 22px; background: var(--pale); padding: 24px; margin: 24px 0; }
+.majority-number { font-size: 3.4rem; font-weight: 800; color: var(--acento); }
+.majority p { margin: 5px 0 0; }
+.regional-table { max-width: 760px; }
+.regional-row { display: grid; grid-template-columns: 1fr 1.5fr 42px; gap: 12px; padding: 12px 8px; border-bottom: 1px solid var(--line); }
+.regional-row b { text-align: right; }
+.regional-total { border-top: 2px solid var(--ink); font-weight: 700; }
+.note, .source { color: var(--muted); font-size: .88rem; margin-top: 18px; }
+.feature { padding: clamp(25px, 5vw, 48px); margin: 38px 0; background: var(--pale); border-left: 5px solid var(--acento); scroll-margin-top: 80px; }
+.territory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin: 24px 0; }
+.territory-card { padding: 24px; border: 1px solid var(--line); }
+.territory-top { display: flex; justify-content: space-between; align-items: center; }
+.territory-top h3 { margin: 0; }
+.territory-top strong { font-size: 2.8rem; color: var(--acento); }
+.territory-subtitle { color: var(--muted); font-size: .9rem; }
+.topic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.topic-grid article { border: 1px solid var(--line); padding: 18px; }
+.topic-grid h3 { margin: 0 0 8px; }
+.topic-grid p { margin: 0; color: var(--muted); font-size: .93rem; }
+.live { padding: clamp(25px, 5vw, 48px); margin: 40px 0; color: white; background: #1c1c1c; scroll-margin-top: 80px; }
+.live h2 { font-size: clamp(2rem, 5vw, 3rem); }
+.live-kicker { font-size: .75rem; letter-spacing: .12em; font-weight: 800; text-transform: uppercase; color: #d4d4d4; margin-bottom: 14px; }
+.live-main { margin: 26px 0 18px; }
+.df-espana .live-main a { display: block; padding: 22px; color: var(--ink); background: white; text-decoration: none; font-size: 1.3rem; }
+.live-main a span { display: block; font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acento); margin-bottom: 8px; }
+.live-secondary { display: flex; flex-wrap: wrap; gap: 12px; }
+.df-espana .live-secondary a { color: white; border: 1px solid #737373; padding: 12px 15px; font-size: .9rem; }
+.live-checklist { margin-top: 30px; padding: 22px; background: rgba(255,255,255,.07); }
+.live-checklist h3 { margin: 0 0 15px; }
+.live-checklist div { padding: 9px 0; border-bottom: 1px solid #404040; }
+.live-checklist span { display: inline-block; width: 34px; color: #f87171; font-weight: 800; }
+.live .note { color: #d4d4d4; }
+.special-footer { padding: 24px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; color: var(--muted); font-size: .85rem; }
+.special-footer strong { color: var(--ink); letter-spacing: .08em; text-transform: uppercase; }
+
+@media (max-width: 700px) {
+  .facts { grid-template-columns: repeat(2, 1fr); }
+  .party-grid, .topic-grid { grid-template-columns: repeat(2, 1fr); }
+  .territory-grid { grid-template-columns: 1fr; }
+  .nav-special { gap: 10px 15px; }
+  .poll-heading { flex-direction: column; gap: 2px; }
+}
+@media (max-width: 440px) {
+  .hero-numbers { grid-template-columns: 1fr; }
+  .party-grid, .topic-grid { grid-template-columns: 1fr; }
+  .facts { grid-template-columns: repeat(2, 1fr); }
+  .regional-row { grid-template-columns: .8fr 1.3fr 28px; font-size: .88rem; }
+}
+</style>
