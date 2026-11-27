@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-27",
   "dateLabel": "27/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-27-b8b7de5c06d3.mp3",
-  "video": "/boletines/boletin-principal-2026-11-27-b8b7de5c06d3.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-27-b8b7de5c06d3.png",
+  "archivo": "/boletines/boletin-principal-2026-11-27-095759a460c9.mp3",
+  "video": "/boletines/boletin-principal-2026-11-27-095759a460c9.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-27-095759a460c9.png",
   "duracion": 95,
   "voz": "es-AR-TomasNeural",
-  "hash": "b8b7de5c06d3",
+  "hash": "095759a460c9",
   "items": [
     {
       "slug": "2026-11-27-espana-vota-29n-vivienda-urda-derecha-mayoria",
       "title": "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría",
       "section": "internacional",
       "url": "/articulo/2026-11-27-espana-vota-29n-vivienda-urda-derecha-mayoria/"
+    },
+    {
+      "slug": "sergio-massa-llego-a-cordoba-y-debate-ia-en-la-famaf",
+      "title": "Sergio Massa llegó a Córdoba y debate IA en la FAMAF",
+      "section": "argentina",
+      "url": "/articulo/sergio-massa-llego-a-cordoba-y-debate-ia-en-la-famaf/"
     },
     {
       "slug": "2026-11-26-oro-banco-central-londres-auditoria-agn",
@@ -38,12 +44,6 @@
       "title": "La plata de los jubilados, en la mira por operaciones con bonos",
       "section": "economia",
       "url": "/articulo/2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar/"
-    },
-    {
-      "slug": "el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en",
-      "title": "El Congreso presenta miles de proyectos, sanciona pocas leyes y deja el poder en manos de los bloques chicos",
-      "section": "argentina",
-      "url": "/articulo/el-congreso-presenta-miles-de-proyectos-sanciona-pocas-leyes-y-deja-el-poder-en/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
