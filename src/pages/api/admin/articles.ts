@@ -82,6 +82,8 @@ export const GET = async ({ request, locals }: any) => {
 					date: fechaISO(data.pubDate),
 					breaking: data.ultimoMomento === true,
 					tapa: data.tapa === true,
+					enVivo: data.enVivo === true,
+					fotosRotativas: Array.isArray(data.fotosRotativas) ? data.fotosRotativas : [],
 					draft: data.draft === true,
 					image_url: typeof data.heroImage === 'string' ? data.heroImage : '',
 					imageCaption: data.imageCaption ?? '',
@@ -119,6 +121,13 @@ export const POST = async ({ request, locals }: any) => {
 		if (data.imageCaption) fm.imageCaption = data.imageCaption;
 		if (data.breaking) fm.ultimoMomento = true;
 		if (data.tapa) fm.tapa = true;
+		if (data.enVivo) fm.enVivo = true;
+		// Fotos que rotan en la tapa: hasta 6, solo rutas del sitio o enlaces https
+		const rotativas = (Array.isArray(data.fotosRotativas) ? data.fotosRotativas : [])
+			.map((f: any) => ({ src: String(f?.src ?? '').trim(), epigrafe: String(f?.epigrafe ?? '').trim().slice(0, 300) }))
+			.filter((f: any) => /^(\/|https?:\/\/)/.test(f.src))
+			.slice(0, 6);
+		if (rotativas.length) fm.fotosRotativas = rotativas;
 		fm.draft = data.draft === true;
 		// Si se edita una nota ya existente y publicada, queda la hora de la actualización (como NYT o Washington Post).
 		if (sha && !fm.draft) fm.updatedDate = new Date().toISOString();

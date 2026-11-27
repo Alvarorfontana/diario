@@ -58,6 +58,9 @@ export function slugify(texto: string): string {
 
 export const GA_ID = '';
 
+// Número de registro en la Dirección Nacional del Derecho de Autor (DNDA). Si queda vacío, no se muestra.
+export const REGISTRO_DNDA = '';
+
 export const FOTOS_COLUMNISTAS: Record<string, string> = {
 	'Carlos Mendes': '/columnistas/carlos-mendes.jpg',
 };

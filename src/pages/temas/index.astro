@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE, slugify } from '../../consts';
+import { getArticulos } from '../../lib/articles';
+
+// Índice de temas: todas las etiquetas de las notas, en orden alfabético, con cuántas notas tiene cada una.
+const articulos = await getArticulos();
+const conteo = new Map<string, { nombre: string; n: number }>();
+for (const a of articulos) {
+	for (const t of a.tags ?? []) {
+		const nombre = String(t).trim();
+		const id = slugify(nombre);
+		if (!id) continue;
+		const actual = conteo.get(id);
+		if (actual) actual.n++;
+		else conteo.set(id, { nombre, n: 1 });
+	}
+}
+const temas = [...conteo.entries()]
+	.map(([id, v]) => ({ id, ...v }))
+	.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'));
+const grupos = new Map<string, typeof temas>();
+for (const t of temas) {
+	const letra = t.nombre.normalize('NFD').replace(/[̀-ͯ]/g, '').charAt(0).toUpperCase();
+	const clave = /[A-Z]/.test(letra) ? letra : '#';
+	if (!grupos.has(clave)) grupos.set(clave, []);
+	grupos.get(clave)!.push(t);
+}
+---
+
+<BaseLayout title={`Índice de temas | ${SITE_TITLE}`} description="Todos los temas que cubre Diario Federal, de la A a la Z.">
+	<h1 class="titulo-seccion text-3xl sm:text-4xl">Índice de temas</h1>
+	<p class="mt-3 text-sm text-neutral-500">{temas.length} temas, de la A a la Z.</p>
+	<div class="mt-6 space-y-6">
+		{[...grupos.entries()].map(([letra, lista]) => (
+			<section>
+				<h2 class="border-b border-[#e6e6e2] pb-1 font-sans text-sm font-extrabold tracking-[0.1em] text-brand">{letra}</h2>
+				<ul class="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+					{lista.map((t) => (
+						<li><a href={`/tag/${t.id}/`} class="text-neutral-700 hover:text-brand">{t.nombre} <span class="text-neutral-400">({t.n})</span></a></li>
+					))}
+				</ul>
+			</section>
+		))}
+	</div>
+</BaseLayout>

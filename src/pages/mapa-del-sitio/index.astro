@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE, SECCIONES_MENU } from '../../consts';
+import { REGIONES } from '../../lib/regiones';
+
+// Mapa del sitio para lectores (el de buscadores sigue en /sitemap-articulos.xml).
+const bloques = [
+	{ titulo: 'Secciones', links: [...SECCIONES_MENU.map((s) => ({ href: `/seccion/${s.id}/`, nombre: s.nombre }))] },
+	{ titulo: 'Regiones', links: [...REGIONES.map((r) => ({ href: `/region/${r.id}/`, nombre: r.nombre })), { href: '/seccion/internacional/', nombre: 'Internacional' }] },
+	{
+		titulo: 'Para leer, ver y escuchar',
+		links: [
+			{ href: '/canal/', nombre: 'Canal' },
+			{ href: '/multimedia/', nombre: 'Centro multimedia' },
+			{ href: '/escuchar/', nombre: 'Escuchar (podcast)' },
+			{ href: '/fin-de-semana/', nombre: 'Edición de fin de semana' },
+			{ href: '/datos/', nombre: 'Laboratorio de datos' },
+			{ href: '/boletines/', nombre: 'Boletines' },
+			{ href: '/temas/', nombre: 'Índice de temas' },
+			{ href: '/buscar/', nombre: 'Buscar' },
+		],
+	},
+	{
+		titulo: 'El diario',
+		links: [
+			{ href: '/about/', nombre: 'Quiénes somos' },
+			{ href: 'mailto:contacto@diariofederal.com.ar', nombre: 'Contacto' },
+			{ href: '/legal/aviso-legal/', nombre: 'Aviso legal' },
+			{ href: '/legal/politica-privacidad/', nombre: 'Política de privacidad' },
+			{ href: '/legal/cookies/', nombre: 'Cookies y almacenamiento' },
+			{ href: '/legal/correcciones/', nombre: 'Correcciones' },
+			{ href: '/rss.xml', nombre: 'RSS' },
+		],
+	},
+];
+---
+
+<BaseLayout title={`Mapa del sitio | ${SITE_TITLE}`} description="Todas las secciones y páginas de Diario Federal.">
+	<h1 class="titulo-seccion text-3xl sm:text-4xl">Mapa del sitio</h1>
+	<div class="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+		{bloques.map((b) => (
+			<section>
+				<h2 class="text-xs font-bold tracking-widest text-neutral-500 uppercase">{b.titulo}</h2>
+				<ul class="mt-3 space-y-1.5 text-sm">
+					{b.links.map((l) => <li><a href={l.href} class="text-neutral-700 hover:text-brand">{l.nombre}</a></li>)}
+				</ul>
+			</section>
+		))}
+	</div>
+</BaseLayout>

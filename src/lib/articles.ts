@@ -23,6 +23,9 @@ export interface Articulo {
 	correccion?: string;
 	breaking: boolean;
 	tapa: boolean;
+	// Cobertura en vivo y fotos que rotan en la tapa (27/11/2026)
+	enVivo: boolean;
+	fotosRotativas: { src: string; epigrafe: string }[];
 	entry: any;
 }
 
@@ -68,6 +71,8 @@ export async function getArticulos(): Promise<Articulo[]> {
 				correccion: d.correccion?.trim() || undefined,
 				breaking: d.ultimoMomento === true,
 				tapa: d.tapa === true,
+				enVivo: d.enVivo === true,
+				fotosRotativas: (d.fotosRotativas ?? []).filter((f: any) => f && /^(\/|https?:\/\/)/.test(String(f.src))),
 				entry,
 			};
 		})

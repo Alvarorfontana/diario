@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_TITLE } from '../../consts';
+---
+
+<BaseLayout title={`Cookies y almacenamiento | ${SITE_TITLE}`} description="Qué guarda Diario Federal en tu navegador y para qué.">
+	<article class="prose-articulo mx-auto max-w-2xl">
+		<h1 class="font-serif text-4xl font-bold">Cookies y almacenamiento</h1>
+		<p>
+			Diario Federal no usa cookies de publicidad ni de seguimiento entre sitios. Guarda en tu navegador
+			solo unas pocas preferencias para que la lectura sea más cómoda. Esos datos quedan en tu equipo y no
+			se usan para identificarte.
+		</p>
+		<h2>Qué se guarda</h2>
+		<ul>
+			<li><strong>Tu región</strong>: la que elegiste en "Tu región" de la portada.</li>
+			<li><strong>Opciones de lectura</strong>: el tamaño de letra y el modo noche.</li>
+			<li><strong>Avisos cerrados</strong>: para no volver a mostrarte una publicidad o un cartel que ya cerraste, como el de instalar la app.</li>
+		</ul>
+		<h2>Medición de visitas</h2>
+		<p>
+			Contamos visitas de forma anónima y agregada con Vercel Analytics, que no usa cookies. Sirve para
+			saber qué notas se leen más, sin saber quién las lee.
+		</p>
+		<h2>Cómo borrarlo</h2>
+		<p>
+			Podés borrar estos datos cuando quieras desde la configuración de tu navegador, en la parte de
+			"Datos de sitios" o "Almacenamiento". El diario sigue funcionando igual, solo vuelve a las opciones
+			de fábrica.
+		</p>
+		<h2>Si esto cambia</h2>
+		<p>
+			Si en el futuro se suma publicidad de terceros (por ejemplo, Google), esta página se va a actualizar
+			antes, con el detalle de qué guarda cada servicio y cómo desactivarlo. Para más información, mirá la
+			<a href="/legal/politica-privacidad/">política de privacidad</a> o escribinos a
+			<a href="mailto:contacto@diariofederal.com.ar">contacto@diariofederal.com.ar</a>.
+		</p>
+	</article>
+</BaseLayout>

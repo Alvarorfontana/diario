@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { SITE_TITLE } from '../../consts';
+import { SITE_TITLE, REGISTRO_DNDA } from '../../consts';
 ---
 
 <BaseLayout title={`Aviso legal | ${SITE_TITLE}`} description="Aviso legal del sitio.">
@@ -22,6 +22,19 @@ import { SITE_TITLE } from '../../consts';
 			Todos los contenidos originales (textos, imágenes, diseño y código) son propiedad del titular
 			o de sus autores correspondientes. Queda permitida la reproducción parcial con fines
 			informativos citando la fuente y estableciendo un enlace al contenido original.
+		</p>
+		<p>
+			Los contenidos están protegidos por la Ley 11.723 de Propiedad Intelectual de la República
+			Argentina. La reproducción completa de notas, fotos, gráficos, audios o videos, o su uso con fines
+			comerciales, requiere autorización escrita del diario.{REGISTRO_DNDA && <> El sitio está registrado en la
+			Dirección Nacional del Derecho de Autor con el n.º {REGISTRO_DNDA}.</>}
+		</p>
+		<h2>Inteligencia artificial</h2>
+		<p>
+			Los buscadores y asistentes de inteligencia artificial pueden leer las notas y citarlas con enlace a la
+			fuente. Diario Federal se opone de forma expresa a que sus contenidos se usen para entrenar, ajustar o
+			alimentar sistemas comerciales de inteligencia artificial, o para armar resúmenes de prensa
+			automáticos, sin autorización escrita.
 		</p>
 		<h2>Responsabilidad</h2>
 		<p>

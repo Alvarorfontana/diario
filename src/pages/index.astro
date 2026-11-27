@@ -29,6 +29,11 @@ const notaRiesgoPais = articulos.find((a) => a.slug === 'riesgo-pais-700-puntos-
 const tapa = seleccionarTapa(articulos);
 const resto = articulos.filter((a) => a.id !== tapa?.id);
 
+// Fotos que rotan en la tapa (estilo El País, 27/11/2026): la principal más las cargadas en el panel.
+const fotosTapa = tapa && tapa.image_url && tapa.fotosRotativas.length
+	? [{ src: '', epigrafe: tapa.imageCaption ?? '' }, ...tapa.fotosRotativas]
+	: [];
+
 // Cada nota aparece una sola vez en la portada.
 const laterales = resto.slice(0, 2);
 const ultimos = resto.slice(2, 8);
@@ -104,14 +109,27 @@ const ticker = [...new Set([...marcadas, ...articulos])].slice(0, 6);
 	{tapa && (
 		<section class="mt-5">
 			<a href={`/articulo/${tapa.slug}/`} class="group block lg:grid lg:grid-cols-[3fr_2fr] lg:items-center lg:gap-8">
-				{tapa.image_url && (
+				{fotosTapa.length > 1 && (
+					<div class="carrusel-tapa relative aspect-[16/9] overflow-hidden rounded-2xl bg-neutral-900" data-carrusel-tapa>
+						{fotosTapa.map((f, i) => (
+							<figure class={`carrusel-foto absolute inset-0 m-0 ${i === 0 ? 'activa' : ''}`} aria-hidden={i === 0 ? undefined : 'true'}>
+								<img src={i === 0 ? fotoPortada(tapa) : f.src} data-fallback-src={i === 0 && /^https?:\/\//i.test(tapa.image_url) ? tapa.image_url : undefined} alt={i === 0 ? `Foto: ${tapa.title}` : (f.epigrafe || `Foto ${i + 1}: ${tapa.title}`)} class="h-full w-full object-cover" loading={i === 0 ? undefined : 'lazy'} />
+								{f.epigrafe && <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pt-8 pb-2 text-[11px] leading-snug text-white/90">{f.epigrafe}</figcaption>}
+							</figure>
+						))}
+						<span class="carrusel-puntos absolute top-3 right-3 flex gap-1.5" aria-hidden="true">
+							{fotosTapa.map((_, i) => <span class={`carrusel-punto h-1.5 w-1.5 rounded-full bg-white/50 ${i === 0 ? 'activa' : ''}`}></span>)}
+						</span>
+					</div>
+				)}
+				{tapa.image_url && fotosTapa.length <= 1 && (
 					<div class="overflow-hidden rounded-2xl bg-neutral-900">
 						<img src={fotoPortada(tapa)} data-fallback-src={/^https?:\/\//i.test(tapa.image_url) ? tapa.image_url : undefined} alt={`Foto: ${tapa.title}`} class={`aspect-[16/9] w-full ${tapa.slug === "2026-11-06-santiago-pena-detenido-fiscalia-ueno-bank" ? "object-contain object-center" : "object-cover transition-transform duration-700 group-hover:scale-[1.02]"}`} />
 					</div>
 				)}
 				<div class="mt-4 lg:mt-0">
 					<span class="inline-flex items-center gap-2 text-xs font-extrabold tracking-[0.1em] text-brand uppercase">
-						{tapa.breaking || tapa === notaRiesgoPais ? <><span class="titila inline-block h-1.5 w-1.5 rounded-full bg-brand"></span>Último momento</> : (tapa.volanta || nombreSeccion(tapa.section))}
+						{tapa.enVivo ? <><span class="titila inline-block h-1.5 w-1.5 rounded-full bg-[#e00000]"></span><span class="text-[#e00000]">En vivo</span></> : tapa.breaking || tapa === notaRiesgoPais ? <><span class="titila inline-block h-1.5 w-1.5 rounded-full bg-brand"></span>Último momento</> : (tapa.volanta || nombreSeccion(tapa.section))}
 					</span>
 					<h1 class="mt-2 font-display text-[1.75rem] leading-[1.12] font-extrabold tracking-[-0.015em] text-ink group-hover:text-brand sm:text-4xl lg:text-[2.3rem]">{tapa.title}</h1>
 					<p class="bajada mt-3 line-clamp-4 max-w-3xl text-base leading-relaxed text-neutral-600 sm:text-lg">{tapa.excerpt}</p>
@@ -243,4 +261,30 @@ const ticker = [...new Set([...marcadas, ...articulos])].slice(0, 6);
 
 	<!-- BOLETÍN -->
 	<NewsletterBox />
+
+	<!-- Carrusel de la tapa: cambia de foto cada 6 segundos, con fundido. Quieto si el lector pidió menos movimiento. -->
+	<style is:global>
+		.carrusel-foto { opacity: 0; transition: opacity 1.2s ease; }
+		.carrusel-foto.activa { opacity: 1; }
+		.carrusel-punto.activa { background: #fff; }
+	</style>
+	<script is:inline>
+		(function () {
+			var c = document.querySelector('[data-carrusel-tapa]');
+			if (!c) return;
+			if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+			var fotos = c.querySelectorAll('.carrusel-foto');
+			var puntos = c.querySelectorAll('.carrusel-punto');
+			if (fotos.length < 2) return;
+			var i = 0;
+			setInterval(function () {
+				if (document.hidden) return;
+				fotos[i].classList.remove('activa'); fotos[i].setAttribute('aria-hidden', 'true');
+				if (puntos[i]) puntos[i].classList.remove('activa');
+				i = (i + 1) % fotos.length;
+				fotos[i].classList.add('activa'); fotos[i].removeAttribute('aria-hidden');
+				if (puntos[i]) puntos[i].classList.add('activa');
+			}, 6000);
+		})();
+	</script>
 </BaseLayout>

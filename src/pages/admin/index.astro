@@ -205,6 +205,10 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 									<input type="checkbox" id="tapa" />
 									<label for="tapa">Nota principal de Home (tarjeta grande)</label>
 								</div>
+								<div class="checkbox-wrapper">
+									<input type="checkbox" id="enVivo" />
+									<label for="enVivo">En vivo (cobertura que se va actualizando)</label>
+								</div>
 								<input type="checkbox" id="draft" hidden />
 							</div>
 							<div class="form-group">
@@ -218,6 +222,13 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 							<div class="form-group">
 								<label for="imageCaption">Pie de foto: qué muestra y de dónde es</label>
 								<input type="text" id="imageCaption" placeholder="Ej: Sesión en Diputados por la ley de discapacidad. Foto: Prensa HCDN" />
+							</div>
+							<div class="form-group">
+								<label for="rotativasFile">Fotos que rotan en la tapa (opcional, hasta 6 más la principal)</label>
+								<input type="file" id="rotativasFile" accept="image/*" multiple />
+								<p id="rotativas-status" class="upload-status"></p>
+								<textarea id="fotosRotativas" rows="4" placeholder="/uploads/foto-2.jpg | Qué muestra. Foto: fuente&#10;/uploads/foto-3.jpg | Qué muestra. Foto: fuente"></textarea>
+								<p class="tip" style="margin-top:4px">Una foto por línea: dirección | epígrafe con la fuente. Al subir, se agregan solas y solo tenés que completar el epígrafe. Si la nota es de tapa, van cambiando cada 6 segundos.</p>
 							</div>
 							<div class="form-group">
 								<label for="tags">Etiquetas (separadas por comas)</label>
@@ -561,7 +572,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			$('slug').disabled = false; slugTouched = false;
 			$('date').value = new Date().toISOString().slice(0, 10);
 			$('author').value = 'Redacción';
-			$('hero-preview').classList.add('hidden'); $('upload-status').textContent = '';
+			$('hero-preview').classList.add('hidden'); $('upload-status').textContent = ''; $('rotativas-status').textContent = '';
 			$('resumenCompartir-cuenta').textContent = 'Hasta 90 caracteres se ve entero en WhatsApp.';
 			setContent('');
 		}
@@ -587,6 +598,8 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 				$('section').value = d.section; $('author').value = d.author; $('region').value = d.region || ''; $('ciudad').value = d.ciudad || ''; $('date').value = d.date;
 				$('breaking').checked = d.breaking; $('draft').checked = d.draft;
 				$('tapa').checked = d.tapa;
+				$('enVivo').checked = d.enVivo === true;
+				$('fotosRotativas').value = (d.fotosRotativas || []).map(function (f) { return f.src + ' | ' + (f.epigrafe || ''); }).join('\n');
 				$('image_url').value = d.image_url; $('imageCaption').value = d.imageCaption;
 				$('tags').value = (d.tags || []).join(', ');
 				$('puntosClave').value = (d.puntosClave || []).join('\n');
@@ -667,6 +680,39 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			} catch (err) { $('upload-status').textContent = 'No se pudo subir la foto. Probá de nuevo.'; }
 		});
 
+		/* ---------- Fotos que rotan en la tapa (27/11/2026) ---------- */
+		function leerRotativas() {
+			return $('fotosRotativas').value.split('\n').map(function (l) {
+				var i = l.indexOf('|');
+				var src = (i >= 0 ? l.slice(0, i) : l).trim();
+				var epigrafe = i >= 0 ? l.slice(i + 1).trim() : '';
+				return { src: src, epigrafe: epigrafe };
+			}).filter(function (f) { return /^(\/|https?:\/\/)/.test(f.src); }).slice(0, 6);
+		}
+		$('rotativasFile').addEventListener('change', async function () {
+			var files = Array.prototype.slice.call($('rotativasFile').files || []);
+			if (!files.length) return;
+			var lugar = 6 - leerRotativas().length;
+			if (lugar <= 0) { $('rotativas-status').textContent = 'Ya hay 6 fotos cargadas, que es el máximo.'; return; }
+			files = files.slice(0, lugar);
+			var subidas = 0;
+			for (var k = 0; k < files.length; k++) {
+				$('rotativas-status').textContent = 'Subiendo foto ' + (k + 1) + ' de ' + files.length + '...';
+				try {
+					var blob = await resizeImage(files[k]);
+					var fd = new FormData();
+					fd.append('file', blob, files[k].name.replace(/\.[^.]+$/, '') + '.jpg');
+					var r = await (await fetch('/api/upload-image', { method: 'POST', body: fd })).json();
+					if (!r.ok) throw new Error(r.error || 'error');
+					var actual = $('fotosRotativas').value.replace(/\s+$/, '');
+					$('fotosRotativas').value = (actual ? actual + '\n' : '') + r.url + ' | ';
+					subidas++;
+				} catch (err) {}
+			}
+			$('rotativasFile').value = '';
+			$('rotativas-status').textContent = subidas + ' foto(s) subida(s). Completá el epígrafe de cada una (qué muestra y fuente) y guardá la nota.';
+		});
+
 		/* ---------- Resumen para compartir: contador de caracteres ---------- */
 		$('resumenCompartir').addEventListener('input', function () {
 			var n = $('resumenCompartir').value.length;
@@ -683,6 +729,10 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 			if (!$('image_url').value.trim() && !esBorrador) {
 				if (!confirm('Esta nota no tiene foto. En la portada se va a ver un recuadro con la marca en lugar de la imagen.\n\n¿Querés publicarla igual?')) { $('heroFile').focus(); return; }
 			}
+			// Las fotos que rotan también llevan epígrafe.
+			if (!esBorrador && leerRotativas().some(function (f) { return !f.epigrafe; })) {
+				if (!confirm('Hay fotos que rotan sin epígrafe.\n\nCada foto tiene que decir qué muestra y de dónde es.\n\n¿Querés publicarla igual?')) { $('fotosRotativas').focus(); return; }
+			}
 			// Toda foto lleva epígrafe con lo que muestra y su fuente.
 			if ($('image_url').value.trim() && !$('imageCaption').value.trim() && !esBorrador) {
 				if (!confirm('La foto no tiene pie de foto.\n\nConviene contar qué muestra y de dónde es (por ejemplo: "Foto: Prensa Senado").\n\n¿Querés publicarla igual?')) { $('imageCaption').focus(); return; }
@@ -697,6 +747,7 @@ if (Astro.request.method === 'POST' && !isAuthenticated && minutosBloqueado(ipLo
 					title: $('title').value.trim(), volanta: $('volanta').value.trim(), excerpt: $('excerpt').value.trim(),
 					section: $('section').value, author: $('author').value.trim() || 'Redacción', region: $('region').value, ciudad: $('ciudad').value.trim(), date: $('date').value,
 					breaking: $('breaking').checked, draft: esBorrador, tapa: $('tapa').checked,
+					enVivo: $('enVivo').checked, fotosRotativas: leerRotativas(),
 					image_url: $('image_url').value.trim(), imageCaption: $('imageCaption').value.trim(),
 					tags: $('tags').value.split(',').map(function (t) { return t.trim(); }).filter(Boolean),
 					resumenCompartir: $('resumenCompartir').value.trim(),

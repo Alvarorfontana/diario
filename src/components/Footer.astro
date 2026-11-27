@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, SECCIONES_MENU as SECCIONES } from '../consts';
+import { SITE_TITLE, SECCIONES_MENU as SECCIONES, REGISTRO_DNDA } from '../consts';
 import { REGIONES } from '../lib/regiones';
 import SocialIcons from './SocialIcons.astro';
 
@@ -79,5 +79,33 @@ const year = new Date().getFullYear();
 				<li><a href="/legal/correcciones/" class="text-neutral-700 hover:text-brand">Correcciones</a></li>
 			</ul>
 		</nav>
+	</div>
+	<!-- Derechos y políticas (27/11/2026), al estilo del pie de El País pero con la ley argentina -->
+	<div class="border-t border-[#e6e6e2]">
+		<div class="mx-auto max-w-6xl px-4 py-8">
+			<p class="font-sans text-sm font-extrabold tracking-[0.06em] uppercase">&copy; {year} Diario Federal</p>
+			<p class="mt-3 max-w-4xl text-[13px] leading-relaxed text-neutral-500">
+				Diario Federal se reserva los derechos sobre sus notas, fotos, gráficos, audios y videos propios, de acuerdo con la
+				Ley 11.723 de Propiedad Intelectual. Se pueden citar fragmentos con fines informativos, nombrando a Diario Federal
+				y enlazando la nota original. La reproducción completa o el uso comercial requieren autorización escrita.
+				Los buscadores y asistentes de inteligencia artificial pueden leer y citar las notas con enlace a la fuente, pero
+				Diario Federal se opone a que sus contenidos se usen para entrenar o alimentar sistemas comerciales de inteligencia
+				artificial sin autorización expresa. Los datos personales de lectores y suscriptores se tratan según la Ley 25.326 de
+				Protección de los Datos Personales.{REGISTRO_DNDA && <> Registro DNDA n.º {REGISTRO_DNDA}.</>}
+			</p>
+			<nav aria-label="Información legal" class="mt-6 border-t border-ink pt-5">
+				<ul class="flex flex-wrap justify-center gap-x-5 gap-y-2.5 text-sm text-neutral-700">
+					<li><a href="mailto:contacto@diariofederal.com.ar" class="hover:text-brand">Contacto</a></li>
+					<li><a href="/legal/aviso-legal/" class="hover:text-brand">Aviso legal</a></li>
+					<li><a href="/legal/politica-privacidad/" class="hover:text-brand">Política de privacidad</a></li>
+					<li><a href="/legal/cookies/" class="hover:text-brand">Cookies y almacenamiento</a></li>
+					<li><a href="/legal/correcciones/" class="hover:text-brand">Correcciones</a></li>
+					<li><a href="/mapa-del-sitio/" class="hover:text-brand">Mapa del sitio</a></li>
+					<li><a href="/temas/" class="hover:text-brand">Índice de temas</a></li>
+					<li><a href="/#newsletter" class="hover:text-brand">Boletín</a></li>
+					<li><a href="/rss.xml" class="hover:text-brand">RSS</a></li>
+				</ul>
+			</nav>
+		</div>
 	</div>
 </footer>
