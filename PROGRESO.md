@@ -263,3 +263,8 @@ Las reglas de trabajo están en `CLAUDE.md`.
 - Pendiente: ver en unos días si la cuota de Upstash alcanza con el tráfico real.
 
 - 26/11/2026: nota del oro en Londres actualizada: bajada y tres párrafos arriba con la sanción de la reforma de la Carta Orgánica en Diputados (141-0-99), las abstenciones y por qué le importa al Gobierno (emisión cero y reservas como garantía). Queda en ~2.100 palabras, sobre el límite ya aprobado. Pendiente: confirmar en el Boletín Oficial el texto final sobre reservas en el exterior.
+
+## 2026-11-27 · Nota España 29N
+- Se publicó "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría" (internacional, firma Emilio Lahitte, ~1.050 palabras).
+- Gráfico propio de intención de voto: `public/images/espana-29n-intencion-voto.svg` (fuente Polling Forecast).
+- Foto de archivo (marcha por la vivienda en Cibeles) porque la imagen del debate no tenía origen verificable. Pendiente: reemplazar por foto oficial del debate si Álvaro la pasa.

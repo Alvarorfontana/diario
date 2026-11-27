@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" role="img" aria-label="Intención de voto en España al 27 de noviembre de 2026: PP 30,9%, PSOE 28,9%, Vox 18,1%, Frente Amplio 6,3%">
+  <style>
+    text { font-family: Inter, Arial, sans-serif; fill: #262626; }
+    .t { font-size: 17px; font-weight: 700; }
+    .s { font-size: 12px; fill: #737373; }
+    .l { font-size: 14px; font-weight: 600; }
+    .v { font-size: 14px; font-weight: 700; }
+  </style>
+  <rect width="640" height="300" fill="#ffffff"/>
+  <text class="t" x="20" y="30">Intención de voto en España antes del 29N</text>
+  <text class="s" x="20" y="50">Promedio de encuestas al 27 de noviembre de 2026, en % · Escaños proyectados entre paréntesis</text>
+  <!-- escala: 100% = 440px; barras desde x=180 -->
+  <text class="l" x="20" y="98">PP (131)</text>
+  <rect x="180" y="80" width="136" height="26" fill="#1d4f91"/>
+  <text class="v" x="324" y="98">30,9</text>
+  <text class="l" x="20" y="148">PSOE (119)</text>
+  <rect x="180" y="130" width="127" height="26" fill="#c8102e"/>
+  <text class="v" x="315" y="148">28,9</text>
+  <text class="l" x="20" y="198">Vox (63)</text>
+  <rect x="180" y="180" width="80" height="26" fill="#5c8a2e"/>
+  <text class="v" x="268" y="198">18,1</text>
+  <text class="l" x="20" y="248">Frente Amplio (8)</text>
+  <rect x="180" y="230" width="28" height="26" fill="#8e3b8a"/>
+  <text class="v" x="216" y="248">6,3</text>
+  <text class="s" x="20" y="288">Fuente: Polling Forecast. Mayoría absoluta: 176 de 350 escaños. No son resultados oficiales.</text>
+</svg>
