@@ -64,21 +64,27 @@ export const FOTOS_COLUMNISTAS: Record<string, string> = {
 
 export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 	'Ulises Gastón González': {
+		bio: 'Periodista de investigación. Sigue la causa UOM y la vida interna del movimiento obrero.',
 		foto: '/autores/ulises-gaston-gonzalez.jpg',
 	},
 	'Emilio Lahitte': {
+		bio: 'Periodista especializado en política exterior y geopolítica. Sigue la relación de la Argentina con las grandes potencias, la región y la política nacional.',
 		foto: '/autores/emilio-lahitte.jpg',
 	},
 	'Claudio Vila': {
+		bio: 'Analista económico. Escribe sobre finanzas públicas, la plata de los jubilados y la economía de Brasil y la región.',
 		foto: '/autores/claudio-vila.jpg',
 	},
 	'Ramiro De la Puente': {
+		bio: 'Periodista económico. Cubre industria, deuda, Banco Central y el cierre de fábricas en las provincias.',
 		foto: '/autores/ramiro-de-la-puente.jpg',
 	},
 	'Mariano Miranda': {
+		bio: 'Periodista político. Sigue el peronismo, la política del conurbano y los indicadores sociales.',
 		foto: '/autores/mariano-miranda.jpg',
 	},
 	'Camilo Fernández': {
+		bio: 'Periodista. Sigue la vida sindical y la causa UOM.',
 		foto: '/autores/camilo-fernandez.jpg',
 	},
 	'Roberto Bonetti': {
@@ -86,7 +92,7 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 		foto: '/autores/roberto-bonetti.jpg',
 	},
 	'Carlos Mendes': {
-		bio: 'Periodista.',
+		bio: 'Periodista. Escribe sobre política provincial y la historia del movimiento obrero.',
 		foto: '/columnistas/carlos-mendes.jpg',
 	},
 	'Alberto González': {
@@ -106,9 +112,9 @@ export const AUTORES: Record<string, { bio?: string; foto?: string }> = {
 		foto: '/autores/redaccion.jpg',
 	},
 	// Firmas de la redacción: llevan el isotipo del diario en lugar de la foto provisoria
-	'Redacción': { foto: '/autores/redaccion.jpg' },
-	'Redacción Diario Federal': { foto: '/autores/redaccion.jpg' },
-	'Diario Federal': { foto: '/autores/redaccion.jpg' },
+	'Redacción': { bio: 'Equipo de redacción de Diario Federal.', foto: '/autores/redaccion.jpg' },
+	'Redacción Diario Federal': { bio: 'Equipo de redacción de Diario Federal.', foto: '/autores/redaccion.jpg' },
+	'Diario Federal': { bio: 'Equipo de redacción de Diario Federal.', foto: '/autores/redaccion.jpg' },
 };
 
 export function fotoAutor(nombre: string): string | undefined {

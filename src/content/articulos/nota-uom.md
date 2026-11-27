@@ -2,6 +2,7 @@
 title: "El apagón industrial de Electrolux en Rosario: 200 despidos y el fin de un siglo de producción nacional"
 description: "La multinacional sueca bajó la persiana de su histórica planta rosarina para reemplazar la fabricación local por la importación directa. El gremio denuncia el impacto del modelo económico mientras la región pierde uno de sus emblemas productivos."
 section: "internacional"
+draft: true
 pubDate: 2026-09-27
 ultimoMomento: true
 heroImage: "https://mundogremial.com/wp-content/uploads/2018/09/electrolux-1-1024x576.jpg"
