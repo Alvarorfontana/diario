@@ -27,6 +27,17 @@ const [primero, ...resto] = articulos;
 	<h1 class="titulo-seccion text-3xl sm:text-4xl">{nombreSeccion}</h1>
 
 	{section === 'internacional' && (
+		<a href="/espana-2026/" class="group mt-5 flex flex-col gap-3 rounded-xl border border-neutral-800 bg-[#1c1c1c] p-4 text-white transition hover:bg-[#2a2a2a] sm:flex-row sm:items-center sm:justify-between sm:px-6">
+			<span>
+				<span class="block text-[10px] font-extrabold tracking-[.16em] text-red-300 uppercase">Diario Federal · Cobertura especial</span>
+				<strong class="mt-1 block font-serif text-xl sm:text-2xl">España decide · Elecciones del 29 de noviembre</strong>
+				<span class="mt-1 block text-sm text-neutral-300">Encuestas · Hemiciclo · Mapa por comunidad · Resultados</span>
+			</span>
+			<span class="inline-flex shrink-0 items-center justify-center rounded-full bg-white px-4 py-2 text-xs font-extrabold text-neutral-900 group-hover:bg-red-100">Seguí los acontecimientos →</span>
+		</a>
+	)}
+
+	{section === 'internacional' && (
 		<a href="/elecciones-eeuu/" class="group mt-5 flex flex-col gap-3 rounded-xl border border-slate-700 bg-[#111827] p-4 text-white transition hover:bg-[#1b2636] sm:flex-row sm:items-center sm:justify-between sm:px-6">
 			<span>
 				<span class="block text-[10px] font-extrabold tracking-[.16em] text-red-300 uppercase">Agencia Federal · Cobertura especial</span>
