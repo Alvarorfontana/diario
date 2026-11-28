@@ -2,18 +2,24 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-28",
   "dateLabel": "28/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.mp3",
-  "video": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.png",
-  "duracion": 97,
+  "archivo": "/boletines/boletin-principal-2026-11-28-6ad793a2fb2f.mp3",
+  "video": "/boletines/boletin-principal-2026-11-28-6ad793a2fb2f.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-28-6ad793a2fb2f.png",
+  "duracion": 95,
   "voz": "es-AR-TomasNeural",
-  "hash": "862bfa4047fa",
+  "hash": "6ad793a2fb2f",
   "items": [
     {
       "slug": "gustavo-bordet-denuncia-que-entre-rios-quedo-relegada-en-presupuesto-2027",
       "title": "Gustavo Bordet denuncia que Entre Ríos quedó relegada en Presupuesto 2027",
       "section": "economia",
       "url": "/articulo/gustavo-bordet-denuncia-que-entre-rios-quedo-relegada-en-presupuesto-2027/"
+    },
+    {
+      "slug": "lula-nombra-a-trabuco-ministro-de-hacienda-para-recuperar-la-confianza-fiscal",
+      "title": "Lula nombra a Trabuco ministro de Hacienda para recuperar la confianza fiscal",
+      "section": "argentina",
+      "url": "/articulo/lula-nombra-a-trabuco-ministro-de-hacienda-para-recuperar-la-confianza-fiscal/"
     },
     {
       "slug": "el-senado-aprueba-suspender-las-paso-con-43-votos",
@@ -38,12 +44,6 @@
       "title": "El oro argentino, custodiado en Londres por el país que ocupa Malvinas",
       "section": "economia",
       "url": "/articulo/2026-11-26-oro-banco-central-londres-auditoria-agn/"
-    },
-    {
-      "slug": "2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan",
-      "title": "Pichetto pidió interpelar a Quirno por la crisis con Brasil",
-      "section": "argentina",
-      "url": "/articulo/2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
