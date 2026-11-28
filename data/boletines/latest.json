@@ -1,14 +1,20 @@
 {
   "title": "Boletín informativo principal",
-  "date": "2026-11-27",
-  "dateLabel": "27/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-27-095759a460c9.mp3",
-  "video": "/boletines/boletin-principal-2026-11-27-095759a460c9.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-27-095759a460c9.png",
+  "date": "2026-11-28",
+  "dateLabel": "28/11/2026",
+  "archivo": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.mp3",
+  "video": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.png",
   "duracion": 95,
   "voz": "es-AR-TomasNeural",
-  "hash": "095759a460c9",
+  "hash": "d2ac8b6d4287",
   "items": [
+    {
+      "slug": "el-senado-aprueba-suspender-las-paso-con-43-votos",
+      "title": "El Senado aprueba suspender las PASO con 43 votos",
+      "section": "argentina",
+      "url": "/articulo/el-senado-aprueba-suspender-las-paso-con-43-votos/"
+    },
     {
       "slug": "2026-11-27-espana-vota-29n-vivienda-urda-derecha-mayoria",
       "title": "España vota el 29N: vivienda, Urda y una derecha cerca de la mayoría",
@@ -38,12 +44,6 @@
       "title": "El blindaje que ya no alcanza: la pobreza que se ve desde Alemania",
       "section": "argentina",
       "url": "/articulo/2026-11-26-blindaje-pobreza-dw-comedor/"
-    },
-    {
-      "slug": "2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar",
-      "title": "La plata de los jubilados, en la mira por operaciones con bonos",
-      "section": "economia",
-      "url": "/articulo/2026-11-26-fgs-jubilados-en-la-mira-bonos-dolar/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
