@@ -2,13 +2,19 @@
   "title": "Boletín informativo principal",
   "date": "2026-11-28",
   "dateLabel": "28/11/2026",
-  "archivo": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.mp3",
-  "video": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.mp4",
-  "tapa": "/boletines/boletin-principal-2026-11-28-d2ac8b6d4287.png",
-  "duracion": 95,
+  "archivo": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.mp3",
+  "video": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.mp4",
+  "tapa": "/boletines/boletin-principal-2026-11-28-862bfa4047fa.png",
+  "duracion": 97,
   "voz": "es-AR-TomasNeural",
-  "hash": "d2ac8b6d4287",
+  "hash": "862bfa4047fa",
   "items": [
+    {
+      "slug": "gustavo-bordet-denuncia-que-entre-rios-quedo-relegada-en-presupuesto-2027",
+      "title": "Gustavo Bordet denuncia que Entre Ríos quedó relegada en Presupuesto 2027",
+      "section": "economia",
+      "url": "/articulo/gustavo-bordet-denuncia-que-entre-rios-quedo-relegada-en-presupuesto-2027/"
+    },
     {
       "slug": "el-senado-aprueba-suspender-las-paso-con-43-votos",
       "title": "El Senado aprueba suspender las PASO con 43 votos",
@@ -38,12 +44,6 @@
       "title": "Pichetto pidió interpelar a Quirno por la crisis con Brasil",
       "section": "argentina",
       "url": "/articulo/2026-11-26-pichetto-interpelacion-quirno-brasil-lamelas-jp-morgan/"
-    },
-    {
-      "slug": "2026-11-26-blindaje-pobreza-dw-comedor",
-      "title": "El blindaje que ya no alcanza: la pobreza que se ve desde Alemania",
-      "section": "argentina",
-      "url": "/articulo/2026-11-26-blindaje-pobreza-dw-comedor/"
     }
   ],
   "intro": "Diario Federal. La información, en primer plano.",
